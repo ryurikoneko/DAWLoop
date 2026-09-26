@@ -1,6 +1,6 @@
 # FLSkill
 
-**状态：** `v0.1.0-alpha`（本地预发布候选，尚未对外发布）<br>
+**状态：** `v0.1.0-alpha`（公开 Alpha 预发布版）<br>
 **核心：** `Offline Algorithm Verified`<br>
 **FL Studio 集成：** 尚未实现
 
