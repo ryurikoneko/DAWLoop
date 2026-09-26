@@ -17,6 +17,7 @@
 | `docs/ARCHITECTURE.md` | `CONFIRMED_PROJECT_GENERATED` | 从已确认需求重新撰写模块边界 | b63c81c6b869f81485b408a4d6f57e7666dff109 | Private 项目行为规格；未复制旧文档 | MIT | 已创建 |
 | `docs/VERIFICATION.md` | `CONFIRMED_PROJECT_GENERATED` | 从验证需求重新撰写 PASS / STOP 规则 | b63c81c6b869f81485b408a4d6f57e7666dff109 | Private 项目验证要求；未复制旧文档 | MIT | 已创建 |
 | `docs/QUICKSTART.md` | `CONFIRMED_PROJECT_GENERATED` | 根据当前公开 Core API 新建最小离线用例与验证流程说明 | af1a4afc742ca130856e5d66d40b6f11d2921dbd | 当前仓库公开 API；未复制第三方教程 | MIT | 已添加 |
+| `docs/RELEASE_NOTES_v0.1.0-alpha.md` | `CONFIRMED_PROJECT_GENERATED` | 根据当前公开版本能力、验证边界和 Roadmap 新建扩展版发布说明 | 6a6dbe8ea7d10d139ecd2467272195bcfb447753 | 当前仓库 README / Roadmap；未复制第三方发布说明 | MIT | 已添加 |
 | `adapters/README.md` | `CONFIRMED_PROJECT_GENERATED` | 记录本阶段不含真实适配器的范围边界 | b63c81c6b869f81485b408a4d6f57e7666dff109 | 无 | MIT | 已创建 |
 | `examples/note_plan.example.json` | `CONFIRMED_PROJECT_GENERATED` | 使用完全自造音符与重复事件新建展示用 Note Plan | 3c0c6d9c76edc0fbc9462abd6f247c9a96f111b0 | 当前 Note Plan schema；无音乐作品或第三方 fixture | MIT | 已添加 |
 | `examples/verification_result.example.json` | `CONFIRMED_PROJECT_GENERATED` | 使用完全自造 duration mismatch 新建 STOP 诊断示例 | 2666e9b8f338c8d3c9f8816311b6cea190db068c | 当前 VerificationResult 字段；无第三方 fixture | MIT | 已添加 |
