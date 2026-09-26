@@ -1,0 +1,42 @@
+{
+  "status": "STOP",
+  "scope": "offline",
+  "label": "STOP",
+  "planned_count": 4,
+  "actual_count": 4,
+  "missing": [
+    {
+      "start_tick": 960,
+      "duration": 480,
+      "pitch": 67,
+      "velocity": 96
+    }
+  ],
+  "extra": [
+    {
+      "start_tick": 960,
+      "duration": 240,
+      "pitch": 67,
+      "velocity": 96
+    }
+  ],
+  "mismatches": [
+    {
+      "fields": ["duration"],
+      "planned": {
+        "start_tick": 960,
+        "duration": 480,
+        "pitch": 67,
+        "velocity": 96
+      },
+      "actual": {
+        "start_tick": 960,
+        "duration": 240,
+        "pitch": 67,
+        "velocity": 96
+      }
+    }
+  ],
+  "write_error": null,
+  "read_error": null
+}
