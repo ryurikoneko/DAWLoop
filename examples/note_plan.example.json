@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "target_id": "offline-demo",
+  "grid": {
+    "ppq": 480,
+    "beats_per_bar": 4,
+    "beat_unit": 4
+  },
+  "section_start_tick": 0,
+  "section_bars": 2,
+  "events": [
+    {
+      "start_tick": 0,
+      "duration": 480,
+      "pitch": 60,
+      "velocity": 96
+    },
+    {
+      "start_tick": 480,
+      "duration": 480,
+      "pitch": 64,
+      "velocity": 96
+    },
+    {
+      "start_tick": 960,
+      "duration": 480,
+      "pitch": 67,
+      "velocity": 96
+    },
+    {
+      "start_tick": 960,
+      "duration": 480,
+      "pitch": 67,
+      "velocity": 96
+    }
+  ]
+}
