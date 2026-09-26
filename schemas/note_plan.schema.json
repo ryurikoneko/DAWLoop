@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FLSkill Note Plan v1",
+  "type": "object",
+  "required": ["version", "target_id", "grid", "section_start_tick", "section_bars", "events"],
+  "properties": {
+    "version": {"const": 1},
+    "target_id": {"type": "string", "minLength": 1},
+    "grid": {
+      "type": "object",
+      "required": ["ppq", "beats_per_bar", "beat_unit"],
+      "properties": {
+        "ppq": {"type": "integer", "minimum": 1},
+        "beats_per_bar": {"type": "integer", "minimum": 1},
+        "beat_unit": {"type": "integer", "enum": [1, 2, 4, 8, 16]}
+      },
+      "additionalProperties": false
+    },
+    "section_start_tick": {"type": "integer", "minimum": 0},
+    "section_bars": {"type": "integer", "minimum": 1},
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["start_tick", "duration", "pitch", "velocity"],
+        "properties": {
+          "start_tick": {"type": "integer", "minimum": 0},
+          "duration": {"type": "integer", "minimum": 1},
+          "pitch": {"type": "integer", "minimum": 0, "maximum": 127},
+          "velocity": {"type": "integer", "minimum": 1, "maximum": 127}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
