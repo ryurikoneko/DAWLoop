@@ -34,11 +34,11 @@ The archive's documentation is identified as CC BY 4.0 and its example scores/MI
 
 ### Environment-coupled behavior
 
-The supplied archive does not include the `spectrum-peak` module referenced by `track-scan.py`. The original developer reports that this workflow runs in their configured production environment. FLSkill classifies it as `ENVIRONMENT_COUPLED` / `PORTABILITY_NOT_ESTABLISHED`; the supplied archive does not establish a portable standalone setup, and this observation is not treated as a source defect.
+The supplied archive does not include the `spectrum-peak` module referenced by `track-scan.py`. The original developer reports that this workflow runs in their configured production environment. FLSkill classifies it as `ENVIRONMENT_COUPLED` / `PORTABILITY_NOT_ESTABLISHED`; a portable standalone setup has not yet been established.
 
-`fugue-v4.py` expects an output path through `sys.argv[1]`. A bare invocation without this argument fails, while the original developer reports that their normal execution path supplies the required context. FLSkill classifies this as `INVOCATION_ASSUMPTION` / `PORTABILITY_NOT_ESTABLISHED`, not as a bug.
+`fugue-v4.py` expects an output path through `sys.argv[1]`. A bare invocation without this argument fails, while the original developer reports that their normal execution path supplies the required context. FLSkill classifies this as `INVOCATION_ASSUMPTION` / `PORTABILITY_NOT_ESTABLISHED`.
 
-`flskill.dsh.environment.EnvironmentProfile` records the local portable environment separately from the original developer environment, whose working status is recorded as `reported_working`. This report is not a compatibility certification. Optional dependencies are reported individually; absent optional components do not imply broken DSH source.
+`flskill.dsh.environment.EnvironmentProfile` records the local portable environment separately from the original developer environment, whose working status is recorded as `reported_working`. This report is not a compatibility certification. Optional dependencies are reported individually.
 
 ## Verification boundary
 

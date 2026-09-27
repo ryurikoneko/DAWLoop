@@ -44,8 +44,8 @@ DSH-derived analysis can suggest the **next** orchestration or mixer operation. 
 - Adapted FLSkill integration code under `src/flskill/dsh/` is derived in part from MIT-licensed DSH scripts and retains attribution in `THIRD_PARTY_NOTICES.md`.
 - The original MIT notice is preserved under `third_party/dsh-whale-music-pipeline/LICENSE`.
 - The archive's `docs/` (CC BY 4.0) and `examples/` (attribution / non-commercial terms) are intentionally **not bundled** into FLSkill. This avoids unnecessary license mixing in the redistributable code package.
-- `track-scan.py` references `spectrum-peak`, which is not included in the supplied archive. The original developer reports that the workflow runs in their configured production environment. FLSkill classifies this as `ENVIRONMENT_COUPLED` / `PORTABILITY_NOT_ESTABLISHED`; the archive alone does not establish a portable setup or a source defect.
-- `fugue-v4.py` expects an output path through `sys.argv[1]`. A bare invocation without this argument fails, while the original developer reports that their normal execution path supplies the required context. FLSkill classifies this as `INVOCATION_ASSUMPTION` / `PORTABILITY_NOT_ESTABLISHED`, not as a bug.
+- `track-scan.py` references `spectrum-peak`, which is not included in the supplied archive. The original developer reports that the workflow runs in their configured production environment. FLSkill records this as `ENVIRONMENT_COUPLED` / `PORTABILITY_NOT_ESTABLISHED`; a portable setup has not yet been established.
+- `fugue-v4.py` expects an output path through `sys.argv[1]`. A bare invocation without this argument fails, while the original developer reports that their normal execution path supplies the required context. FLSkill records this as `INVOCATION_ASSUMPTION` / `PORTABILITY_NOT_ESTABLISHED`.
 
 ## Environment compatibility
 
@@ -53,7 +53,7 @@ DSH-derived analysis can suggest the **next** orchestration or mixer operation. 
 
 The profile separates the original developer environment (`reported_working`) from the portable FLSkill environment, which is assessed from actual local probes. A profile is descriptive; it does not certify that a workflow is compatible. `flskill doctor` reports capabilities independently: the SMF parser is available without NumPy, while audio analysis and WASAPI loopback are optional. WASAPI endpoint enumeration is not performed by the doctor.
 
-Missing optional components are reported as `OPTIONAL_MISSING`; environment-specific dependencies are not called broken. DSH analysis can inform a plan, but cannot establish that a DAW operation succeeded.
+Missing optional components are reported as `OPTIONAL_MISSING`. DSH analysis can inform a plan, but cannot establish that a DAW operation succeeded.
 
 ## Current integrated API
 

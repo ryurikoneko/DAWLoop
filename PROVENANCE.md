@@ -66,9 +66,9 @@ Bundled 运行文件包括 upstream `LICENSE`、`README.md`、`pyproject.toml`�
 
 ### 环境耦合与可移植性边界
 
-supplied archive 未包含 `track-scan.py` 引用的 `spectrum-peak` 模块。原开发者报告该工作流可在其已配置的制作环境中运行，因此标记为 `ENVIRONMENT_COUPLED` / `PORTABILITY_NOT_ESTABLISHED`，不将其描述为源码缺陷。
+supplied archive 未包含 `track-scan.py` 引用的 `spectrum-peak` 模块。原开发者报告该工作流可在其已配置的制作环境中运行，因此标记为 `ENVIRONMENT_COUPLED` / `PORTABILITY_NOT_ESTABLISHED`；当前尚未建立便携配置。
 
-`fugue-v4.py` 通过 `sys.argv[1]` 接收输出路径；不带参数的裸调用会失败。原开发者报告其正常调用路径会提供所需上下文，因此标记为 `INVOCATION_ASSUMPTION` / `PORTABILITY_NOT_ESTABLISHED`，不称为 bug。
+`fugue-v4.py` 通过 `sys.argv[1]` 接收输出路径；不带参数的裸调用会失败。原开发者报告其正常调用路径会提供所需上下文，因此标记为 `INVOCATION_ASSUMPTION` / `PORTABILITY_NOT_ESTABLISHED`。
 
 `src/flskill/dsh/environment.py` 是本项目新建的环境档案与可选依赖探测代码，分类为 `CONFIRMED_PROJECT_GENERATED`。档案把原开发者环境标为 `reported_working`，并独立记录当前便携环境的实际探测结果；前者是开发者报告，不能当作 FLSkill 兼容性验证。
 
