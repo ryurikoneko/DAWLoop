@@ -81,4 +81,4 @@ PASS / STOP
 - [`examples/note_plan.example.json`](../examples/note_plan.example.json)：一个完全自造的 Note Plan 示例，包含重复事件。
 - [`examples/verification_result.example.json`](../examples/verification_result.example.json)：一个 `duration` 不一致导致 `STOP` 的诊断示例。
 
-> `Offline Algorithm Verified` 不等于 `FL Studio Verified`。真实 FL Studio 适配器仍在路线图中。
+> `Offline Algorithm Verified` 不等于 `FL Studio Verified`。当前开发分支含可选 bundled MCP backend 与 adapter foundation；Live 写入 / 读回仍在开发，尚未通过现场验证。安装步骤见 [`FL_STUDIO_MCP.md`](FL_STUDIO_MCP.md)。

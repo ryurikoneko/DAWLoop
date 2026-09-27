@@ -1,5 +1,15 @@
 # 验证规则
 
+## 验证级别
+
+- **Unit Tests：** 音乐时间、Note Plan、字段映射、目标身份门控与 Exact-Set 算法。
+- **Offline Integration Tests：** 使用自造测试数据和替身验证 Writer / Reader 或 MCP adapter 映射，不启动 FL Studio。
+- **Live FL Studio Integration Tests：** 单独人工启动；必须使用专用测试工程和确认过的 Pattern / Channel。普通 `unittest` / `pytest` 不得自动执行 Live 测试。
+
+当前尚无可安全执行的 Live runner：上游 Piano Roll state 未返回 Pattern 身份，本仓库尚未提供能读出该身份的 Computer Use / UI provider。参见 [`tests/live_fl/README.md`](../tests/live_fl/README.md)。
+
+只有真实 FL Studio 写入后获得新鲜读回，且目标身份、PPQ、planned / actual Exact-Set 全部一致，才能将现场结果标为 `Live FL Studio Verified`。依赖安装、MCP 命令排队或连接状态不能单独构成 PASS。
+
 ## 离线执行
 
 ```text
@@ -24,4 +34,4 @@ validated plan → Writer.write → Reader.read → exact-set compare → PASS /
 
 - `PASS` 的离线执行结果标记为 **Offline Algorithm Verified**。
 - 该标记只验证算法、内存读写闭环和给定事件数据，不表示 FL Studio 或其他宿主已写入。
-- `FL Studio Verified` 需要真实 FL 目标身份确认、写入后从 FL 重新读回实际事件、Exact-Set 匹配和可审阅证据。当前仓库尚无此能力。
+- `Live FL Studio Verified` 需要真实 FL 目标身份确认、写入后从 FL 重新读回实际事件、Exact-Set 匹配和可审阅证据。当前开发分支尚未通过现场验证。

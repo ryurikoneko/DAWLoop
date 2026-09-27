@@ -39,7 +39,7 @@ JSON Schema 用于结构验证；Python 模型还验证跨字段约束，例如�
 
 ## 执行适配器
 
-`adapters/` 当前只有范围说明，没有真实适配器。之后可分别增加 FL Studio、Computer Use、MCP 或 SysEx 实现；适配器不得成为核心算法的硬依赖。每个现场适配器须独立证明目标身份、写入后的实际读回路径和可保存的证据，然后才能支持现场 Verified 声明。
+`src/flskill/adapters/fl_studio_mcp/` 已提供可选 MCP adapter foundation；`adapters/README.md` 说明适配器边界。核心算法不依赖该 adapter。每个现场适配器须独立证明目标身份、写入后的实际读回路径和可保存的证据，然后才能支持现场 Verified 声明。
 
 ## 执行适配器模型
 
@@ -59,4 +59,25 @@ Write → Read Back → Verify → PASS / STOP
 
 社区 FL Studio MCP 是 FLSkill 早期实际使用和参考过的控制路径。它负责提供 FL Studio 控制能力；FLSkill 的核心工作是把规划、执行、读回、验证和恢复续作组织起来。两者互补，MCP 是未来的可选 adapter，而非 Core 依赖。上游项目、指定 commit、许可证和能力边界见 [`ACKNOWLEDGEMENTS.md`](ACKNOWLEDGEMENTS.md)。
 
-当前 `v0.1.0-alpha` 只有离线 Core。Native Computer Use、Community FL Studio MCP adapter、SysEx RPC adapter、兼容 bridge 和现场 DAW 读回尚未实现；Mixer 与插件控制也仍在 Roadmap。
+已发布的 `v0.1.0-alpha` 只有离线 Core。当前开发分支已加入 Community FL Studio MCP 上游快照及 adapter foundation，但 Live FL Studio 写入与读回尚未验证；Native Computer Use、SysEx RPC adapter 和兼容 bridge 尚未实现，Mixer 与插件控制也仍在 Roadmap。
+
+## AI Agent 接口与安全
+
+FLSkill is designed for AI agents and tool-using models。Agent 可构造并验证 `NotePlan`，调用 adapter 发现目标与状态，执行计划、读取实际 DAW 状态，并消费机器可读的 `PASS` / `STOP` 报告。当前接口面向具备 Python / MCP 工具调用能力的集成方；不代表已适配所有 AI agent 或无需人工监督。
+
+Agent 发出命令、MCP 返回成功或写入被排队，都不能作为完成证据。Agent loop 必须是：
+
+```text
+Agent Plan → FLSkill Validate → Execution Adapter → FL Studio
+→ Readback → Verification → PASS / STOP → Agent decides next action
+```
+
+`STOP` 后不应在未处理失败原因的情况下继续依赖该状态执行后续操作。Agent 应报告原因、只执行可验证的安全恢复，或请求用户确认。
+
+## Bundled Community FL Studio MCP
+
+固定上游快照位于 `third_party/fl-studio-mcp/`，代码分类为 `THIRD_PARTY`，版本固定为 commit `f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`。FLSkill adapter 独立放在 `src/flskill/adapters/fl_studio_mcp/`，不得修改 vendored 源码。
+
+上游 Piano Roll 写入针对当前打开的 Piano Roll，读回事件包含 PPQ、tick、pitch 和 velocity，但不带 Pattern 标识。因此适配器必须从外部取得工程、Pattern、Channel 和 FL Studio 版本身份并核对；缺少身份读取器则 `STOP`。Adapter 返回的机器可读报告包含 planned / actual events、count、missing、extra、mismatches、错误、目标、时间戳、FLSkill 版本和固定上游 commit。只有真实新鲜读回与 Exact-Set 一致时才可 `PASS`。
+
+Live test 不由普通单元测试自动触发。测试分为 Unit、Offline Integration 和 Live FL Studio Integration；最后一类必须由用户明确运行专用流程并使用专用测试工程。

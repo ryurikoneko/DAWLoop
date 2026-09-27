@@ -12,6 +12,6 @@
 
 FLSkill 不打算取代 FL Studio MCP。上游项目提供 FL Studio 控制路径；FLSkill 致力于在控制执行之外提供确定性音乐时值、Note Plan、写入/读回分离、Exact-Set Verification、状态验证与可恢复编排。FL Studio MCP 是未来的可选 adapter，不是 Core 的强制依赖。
 
-当前公开 FLSkill Core 未 vendoring 或捆绑 FL Studio MCP 源码。未来如直接改编上游代码，将单独标记来源并保留适用的上游 attribution 与 MIT 许可声明。
+FLSkill Core 不依赖 FL Studio MCP。当前开发分支把固定上游快照随仓库打包在 Core 之外，作为 optional backend；未改编或修改其源码。若未来直接改编上游代码，将单独标记来源并保留适用的上游 attribution 与 MIT 许可声明。
 
 > FL Studio MCP helped prove that FL Studio could be controlled programmatically; FLSkill is trying to make those operations verifiable.

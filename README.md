@@ -1,10 +1,16 @@
 # FLSkill
 
-**状态：** `v0.1.0-alpha`（公开 Alpha 预发布版）  
-**核心：** `Offline Algorithm Verified`  
-**FL Studio 集成：** 尚未实现
+**已发布版本：** `v0.1.0-alpha`<br>
+**当前开发目标：** `v0.2.0-alpha`<br>
+**核心：** `Offline Algorithm Verified`<br>
+**FL Studio MCP backend：** 已随仓库打包；FLSkill Adapter 开发中<br>
+**Live note write / readback：** 尚未验证
 
 FLSkill 是一个面向 **可验证、可恢复的 AI 音乐制作工作流** 的实验性开源框架。第一阶段先把 DAW 无关的核心做扎实：音乐时间解析、Note Plan、写入/读回边界，以及 Exact-Set Verification。
+
+FLSkill is designed for AI agents and tool-using models. 它提供结构化计划和机器可读的验证结果，目标是让具备工具调用能力的 agent 能基于读回证据决定下一步；这不表示已适配所有 agent，也不代表完全自主或无需监督。
+
+**主要开发平台：** Windows；真实 FL Studio 集成仍待现场验证。
 
 它关心的不只是“AI 有没有执行操作”，而是：
 
@@ -29,7 +35,7 @@ flowchart TD
     B --> F[State / Resume]
     B --> G{Execution Adapter}
     G -. Roadmap .-> H[Native Computer Use]
-    G -. Roadmap .-> I[Community FL Studio MCP]
+    G -. bundled, live path unverified .-> I[Community FL Studio MCP]
     G -. Roadmap .-> J[SysEx RPC]
     G -. Roadmap .-> K[Future Adapters]
     H -. Roadmap .-> L[FL Studio]
@@ -68,6 +74,25 @@ Writer 的返回值本身不是成功证据。
 - **Public provenance tracking**：公开记录当前发布文件的来源边界。
 
 当前核心采用 Python 标准库，无第三方运行依赖。
+
+## 当前 v0.2.0-alpha 开发目标
+
+当前分支将固定版本的 Community FL Studio MCP 源码随 FLSkill 一起打包，并建立可选的 Python extra、MCP adapter 和环境检查入口。Live FL Studio 写入与读回尚未通过现场验证；Pattern 身份仍需外部目标读取器确认。见 [`docs/FL_STUDIO_MCP.md`](docs/FL_STUDIO_MCP.md)。
+
+安装 Core 与 FL Studio 可选依赖：
+
+```powershell
+python -m pip install -e ".[flstudio]"
+python -m flskill doctor
+```
+
+首次安装上游 User Script 时，显式指定 FL Studio 的 `Settings` 目录；现有同名脚本会先备份：
+
+```powershell
+python -m flskill install-fl-scripts --settings-dir "<FL Studio Settings directory>"
+```
+
+当前不应仅凭这些安装或连接检查宣称 `Live FL Studio Verified`。
 
 ## 30 秒快速体验
 
@@ -150,17 +175,18 @@ FLSkill 的早期实验工作流实际使用并参考了社区项目 [karl-andre
 
 FLSkill 不打算取代 FL Studio MCP。它是重要的 FL Studio 执行/控制路径；FLSkill 关注围绕音乐规划和确定性时值、Note Plan、写入与读回分离、Exact-Set Verification、恢复续作及状态核验构建编排层。两者互补：控制调用成功本身不等于 FLSkill `PASS`，必须读回实际状态并通过验证。
 
-当前公开 Core 不包含或 vendoring 上游源码。未来 Community FL Studio MCP adapter 是可选集成计划，而不是 Core 依赖。更多信息见 [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md) 和 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
+FLSkill Core 不依赖该项目；当前开发分支将固定版本源码放在 Core 之外，作为 optional execution backend。上游 MCP 命令成功仍不等于 FLSkill 验证成功。更多信息见 [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md)、[`docs/FL_STUDIO_MCP.md`](docs/FL_STUDIO_MCP.md) 和 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
 
 ## Roadmap
 
 | 阶段 | 目标 | 当前状态 |
 |---|---|---|
 | `v0.1` | Musical Grid、Note Plan、Exact-Set Verification | ✅ 仅离线算法验证 |
-| `v0.2` | 最小 FL Studio adapter，真实写入 + 读回 + 现场验证 | 🚧 计划中 |
-| `v0.3` | multi-channel / multi-pattern | 🗺️ Roadmap |
-| `v0.4` | SysEx RPC adapter | 🗺️ Roadmap |
-| `v0.5` | Mixer / plugin parameter read-write-readback | 🗺️ Roadmap |
+| `v0.2` | bundled FL Studio MCP、可选依赖、adapter foundation、目标身份门控 | 🚧 开发中；Live 尚未验证 |
+| `v0.3` | 真实目标确认、音符写入/读回与 Live Exact-Set | 🗺️ Roadmap |
+| `v0.4` | multi-channel / multi-pattern | 🗺️ Roadmap |
+| `v0.5` | SysEx RPC adapter | 🗺️ Roadmap |
+| `v0.6` | Mixer / plugin parameter read-write-readback | 🗺️ Roadmap |
 | 后续 | Computer Use、社区 MCP、音频分析、section-level composition | 🗺️ Roadmap |
 
 完整路线图见 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
@@ -186,7 +212,10 @@ FLSkill 不打算取代 FL Studio MCP。它是重要的 FL Studio 执行/控制�
 - [`docs/VERIFICATION.md`](docs/VERIFICATION.md) — PASS / STOP 与验证规则
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — 后续阶段
 - [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md) — 上游项目致谢与关系说明
+- [`docs/FL_STUDIO_MCP.md`](docs/FL_STUDIO_MCP.md) — bundled backend 与适配器状态
 - [`PROVENANCE.md`](PROVENANCE.md) — 文件来源记录
+- [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) — 第三方许可与版权声明
+- [`tests/live_fl/README.md`](tests/live_fl/README.md) — Live 测试前置条件
 
 ## License
 
