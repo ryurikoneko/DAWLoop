@@ -2,7 +2,7 @@
 
 ## 当前状态
 
-目标版本为 `v0.2.0-alpha`。固定 commit 的 Community FL Studio MCP 源码随仓库放在 `third_party/fl-studio-mcp/`；FLSkill 的 optional Python extra 与适配器已建立。Live 写入/读回尚未完成现场验证，不能标记为 `Live FL Studio Verified`。
+目标版本为 `v0.2.0-alpha`。固定 commit 的 Community FL Studio MCP 源码随仓库放在 `third_party/fl-studio-mcp/`；FLSkill 的 optional Python extra 与适配器已建立。维护者报告已完成真实 FL Studio 接入流程；该路径可能仍不稳定，欢迎用户实测并反馈环境兼容性问题。仓库没有归档该次运行的目标身份与实际 note readback 证据，因此不标记为可复现的 `Live Exact-Set Verified`。
 
 上游快照：`karl-andres/fl-studio-mcp`，commit `f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`，MIT。其依赖范围取自该 commit 的 `pyproject.toml`：FastMCP `>=2.0`、Mido `>=1.3.0`、python-rtmidi `>=1.5.0`、pynput `>=1.7`。FLSkill 将 FastMCP 限定在 `<3`，以匹配本适配器使用的 v2 Client API。
 
@@ -44,6 +44,6 @@ Live Execution Report 包含状态、目标、planned / actual events、planned 
 ## 能力状态
 
 - **Bundled / Implemented:** 固定上游源码、可选依赖、MCP backend 发现与调用骨架、音符字段映射、备份式 User Script 安装、目标身份门控。
-- **Live Read / Write:** 尚未通过真实 FL Studio 现场写入和读回验证。
+- **Live Read / Write:** 维护者报告已完成现场接入；该次运行证据未归档，仓库不能据此宣称可复现的 Live Exact-Set 验证。稳定性仍待更多用户环境反馈。
 - **Mixer / Plugin:** adapter 有只读 Mixer track discovery 和已加载插件参数查询入口；尚未在真实 FL Studio 中验证这些读取。任何写入能力均未标为 Verified。
 - **AI agents:** Designed for AI agents and tool-using models；并不表示已适配所有 agent。
