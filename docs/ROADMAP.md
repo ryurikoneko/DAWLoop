@@ -1,6 +1,6 @@
 # Roadmap
 
-This roadmap describes the current integration branch. It is separate from the published `v0.1.0-alpha`, which remains the original offline-core release. Status names describe FLSkill's own implementation; upstream backend features do not count as FLSkill verification.
+This roadmap describes the current integration branches. It is separate from the published `v0.1.0-alpha`, which remains the original offline-core release. Status names describe FLSkill's own implementation; upstream/backend features do not count as FLSkill verification.
 
 ## Completed
 
@@ -10,11 +10,18 @@ This roadmap describes the current integration branch. It is separate from the p
 - FLSkill MCP adapter foundation, Note Plan mapping, target-identity gate, and structured execution report.
 - Optional FL Studio dependencies, `flskill doctor`, and explicit User Script installer.
 - Agent-oriented architecture and offline adapter tests.
+- DSH-derived dependency-free SMF inspection and dense-section selection.
+- DSH-derived orchestration helpers for register-aware phrase assignment, midrange-gap detection, and source-note coverage checks.
+- DSH-derived active-frame RMS measurement and calibration-aware fader planning.
+- Optional Windows WASAPI loopback capture and SF2 / SoundFont audition utility.
+- Explicit DSH attribution, license boundary, and provenance classification.
 
 ## In Development
 
 - Reproducible live Pattern / Channel identity checks.
 - Repeatable live note write, fresh readback, and Exact-Set evidence.
+- Integration of DSH-derived fader planning with verified Mixer `write → readback → compare` operations.
+- Section-level agent workflows that turn MIDI inspection/orchestration analysis into structured FLSkill plans rather than direct unverified DAW edits.
 - Stability and compatibility feedback across FL Studio installations.
 - User-facing setup and test workflow for the experimental integration path.
 
@@ -25,11 +32,12 @@ The maintainer reports completing an FL Studio integration run. The repository d
 - Multi-channel and multi-pattern planning and execution.
 - Mixer operations with per-operation write, readback, and verification.
 - Plugin parameter operations with readback verification.
+- Higher-level orchestration policies built on the generic DSH-derived checks, with score-independent tests and evidence.
+- Expanded audio analysis beyond RMS/peak where deterministic measurements materially help the agent.
 - FLSkill SysEx RPC adapter, implemented from the documented protocol specification.
 - Native Computer Use adapter and compatibility bridge support.
-- Audio analysis and section-level composition workflows.
 - Broader agent orchestration and resumable production workflows.
 
 ## Verification Milestone
 
-The `v1.0.0` milestone is intended to require an installable workflow that can identify a real target, write a deterministic Note Plan to FL Studio, read the actual events back, and produce a reproducible Exact-Set `PASS` / `STOP` report. It is not a released version.
+The `v1.0.0` milestone is intended to require an installable workflow that can identify a real target, write a deterministic Note Plan to FL Studio, read the actual events back, and produce a reproducible Exact-Set `PASS` / `STOP` report. DSH-derived analysis may inform the plan, but analysis alone does not satisfy this live verification milestone. `v1.0.0` is not a released version.
