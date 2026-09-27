@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flskill"
+version = "0.2.0a0"
+description = "Verification-oriented music production framework designed for AI agents"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+authors = [{ name = "ryurikoneko" }]
+dependencies = []
+
+[project.optional-dependencies]
+flstudio = [
+    "fastmcp>=2.0,<3",
+    "mido>=1.3.0",
+    "python-rtmidi>=1.5.0",
+    "pynput>=1.7",
+]
+
+[project.scripts]
+flskill = "flskill.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src", "third_party/fl-studio-mcp/src"]
+include = ["flskill*", "fl_studio_mcp*"]
+namespaces = false
+
+[tool.setuptools.data-files]
+"share/flskill/third_party/fl-studio-mcp" = [
+    "third_party/fl-studio-mcp/LICENSE",
+    "third_party/fl-studio-mcp/README.md",
+    "third_party/fl-studio-mcp/pyproject.toml",
+]
+"share/flskill/third_party/fl-studio-mcp/fl_controller" = [
+    "third_party/fl-studio-mcp/fl_controller/device_FLStudioMCP.py",
+]
+"share/flskill/third_party/fl-studio-mcp/scripts" = [
+    "third_party/fl-studio-mcp/scripts/ComposeWithLLM.pyscript",
+]
