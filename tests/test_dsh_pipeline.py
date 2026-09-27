@@ -8,7 +8,14 @@ import wave
 import numpy as np
 
 from flskill.dsh.mix import FaderCalibration, active_rms, plan_fader_db
+from flskill.dsh.orchestration import (
+    InstrumentRange,
+    choose_instrument_for_phrase,
+    find_register_gaps,
+    source_note_coverage,
+)
 from flskill.dsh.smf import parse_smf, recommend_dense_window
+from flskill.note_plan import NoteEvent
 
 
 def vlq(value: int) -> bytes:
@@ -70,6 +77,31 @@ class DshPipelineTests(unittest.TestCase):
         )
         self.assertAlmostEqual(expected_db, 3.0, places=6)
         self.assertAlmostEqual(value, 0.75, places=6)
+
+    def test_orchestration_selects_comfortable_register(self):
+        phrase = (
+            NoteEvent(0, 96, 72, 90),
+            NoteEvent(96, 96, 76, 90),
+        )
+        viola = InstrumentRange("viola", 48, 84, 55, 74)
+        violin = InstrumentRange("violin", 55, 96, 67, 88)
+        self.assertEqual(choose_instrument_for_phrase(phrase, (viola, violin)), violin)
+
+    def test_register_gaps_and_source_coverage(self):
+        source = (
+            NoteEvent(0, 96, 60, 90),
+            NoteEvent(96, 96, 64, 90),
+        )
+        arranged = ((NoteEvent(0, 96, 60, 80),),)
+        self.assertEqual(find_register_gaps(
+            arranged,
+            start_tick=0,
+            end_tick=192,
+            step_ticks=96,
+            low_pitch=60,
+            high_pitch=72,
+        ), (96,))
+        self.assertEqual(source_note_coverage(source, arranged), (source[1],))
 
 
 if __name__ == "__main__":
