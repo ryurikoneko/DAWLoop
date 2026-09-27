@@ -30,6 +30,7 @@ FLSkill 的公开仓库从独立、干净的 Git 历史开始。项目自己的 
 | `schemas/note_plan.schema.json` | `CONFIRMED_PROJECT_GENERATED` | Note Plan JSON Schema |
 | `src/flskill/adapters/fl_studio_mcp/**` | `CONFIRMED_PROJECT_GENERATED` | FLSkill 特有的 MCP 调用、目标身份门控、映射、读回与验证报告；不复制 upstream server 实现 |
 | `src/flskill/setup.py` / `src/flskill/cli.py` | `CONFIRMED_PROJECT_GENERATED` | 安装、doctor、CLI 与集成胶水；CLI 后续增加 DSH API 入口 |
+| `src/flskill/dsh/environment.py` | `CONFIRMED_PROJECT_GENERATED` | DSH 环境档案及可选依赖探测 |
 | `tests/test_*.py`（除明确第三方 fixture 外） | `CONFIRMED_PROJECT_GENERATED` | 使用自造测试数据；当前不包含第三方音乐作品 fixture |
 
 公开 clean-core 的历史创建提交仍保留在 Git 历史中；本文件不重写历史 commit，只维护当前来源状态。
@@ -63,7 +64,13 @@ Bundled 运行文件包括 upstream `LICENSE`、`README.md`、`pyproject.toml`�
 
 压缩包中的 `docs/` 被其作者标注为 CC BY 4.0，`examples/` 乐谱/MIDI 另带署名/非商业条件，因此这些非代码资产没有直接放入 FLSkill 的 MIT 代码包。它们可用于理解 DSH 工作流，但不会被误标为 FLSkill 原创或 MIT 示例资产。
 
-审计还发现 supplied archive 的 `track-scan.py` 引用了未随包提供的 `spectrum-peak` 模块，并且 README 中 `fugue-v4.py` 的无参数示例与脚本实际要求输出参数不一致；这些 snapshot 问题被记录，而不是当作已验证功能传播。
+### 环境耦合与可移植性边界
+
+supplied archive 未包含 `track-scan.py` 引用的 `spectrum-peak` 模块。原开发者报告该工作流可在其已配置的制作环境中运行，因此标记为 `ENVIRONMENT_COUPLED` / `PORTABILITY_NOT_ESTABLISHED`，不将其描述为源码缺陷。
+
+`fugue-v4.py` 通过 `sys.argv[1]` 接收输出路径；不带参数的裸调用会失败。原开发者报告其正常调用路径会提供所需上下文，因此标记为 `INVOCATION_ASSUMPTION` / `PORTABILITY_NOT_ESTABLISHED`，不称为 bug。
+
+`src/flskill/dsh/environment.py` 是本项目新建的环境档案与可选依赖探测代码，分类为 `CONFIRMED_PROJECT_GENERATED`。档案把原开发者环境标为 `reported_working`，并独立记录当前便携环境的实际探测结果；前者是开发者报告，不能当作 FLSkill 兼容性验证。
 
 ## 项目文档、展示与贡献文件
 

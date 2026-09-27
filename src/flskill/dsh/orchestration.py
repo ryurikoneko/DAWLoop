@@ -128,17 +128,19 @@ def source_note_coverage(
     arranged = [event for part in arranged_parts for event in part]
     missing: list[NoteEvent] = []
     for event in source:
-        found = False
-        for candidate in arranged:
+        match_index = None
+        for index, candidate in enumerate(arranged):
             if candidate.start_tick != event.start_tick:
                 continue
             if allow_octave_equivalence:
                 if candidate.pitch % 12 == event.pitch % 12:
-                    found = True
+                    match_index = index
                     break
             elif candidate.pitch == event.pitch:
-                found = True
+                match_index = index
                 break
-        if not found:
+        if match_index is None:
             missing.append(event)
+        else:
+            arranged.pop(match_index)
     return tuple(missing)

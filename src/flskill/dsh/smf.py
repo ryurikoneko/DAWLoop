@@ -36,7 +36,7 @@ class MidiFileSummary:
 
 def _read_vlq(data: bytes, offset: int) -> tuple[int, int]:
     value = 0
-    while True:
+    for _ in range(4):
         if offset >= len(data):
             raise ValueError("truncated variable-length quantity")
         current = data[offset]
@@ -44,6 +44,7 @@ def _read_vlq(data: bytes, offset: int) -> tuple[int, int]:
         value = (value << 7) | (current & 0x7F)
         if not current & 0x80:
             return value, offset
+    raise ValueError("variable-length quantity exceeds four bytes")
 
 
 def parse_smf(path: str | Path) -> MidiFileSummary:
@@ -53,18 +54,28 @@ def parse_smf(path: str | Path) -> MidiFileSummary:
     header_length = struct.unpack(">I", data[4:8])[0]
     if header_length < 6:
         raise ValueError("invalid MIDI header length")
+    if 8 + header_length > len(data):
+        raise ValueError("truncated MIDI header")
     fmt, track_count, division = struct.unpack(">HHH", data[8:14])
+    if fmt not in (0, 1, 2):
+        raise ValueError(f"unsupported MIDI format: {fmt}")
     if division & 0x8000:
         raise ValueError("SMPTE time division is not supported")
 
     cursor = 8 + header_length
     tracks: list[MidiTrackSummary] = []
     for track_index in range(track_count):
+        if cursor + 8 > len(data):
+            raise ValueError(f"truncated MTrk header at track {track_index}")
         if data[cursor:cursor + 4] != b"MTrk":
             raise ValueError(f"missing MTrk chunk at track {track_index}")
         length = struct.unpack(">I", data[cursor + 4:cursor + 8])[0]
-        body = data[cursor + 8:cursor + 8 + length]
-        cursor += 8 + length
+        body_start = cursor + 8
+        body_end = body_start + length
+        if body_end > len(data):
+            raise ValueError(f"truncated MTrk data at track {track_index}")
+        body = data[body_start:body_end]
+        cursor = body_end
         offset = 0
         tick = 0
         running_status: int | None = None
@@ -95,9 +106,13 @@ def parse_smf(path: str | Path) -> MidiFileSummary:
             if status in (0xF0, 0xF7):
                 offset += 1
                 size, offset = _read_vlq(body, offset)
+                if offset + size > len(body):
+                    raise ValueError("truncated MIDI system-exclusive payload")
                 offset += size
                 continue
             if status & 0x80:
+                if status >= 0xF0:
+                    raise ValueError(f"unsupported MIDI status byte: 0x{status:02x}")
                 running_status = status
                 offset += 1
             elif running_status is None:
@@ -105,10 +120,14 @@ def parse_smf(path: str | Path) -> MidiFileSummary:
             status = running_status
             assert status is not None
             kind = status & 0xF0
+            if kind not in (0x80, 0x90, 0xA0, 0xB0, 0xC0, 0xD0, 0xE0):
+                raise ValueError(f"invalid MIDI channel status: 0x{status:02x}")
             data_length = 1 if kind in (0xC0, 0xD0) else 2
             payload = body[offset:offset + data_length]
             if len(payload) != data_length:
                 raise ValueError("truncated MIDI channel event")
+            if any(value >= 0x80 for value in payload):
+                raise ValueError("MIDI channel data byte must be less than 0x80")
             offset += data_length
             if kind == 0x90 and payload[1] > 0:
                 notes.append(MidiNoteOn(tick=tick, pitch=payload[0], velocity=payload[1]))

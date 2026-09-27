@@ -15,7 +15,10 @@ import wave
 try:
     import numpy as np
 except ImportError as error:  # optional dependency by design
-    raise ImportError("flskill.dsh.mix requires numpy; install flskill[dsh]") from error
+    raise ImportError(
+        "Optional dependency 'numpy' is required for DSH audio analysis. "
+        'Install with: pip install "flskill[dsh]"'
+    ) from error
 
 
 @dataclass(frozen=True)
@@ -103,6 +106,10 @@ class FaderCalibration:
             raise ValueError("calibration points must be sorted by fader value")
         values = [value for value, _ in self.points]
         dbs = [db for _, db in self.points]
+        if any(not math.isfinite(value) or not math.isfinite(db) for value, db in self.points):
+            raise ValueError("calibration points must be finite")
+        if any(not 0.0 <= value <= 1.0 for value in values):
+            raise ValueError("fader values must be within 0..1")
         if len(set(values)) != len(values) or any(a >= b for a, b in zip(dbs, dbs[1:])):
             raise ValueError("calibration must be strictly increasing in value and dB")
 

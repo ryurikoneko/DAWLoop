@@ -10,7 +10,14 @@ sample zones using numpy. It is intentionally kept outside FLSkill Core and is
 available through the optional DSH dependency set.
 """
 import struct
-import numpy as np
+
+try:
+    import numpy as np
+except ImportError as error:
+    raise ImportError(
+        "Optional dependency 'numpy' is required for DSH SoundFont utilities. "
+        'Install with: pip install "flskill[dsh]"'
+    ) from error
 
 
 def _s16(v):
@@ -24,35 +31,66 @@ def _tc2s(tc):
 
 class Sf2:
     def __init__(self, path):
-        raw = open(path, "rb").read()
-        if raw[:4] != b"RIFF" or raw[8:12] != b"sfbk":
+        with open(path, "rb") as handle:
+            raw = handle.read()
+        if len(raw) < 12 or raw[:4] != b"RIFF" or raw[8:12] != b"sfbk":
             raise ValueError("not an SF2 file: %s" % path)
+        riff_end = struct.unpack_from("<I", raw, 4)[0] + 8
+        if riff_end > len(raw):
+            raise ValueError("truncated SF2 RIFF container")
         ch = {}
         p = 12
-        while p + 8 <= len(raw):
+        while p < riff_end:
+            if p + 8 > riff_end:
+                raise ValueError("truncated SF2 chunk header")
             cid = raw[p:p + 4]
             ln = struct.unpack_from("<I", raw, p + 4)[0]
-            data = raw[p + 8:p + 8 + ln]
+            data_start = p + 8
+            data_end = data_start + ln
+            if data_end > riff_end:
+                raise ValueError("truncated SF2 chunk data")
+            data = raw[data_start:data_end]
             p += 8 + ln + (ln & 1)
+            if p > riff_end:
+                raise ValueError("truncated SF2 chunk padding")
             if cid == b"LIST":
+                if len(data) < 4:
+                    raise ValueError("invalid SF2 LIST chunk")
                 typ = data[:4].decode("latin1")
                 q = 4
-                while q + 8 <= len(data):
+                while q < len(data):
+                    if q + 8 > len(data):
+                        raise ValueError("truncated SF2 subchunk header")
                     sid = data[q:q + 4].decode("latin1")
                     sl = struct.unpack_from("<I", data, q + 4)[0]
-                    ch[(typ, sid)] = data[q + 8:q + 8 + sl]
+                    sub_end = q + 8 + sl
+                    if sub_end > len(data):
+                        raise ValueError("truncated SF2 subchunk data")
+                    ch[(typ, sid)] = data[q + 8:sub_end]
                     q += 8 + sl + (sl & 1)
+                    if q > len(data):
+                        raise ValueError("truncated SF2 subchunk padding")
             else:
                 ch[cid.decode("latin1")] = data
 
+        required = {("sdta", "smpl"), ("pdta", "phdr"), ("pdta", "pbag"), ("pdta", "pgen"),
+                    ("pdta", "inst"), ("pdta", "ibag"), ("pdta", "igen"), ("pdta", "shdr")}
+        missing = required - ch.keys()
+        if missing:
+            raise ValueError("SF2 is missing required chunks: " + ", ".join(f"{a}/{b}" for a, b in sorted(missing)))
+        if len(ch[("sdta", "smpl")]) % 2:
+            raise ValueError("invalid SF2 sample data length")
         self.pcm = np.frombuffer(ch[("sdta", "smpl")], dtype="<i2").astype(np.float32) / 32768.0
-        self.phdr = self._rec(ch[("pdta", "phdr")], 38, "<20sHHHIII")
-        self.pbag = self._rec(ch[("pdta", "pbag")], 4, "<HH")
-        self.pgen = self._rec(ch[("pdta", "pgen")], 4, "<HH")
-        self.inst = self._rec(ch[("pdta", "inst")], 22, "<20sH")
-        self.ibag = self._rec(ch[("pdta", "ibag")], 4, "<HH")
-        self.igen = self._rec(ch[("pdta", "igen")], 4, "<HH")
-        self.shdr = self._rec(ch[("pdta", "shdr")], 46, "<20sIIIIIBbHH")
+        try:
+            self.phdr = self._rec(ch[("pdta", "phdr")], 38, "<20sHHHIII")
+            self.pbag = self._rec(ch[("pdta", "pbag")], 4, "<HH")
+            self.pgen = self._rec(ch[("pdta", "pgen")], 4, "<HH")
+            self.inst = self._rec(ch[("pdta", "inst")], 22, "<20sH")
+            self.ibag = self._rec(ch[("pdta", "ibag")], 4, "<HH")
+            self.igen = self._rec(ch[("pdta", "igen")], 4, "<HH")
+            self.shdr = self._rec(ch[("pdta", "shdr")], 46, "<20sIIIIIBbHH")
+        except struct.error as error:
+            raise ValueError("invalid SF2 table data") from error
 
         self.presets = [
             (
@@ -68,6 +106,8 @@ class Sf2:
 
     @staticmethod
     def _rec(b, size, fmt):
+        if len(b) % size:
+            raise ValueError("invalid SF2 table length")
         return [struct.unpack_from(fmt, b, i * size) for i in range(len(b) // size)]
 
     @staticmethod
