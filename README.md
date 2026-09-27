@@ -1,193 +1,177 @@
 # FLSkill
 
-**状态：** `v0.1.0-alpha`（公开 Alpha 预发布版）  
-**核心：** `Offline Algorithm Verified`  
-**FL Studio 集成：** 尚未实现
+**Verification-oriented FL Studio automation framework for AI agents.**
 
-FLSkill 是一个面向 **可验证、可恢复的 AI 音乐制作工作流** 的实验性开源框架。第一阶段先把 DAW 无关的核心做扎实：音乐时间解析、Note Plan、写入/读回边界，以及 Exact-Set Verification。
+**Built for AI agents.**
 
-它关心的不只是“AI 有没有执行操作”，而是：
+**Connects to real FL Studio through an experimental integration path.**
 
-> **AI 计划做什么，实际系统里最终发生的事情，能不能被重新读回并证明一致。**
+**Success requires readback verification—not just a tool saying “done”.**
+
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](pyproject.toml)
+[![Alpha](https://img.shields.io/badge/Status-Alpha-orange.svg)](docs/ROADMAP.md)
+
+FLSkill connects structured musical plans with execution adapters, DAW state readback, and explicit `PASS` / `STOP` verification. Its central rule is simple: a backend reporting success is not enough; the resulting musical state must be read back and checked.
 
 ```text
-Plan → Write → Read Back → Verify → PASS / STOP
+Plan → Execute → Read Back → Verify → PASS / STOP
 ```
 
-**核心原则：** `Offline Algorithm Verified ≠ FL Studio Verified`。
+> **Live integration status:** The maintainer reports completing an FL Studio integration run. The path may still be unstable across setups; real-world user testing and feedback are welcome. This repository does not include archived live readback evidence, so it does not claim a reproducible Live Exact-Set `Verified` result.
 
-> FLSkill 是独立开源项目，与 Image-Line 或 OpenAI 无关联，也未获其认可或赞助。
+FLSkill is an independent project and is not affiliated with, endorsed by, or sponsored by Image-Line or OpenAI.
 
-## 架构
+## Current Status
+
+| Capability | Status |
+|---|---|
+| Musical Grid, absolute tick resolution, Note Plan | ✅ Verified — offline core |
+| Exact-Set Verification and `PASS` / `STOP` | ✅ Verified — offline algorithm |
+| AI-agent-oriented interfaces | ✅ Implemented |
+| Bundled Community FL Studio MCP snapshot | ✅ Available |
+| FL Studio live integration | 🟡 Experimental — maintainer-reported; stability feedback requested |
+| Pattern / Channel identity and live note readback | 🚧 In Development — live evidence not archived here |
+| Live Exact-Set Verification | 🚧 In Development — no reproducible evidence in this repository |
+| Mixer discovery / plugin parameter reads | 🟡 Backend available; FLSkill live verification not claimed |
+| Mixer writes / plugin parameter writes | 🗺 Roadmap |
+| Multi-pattern / multi-channel composition | 🗺 Roadmap |
+| Autonomous song production | 🗺 Roadmap |
+
+`v0.1.0-alpha` remains the original clean offline-core release. The bundled backend and adapter foundation are on the current integration branch; they are not part of that historical release.
+
+## Architecture
 
 ```mermaid
 flowchart TD
-    A[Composition / Agent Plan] --> B[FLSkill Core]
+    A[AI Agent / Tool-Using Model] --> B[FLSkill Core]
     B --> C[Musical Grid]
     B --> D[Note Plan]
-    B --> E[Verification]
-    B --> F[State / Resume]
-    B --> G{Execution Adapter}
-    G -. Roadmap .-> H[Native Computer Use]
-    G -. Roadmap .-> I[Community FL Studio MCP]
-    G -. Roadmap .-> J[SysEx RPC]
-    G -. Roadmap .-> K[Future Adapters]
-    H -. Roadmap .-> L[FL Studio]
-    I -. Roadmap .-> L
-    J -. Roadmap .-> L
-    L -. Roadmap .-> M[Read Back Actual State]
-    M --> E
-    E --> N{Match?}
+    B --> E[Validation / State]
+    B --> F[Execution Adapter]
+    F --> G[Bundled FL Studio MCP]
+    F -. optional .-> H[Native Computer Use]
+    F -. future .-> I[SysEx RPC]
+    F -. future .-> J[Other DAW Adapters]
+    G --> K[FL Studio]
+    K -. readback path; evidence not archived .-> L[Actual DAW State]
+    L --> M[Exact-Set / State Verification]
+    M --> N{Match?}
     N -->|Yes| O[PASS]
     N -->|No| P[STOP]
 ```
 
-图中真实 DAW 控制与读回流程是目标架构，不代表已实现。当前 `v0.1.0-alpha` 只实现 Core 的离线部分；Native Computer Use、Community FL Studio MCP、SysEx RPC、真实 FL Studio 读回、Mixer 与插件控制仍属 Roadmap。
+A backend response such as “success” is not enough for FLSkill `PASS`. The readback path and verification result must be available as evidence for the specific operation.
 
-## 为什么做 FLSkill
+## Designed for AI Agents
 
-很多 AI + DAW 实验的停止条件是“工具调用成功”或“界面看起来改了”。FLSkill 采用更严格的验证边界：
+FLSkill is designed around structured, machine-readable interfaces that AI agents can call, inspect, and verify. It is intended for Codex-style agents, MCP clients, Computer Use agents, tool-using language models, and custom orchestration systems. This is an agent-oriented architecture, not a claim that every agent is already supported.
 
-1. 明确计划中的音乐位置与事件。
-2. 执行写入。
-3. 从目标重新读取实际事件。
-4. 对计划集合与实际集合做精确比较。
-5. 只有满足验证要求才返回 `PASS`，否则 `STOP`。
+```text
+Agent Plan → Validate → Execute → FL Studio
+→ Read Back → Verify → PASS / STOP → Agent chooses next action
+```
 
-Writer 的返回值本身不是成功证据。
+The agent is never trusted solely because it claims an operation succeeded. On `STOP`, the agent should report the failure and avoid building further actions on an unverified state.
 
-## v0.1.0-alpha 包含什么
+## What FLSkill Gives You
 
-- **Musical Grid**：PPQ、拍号和一基小节/拍位置。
-- **Absolute Tick Resolution**：把音乐位置确定地解析为非负绝对 tick。
-- **Note Plan**：目标、段落范围和结构化音符事件。
-- **Writer / Reader Protocol**：把执行层与验证核心解耦。
-- **In-memory implementation**：仅用于自造离线测试数据。
-- **Exact-Set Verification**：保留重复事件数量，检查 missing / extra，并诊断音符字段差异。
-- **PASS / STOP semantics**：写入错误、读回错误或计划/实际不一致都必须 STOP。
-- **Public provenance tracking**：公开记录当前发布文件的来源边界。
+- Deterministic musical timing and structured Note Plans
+- A DAW-independent verification core
+- An optional, pinned FL Studio MCP execution backend
+- An FL Studio integration path, currently experimental
+- Explicit separation between write, readback, and verification
+- Structured `PASS` / `STOP` reports
+- Environment diagnostics and User Script installation commands
+- Provenance tracking for project files and bundled third-party code
+- An adapter boundary for future execution backends
 
-当前核心采用 Python 标准库，无第三方运行依赖。
+## Installation
 
-## 30 秒快速体验
-
-需要 Python 3.11 或更新版本。
+The integration branch is not a published package release. From a local clone:
 
 ```powershell
-$env:PYTHONPATH = "$PWD\src"
-python -m unittest discover -s tests -v
+git clone https://github.com/ryurikoneko/FLSkill.git
+cd FLSkill
+git switch integration/bundled-fl-studio-mcp
+python -m pip install -e ".[flstudio]"
+flskill doctor
 ```
 
-当前发布版包含 14 项离线测试。
+To install the bundled upstream User Scripts, pass the actual FL Studio `Settings` directory. Existing destination files are backed up by the installer before replacement:
 
-最小离线闭环：
-
-```python
-from flskill.io import InMemoryEventStore
-from flskill.note_plan import NoteEvent, NotePlan
-from flskill.time import MusicalGrid
-from flskill.verification import write_read_verify
-
-plan = NotePlan(
-    target_id="offline-demo",
-    grid=MusicalGrid(ppq=480, beats_per_bar=4, beat_unit=4),
-    section_start_tick=0,
-    section_bars=1,
-    events=(
-        NoteEvent(start_tick=0, duration=480, pitch=60, velocity=96),
-        NoteEvent(start_tick=480, duration=480, pitch=64, velocity=96),
-    ),
-)
-
-store = InMemoryEventStore()
-result = write_read_verify(plan, writer=store, reader=store)
-
-print(result.status)  # PASS
-print(result.label)   # Offline Algorithm Verified
+```powershell
+flskill install-fl-scripts --settings-dir "<FL Studio Settings directory>"
 ```
 
-完整步骤见 [`docs/QUICKSTART.md`](docs/QUICKSTART.md)。
+`flskill doctor` distinguishes installed dependencies and MIDI ports from an actual FL Studio response. To run its read-only connection probe:
 
-## 示例
+```powershell
+flskill doctor --probe-fl
+```
 
-- [`examples/note_plan.example.json`](examples/note_plan.example.json)：完全自造的 Note Plan，故意包含重复事件，用来展示验证器会保留事件数量而不是只比较唯一值。
-- [`examples/verification_result.example.json`](examples/verification_result.example.json)：示例化展示 `duration` 不一致如何产生 missing / extra / mismatch 并最终 `STOP`。
+## Quick Start
 
-## 验证边界
+For the stable published release, use the [offline Quickstart](docs/QUICKSTART.md). To explore the experimental integration branch:
 
-当前成功结果只能标记为：
+1. Install the branch and optional FL Studio dependencies using the commands above.
+2. Run `flskill doctor` and resolve reported setup issues.
+3. Install the User Scripts and enable the bundled controller in FL Studio MIDI settings.
+4. Prepare a disposable test project with an existing blank Pattern and a known Channel.
+5. Use an external identity reader to confirm the project, Pattern, and Channel before any write.
+6. Run a Note Plan through `FLStudioMCPAdapter`; inspect the returned report and readback.
+7. Treat `PASS` as operation-specific only when fresh target and event evidence supports it.
 
-**`Offline Algorithm Verified`**
+The repository does not currently provide a safe, self-contained live test runner or a general command that submits arbitrary Note Plans. See [Live test prerequisites](tests/live_fl/README.md) and [FL Studio MCP integration](docs/FL_STUDIO_MCP.md). Do not use a private song for live testing.
 
-它不代表 FL Studio 写入已经被验证。未来接入真实适配器后，至少必须确认：
+## Live FL Studio Integration
 
-- 目标 Pattern / Channel 身份明确；
-- 实际执行写入；
-- 从真实目标读回事件；
-- 保存读回证据；
-- planned / actual 满足对应 Exact-Set 规则。
+The maintainer reports completing an integration run in a real FL Studio environment and requests feedback because stability may vary. That report is not accompanied by archived target-identity and actual-event evidence in this repository. Accordingly, connection, Pattern / Channel targeting, note write/readback, and Live Exact-Set are not presented here as reproducibly `Verified` capabilities.
 
-缺少任一条件，都不能报告 `FL Studio Verified`。
+The live adapter is designed to check Pattern and Channel identity, confirm a blank target, write through the bundled MCP backend, request a fresh Piano Roll state, and compare planned and actual events. The repository's live-test notes document the current identity-reader prerequisite. Do not interpret backend availability or a maintainer-reported run as proof that every installation can complete this sequence.
 
-## 计划中的执行路径
+## Bundled FL Studio MCP
 
-未来适配层计划支持或研究：
+FLSkill bundles a pinned source snapshot of [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) at commit [`f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`](https://github.com/karl-andres/fl-studio-mcp/commit/f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0), under its upstream MIT license. The snapshot is in `third_party/fl-studio-mcp/`; FLSkill-specific adapter code is separate under `src/flskill/adapters/fl_studio_mcp/`. Users do not need to download the upstream source separately.
 
-- Native Computer Use
-- Community FL Studio MCP integration
-- FLSkill SysEx RPC
-- compatibility Computer Use bridge
+FLSkill does not replace FL Studio MCP. It uses the project as an execution backend and adds musical planning, deterministic timing, readback-oriented verification, recovery boundaries, and agent-oriented orchestration. Upstream capability does not automatically mean FLSkill capability, and an upstream success response does not equal FLSkill `PASS`. See [Acknowledgements](docs/ACKNOWLEDGEMENTS.md) and [Third-Party Notices](THIRD_PARTY_NOTICES.md).
 
-这些都应作为 **可选 Adapter**，而不是 FLSkill Core 的强制依赖。
+## Why FLSkill Exists
+
+Many DAW automation tools focus on whether a command was sent. FLSkill focuses on whether the intended musical state exists after execution:
+
+> How can an AI prove that the musical operation it intended to perform is what actually happened inside the DAW?
 
 ## Acknowledgements & Prior Art
 
-FLSkill 的早期实验工作流实际使用并参考了社区项目 [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp)，指定参考版本为 [`f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`](https://github.com/karl-andres/fl-studio-mcp/commit/f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0)，许可证为 MIT。上游项目让我们能够实践 FL Studio 的程序化控制，并帮助我们理解 MCP 驱动的 DAW 自动化。我们感谢这项工作及其作者。
+FLSkill's early development was made possible in part by practical experience with the community [FL Studio MCP](https://github.com/karl-andres/fl-studio-mcp) project. We are grateful for the upstream work that enabled experimentation with programmatic FL Studio control. The bundled source remains third-party code with its own MIT license and copyright notices; FLSkill does not claim authorship of it.
 
-该上游版本的 README 描述了传输控制、Mixer 音量/声像/静音/独奏、Channel 操作与 Mixer 路由、Piano Roll 音符写入和读回，以及对已加载插件参数的查询和设置。上游也明确说明其 API 不能加载新插件或程序化创建 Pattern。以上是上游项目描述的能力，不代表 FLSkill 已集成或验证这些功能。
-
-> FL Studio MCP helped prove that FL Studio could be controlled programmatically; FLSkill is trying to make those operations verifiable.
-
-FLSkill 不打算取代 FL Studio MCP。它是重要的 FL Studio 执行/控制路径；FLSkill 关注围绕音乐规划和确定性时值、Note Plan、写入与读回分离、Exact-Set Verification、恢复续作及状态核验构建编排层。两者互补：控制调用成功本身不等于 FLSkill `PASS`，必须读回实际状态并通过验证。
-
-当前公开 Core 不包含或 vendoring 上游源码。未来 Community FL Studio MCP adapter 是可选集成计划，而不是 Core 依赖。更多信息见 [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md) 和 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
+See [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md) for the pinned commit, role, and scope, and [`PROVENANCE.md`](PROVENANCE.md) for file-level source records.
 
 ## Roadmap
 
-| 阶段 | 目标 | 当前状态 |
-|---|---|---|
-| `v0.1` | Musical Grid、Note Plan、Exact-Set Verification | ✅ 仅离线算法验证 |
-| `v0.2` | 最小 FL Studio adapter，真实写入 + 读回 + 现场验证 | 🚧 计划中 |
-| `v0.3` | multi-channel / multi-pattern | 🗺️ Roadmap |
-| `v0.4` | SysEx RPC adapter | 🗺️ Roadmap |
-| `v0.5` | Mixer / plugin parameter read-write-readback | 🗺️ Roadmap |
-| 后续 | Computer Use、社区 MCP、音频分析、section-level composition | 🗺️ Roadmap |
+- **Completed:** Offline Core, Note Plan, Exact-Set algorithm, bundled MCP snapshot, adapter foundation, package extra, diagnostics, and User Script installer.
+- **In Development:** Stable live target identification and reproducible note write/readback evidence; compatibility and stability feedback from real-world use.
+- **Planned:** Multi-pattern and multi-channel composition, verified Mixer and plugin operations, SysEx RPC, Native Computer Use adapter, audio analysis, and section-level production.
 
-完整路线图见 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
+See [`docs/ROADMAP.md`](docs/ROADMAP.md) for details. Roadmap items are not implemented or verified merely because they are listed.
 
-## 当前明确不包含
+## Contributing and Safety
 
-`v0.1.0-alpha` **尚未提供**：
+Contributions are welcome. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a Pull Request. Report bugs, feature ideas, and sanitized live-test feedback through the [GitHub issue tracker](https://github.com/ryurikoneko/FLSkill/issues). Never attach private FL Studio projects, commercial samples, credentials, or plugin binaries. See [`SECURITY.md`](SECURITY.md).
 
-- live FL Studio control
-- SysEx RPC
-- Computer Use integration
-- community FL Studio MCP adapter
-- Mixer control
-- plugin parameter control
-- autonomous song production
+## Project Documents
 
-这些能力不会因为出现在 Roadmap 中就被视为已经实现。
-
-## 文档
-
-- [`docs/QUICKSTART.md`](docs/QUICKSTART.md) — 最小离线使用流程
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — 模块与边界
-- [`docs/VERIFICATION.md`](docs/VERIFICATION.md) — PASS / STOP 与验证规则
-- [`docs/ROADMAP.md`](docs/ROADMAP.md) — 后续阶段
-- [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md) — 上游项目致谢与关系说明
-- [`PROVENANCE.md`](PROVENANCE.md) — 文件来源记录
+- [Offline Quickstart](docs/QUICKSTART.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Verification rules](docs/VERIFICATION.md)
+- [FL Studio MCP integration](docs/FL_STUDIO_MCP.md)
+- [Roadmap](docs/ROADMAP.md)
+- [Acknowledgements](docs/ACKNOWLEDGEMENTS.md)
+- [Third-party notices](THIRD_PARTY_NOTICES.md)
+- [Provenance](PROVENANCE.md)
+- [Live test prerequisites](tests/live_fl/README.md)
 
 ## License
 
-FLSkill 按 [`MIT License`](LICENSE) 授权。
+FLSkill is licensed under the [MIT License](LICENSE). Bundled third-party components retain their own notices and license terms.

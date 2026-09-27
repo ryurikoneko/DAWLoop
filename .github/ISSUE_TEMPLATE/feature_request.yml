@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest a scoped improvement to FLSkill.
+title: "[Feature]: "
+body:
+  - type: markdown
+    attributes:
+      value: Describe the user problem and desired outcome. Avoid including private music or project files.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Area
+      options:
+        - Core timing or Note Plan
+        - Verification
+        - FL Studio adapter
+        - Documentation
+        - Other
+    validations:
+      required: true
