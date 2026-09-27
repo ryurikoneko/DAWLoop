@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import importlib.util
+import json
 import platform
 import sys
 
@@ -54,9 +55,59 @@ def _doctor(probe_fl: bool) -> int:
     else:
         checks.append(("FL Studio 通信", False, "未探测；需先启动 FL Studio 和 MCP 控制脚本"))
 
+    if importlib.util.find_spec("numpy") is not None:
+        checks.append(("DSH analysis helpers", True, "numpy 可用"))
+    else:
+        checks.append(("DSH analysis helpers", False, "未安装；使用 dsh extra 安装"))
+
     for name, passed, detail in checks:
         print(f"{name:<24} {'PASS' if passed else 'STOP':<6} {detail}")
     return 0 if all(passed for _, passed, _ in checks) else 1
+
+
+def _midi_inspect(path: str, beats_per_bar: int, window_bars: int) -> int:
+    from flskill.dsh.smf import parse_smf, recommend_dense_window
+
+    summary = parse_smf(path)
+    rows = []
+    for track in summary.tracks:
+        window = recommend_dense_window(
+            track,
+            division=summary.division,
+            beats_per_bar=beats_per_bar,
+            window_bars=window_bars,
+        )
+        rows.append({
+            "index": track.index,
+            "name": track.name,
+            "note_count": len(track.notes),
+            "recommended_window_bars": list(window) if window else None,
+        })
+    print(json.dumps({
+        "format": summary.format,
+        "division": summary.division,
+        "beats_per_bar": beats_per_bar,
+        "tracks": rows,
+    }, ensure_ascii=False, indent=2))
+    return 0
+
+
+def _measure_wav(paths: list[str], frame_ms: int, floor_dbfs: float) -> int:
+    from flskill.dsh.mix import active_rms
+
+    rows = []
+    for path in paths:
+        result = active_rms(path, frame_ms=frame_ms, floor_dbfs=floor_dbfs)
+        rows.append({
+            "path": path,
+            "all_rms_dbfs": result.all_rms_dbfs,
+            "active_rms_dbfs": result.active_rms_dbfs,
+            "active_ratio": result.active_ratio,
+            "peak_dbfs": result.peak_dbfs,
+            "max_frame_dbfs": result.max_frame_dbfs,
+        })
+    print(json.dumps(rows, ensure_ascii=False, indent=2))
+    return 0
 
 
 def main() -> int:
@@ -69,6 +120,17 @@ def main() -> int:
     doctor_parser.add_argument("--probe-fl", action="store_true", help="发送只读状态查询以探测 FL Studio 通信")
     install_parser = subparsers.add_parser("install-fl-scripts", help="安装上游所需的 FL Studio 脚本")
     install_parser.add_argument("--settings-dir", required=True, help="FL Studio Settings 目录，由用户明确指定")
+
+    midi_parser = subparsers.add_parser("midi-inspect", help="检查 MIDI 轨道和高密度小节窗口")
+    midi_parser.add_argument("path")
+    midi_parser.add_argument("--beats-per-bar", type=int, default=4)
+    midi_parser.add_argument("--window-bars", type=int, default=3)
+
+    level_parser = subparsers.add_parser("measure-wav", help="计算 WAV 的整段与活跃帧 RMS")
+    level_parser.add_argument("paths", nargs="+")
+    level_parser.add_argument("--frame-ms", type=int, default=100)
+    level_parser.add_argument("--floor-dbfs", type=float, default=-65.0)
+
     args = parser.parse_args()
 
     if args.command == "doctor":
@@ -79,6 +141,10 @@ def main() -> int:
         for destination in install_user_scripts(Path(args.settings_dir)):
             print(f"已安装：{destination}")
         return 0
+    if args.command == "midi-inspect":
+        return _midi_inspect(args.path, args.beats_per_bar, args.window_bars)
+    if args.command == "measure-wav":
+        return _measure_wav(args.paths, args.frame_ms, args.floor_dbfs)
     return 2
 
 
