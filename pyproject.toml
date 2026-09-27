@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,8 @@ name = "flskill"
 version = "0.2.0a0"
 description = "Verification-oriented music production framework designed for AI agents"
 readme = "README.md"
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 authors = [{ name = "ryurikoneko" }]
 dependencies = []
@@ -23,6 +24,10 @@ dsh = [
     "numpy>=1.24",
 ]
 dsh-mix = [
+    "numpy>=1.24",
+    "pyaudiowpatch>=0.2.12.8; sys_platform == 'win32'",
+]
+dsh-loopback = [
     "numpy>=1.24",
     "pyaudiowpatch>=0.2.12.8; sys_platform == 'win32'",
 ]

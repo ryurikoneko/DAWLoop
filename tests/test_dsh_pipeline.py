@@ -1,8 +1,13 @@
 import math
+import json
+import os
 from pathlib import Path
+import subprocess
 import struct
+import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 import wave
 
 import numpy as np
@@ -25,6 +30,23 @@ def vlq(value: int) -> bytes:
         out.append(0x80 | (value & 0x7F))
         value >>= 7
     return bytes(reversed(out))
+
+
+def make_midi(body: bytes, *, fmt: int = 0, division: int = 96) -> bytes:
+    return (
+        b"MThd" + struct.pack(">IHHH", 6, fmt, 1, division)
+        + b"MTrk" + struct.pack(">I", len(body)) + body
+    )
+
+
+def write_wav(path: Path, samples: np.ndarray, *, channels: int = 1, width: int = 2) -> None:
+    with wave.open(str(path), "wb") as handle:
+        handle.setnchannels(channels)
+        handle.setsampwidth(width)
+        handle.setframerate(8000)
+        if width == 2:
+            samples = (np.clip(samples, -1, 1) * 32767).astype("<i2")
+        handle.writeframes(samples.tobytes())
 
 
 class DshPipelineTests(unittest.TestCase):
@@ -101,7 +123,219 @@ class DshPipelineTests(unittest.TestCase):
             low_pitch=60,
             high_pitch=72,
         ), (96,))
+        self.assertEqual(source_note_coverage(source[:1], arranged), ())
         self.assertEqual(source_note_coverage(source, arranged), (source[1],))
+
+    def test_smf_rejects_malformed_header_and_truncated_track(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "bad.mid"
+            path.write_bytes(b"NOPE" + struct.pack(">IHHH", 6, 0, 1, 96))
+            with self.assertRaisesRegex(ValueError, "not a Standard MIDI File"):
+                parse_smf(path)
+            path.write_bytes(b"MThd" + struct.pack(">IHHH", 20, 0, 1, 96))
+            with self.assertRaisesRegex(ValueError, "truncated MIDI header"):
+                parse_smf(path)
+            path.write_bytes(b"MThd" + struct.pack(">IHHH", 6, 0, 1, 96) + b"MTrk\x00\x00\x00\x10x")
+            with self.assertRaisesRegex(ValueError, "truncated MTrk data"):
+                parse_smf(path)
+
+    def test_smf_rejects_overlong_vlq_and_malformed_event(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "bad.mid"
+            path.write_bytes(make_midi(b"\x81\x80\x80\x80\x00\x90\x3c\x40"))
+            with self.assertRaisesRegex(ValueError, "exceeds four bytes"):
+                parse_smf(path)
+            path.write_bytes(make_midi(b"\x00\x90\xff\x40"))
+            with self.assertRaisesRegex(ValueError, "data byte"):
+                parse_smf(path)
+
+    def test_smf_supports_running_status_and_empty_track(self):
+        body = b"\x00\x90\x3c\x64\x60\x3e\x64"
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "running.mid"
+            path.write_bytes(make_midi(body))
+            self.assertEqual(len(parse_smf(path).tracks[0].notes), 2)
+            path.write_bytes(make_midi(b""))
+            self.assertEqual(parse_smf(path).tracks[0].notes, ())
+
+    def test_rms_is_finite_for_silence_and_quiet_audio(self):
+        with tempfile.TemporaryDirectory() as directory:
+            silence_path = Path(directory) / "silence.wav"
+            write_wav(silence_path, np.zeros(8000, dtype=np.float32))
+            silence = active_rms(silence_path)
+            self.assertEqual(silence.active_ratio, 0.0)
+            self.assertEqual(silence.active_rms_dbfs, float("-inf"))
+            self.assertEqual(silence.peak_dbfs, float("-inf"))
+            quiet_path = Path(directory) / "quiet.wav"
+            write_wav(quiet_path, np.full(8000, 1e-5, dtype=np.float32))
+            quiet = active_rms(quiet_path)
+            self.assertEqual(quiet.active_ratio, 0.0)
+
+    def test_rms_handles_stereo_and_rejects_unsupported_width(self):
+        with tempfile.TemporaryDirectory() as directory:
+            stereo_path = Path(directory) / "stereo.wav"
+            tone = np.full((8000, 2), 0.2, dtype=np.float32)
+            write_wav(stereo_path, tone, channels=2)
+            self.assertGreater(active_rms(stereo_path).peak_dbfs, -15)
+            width_path = Path(directory) / "width.wav"
+            write_wav(width_path, np.zeros(8000, dtype=np.uint8), width=1)
+            with self.assertRaisesRegex(ValueError, "unsupported PCM sample width"):
+                active_rms(width_path)
+
+    def test_rms_rejects_invalid_wav(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "invalid.wav"
+            path.write_bytes(b"not a wave")
+            with self.assertRaises((EOFError, wave.Error)):
+                active_rms(path)
+
+    def test_silent_wav_cli_uses_json_null_for_non_finite_dbfs(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "silence.wav"
+            write_wav(path, np.zeros(8000, dtype=np.float32))
+            root = Path(__file__).resolve().parents[1]
+            env = dict(os.environ, PYTHONPATH=str(root / "src"))
+            result = subprocess.run(
+                [sys.executable, "-m", "flskill.cli", "measure-wav", str(path)],
+                cwd=root,
+                env=env,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            row = json.loads(result.stdout)[0]
+            self.assertIsNone(row["all_rms_dbfs"])
+            self.assertIsNone(row["active_rms_dbfs"])
+            self.assertEqual(row["active_ratio"], 0.0)
+
+    def test_fader_calibration_clamps_out_of_range_targets(self):
+        calibration = FaderCalibration(((0.0, -12.0), (0.5, 0.0), (1.0, 6.0)))
+        self.assertEqual(calibration.db_for_value(0.0), -12.0)
+        self.assertEqual(calibration.db_for_value(1.0), 6.0)
+        self.assertEqual(calibration.db_for_value(-1.0), -12.0)
+        self.assertEqual(calibration.db_for_value(2.0), 6.0)
+        self.assertEqual(calibration.value_for_db(-100.0), 0.0)
+        self.assertEqual(calibration.value_for_db(100.0), 1.0)
+        self.assertEqual(plan_fader_db(
+            measured_active_dbfs=-40.0,
+            target_active_dbfs=100.0,
+            current_fader_value=0.5,
+            calibration=calibration,
+        )[0], 1.0)
+        self.assertEqual(plan_fader_db(
+            measured_active_dbfs=100.0,
+            target_active_dbfs=-100.0,
+            current_fader_value=0.5,
+            calibration=calibration,
+        )[0], 0.0)
+
+    def test_fader_calibration_rejects_invalid_points(self):
+        with self.assertRaisesRegex(ValueError, "within 0..1"):
+            FaderCalibration(((-0.1, -12.0), (1.0, 6.0)))
+        with self.assertRaisesRegex(ValueError, "finite"):
+            FaderCalibration(((0.0, float("nan")), (1.0, 6.0)))
+
+    def test_orchestration_rejects_phrase_without_suitable_instrument(self):
+        phrase = (NoteEvent(0, 96, 100, 90),)
+        with self.assertRaisesRegex(ValueError, "no instrument"):
+            choose_instrument_for_phrase(phrase, (InstrumentRange("low", 0, 60),))
+
+    def test_source_coverage_preserves_duplicate_event_count(self):
+        duplicate = NoteEvent(0, 96, 60, 90)
+        self.assertEqual(source_note_coverage((duplicate, duplicate), ((duplicate,),)), (duplicate,))
+
+    def test_sf2_rejects_invalid_truncated_and_missing_chunks(self):
+        from flskill.dsh.sf2 import Sf2
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "invalid.sf2"
+            path.write_bytes(b"not an sf2")
+            with self.assertRaisesRegex(ValueError, "not an SF2"):
+                Sf2(path)
+            path.write_bytes(b"RIFF" + struct.pack("<I", 100) + b"sfbkLIST")
+            with self.assertRaisesRegex(ValueError, "truncated SF2"):
+                Sf2(path)
+            body = b"RIFF" + struct.pack("<I", 4) + b"sfbk"
+            path.write_bytes(body)
+            with self.assertRaisesRegex(ValueError, "missing required chunks"):
+                Sf2(path)
+
+    def test_environment_profile_separates_reported_and_portable_status(self):
+        from flskill.dsh.environment import EnvironmentProfile, EnvironmentStatus, inspect_environment
+
+        profile = inspect_environment()
+        self.assertIsInstance(profile, EnvironmentProfile)
+        self.assertEqual(profile.original_developer_environment, "reported_working")
+        self.assertIn("spectrum-peak", {check.name for check in profile.checks})
+        self.assertIn("WASAPI", {check.name for check in profile.checks})
+        self.assertIn("fugue-v4.py requires an output path in sys.argv[1]", profile.invocation_assumptions)
+        with tempfile.TemporaryDirectory() as directory:
+            missing = Path(directory) / "missing-fl64.exe"
+            with patch.dict(os.environ, {"FL_STUDIO_PATH": str(missing)}):
+                fl_check = next(item for item in inspect_environment().checks if item.name == "FL Studio")
+            self.assertIs(fl_check.status, EnvironmentStatus.MISSING)
+            self.assertNotIn(str(directory), fl_check.detail)
+
+    def test_loopback_dependency_is_optional(self):
+        from flskill.dsh.environment import EnvironmentStatus, inspect_environment
+
+        check = next(item for item in inspect_environment().checks if item.name == "pyaudiowpatch")
+        if check.status is EnvironmentStatus.OPTIONAL_MISSING:
+            from flskill.dsh.loopback import list_loopback_devices
+            with self.assertRaisesRegex(ImportError, "dsh-loopback"):
+                list_loopback_devices()
+
+    def test_smf_and_cli_work_without_numpy(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "synthetic.mid"
+            path.write_bytes(make_midi(b"\x00\x90\x3c\x64"))
+            root = Path(__file__).resolve().parents[1]
+            env = dict(os.environ, PYTHONPATH=str(root / "src"))
+            code = (
+                "import builtins,sys; original=builtins.__import__; "
+                "builtins.__import__=lambda name,*a,**k: (_ for _ in ()).throw(ImportError('blocked numpy')) "
+                "if name == 'numpy' or name.startswith('numpy.') else original(name,*a,**k); "
+                "sys.argv=['flskill','midi-inspect',r'" + str(path) + "','--window-bars','1']; "
+                "import flskill.dsh; from flskill.cli import main; raise SystemExit(main())"
+            )
+            result = subprocess.run([sys.executable, "-c", code], cwd=root, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn('"note_count": 1', result.stdout)
+
+    def test_measure_wav_shows_optional_numpy_install_hint(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(__file__).resolve().parents[1]
+            env = dict(os.environ, PYTHONPATH=str(root / "src"))
+            code = (
+                "import builtins,sys; original=builtins.__import__; "
+                "builtins.__import__=lambda name,*a,**k: (_ for _ in ()).throw(ImportError('blocked numpy')) "
+                "if name == 'numpy' or name.startswith('numpy.') else original(name,*a,**k); "
+                "sys.argv=['flskill','measure-wav','unused.wav']; "
+                "from flskill.cli import main; raise SystemExit(main())"
+            )
+            result = subprocess.run([sys.executable, "-c", code], cwd=root, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
+            self.assertEqual(result.returncode, 2)
+            self.assertIn('pip install "flskill[dsh]"', result.stderr)
+            self.assertNotIn("Traceback", result.stderr)
+
+    def test_doctor_reports_dsh_capabilities_independently_without_numpy(self):
+        root = Path(__file__).resolve().parents[1]
+        env = dict(os.environ, PYTHONPATH=str(root / "src"))
+        code = (
+            "import builtins,sys,importlib.util; original=builtins.__import__; finder=importlib.util.find_spec; "
+            "builtins.__import__=lambda name,*a,**k: (_ for _ in ()).throw(ImportError('blocked numpy')) "
+            "if name == 'numpy' or name.startswith('numpy.') else original(name,*a,**k); "
+            "importlib.util.find_spec=lambda name,*a,**k: None if name == 'numpy' else finder(name,*a,**k); "
+            "sys.argv=['flskill','doctor']; from flskill.cli import main; raise SystemExit(main())"
+        )
+        result = subprocess.run([sys.executable, "-c", code], cwd=root, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
+        self.assertIn("DSH SMF parser", result.stdout)
+        self.assertIn("AVAILABLE", result.stdout.split("DSH SMF parser", 1)[1].splitlines()[0])
+        self.assertIn("DSH audio analysis", result.stdout)
+        self.assertIn("OPTIONAL_MISSING", result.stdout.split("DSH audio analysis", 1)[1].splitlines()[0])
+        self.assertNotIn("DSH analysis helpers", result.stdout)
 
 
 if __name__ == "__main__":

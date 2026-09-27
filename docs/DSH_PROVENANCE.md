@@ -21,6 +21,7 @@ This addendum records the DSH / `whale-music-pipeline` integration introduced on
 | `src/flskill/dsh/sf2.py` | `ADAPTED_FROM_THIRD_PARTY` | `scripts/score/sf2.py` |
 | `src/flskill/dsh/orchestration.py` | `ADAPTED_FROM_THIRD_PARTY` | Genericized orchestration checks from `scripts/orch/orch-fugue-v2.py`; score-specific data removed |
 | `src/flskill/dsh/__init__.py` | `CONFIRMED_PROJECT_GENERATED` | FLSkill package glue for adapted modules |
+| `src/flskill/dsh/environment.py` | `CONFIRMED_PROJECT_GENERATED` | New lightweight environment profile and dependency checks |
 | `tests/test_dsh_pipeline.py` | `CONFIRMED_PROJECT_GENERATED` | New tests using synthetic MIDI/audio/note data; no DSH example score copied |
 | `docs/DSH_PIPELINE.md` | `CONFIRMED_PROJECT_GENERATED` | New FLSkill integration documentation summarizing behavior and boundaries |
 | `src/flskill/cli.py` changes | `CONFIRMED_PROJECT_GENERATED` | New FLSkill CLI wiring around adapted APIs |
@@ -31,7 +32,13 @@ This addendum records the DSH / `whale-music-pipeline` integration introduced on
 
 The archive's documentation is identified as CC BY 4.0 and its example scores/MIDI assets carry attribution/non-commercial terms. Those materials are not bundled in FLSkill's MIT code package. The code was studied, but project/commission-specific score data is not being presented as original FLSkill content.
 
-The supplied `track-scan.py` imports a `spectrum-peak` module that is not present in the archive, and the supplied README invocation for `fugue-v4.py` omits an output argument required by the script. These snapshot issues are documented rather than silently treated as verified functionality.
+### Environment-coupled behavior
+
+The supplied archive does not include the `spectrum-peak` module referenced by `track-scan.py`. The original developer reports that this workflow runs in their configured production environment. FLSkill classifies it as `ENVIRONMENT_COUPLED` / `PORTABILITY_NOT_ESTABLISHED`; the supplied archive does not establish a portable standalone setup, and this observation is not treated as a source defect.
+
+`fugue-v4.py` expects an output path through `sys.argv[1]`. A bare invocation without this argument fails, while the original developer reports that their normal execution path supplies the required context. FLSkill classifies this as `INVOCATION_ASSUMPTION` / `PORTABILITY_NOT_ESTABLISHED`, not as a bug.
+
+`flskill.dsh.environment.EnvironmentProfile` records the local portable environment separately from the original developer environment, whose working status is recorded as `reported_working`. This report is not a compatibility certification. Optional dependencies are reported individually; absent optional components do not imply broken DSH source.
 
 ## Verification boundary
 

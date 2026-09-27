@@ -5,7 +5,9 @@ import asyncio
 import importlib.util
 import json
 import platform
+import math
 import sys
+import wave
 
 
 def _doctor(probe_fl: bool) -> int:
@@ -49,28 +51,44 @@ def _doctor(probe_fl: bool) -> int:
         try:
             from flskill.adapters.fl_studio_mcp.adapter import probe_connection
             connected, detail = asyncio.run(probe_connection())
-            checks.append(("FL Studio 通信", connected, detail))
+            connection_status = "PASS" if connected else "STOP"
+            connection_detail = detail
         except Exception as error:
-            checks.append(("FL Studio 通信", False, str(error)))
+            connection_status, connection_detail = "STOP", str(error)
     else:
-        checks.append(("FL Studio 通信", False, "未探测；需先启动 FL Studio 和 MCP 控制脚本"))
-
-    dsh_available = importlib.util.find_spec("numpy") is not None
-    checks.append((
-        "DSH analysis helpers",
-        True,
-        "可用" if dsh_available else "可选组件未安装；需要时使用 dsh extra 安装",
-    ))
+        connection_status, connection_detail = "NOT_CHECKED", "需显式使用 --probe-fl 并启动 FL Studio 和 MCP 控制脚本"
 
     for name, passed, detail in checks:
         print(f"{name:<24} {'PASS' if passed else 'STOP':<6} {detail}")
+    print(f"{'FL Studio communication':<24} {connection_status:<18} {connection_detail}")
+
+    from flskill.dsh.environment import EnvironmentStatus, inspect_environment
+    profile = inspect_environment()
+    profile_checks = {check.name: check for check in profile.checks}
+    dsh_rows = [
+        ("numpy", profile_checks["numpy"].status, 'pip install "flskill[dsh]"'),
+        ("DSH SMF parser", EnvironmentStatus.AVAILABLE, "stdlib-only; no numpy required"),
+        ("DSH audio analysis", profile_checks["numpy"].status, 'pip install "flskill[dsh]"'),
+        ("WASAPI loopback", profile_checks["WASAPI"].status, 'pip install "flskill[dsh-loopback]"'),
+        ("spectrum-peak", profile_checks["spectrum-peak"].status, "environment-specific optional dependency"),
+        ("MuseScore", profile_checks["MuseScore"].status, "not required by current FLSkill DSH APIs"),
+        ("FluidSynth", profile_checks["FluidSynth"].status, "not required by current FLSkill DSH APIs"),
+    ]
+    print("\nDSH environment (reported original environment: reported_working)")
+    for name, status, detail in dsh_rows:
+        print(f"{name:<24} {status.value:<18} {detail}")
+    print(f"{'Portable profile':<24} {profile.portable_status:<18} OS={profile.os_name}; Python={profile.python_version}")
     return 0 if all(passed for _, passed, _ in checks) else 1
 
 
 def _midi_inspect(path: str, beats_per_bar: int, window_bars: int) -> int:
     from flskill.dsh.smf import parse_smf, recommend_dense_window
 
-    summary = parse_smf(path)
+    try:
+        summary = parse_smf(path)
+    except (OSError, ValueError) as error:
+        print(f"midi-inspect: {error}", file=sys.stderr)
+        return 2
     rows = []
     for track in summary.tracks:
         window = recommend_dense_window(
@@ -95,18 +113,27 @@ def _midi_inspect(path: str, beats_per_bar: int, window_bars: int) -> int:
 
 
 def _measure_wav(paths: list[str], frame_ms: int, floor_dbfs: float) -> int:
-    from flskill.dsh.mix import active_rms
+    try:
+        from flskill.dsh.mix import active_rms
+    except ImportError as error:
+        print(f"measure-wav: {error}", file=sys.stderr)
+        return 2
 
     rows = []
     for path in paths:
-        result = active_rms(path, frame_ms=frame_ms, floor_dbfs=floor_dbfs)
+        try:
+            result = active_rms(path, frame_ms=frame_ms, floor_dbfs=floor_dbfs)
+        except (EOFError, OSError, ValueError, wave.Error) as error:
+            print(f"measure-wav: {path}: {error}", file=sys.stderr)
+            return 2
+        finite = lambda value: value if math.isfinite(value) else None
         rows.append({
             "path": path,
-            "all_rms_dbfs": result.all_rms_dbfs,
-            "active_rms_dbfs": result.active_rms_dbfs,
+            "all_rms_dbfs": finite(result.all_rms_dbfs),
+            "active_rms_dbfs": finite(result.active_rms_dbfs),
             "active_ratio": result.active_ratio,
-            "peak_dbfs": result.peak_dbfs,
-            "max_frame_dbfs": result.max_frame_dbfs,
+            "peak_dbfs": finite(result.peak_dbfs),
+            "max_frame_dbfs": finite(result.max_frame_dbfs),
         })
     print(json.dumps(rows, ensure_ascii=False, indent=2))
     return 0

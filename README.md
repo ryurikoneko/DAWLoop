@@ -31,6 +31,7 @@ FLSkill is an independent project and is not affiliated with, endorsed by, or sp
 | DSH SMF inspection / dense-window analysis | ✅ Implemented — offline tested |
 | DSH orchestration checks: register assignment / gap / source coverage | ✅ Implemented — offline tested |
 | DSH active-frame RMS / calibration-aware fader planning | ✅ Implemented — planning/analysis only |
+| DSH Environment Profile | ✅ Implemented — local probes; not a compatibility certification |
 | DSH SoundFont utility | ✅ Implemented — optional offline utility |
 | Windows WASAPI loopback capture | 🟡 Available — optional, hardware/environment dependent |
 | FL Studio live integration | 🟡 Experimental — maintainer-reported; stability feedback requested |
@@ -129,7 +130,7 @@ flskill doctor
 For Windows loopback measurement:
 
 ```powershell
-python -m pip install -e ".[flstudio,dsh-mix]"
+python -m pip install -e ".[flstudio,dsh-loopback]"
 ```
 
 For the broader DSH offline utility set, including Pillow / SciPy dependencies used by related workflows:
@@ -151,6 +152,8 @@ flskill doctor --probe-fl
 ```
 
 ### DSH analysis commands
+
+`midi-inspect` uses the standard library and does not require NumPy. Install the `dsh` extra for audio analysis and SoundFont utilities. The doctor reports these features independently and distinguishes the developer-reported working environment from the current machine's portable profile.
 
 ```powershell
 flskill midi-inspect song.mid --beats-per-bar 4 --window-bars 3
