@@ -70,3 +70,22 @@
 Bundled 文件：`LICENSE`、`README.md`、`pyproject.toml`、`fl_controller/device_FLStudioMCP.py`、`scripts/ComposeWithLLM.pyscript`，以及 `src/fl_studio_mcp/` 下的全部 12 个 Python 文件。上游 demo video、安装脚本和 Claude 专属配置脚本未纳入。
 
 本轮更新的 `README.md`、`docs/ARCHITECTURE.md`、`docs/ROADMAP.md`、`docs/VERIFICATION.md`、`docs/ACKNOWLEDGEMENTS.md`、`docs/QUICKSTART.md`、`adapters/README.md` 与本文件均为本仓库新写或维护的项目文档（`CONFIRMED_PROJECT_GENERATED`）；主要更新记录于提交 `2852e091c0de4b7b0453bf087a1d1e7d6580d2a6`，README 状态措辞校正记录于 `9ec9451`。外部参考为 `karl-andres/fl-studio-mcp` 的 commit `f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`（MIT）；仅自行总结上游能力，没有复制其代码或长段原文。
+
+本轮新增与更新的展示及贡献文件也由本项目撰写，未包含第三方实现源码：
+
+| 路径 | 分类 | 创建来源 | 创建提交 | 外部参考 | 许可考虑 | 状态 |
+|---|---|---|---|---|---|---|
+| `README.md` | `CONFIRMED_PROJECT_GENERATED` | 按当前代码、维护者报告及仓库可复核证据重写项目首页；区分 offline Verified、experimental 与 roadmap | 本轮首个文档提交，见 Git 历史 | 固定版本 `karl-andres/fl-studio-mcp`；仅说明后端边界 | MIT；无第三方实现代码 | 已更新 |
+| `docs/ARCHITECTURE.md` | `CONFIRMED_PROJECT_GENERATED` | 重新说明 Core、execution adapter、bundled backend、readback、verification 和 agent loop | 本轮首个文档提交，见 Git 历史 | 本仓库当前实现与验证要求 | MIT | 已更新 |
+| `docs/ROADMAP.md` | `CONFIRMED_PROJECT_GENERATED` | 依 Completed / In Development / Planned 整理当前分支路线 | 本轮首个文档提交，见 Git 历史 | 本仓库当前实现与维护者报告 | MIT | 已更新 |
+| `docs/FL_STUDIO_MCP.md` | `CONFIRMED_PROJECT_GENERATED` | 补充维护者报告、稳定性反馈邀请及证据边界 | 本轮首个文档提交，见 Git 历史 | 本仓库 adapter 与 live test 文档 | MIT | 已更新 |
+| `docs/ACKNOWLEDGEMENTS.md` | `CONFIRMED_PROJECT_GENERATED` | 补充当前分支 bundled snapshot 与 optional backend 说明 | 本轮首个文档提交，见 Git 历史 | 固定版本 `karl-andres/fl-studio-mcp` | MIT；没有复制上游实现 | 已更新 |
+| `docs/VERIFICATION.md` | `CONFIRMED_PROJECT_GENERATED` | 明确维护者报告未附仓库可复核的现场读回证据 | 本轮首个文档提交，见 Git 历史 | 本仓库 live test 前置条件 | MIT | 已更新 |
+| `CONTRIBUTING.md` | `CONFIRMED_PROJECT_GENERATED` | 新写开发安装、测试、验证状态与第三方代码贡献规则 | 本轮首个文档提交，见 Git 历史 | 本仓库开发流程 | MIT | 已添加 |
+| `SECURITY.md` | `CONFIRMED_PROJECT_GENERATED` | 新写凭据、私人工程、样本、插件二进制及现场测试安全说明 | 本轮首个文档提交，见 Git 历史 | 本仓库使用边界 | MIT | 已添加 |
+| `.github/ISSUE_TEMPLATE/bug_report.yml` | `CONFIRMED_PROJECT_GENERATED` | 新写结构化缺陷报告表单 | 本轮首个文档提交，见 Git 历史 | 无 | MIT | 已添加 |
+| `.github/ISSUE_TEMPLATE/feature_request.yml` | `CONFIRMED_PROJECT_GENERATED` | 新写结构化功能建议表单 | 本轮首个文档提交，见 Git 历史 | 无 | MIT | 已添加 |
+| `.github/ISSUE_TEMPLATE/live_verification_report.yml` | `CONFIRMED_PROJECT_GENERATED` | 新写要求脱敏且不上传私人工程的现场验证反馈表单 | 本轮首个文档提交，见 Git 历史 | 本仓库验证证据字段 | MIT | 已添加 |
+| `.github/pull_request_template.md` | `CONFIRMED_PROJECT_GENERATED` | 新写变更范围、测试、证据、第三方影响和验证级别清单 | 本轮首个文档提交，见 Git 历史 | 本仓库贡献要求 | MIT | 已添加 |
+
+以上文档与表单未引入第三方源码。维护者关于真实 FL Studio 接入的陈述按维护者报告记录；因本仓库未保存该次目标身份和实际事件读回证据，不据此将对应能力标记为可复核的 `Verified`。

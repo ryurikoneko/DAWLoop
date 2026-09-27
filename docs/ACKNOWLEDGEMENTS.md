@@ -10,8 +10,8 @@
 
 该版本上游 README 描述了传输控制、Mixer 音量和声像及静音/独奏、Channel 控制与 Mixer 路由、Piano Roll 音符写入和读回，以及已加载插件参数的查询与设置。上游同时说明不能加载新插件或程序化创建 Pattern。这些能力描述来自上游文档，不是 FLSkill 的实现或验证声明。
 
-FLSkill 不打算取代 FL Studio MCP。上游项目提供 FL Studio 控制路径；FLSkill 致力于在控制执行之外提供确定性音乐时值、Note Plan、写入/读回分离、Exact-Set Verification、状态验证与可恢复编排。FL Studio MCP 是未来的可选 adapter，不是 Core 的强制依赖。
+FLSkill 不打算取代 FL Studio MCP。上游项目提供 FL Studio 控制路径；FLSkill 致力于在控制执行之外提供确定性音乐时值、Note Plan、写入/读回分离、Exact-Set Verification、状态验证与可恢复编排。当前集成分支将固定上游快照作为可选执行后端随仓库打包；它不是 FLSkill Core 的强制依赖。
 
-FLSkill Core 不依赖 FL Studio MCP。当前开发分支把固定上游快照随仓库打包在 Core 之外，作为 optional backend；未改编或修改其源码。若未来直接改编上游代码，将单独标记来源并保留适用的上游 attribution 与 MIT 许可声明。
+FLSkill Core 不依赖 FL Studio MCP。当前集成分支把固定上游快照随仓库打包在 Core 之外，作为 optional backend；未改编或修改其源码。若未来直接改编上游代码，将单独标记来源并保留适用的上游 attribution 与 MIT 许可声明。
 
 > FL Studio MCP helped prove that FL Studio could be controlled programmatically; FLSkill is trying to make those operations verifiable.
