@@ -19,6 +19,19 @@ flstudio = [
     "python-rtmidi>=1.5.0",
     "pynput>=1.7",
 ]
+dsh = [
+    "numpy>=1.24",
+]
+dsh-mix = [
+    "numpy>=1.24",
+    "pyaudiowpatch>=0.2.12.8; sys_platform == 'win32'",
+]
+dsh-full = [
+    "numpy>=1.24",
+    "pillow>=10",
+    "scipy>=1.10",
+    "pyaudiowpatch>=0.2.12.8; sys_platform == 'win32'",
+]
 
 [project.scripts]
 flskill = "flskill.cli:main"
@@ -39,4 +52,7 @@ namespaces = false
 ]
 "share/flskill/third_party/fl-studio-mcp/scripts" = [
     "third_party/fl-studio-mcp/scripts/ComposeWithLLM.pyscript",
+]
+"share/flskill/third_party/dsh-whale-music-pipeline" = [
+    "third_party/dsh-whale-music-pipeline/LICENSE",
 ]
