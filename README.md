@@ -22,20 +22,27 @@ Plan → Write → Read Back → Verify → PASS / STOP
 
 ```mermaid
 flowchart TD
-    A[Composition / Note Plan] --> B[Musical Grid]
-    B --> C[Absolute Time Resolution]
-    C --> D[Note Events]
-    D --> E[Writer]
-    E --> F[Adapter / Target]
-    F --> G[Reader]
-    G --> H[Exact-Set Verification]
-    H -->|match| I[PASS]
-    H -->|missing / extra / mismatch / error| J[STOP]
-
-    K[Live FL Studio Adapter\nRoadmap] -. future .-> F
+    A[Composition / Agent Plan] --> B[FLSkill Core]
+    B --> C[Musical Grid]
+    B --> D[Note Plan]
+    B --> E[Verification]
+    B --> F[State / Resume]
+    B --> G{Execution Adapter}
+    G -. Roadmap .-> H[Native Computer Use]
+    G -. Roadmap .-> I[Community FL Studio MCP]
+    G -. Roadmap .-> J[SysEx RPC]
+    G -. Roadmap .-> K[Future Adapters]
+    H -. Roadmap .-> L[FL Studio]
+    I -. Roadmap .-> L
+    J -. Roadmap .-> L
+    L -. Roadmap .-> M[Read Back Actual State]
+    M --> E
+    E --> N{Match?}
+    N -->|Yes| O[PASS]
+    N -->|No| P[STOP]
 ```
 
-当前发布版使用内存 Writer / Reader 验证算法，因此上图中的真实 DAW Adapter 仍是路线图能力。
+图中真实 DAW 控制与读回流程是目标架构，不代表已实现。当前 `v0.1.0-alpha` 只实现 Core 的离线部分；Native Computer Use、Community FL Studio MCP、SysEx RPC、真实 FL Studio 读回、Mixer 与插件控制仍属 Roadmap。
 
 ## 为什么做 FLSkill
 
@@ -133,6 +140,18 @@ print(result.label)   # Offline Algorithm Verified
 
 这些都应作为 **可选 Adapter**，而不是 FLSkill Core 的强制依赖。
 
+## Acknowledgements & Prior Art
+
+FLSkill 的早期实验工作流实际使用并参考了社区项目 [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp)，指定参考版本为 [`f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`](https://github.com/karl-andres/fl-studio-mcp/commit/f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0)，许可证为 MIT。上游项目让我们能够实践 FL Studio 的程序化控制，并帮助我们理解 MCP 驱动的 DAW 自动化。我们感谢这项工作及其作者。
+
+该上游版本的 README 描述了传输控制、Mixer 音量/声像/静音/独奏、Channel 操作与 Mixer 路由、Piano Roll 音符写入和读回，以及对已加载插件参数的查询和设置。上游也明确说明其 API 不能加载新插件或程序化创建 Pattern。以上是上游项目描述的能力，不代表 FLSkill 已集成或验证这些功能。
+
+> FL Studio MCP helped prove that FL Studio could be controlled programmatically; FLSkill is trying to make those operations verifiable.
+
+FLSkill 不打算取代 FL Studio MCP。它是重要的 FL Studio 执行/控制路径；FLSkill 关注围绕音乐规划和确定性时值、Note Plan、写入与读回分离、Exact-Set Verification、恢复续作及状态核验构建编排层。两者互补：控制调用成功本身不等于 FLSkill `PASS`，必须读回实际状态并通过验证。
+
+当前公开 Core 不包含或 vendoring 上游源码。未来 Community FL Studio MCP adapter 是可选集成计划，而不是 Core 依赖。更多信息见 [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md) 和 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
+
 ## Roadmap
 
 | 阶段 | 目标 | 当前状态 |
@@ -166,6 +185,7 @@ print(result.label)   # Offline Algorithm Verified
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — 模块与边界
 - [`docs/VERIFICATION.md`](docs/VERIFICATION.md) — PASS / STOP 与验证规则
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — 后续阶段
+- [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md) — 上游项目致谢与关系说明
 - [`PROVENANCE.md`](PROVENANCE.md) — 文件来源记录
 
 ## License

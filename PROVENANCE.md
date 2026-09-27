@@ -18,6 +18,7 @@
 | `docs/VERIFICATION.md` | `CONFIRMED_PROJECT_GENERATED` | 从验证需求重新撰写 PASS / STOP 规则 | b63c81c6b869f81485b408a4d6f57e7666dff109 | Private 项目验证要求；未复制旧文档 | MIT | 已创建 |
 | `docs/QUICKSTART.md` | `CONFIRMED_PROJECT_GENERATED` | 根据当前公开 Core API 新建最小离线用例与验证流程说明 | af1a4afc742ca130856e5d66d40b6f11d2921dbd | 当前仓库公开 API；未复制第三方教程 | MIT | 已添加 |
 | `docs/RELEASE_NOTES_v0.1.0-alpha.md` | `CONFIRMED_PROJECT_GENERATED` | 根据当前公开版本能力、验证边界和 Roadmap 新建扩展版发布说明 | 6a6dbe8ea7d10d139ecd2467272195bcfb447753 | 当前仓库 README / Roadmap；未复制第三方发布说明 | MIT | 已添加 |
+| `docs/ACKNOWLEDGEMENTS.md` | `CONFIRMED_PROJECT_GENERATED` | 本仓库新写的上游致谢与集成关系说明；未复制第三方实现代码 | 本次文档更新 | [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp)，commit `f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0` | MIT 上游仅作外部参考；本文件为本项目新写文档 | 已添加 |
 | `adapters/README.md` | `CONFIRMED_PROJECT_GENERATED` | 记录本阶段不含真实适配器的范围边界 | b63c81c6b869f81485b408a4d6f57e7666dff109 | 无 | MIT | 已创建 |
 | `examples/note_plan.example.json` | `CONFIRMED_PROJECT_GENERATED` | 使用完全自造音符与重复事件新建展示用 Note Plan | 3c0c6d9c76edc0fbc9462abd6f247c9a96f111b0 | 当前 Note Plan schema；无音乐作品或第三方 fixture | MIT | 已添加 |
 | `examples/verification_result.example.json` | `CONFIRMED_PROJECT_GENERATED` | 使用完全自造 duration mismatch 新建 STOP 诊断示例 | 2666e9b8f338c8d3c9f8816311b6cea190db068c | 当前 VerificationResult 字段；无第三方 fixture | MIT | 已添加 |
@@ -45,3 +46,5 @@
 - 当前无 `ADAPTED_FROM_THIRD_PARTY` 或 `THIRD_PARTY` 文件；本仓库也未引入第三方运行依赖。
 - 规格参考不等于源码复制。本仓库没有迁移旧 `device_FLSkillMCPPrimary.py`、旧 `sysex_rpc.py`、旧测试/fixtures、旧 README/docs、第三方 FL Studio MCP 源码或其协议实现。
 - 本记录及 Git 历史不自动决定法律许可。项目已按权利人指示选用 MIT。
+
+本轮 README、`docs/ARCHITECTURE.md`、`docs/ROADMAP.md` 与本文件的更新，均为本仓库新写的项目文档说明（`CONFIRMED_PROJECT_GENERATED`）。外部参考为 `karl-andres/fl-studio-mcp` 的 commit `f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`（MIT）；仅自行总结上游能力，没有复制其代码或长段原文。对应变更可由 Git 历史中的本次文档提交追溯。

@@ -40,3 +40,23 @@ JSON Schema 用于结构验证；Python 模型还验证跨字段约束，例如�
 ## 执行适配器
 
 `adapters/` 当前只有范围说明，没有真实适配器。之后可分别增加 FL Studio、Computer Use、MCP 或 SysEx 实现；适配器不得成为核心算法的硬依赖。每个现场适配器须独立证明目标身份、写入后的实际读回路径和可保存的证据，然后才能支持现场 Verified 声明。
+
+## 执行适配器模型
+
+FLSkill Core 不绑定单一控制路径。未来可选的执行适配器包括：
+
+1. Native Computer Use
+2. Community FL Studio MCP
+3. FLSkill SysEx RPC
+4. 兼容 Computer Use bridge
+5. 未来的 DAW adapters
+
+适配器接收已验证的 Note Plan 或操作计划，确认真实目标，执行写入或操作，从 DAW 读回实际状态，并把读回证据交给 FLSkill 验证层。适配器返回“执行成功”不能直接变成 FLSkill `PASS`：
+
+```text
+Write → Read Back → Verify → PASS / STOP
+```
+
+社区 FL Studio MCP 是 FLSkill 早期实际使用和参考过的控制路径。它负责提供 FL Studio 控制能力；FLSkill 的核心工作是把规划、执行、读回、验证和恢复续作组织起来。两者互补，MCP 是未来的可选 adapter，而非 Core 依赖。上游项目、指定 commit、许可证和能力边界见 [`ACKNOWLEDGEMENTS.md`](ACKNOWLEDGEMENTS.md)。
+
+当前 `v0.1.0-alpha` 只有离线 Core。Native Computer Use、Community FL Studio MCP adapter、SysEx RPC adapter、兼容 bridge 和现场 DAW 读回尚未实现；Mixer 与插件控制也仍在 Roadmap。
