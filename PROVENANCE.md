@@ -69,4 +69,4 @@
 
 Bundled 文件：`LICENSE`、`README.md`、`pyproject.toml`、`fl_controller/device_FLStudioMCP.py`、`scripts/ComposeWithLLM.pyscript`，以及 `src/fl_studio_mcp/` 下的全部 12 个 Python 文件。上游 demo video、安装脚本和 Claude 专属配置脚本未纳入。
 
-本轮更新的 `README.md`、`docs/ARCHITECTURE.md`、`docs/ROADMAP.md`、`docs/VERIFICATION.md`、`docs/ACKNOWLEDGEMENTS.md`、`docs/QUICKSTART.md`、`adapters/README.md` 与本文件均为本仓库新写或维护的项目文档（`CONFIRMED_PROJECT_GENERATED`），更新记录于提交 `2852e091c0de4b7b0453bf087a1d1e7d6580d2a6`。外部参考为 `karl-andres/fl-studio-mcp` 的 commit `f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`（MIT）；仅自行总结上游能力，没有复制其代码或长段原文。
+本轮更新的 `README.md`、`docs/ARCHITECTURE.md`、`docs/ROADMAP.md`、`docs/VERIFICATION.md`、`docs/ACKNOWLEDGEMENTS.md`、`docs/QUICKSTART.md`、`adapters/README.md` 与本文件均为本仓库新写或维护的项目文档（`CONFIRMED_PROJECT_GENERATED`）；主要更新记录于提交 `2852e091c0de4b7b0453bf087a1d1e7d6580d2a6`，README 状态措辞校正记录于 `9ec9451`。外部参考为 `karl-andres/fl-studio-mcp` 的 commit `f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`（MIT）；仅自行总结上游能力，没有复制其代码或长段原文。
