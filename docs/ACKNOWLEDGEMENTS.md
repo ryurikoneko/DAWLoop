@@ -15,3 +15,15 @@ FLSkill 不打算取代 FL Studio MCP。上游项目提供 FL Studio 控制路�
 FLSkill Core 不依赖 FL Studio MCP。当前集成分支把固定上游快照随仓库打包在 Core 之外，作为 optional backend；未改编或修改其源码。若未来直接改编上游代码，将单独标记来源并保留适用的上游 attribution 与 MIT 许可声明。
 
 > FL Studio MCP helped prove that FL Studio could be controlled programmatically; FLSkill is trying to make those operations verifiable.
+
+## DSH / whale-music-pipeline
+
+感谢 DSH「编曲混音自动化」流程及其 `whale-music-pipeline` 开源代码的开发者。FLSkill 维护者提供了开发者直接授权复用代码的说明；同时，所提供压缩包本身也将 `scripts/` 代码声明为 MIT License。
+
+这套流水线给 FLSkill 带来了非常直接的实践参考：从原始 SMF/MIDI 数据处理，到管弦编排思路，再到 Windows WASAPI 环回测量、活跃帧 RMS、FL Studio 推子实测标定，以及“写完后相信读回而不是相信自己已经写成功”的工作原则。
+
+当前 FLSkill 已将其中适合通用化的部分整理为 `src/flskill/dsh/`：MIDI 结构检查与密集窗口选择、活跃帧 RMS、可配置推子标定与推子计划，以及可选的 Windows loopback capture。它们继续受 FLSkill `Plan → Execute → Read Back → Verify → PASS / STOP` 约束：例如，DSH 标定表可以帮助计算下一次 Mixer 操作，但计算结果本身不等于 FL Studio 中的已验证状态。
+
+DSH 压缩包内还有大量针对具体作品的写谱、管弦改编、SoundFont 渲染和谱面生成脚本。我们已经阅读并用于架构学习，但不会把针对单个委托/作品的决策直接包装成通用 FLSkill Core 规则；通用化前仍需要拆除作品专属数据、补测试并明确验证边界。
+
+许可边界和具体适配文件见 [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md) 与 [`docs/DSH_PIPELINE.md`](DSH_PIPELINE.md)。
