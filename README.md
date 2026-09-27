@@ -174,4 +174,4 @@ Contributions are welcome. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before open
 
 ## License
 
-FLSkill is licensed under the [MIT License](LICENSE). Bundled third-party components retain their own notices and license terms.
+FLSkill is licensed under the [MIT License](LICENSE), Copyright (c) 2026 ryurikoneko. Bundled components retain their separate copyrights and license terms; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
