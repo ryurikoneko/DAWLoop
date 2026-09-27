@@ -55,10 +55,12 @@ def _doctor(probe_fl: bool) -> int:
     else:
         checks.append(("FL Studio 通信", False, "未探测；需先启动 FL Studio 和 MCP 控制脚本"))
 
-    if importlib.util.find_spec("numpy") is not None:
-        checks.append(("DSH analysis helpers", True, "numpy 可用"))
-    else:
-        checks.append(("DSH analysis helpers", False, "未安装；使用 dsh extra 安装"))
+    dsh_available = importlib.util.find_spec("numpy") is not None
+    checks.append((
+        "DSH analysis helpers",
+        True,
+        "可用" if dsh_available else "可选组件未安装；需要时使用 dsh extra 安装",
+    ))
 
     for name, passed, detail in checks:
         print(f"{name:<24} {'PASS' if passed else 'STOP':<6} {detail}")
