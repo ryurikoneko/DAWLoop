@@ -1,0 +1,61 @@
+name: Live verification feedback
+description: Report a sanitized result from a real FL Studio test.
+title: "[Live test]: "
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Do not upload FLP files, private music, commercial samples, credentials,
+        plugin binaries, or unredacted logs. Share synthetic test data only.
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+    validations:
+      required: true
+  - type: input
+    id: fl_version
+    attributes:
+      label: FL Studio version
+    validations:
+      required: true
+  - type: input
+    id: flskill_version
+    attributes:
+      label: FLSkill version or commit
+    validations:
+      required: true
+  - type: input
+    id: backend
+    attributes:
+      label: Backend and version
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: Synthetic test target description
+      description: Identify the test Pattern and Channel without naming a private project.
+    validations:
+      required: true
+  - type: textarea
+    id: operation
+    attributes:
+      label: Operation and planned state
+      description: Include only synthetic notes or sanitized operation details.
+    validations:
+      required: true
+  - type: textarea
+    id: readback
+    attributes:
+      label: Actual readback and verification result
+      description: Include counts, differences, and PASS or STOP if available.
+    validations:
+      required: true
+  - type: textarea
+    id: sanitized_logs
+    attributes:
+      label: Sanitized logs or diagnostic output
+      description: Remove usernames, absolute paths, credentials, and unrelated event data.
+    validations:
+      required: false

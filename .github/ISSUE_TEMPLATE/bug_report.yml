@@ -1,0 +1,40 @@
+name: Bug report
+description: Report a reproducible problem in FLSkill.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: Share only sanitized information. Do not attach private FL Studio projects, commercial audio, credentials, or plugin binaries.
+  - type: input
+    id: version
+    attributes:
+      label: FLSkill version or commit
+      placeholder: "v0.2.0-alpha or commit SHA"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Operating system and Python version
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Use synthetic data and remove personal paths or project names.
+    validations:
+      required: true
+  - type: textarea
+    id: expected_actual
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized output
+      description: Remove usernames, absolute paths, credentials, and unrelated project content.
+    validations:
+      required: false
