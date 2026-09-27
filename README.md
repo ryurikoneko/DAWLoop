@@ -48,7 +48,7 @@ flowchart TD
     N -->|No| P[STOP]
 ```
 
-图中真实 DAW 控制与读回流程是目标架构，不代表已实现。当前 `v0.1.0-alpha` 只实现 Core 的离线部分；Native Computer Use、Community FL Studio MCP、SysEx RPC、真实 FL Studio 读回、Mixer 与插件控制仍属 Roadmap。
+图中真实 DAW 控制与读回流程是目标架构，不代表已完成现场验证。已发布的 `v0.1.0-alpha` 只实现 Core 的离线部分；当前开发分支已包含 bundled Community FL Studio MCP 和 adapter foundation，但真实 FL Studio 写入/读回尚未验证。Native Computer Use、SysEx RPC、Mixer 与插件控制仍属 Roadmap。
 
 ## 为什么做 FLSkill
 
