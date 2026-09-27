@@ -2,10 +2,8 @@
 
 **Verification-oriented FL Studio automation framework for AI agents.**
 
-**Built for AI agents.**
-
-**Connects to real FL Studio through an experimental integration path.**
-
+**Built for AI agents.**  
+**Connects to real FL Studio through an experimental integration path.**  
 **Success requires readback verification—not just a tool saying “done”.**
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -20,7 +18,7 @@ Plan → Execute → Read Back → Verify → PASS / STOP
 
 > **Live integration status:** The maintainer reports completing an FL Studio integration run. The path may still be unstable across setups; real-world user testing and feedback are welcome. This repository does not include archived live readback evidence, so it does not claim a reproducible Live Exact-Set `Verified` result.
 
-FLSkill is an independent project and is not affiliated with, endorsed by, or sponsored by Image-Line or OpenAI.
+FLSkill is an independent project and is not affiliated with, endorsed by, or sponsored by Image-Line, OpenAI, or the developers of bundled/adapted third-party projects.
 
 ## Current Status
 
@@ -30,6 +28,12 @@ FLSkill is an independent project and is not affiliated with, endorsed by, or sp
 | Exact-Set Verification and `PASS` / `STOP` | ✅ Verified — offline algorithm |
 | AI-agent-oriented interfaces | ✅ Implemented |
 | Bundled Community FL Studio MCP snapshot | ✅ Available |
+| DSH SMF inspection / dense-window analysis | ✅ Implemented — offline tested |
+| DSH orchestration checks: register assignment / gap / source coverage | ✅ Implemented — offline tested |
+| DSH active-frame RMS / calibration-aware fader planning | ✅ Implemented — planning/analysis only |
+| DSH Environment Profile | ✅ Implemented — local probes; not a compatibility certification |
+| DSH SoundFont utility | ✅ Implemented — optional offline utility |
+| Windows WASAPI loopback capture | 🟡 Available — optional, hardware/environment dependent |
 | FL Studio live integration | 🟡 Experimental — maintainer-reported; stability feedback requested |
 | Pattern / Channel identity and live note readback | 🚧 In Development — live evidence not archived here |
 | Live Exact-Set Verification | 🚧 In Development — no reproducible evidence in this repository |
@@ -38,13 +42,15 @@ FLSkill is an independent project and is not affiliated with, endorsed by, or sp
 | Multi-pattern / multi-channel composition | 🗺 Roadmap |
 | Autonomous song production | 🗺 Roadmap |
 
-`v0.1.0-alpha` remains the original clean offline-core release. The bundled backend and adapter foundation are on the current integration branch; they are not part of that historical release.
+`v0.1.0-alpha` remains the original clean offline-core release. The bundled FL Studio backend and DSH pipeline integration are development work and are not part of that historical release.
 
 ## Architecture
 
 ```mermaid
 flowchart TD
     A[AI Agent / Tool-Using Model] --> B[FLSkill Core]
+    A --> Q[DSH-derived Analysis / Orchestration Helpers]
+    Q --> B
     B --> C[Musical Grid]
     B --> D[Note Plan]
     B --> E[Validation / State]
@@ -59,9 +65,12 @@ flowchart TD
     M --> N{Match?}
     N -->|Yes| O[PASS]
     N -->|No| P[STOP]
+    K -. audible output .-> R[WASAPI Loopback]
+    R --> S[Active-frame RMS]
+    S --> Q
 ```
 
-A backend response such as “success” is not enough for FLSkill `PASS`. The readback path and verification result must be available as evidence for the specific operation.
+A backend response such as “success” is not enough for FLSkill `PASS`. DSH-derived analysis can propose the next arrangement or mixer move, but any DAW-changing operation still requires actual readback evidence.
 
 ## Designed for AI Agents
 
@@ -74,31 +83,63 @@ Agent Plan → Validate → Execute → FL Studio
 
 The agent is never trusted solely because it claims an operation succeeded. On `STOP`, the agent should report the failure and avoid building further actions on an unverified state.
 
+## DSH Arranging / Mixing Pipeline
+
+FLSkill now directly incorporates reusable code and design ideas from the developer-provided **DSH / `whale-music-pipeline`** archive. The FLSkill maintainer states that the DSH developer explicitly authorized direct code reuse; the supplied code also carries an MIT license.
+
+Integrated, generalized capabilities include:
+
+- dependency-free Standard MIDI File inspection and dense-section selection;
+- register-aware phrase/instrument selection helpers;
+- midrange gap detection and source-note coverage checks for orchestration passes;
+- active-frame RMS so sparse tracks are not judged by whole-song silence;
+- measured FL Studio fader calibration and calibration-aware fader planning;
+- optional Windows WASAPI loopback capture;
+- optional SF2 / SoundFont sample rendering for offline auditioning.
+
+This is not a blind dump of one composition into FLSkill Core. Score-specific harmony, instrumentation, commissioned-work comments, and example music are not treated as universal rules. The generic algorithms were separated from work-specific data and placed under `src/flskill/dsh/` with explicit attribution.
+
+See [DSH pipeline integration](docs/DSH_PIPELINE.md), [DSH provenance addendum](docs/DSH_PROVENANCE.md), and [Third-Party Notices](THIRD_PARTY_NOTICES.md).
+
 ## What FLSkill Gives You
 
 - Deterministic musical timing and structured Note Plans
 - A DAW-independent verification core
 - An optional, pinned FL Studio MCP execution backend
-- An FL Studio integration path, currently experimental
+- Agent-readable MIDI / orchestration / loudness analysis
+- Calibration-aware mixer planning based on measured fader behavior
+- Optional WASAPI loopback and SoundFont audition utilities
 - Explicit separation between write, readback, and verification
 - Structured `PASS` / `STOP` reports
 - Environment diagnostics and User Script installation commands
-- Provenance tracking for project files and bundled third-party code
+- Provenance tracking for project files and adapted/bundled third-party code
 - An adapter boundary for future execution backends
 
 ## Installation
 
-The integration branch is not a published package release. From a local clone:
+The current integration work is not a published package release. For the DSH + FL Studio development branch:
 
 ```powershell
 git clone https://github.com/ryurikoneko/FLSkill.git
 cd FLSkill
-git switch integration/bundled-fl-studio-mcp
-python -m pip install -e ".[flstudio]"
+git switch integration/dsh-pipeline
+python -m pip install -e ".[flstudio,dsh]"
 flskill doctor
 ```
 
-To install the bundled upstream User Scripts, pass the actual FL Studio `Settings` directory. Existing destination files are backed up by the installer before replacement:
+For Windows loopback measurement:
+
+```powershell
+python -m pip install -e ".[flstudio,dsh-loopback]"
+```
+
+For the broader DSH offline utility set, including Pillow / SciPy dependencies used by related workflows:
+
+```powershell
+python -m pip install -e ".[flstudio,dsh-full]"
+```
+
+To install the bundled upstream FL Studio User Scripts, pass the actual FL Studio `Settings` directory. Existing destination files are backed up by the installer before replacement:
 
 ```powershell
 flskill install-fl-scripts --settings-dir "<FL Studio Settings directory>"
@@ -110,31 +151,44 @@ flskill install-fl-scripts --settings-dir "<FL Studio Settings directory>"
 flskill doctor --probe-fl
 ```
 
+### DSH analysis commands
+
+`midi-inspect` uses the standard library and does not require NumPy. Install the `dsh` extra for audio analysis and SoundFont utilities. The doctor reports these features independently and distinguishes the developer-reported working environment from the current machine's portable profile.
+
+```powershell
+flskill midi-inspect song.mid --beats-per-bar 4 --window-bars 3
+flskill measure-wav track.wav --frame-ms 100 --floor-dbfs -65
+```
+
+These commands return structured data for an agent. They do not by themselves mark any FL Studio operation as verified.
+
 ## Quick Start
 
-For the stable published release, use the [offline Quickstart](docs/QUICKSTART.md). To explore the experimental integration branch:
+For the historical published release, use the [offline Quickstart](docs/QUICKSTART.md). To explore the current integration work:
 
-1. Install the branch and optional FL Studio dependencies using the commands above.
+1. Install the branch and optional dependencies using the commands above.
 2. Run `flskill doctor` and resolve reported setup issues.
-3. Install the User Scripts and enable the bundled controller in FL Studio MIDI settings.
-4. Prepare a disposable test project with an existing blank Pattern and a known Channel.
-5. Use an external identity reader to confirm the project, Pattern, and Channel before any write.
-6. Run a Note Plan through `FLStudioMCPAdapter`; inspect the returned report and readback.
-7. Treat `PASS` as operation-specific only when fresh target and event evidence supports it.
+3. Optionally inspect a MIDI file with `flskill midi-inspect` to identify active sections and track structure.
+4. Optionally analyze rendered/loopback audio with the active-frame RMS tools.
+5. Install the FL Studio User Scripts and enable the bundled controller in FL Studio MIDI settings.
+6. Prepare a disposable test project with an existing blank Pattern and a known Channel.
+7. Use an external identity reader to confirm the project, Pattern, and Channel before any write.
+8. Run a Note Plan through `FLStudioMCPAdapter`; inspect the returned report and readback.
+9. Treat `PASS` as operation-specific only when fresh target and event evidence supports it.
 
 The repository does not currently provide a safe, self-contained live test runner or a general command that submits arbitrary Note Plans. See [Live test prerequisites](tests/live_fl/README.md) and [FL Studio MCP integration](docs/FL_STUDIO_MCP.md). Do not use a private song for live testing.
 
 ## Live FL Studio Integration
 
-The maintainer reports completing an integration run in a real FL Studio environment and requests feedback because stability may vary. That report is not accompanied by archived target-identity and actual-event evidence in this repository. Accordingly, connection, Pattern / Channel targeting, note write/readback, and Live Exact-Set are not presented here as reproducibly `Verified` capabilities.
+The maintainer reports completing an integration run in a real FL Studio environment and requests feedback because stability may vary. That report is not accompanied by archived target-identity and actual-event evidence in this repository. Accordingly, connection, Pattern / Channel targeting, note write/readback, Mixer write/readback, and Live Exact-Set are not presented here as reproducibly `Verified` capabilities.
 
-The live adapter is designed to check Pattern and Channel identity, confirm a blank target, write through the bundled MCP backend, request a fresh Piano Roll state, and compare planned and actual events. The repository's live-test notes document the current identity-reader prerequisite. Do not interpret backend availability or a maintainer-reported run as proof that every installation can complete this sequence.
+The live adapter is designed to check Pattern and Channel identity, confirm a blank target, write through the bundled MCP backend, request a fresh Piano Roll state, and compare planned and actual events. DSH-derived mixer calibration and loopback analysis add evidence for choosing a next mixer move, but do not weaken this readback requirement.
 
 ## Bundled FL Studio MCP
 
 FLSkill bundles a pinned source snapshot of [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) at commit [`f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`](https://github.com/karl-andres/fl-studio-mcp/commit/f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0), under its upstream MIT license. The snapshot is in `third_party/fl-studio-mcp/`; FLSkill-specific adapter code is separate under `src/flskill/adapters/fl_studio_mcp/`. Users do not need to download the upstream source separately.
 
-FLSkill does not replace FL Studio MCP. It uses the project as an execution backend and adds musical planning, deterministic timing, readback-oriented verification, recovery boundaries, and agent-oriented orchestration. Upstream capability does not automatically mean FLSkill capability, and an upstream success response does not equal FLSkill `PASS`. See [Acknowledgements](docs/ACKNOWLEDGEMENTS.md) and [Third-Party Notices](THIRD_PARTY_NOTICES.md).
+FLSkill does not replace FL Studio MCP. It uses the project as an execution backend and adds musical planning, deterministic timing, readback-oriented verification, recovery boundaries, and agent-oriented orchestration. Upstream capability does not automatically mean FLSkill capability, and an upstream success response does not equal FLSkill `PASS`.
 
 ## Why FLSkill Exists
 
@@ -144,15 +198,15 @@ Many DAW automation tools focus on whether a command was sent. FLSkill focuses o
 
 ## Acknowledgements & Prior Art
 
-FLSkill's early development was made possible in part by practical experience with the community [FL Studio MCP](https://github.com/karl-andres/fl-studio-mcp) project. We are grateful for the upstream work that enabled experimentation with programmatic FL Studio control. The bundled source remains third-party code with its own MIT license and copyright notices; FLSkill does not claim authorship of it.
+FLSkill's development benefits from both the community [FL Studio MCP](https://github.com/karl-andres/fl-studio-mcp) project and the developer-provided DSH / `whale-music-pipeline` codebase. FL Studio MCP provides an execution/control path; DSH contributes practical arranging, analysis, loopback-measurement, and mixer-calibration techniques. FLSkill adds its verification-oriented orchestration layer around these ideas and implementations.
 
-See [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md) for the pinned commit, role, and scope, and [`PROVENANCE.md`](PROVENANCE.md) for file-level source records.
+See [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md), [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md), [`PROVENANCE.md`](PROVENANCE.md), and [`docs/DSH_PROVENANCE.md`](docs/DSH_PROVENANCE.md) for source and license boundaries.
 
 ## Roadmap
 
-- **Completed:** Offline Core, Note Plan, Exact-Set algorithm, bundled MCP snapshot, adapter foundation, package extra, diagnostics, and User Script installer.
-- **In Development:** Stable live target identification and reproducible note write/readback evidence; compatibility and stability feedback from real-world use.
-- **Planned:** Multi-pattern and multi-channel composition, verified Mixer and plugin operations, SysEx RPC, Native Computer Use adapter, audio analysis, and section-level production.
+- **Completed:** Offline Core, Note Plan, Exact-Set algorithm, bundled MCP snapshot, adapter foundation, package extras, diagnostics, DSH MIDI inspection, generalized orchestration checks, active-RMS analysis, fader calibration planning, and SoundFont utility.
+- **In Development:** Stable live target identification and reproducible note write/readback evidence; deeper DSH-inspired section-level arrangement and mixer workflows; compatibility feedback from real-world use.
+- **Planned:** Multi-pattern and multi-channel composition, verified Mixer and plugin operations, SysEx RPC, Native Computer Use adapter, expanded audio analysis, and section-level autonomous production.
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md) for details. Roadmap items are not implemented or verified merely because they are listed.
 
@@ -166,6 +220,8 @@ Contributions are welcome. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before open
 - [Architecture](docs/ARCHITECTURE.md)
 - [Verification rules](docs/VERIFICATION.md)
 - [FL Studio MCP integration](docs/FL_STUDIO_MCP.md)
+- [DSH pipeline integration](docs/DSH_PIPELINE.md)
+- [DSH provenance addendum](docs/DSH_PROVENANCE.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Acknowledgements](docs/ACKNOWLEDGEMENTS.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)
@@ -174,4 +230,4 @@ Contributions are welcome. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before open
 
 ## License
 
-FLSkill is licensed under the [MIT License](LICENSE), Copyright (c) 2026 ryurikoneko. Bundled components retain their separate copyrights and license terms; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+FLSkill is licensed under the [MIT License](LICENSE), Copyright (c) 2026 ryurikoneko. Bundled and adapted components retain their separate copyrights and license terms; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

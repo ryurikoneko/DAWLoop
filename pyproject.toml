@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,8 @@ name = "flskill"
 version = "0.2.0a0"
 description = "Verification-oriented music production framework designed for AI agents"
 readme = "README.md"
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 authors = [{ name = "ryurikoneko" }]
 dependencies = []
@@ -18,6 +19,23 @@ flstudio = [
     "mido>=1.3.0",
     "python-rtmidi>=1.5.0",
     "pynput>=1.7",
+]
+dsh = [
+    "numpy>=1.24",
+]
+dsh-mix = [
+    "numpy>=1.24",
+    "pyaudiowpatch>=0.2.12.8; sys_platform == 'win32'",
+]
+dsh-loopback = [
+    "numpy>=1.24",
+    "pyaudiowpatch>=0.2.12.8; sys_platform == 'win32'",
+]
+dsh-full = [
+    "numpy>=1.24",
+    "pillow>=10",
+    "scipy>=1.10",
+    "pyaudiowpatch>=0.2.12.8; sys_platform == 'win32'",
 ]
 
 [project.scripts]
@@ -39,4 +57,7 @@ namespaces = false
 ]
 "share/flskill/third_party/fl-studio-mcp/scripts" = [
     "third_party/fl-studio-mcp/scripts/ComposeWithLLM.pyscript",
+]
+"share/flskill/third_party/dsh-whale-music-pipeline" = [
+    "third_party/dsh-whale-music-pipeline/LICENSE",
 ]
