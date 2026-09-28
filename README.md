@@ -91,7 +91,7 @@ The agent is never trusted solely because it claims an operation succeeded. On `
 
 ## Production Pipeline
 
-DAWProof incorporates reusable code and design ideas from the open-source **`whale-music-pipeline`** project. The developer is credited as [坏影子不坏](https://space.bilibili.com/599132499) (Bilibili UID `599132499`). The DAWProof maintainer reports receiving the developer's direct permission to reuse the code; the source code also carries an MIT license.
+DAWProof incorporates reusable code and design ideas from the open-source **`whale-music-pipeline`** project. The developer is credited as [坏影子不坏](https://space.bilibili.com/599132499) (Bilibili UID `599132499`). The source code carries an MIT license.
 
 Integrated, generalized capabilities include:
 
