@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Optional Windows WASAPI loopback capture adapted from DSH (MIT)."""
+"""可选的 Windows WASAPI 环回录音，基于 MIT 许可来源改编。"""
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -19,7 +19,7 @@ def list_loopback_devices() -> tuple[LoopbackDevice, ...]:
     try:
         import pyaudiowpatch as pyaudio
     except ImportError as error:
-        raise ImportError('install "flskill[dsh-loopback]" for Windows WASAPI loopback') from error
+        raise ImportError('install "flskill[production-loopback]" for Windows WASAPI loopback') from error
     pa = pyaudio.PyAudio()
     try:
         out = []
@@ -44,7 +44,7 @@ def record_loopback(path: str | Path, seconds: float, device_index: int | None =
         import numpy as np
         import pyaudiowpatch as pyaudio
     except ImportError as error:
-        raise ImportError('install "flskill[dsh-loopback]" for Windows WASAPI loopback') from error
+        raise ImportError('install "flskill[production-loopback]" for Windows WASAPI loopback') from error
     pa = pyaudio.PyAudio()
     try:
         info = (

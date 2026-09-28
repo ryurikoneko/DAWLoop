@@ -5,7 +5,7 @@ FLSkill 的公开仓库从独立、干净的 Git 历史开始。项目自己的 
 当前公开开发树中存在两类有意引入的第三方来源：
 
 1. **FL Studio MCP**：以固定 upstream commit 的源码快照形式放在 `third_party/fl-studio-mcp/`，分类为 `THIRD_PARTY`。
-2. **DSH / whale-music-pipeline**：由维护者提供的 `DSH编曲混音自动化（开源版）.zip` 中的 MIT 代码。通用算法被整理到 `src/flskill/dsh/`，分类为 `ADAPTED_FROM_THIRD_PARTY`；原始代码许可证保存在 `third_party/dsh-whale-music-pipeline/LICENSE`。
+2. **Production Pipeline / whale-music-pipeline**：由维护者提供的 whale-music-pipeline 源码包中的 MIT 代码。通用算法被整理到 `src/flskill/production/`，分类为 `ADAPTED_FROM_THIRD_PARTY`；原始代码许可证保存在 `third_party/whale-music-pipeline/LICENSE`。
 
 旧 Private FLSkill-lab 仍只作为行为规格、架构要求和历史验证边界的参考；本公开仓库没有直接迁移其中来源不明确的旧实现。根目录 `LICENSE` 是 FLSkill 自有代码的 MIT License，不会覆盖第三方组件自己的版权和许可声明。
 
@@ -29,8 +29,8 @@ FLSkill 的公开仓库从独立、干净的 Git 历史开始。项目自己的 
 | `src/flskill/verification/**` | `CONFIRMED_PROJECT_GENERATED` | Exact-Set Verification、重复事件计数、PASS / STOP 语义 |
 | `schemas/note_plan.schema.json` | `CONFIRMED_PROJECT_GENERATED` | Note Plan JSON Schema |
 | `src/flskill/adapters/fl_studio_mcp/**` | `CONFIRMED_PROJECT_GENERATED` | FLSkill 特有的 MCP 调用、目标身份门控、映射、读回与验证报告；不复制 upstream server 实现 |
-| `src/flskill/setup.py` / `src/flskill/cli.py` | `CONFIRMED_PROJECT_GENERATED` | 安装、doctor、CLI 与集成胶水；CLI 后续增加 DSH API 入口 |
-| `src/flskill/dsh/environment.py` | `CONFIRMED_PROJECT_GENERATED` | DSH 环境档案及可选依赖探测 |
+| `src/flskill/setup.py` / `src/flskill/cli.py` | `CONFIRMED_PROJECT_GENERATED` | 安装、doctor、CLI 与集成胶水；CLI 后续增加 Production Pipeline API 入口 |
+| `src/flskill/production/environment.py` | `CONFIRMED_PROJECT_GENERATED` | Production Pipeline 环境档案及可选依赖探测 |
 | `tests/test_*.py`（除明确第三方 fixture 外） | `CONFIRMED_PROJECT_GENERATED` | 使用自造测试数据；当前不包含第三方音乐作品 fixture |
 
 公开 clean-core 的历史创建提交仍保留在 Git 历史中；本文件不重写历史 commit，只维护当前来源状态。
@@ -43,26 +43,26 @@ FLSkill 的公开仓库从独立、干净的 Git 历史开始。项目自己的 
 
 Bundled 运行文件包括 upstream `LICENSE`、`README.md`、`pyproject.toml`、FL controller script、ComposeWithLLM script，以及 `src/fl_studio_mcp/` 下运行所需 Python 文件。FLSkill-specific adapter 位于 `src/flskill/adapters/fl_studio_mcp/`，与第三方源码分离。
 
-## DSH / whale-music-pipeline
+## Production Pipeline / whale-music-pipeline
 
-来源：维护者提供的 `DSH编曲混音自动化（开源版）.zip`。压缩包中的代码声明为 MIT License，版权文本为 `Copyright (c) 2026 whale-music-pipeline contributors`；维护者另说明已取得 DSH 开发者直接复用全部代码的许可。
+来源：维护者提供的 whale-music-pipeline 源码包。压缩包中的代码声明为 MIT License，版权文本为 `Copyright (c) 2026 whale-music-pipeline contributors`；开发者为坏影子不坏（Bilibili UID 599132499）；维护者报告已获开发者直接授权复用代码。
 
-详细记录见 [`docs/DSH_PROVENANCE.md`](docs/DSH_PROVENANCE.md)。当前分类如下：
+详细记录见 [`docs/PRODUCTION_PIPELINE_PROVENANCE.md`](docs/PRODUCTION_PIPELINE_PROVENANCE.md)。当前分类如下：
 
 | 路径 | 分类 | 原始来源 / 改编关系 | 许可 |
 |---|---|---|---|
-| `third_party/dsh-whale-music-pipeline/LICENSE` | `THIRD_PARTY` | supplied archive root `LICENSE` 中代码许可部分 | MIT |
-| `src/flskill/dsh/smf.py` | `ADAPTED_FROM_THIRD_PARTY` | `scripts/mix/midi-windows.py` | MIT；保留 attribution |
-| `src/flskill/dsh/mix.py` | `ADAPTED_FROM_THIRD_PARTY` | `active-rms.py`、`fader-plan.py`、`level-balance.py` | MIT；保留 attribution |
-| `src/flskill/dsh/loopback.py` | `ADAPTED_FROM_THIRD_PARTY` | DSH WASAPI loopback scripts | MIT；保留 attribution |
-| `src/flskill/dsh/sf2.py` | `ADAPTED_FROM_THIRD_PARTY` | `scripts/score/sf2.py` | MIT；保留 attribution |
-| `src/flskill/dsh/orchestration.py` | `ADAPTED_FROM_THIRD_PARTY` | `scripts/orch/orch-fugue-v2.py` 中可复用的 register / gap / source-coverage 思路，已移除具体作品数据 | MIT；保留 attribution |
-| `src/flskill/dsh/__init__.py` | `CONFIRMED_PROJECT_GENERATED` | FLSkill 新建 package glue | 根项目 MIT |
-| `tests/test_dsh_pipeline.py` | `CONFIRMED_PROJECT_GENERATED` | FLSkill 新建；仅使用合成 MIDI / 波形 / NoteEvent | 根项目 MIT |
-| `docs/DSH_PIPELINE.md` | `CONFIRMED_PROJECT_GENERATED` | FLSkill 新写集成说明 | 根项目 MIT |
-| `docs/DSH_PROVENANCE.md` | `CONFIRMED_PROJECT_GENERATED` | FLSkill 新写来源附录 | 根项目 MIT |
+| `third_party/whale-music-pipeline/LICENSE` | `THIRD_PARTY` | supplied archive root `LICENSE` 中代码许可部分 | MIT |
+| `src/flskill/production/smf.py` | `ADAPTED_FROM_THIRD_PARTY` | `scripts/mix/midi-windows.py` | MIT；保留 attribution |
+| `src/flskill/production/mix.py` | `ADAPTED_FROM_THIRD_PARTY` | `active-rms.py`、`fader-plan.py`、`level-balance.py` | MIT；保留 attribution |
+| `src/flskill/production/loopback.py` | `ADAPTED_FROM_THIRD_PARTY` | WASAPI loopback scripts | MIT；保留 attribution |
+| `src/flskill/production/sf2.py` | `ADAPTED_FROM_THIRD_PARTY` | `scripts/score/sf2.py` | MIT；保留 attribution |
+| `src/flskill/production/orchestration.py` | `ADAPTED_FROM_THIRD_PARTY` | `scripts/orch/orch-fugue-v2.py` 中可复用的 register / gap / source-coverage 思路，已移除具体作品数据 | MIT；保留 attribution |
+| `src/flskill/production/__init__.py` | `CONFIRMED_PROJECT_GENERATED` | FLSkill 新建 package glue | 根项目 MIT |
+| `tests/test_production_pipeline.py` | `CONFIRMED_PROJECT_GENERATED` | FLSkill 新建；仅使用合成 MIDI / 波形 / NoteEvent | 根项目 MIT |
+| `docs/PRODUCTION_PIPELINE.md` | `CONFIRMED_PROJECT_GENERATED` | FLSkill 新写集成说明 | 根项目 MIT |
+| `docs/PRODUCTION_PIPELINE_PROVENANCE.md` | `CONFIRMED_PROJECT_GENERATED` | FLSkill 新写来源附录 | 根项目 MIT |
 
-压缩包中的 `docs/` 被其作者标注为 CC BY 4.0，`examples/` 乐谱/MIDI 另带署名/非商业条件，因此这些非代码资产没有直接放入 FLSkill 的 MIT 代码包。它们可用于理解 DSH 工作流，但不会被误标为 FLSkill 原创或 MIT 示例资产。
+压缩包中的 `docs/` 被其作者标注为 CC BY 4.0，`examples/` 乐谱/MIDI 另带署名/非商业条件，因此这些非代码资产没有直接放入 FLSkill 的 MIT 代码包。它们可用于理解 Production Pipeline 工作流，但不会被误标为 FLSkill 原创或 MIT 示例资产。
 
 ### 环境耦合与可移植性边界
 
@@ -70,7 +70,7 @@ supplied archive 未包含 `track-scan.py` 引用的 `spectrum-peak` 模块。�
 
 `fugue-v4.py` 通过 `sys.argv[1]` 接收输出路径；不带参数的裸调用会失败。原开发者报告其正常调用路径会提供所需上下文，因此标记为 `INVOCATION_ASSUMPTION` / `PORTABILITY_NOT_ESTABLISHED`。
 
-`src/flskill/dsh/environment.py` 是本项目新建的环境档案与可选依赖探测代码，分类为 `CONFIRMED_PROJECT_GENERATED`。档案把原开发者环境标为 `reported_working`，并独立记录当前便携环境的实际探测结果；前者是开发者报告，不能当作 FLSkill 兼容性验证。
+`src/flskill/production/environment.py` 是本项目新建的环境档案与可选依赖探测代码，分类为 `CONFIRMED_PROJECT_GENERATED`。档案把原开发者环境标为 `reported_working`，并独立记录当前便携环境的实际探测结果；前者是开发者报告，不能当作 FLSkill 兼容性验证。
 
 ## 项目文档、展示与贡献文件
 
@@ -83,8 +83,8 @@ supplied archive 未包含 `track-scan.py` 引用的 `spectrum-peak` 模块。�
 - `docs/ROADMAP.md`
 - `docs/FL_STUDIO_MCP.md`
 - `docs/ACKNOWLEDGEMENTS.md`
-- `docs/DSH_PIPELINE.md`
-- `docs/DSH_PROVENANCE.md`
+- `docs/PRODUCTION_PIPELINE.md`
+- `docs/PRODUCTION_PIPELINE_PROVENANCE.md`
 - `CONTRIBUTING.md`
 - `SECURITY.md`
 - `.github/ISSUE_TEMPLATE/**`
@@ -99,13 +99,13 @@ FLSkill 对 DAW-changing operation 继续使用：
 
 `Plan → Execute → Read Back → Verify → PASS / STOP`
 
-DSH-derived MIDI、编排、RMS 或推子标定工具可以为下一步计划提供证据，但只有真实 DAW 状态读回并满足对应验证规则时，才允许把具体操作记录为 `PASS`。
+基于 whale-music-pipeline 改编的 MIDI、编排、RMS 或推子标定工具可以为下一步计划提供证据，但只有真实 DAW 状态读回并满足对应验证规则时，才允许把具体操作记录为 `PASS`。
 
 ## 许可摘要
 
 - FLSkill 自有代码：根目录 MIT License，Copyright (c) 2026 ryurikoneko。
 - Bundled FL Studio MCP：其 upstream MIT License 与原作者版权保持不变。
-- DSH-derived code：基于 supplied archive 的 MIT-licensed code，并记录 DSH developer / contributor attribution 与维护者提供的直接复用授权说明。
+- whale-music-pipeline 改编代码：基于所提供源码包中的 MIT 许可代码，记录开发者坏影子不坏（Bilibili UID 599132499）及维护者报告的直接复用授权。
 - Python dependencies 通过包管理器安装，不把其源码自动重新许可为 FLSkill MIT。
 
 更完整的第三方声明见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
