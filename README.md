@@ -4,7 +4,7 @@
 
 **AI agents can understand, operate, observe, and iteratively work inside real DAWs.**
 
-DAWLoop connects an agent to a running FL Studio environment through an integrated FL Studio MCP execution backend. It structures musical operations, reads DAW state back, verifies the result, and lets the agent decide what to do next.
+DAWLoop gives an agent a real execution path into a running FL Studio session through its integrated FL Studio MCP backend. It structures musical operations, reads DAW state back, verifies the result, and lets the agent decide what to do next. This is not limited to generating MIDI for a person to import later.
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](pyproject.toml)
@@ -14,7 +14,7 @@ DAWLoop connects an agent to a running FL Studio environment through an integrat
 Understand → Analyze → Plan → Execute → Observe → Verify → Iterate
 ```
 
-Every DAW-changing action can be read back and verified before the agent continues.
+Supported DAW-changing operations are designed to be read back and verified before the agent continues.
 
 ## Control Real FL Studio
 
@@ -32,7 +32,7 @@ The pinned upstream backend provides control paths covering:
 
 These are upstream backend capabilities, not DAWLoop live-verification claims. The upstream project documents that it cannot programmatically create new Patterns or load new plugins; prepare those targets in FL Studio.
 
-The maintainer reports completing a real FL Studio integration run. The path may be unstable across setups, and real-world testing feedback is welcome. Target identity and machine-readable readback evidence from that run are not archived here, so DAWLoop does not claim reproducible live verification.
+The maintainer reports successfully completing a DAWLoop integration run in real FL Studio. The path can be unstable across setups, and real-world testing feedback is welcome. The repository does not archive the complete environment, target identity, operation plan, fresh readback, and comparison from that run. This confirms maintainer live use; it does not make the run reproducible or establish `Live Verified` for individual operations.
 
 The backend source is bundled and the DAWLoop adapter is implemented. A backend response such as “success” does not by itself establish a DAWLoop `PASS`.
 
@@ -121,13 +121,13 @@ Implementation availability and verification evidence are separate. “Backend A
 | Capability | Implementation | Evidence |
 |---|---|---|
 | Bundled Community FL Studio MCP snapshot | Backend Available | Upstream source bundled; not a DAWLoop live result |
-| FL Studio connection path | Experimental | Maintainer Live Tested; setup may be unstable and feedback is welcome |
+| FL Studio connection path | Experimental | Maintainer Live Tested; setup may be unstable across environments, and feedback is welcome |
 | Transport control | Backend Available | No archived DAWLoop live evidence |
-| Pattern identity checks | Implemented; external identity reader required | No archived field-level live evidence |
-| Channel identity checks | Implemented | No archived field-level live evidence |
-| Piano Roll note writing | Implemented | No archived field-level live evidence |
-| Piano Roll note-state readback | Implemented | No archived field-level live evidence |
-| Live Exact-Set comparison | Experimental | No archived live evidence; not Live Verified |
+| Pattern identity checks | Implemented; external identity reader required | Live test not established; no archived field-level evidence |
+| Channel identity checks | Implemented | Live test not established; no archived field-level evidence |
+| Piano Roll note writing | Implemented | Maintainer Live Tested; archived field-level evidence pending |
+| Piano Roll note-state readback | Implemented | Maintainer Live Tested; archived field-level evidence pending |
+| Live Exact-Set comparison | Experimental | Maintainer live-tested status not established; no archived comparison; not Live Verified |
 | Mixer discovery | Implemented in adapter; backend operation available | No archived live evidence |
 | Loaded-plugin parameter reads | Implemented in adapter; backend operation available | No archived live evidence |
 | Mixer writes / plugin parameter writes | Roadmap | Not DAWLoop-verified |
@@ -148,7 +148,7 @@ Implementation availability and verification evidence are separate. “Backend A
 - **Archived Live Evidence** means target and readback evidence is preserved in the repository for review.
 - **Live Verified** requires actual DAW readback and a passing comparison for the stated capability and target scope.
 
-No Mixer fader write/readback loop is marked verified. Mixer control and audio outcome checks remain separate future verification phases.
+The live integration run is therefore acknowledged without treating every backend or adapter capability as individually verified. No Mixer fader write/readback loop is marked verified; control verification and audio-outcome verification remain separate phases.
 
 ## Installation
 
