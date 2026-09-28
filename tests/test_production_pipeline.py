@@ -12,15 +12,15 @@ import wave
 
 import numpy as np
 
-from flskill.production.mix import FaderCalibration, active_rms, plan_fader_db
-from flskill.production.orchestration import (
+from dawproof.production.mix import FaderCalibration, active_rms, plan_fader_db
+from dawproof.production.orchestration import (
     InstrumentRange,
     choose_instrument_for_phrase,
     find_register_gaps,
     source_note_coverage,
 )
-from flskill.production.smf import parse_smf, recommend_dense_window
-from flskill.note_plan import NoteEvent
+from dawproof.production.smf import parse_smf, recommend_dense_window
+from dawproof.note_plan import NoteEvent
 
 
 def vlq(value: int) -> bytes:
@@ -196,7 +196,7 @@ class ProductionPipelineTests(unittest.TestCase):
             root = Path(__file__).resolve().parents[1]
             env = dict(os.environ, PYTHONPATH=str(root / "src"))
             result = subprocess.run(
-                [sys.executable, "-m", "flskill.cli", "measure-wav", str(path)],
+                [sys.executable, "-m", "dawproof.cli", "measure-wav", str(path)],
                 cwd=root,
                 env=env,
                 capture_output=True,
@@ -247,7 +247,7 @@ class ProductionPipelineTests(unittest.TestCase):
         self.assertEqual(source_note_coverage((duplicate, duplicate), ((duplicate,),)), (duplicate,))
 
     def test_sf2_rejects_invalid_truncated_and_missing_chunks(self):
-        from flskill.production.sf2 import Sf2
+        from dawproof.production.sf2 import Sf2
 
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "invalid.sf2"
@@ -263,7 +263,7 @@ class ProductionPipelineTests(unittest.TestCase):
                 Sf2(path)
 
     def test_environment_profile_separates_reported_and_portable_status(self):
-        from flskill.production.environment import EnvironmentProfile, EnvironmentStatus, inspect_environment
+        from dawproof.production.environment import EnvironmentProfile, EnvironmentStatus, inspect_environment
 
         profile = inspect_environment()
         self.assertIsInstance(profile, EnvironmentProfile)
@@ -279,11 +279,11 @@ class ProductionPipelineTests(unittest.TestCase):
             self.assertNotIn(str(directory), fl_check.detail)
 
     def test_loopback_dependency_is_optional(self):
-        from flskill.production.environment import EnvironmentStatus, inspect_environment
+        from dawproof.production.environment import EnvironmentStatus, inspect_environment
 
         check = next(item for item in inspect_environment().checks if item.name == "pyaudiowpatch")
         if check.status is EnvironmentStatus.OPTIONAL_MISSING:
-            from flskill.production.loopback import list_loopback_devices
+            from dawproof.production.loopback import list_loopback_devices
             with self.assertRaisesRegex(ImportError, "production-loopback"):
                 list_loopback_devices()
 
@@ -297,8 +297,8 @@ class ProductionPipelineTests(unittest.TestCase):
                 "import builtins,sys; original=builtins.__import__; "
                 "builtins.__import__=lambda name,*a,**k: (_ for _ in ()).throw(ImportError('blocked numpy')) "
                 "if name == 'numpy' or name.startswith('numpy.') else original(name,*a,**k); "
-                "sys.argv=['flskill','midi-inspect',r'" + str(path) + "','--window-bars','1']; "
-                "import flskill.production; from flskill.cli import main; raise SystemExit(main())"
+                "sys.argv=['dawproof','midi-inspect',r'" + str(path) + "','--window-bars','1']; "
+                "import dawproof.production; from dawproof.cli import main; raise SystemExit(main())"
             )
             result = subprocess.run([sys.executable, "-c", code], cwd=root, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
             self.assertEqual(result.returncode, 0, result.stderr)
@@ -312,12 +312,12 @@ class ProductionPipelineTests(unittest.TestCase):
                 "import builtins,sys; original=builtins.__import__; "
                 "builtins.__import__=lambda name,*a,**k: (_ for _ in ()).throw(ImportError('blocked numpy')) "
                 "if name == 'numpy' or name.startswith('numpy.') else original(name,*a,**k); "
-                "sys.argv=['flskill','measure-wav','unused.wav']; "
-                "from flskill.cli import main; raise SystemExit(main())"
+                "sys.argv=['dawproof','measure-wav','unused.wav']; "
+                "from dawproof.cli import main; raise SystemExit(main())"
             )
             result = subprocess.run([sys.executable, "-c", code], cwd=root, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
             self.assertEqual(result.returncode, 2)
-            self.assertIn('pip install "flskill[production]"', result.stderr)
+            self.assertIn('pip install "dawproof[production]"', result.stderr)
             self.assertNotIn("Traceback", result.stderr)
 
     def test_doctor_reports_production_capabilities_independently_without_numpy(self):
@@ -328,7 +328,7 @@ class ProductionPipelineTests(unittest.TestCase):
             "builtins.__import__=lambda name,*a,**k: (_ for _ in ()).throw(ImportError('blocked numpy')) "
             "if name == 'numpy' or name.startswith('numpy.') else original(name,*a,**k); "
             "importlib.util.find_spec=lambda name,*a,**k: None if name == 'numpy' else finder(name,*a,**k); "
-            "sys.argv=['flskill','doctor']; from flskill.cli import main; raise SystemExit(main())"
+            "sys.argv=['dawproof','doctor']; from dawproof.cli import main; raise SystemExit(main())"
         )
         result = subprocess.run([sys.executable, "-c", code], cwd=root, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
         self.assertIn("Production SMF analysis", result.stdout)

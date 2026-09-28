@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Any
 
-from flskill.time import MusicalGrid
+from dawproof.time import MusicalGrid
 
 
 @dataclass(frozen=True)

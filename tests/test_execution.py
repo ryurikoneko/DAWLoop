@@ -1,9 +1,9 @@
 import unittest
 
-from flskill.io import InMemoryEventStore
-from flskill.note_plan import NoteEvent, NotePlan
-from flskill.time import MusicalGrid
-from flskill.verification import write_read_verify
+from dawproof.io import InMemoryEventStore
+from dawproof.note_plan import NoteEvent, NotePlan
+from dawproof.time import MusicalGrid
+from dawproof.verification import write_read_verify
 
 
 class ExecutionTests(unittest.TestCase):

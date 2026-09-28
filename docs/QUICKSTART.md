@@ -1,6 +1,6 @@
 # Quickstart
 
-FLSkill `v0.1.0-alpha` 当前只提供离线核心，不连接 FL Studio。
+DAWProof `v0.1.0-alpha` 当前只提供离线核心，不连接 FL Studio。
 
 ## 1. 运行测试
 
@@ -16,7 +16,7 @@ python -m unittest discover -s tests -v
 ## 2. 解析音乐位置
 
 ```python
-from flskill.time import MusicalGrid, MusicalPosition, resolve_absolute_tick
+from dawproof.time import MusicalGrid, MusicalPosition, resolve_absolute_tick
 
 grid = MusicalGrid(ppq=480, beats_per_bar=4, beat_unit=4)
 position = MusicalPosition(bar=2, beat=1, tick=0)
@@ -28,8 +28,8 @@ print(absolute_tick)  # 1920
 ## 3. 创建 Note Plan
 
 ```python
-from flskill.note_plan import NoteEvent, NotePlan
-from flskill.time import MusicalGrid
+from dawproof.note_plan import NoteEvent, NotePlan
+from dawproof.time import MusicalGrid
 
 grid = MusicalGrid(ppq=480, beats_per_bar=4, beat_unit=4)
 plan = NotePlan(
@@ -50,8 +50,8 @@ plan = NotePlan(
 当前版本提供内存实现，用于证明验证流程，而不是证明 FL Studio 已被控制。
 
 ```python
-from flskill.io import InMemoryEventStore
-from flskill.verification import write_read_verify
+from dawproof.io import InMemoryEventStore
+from dawproof.verification import write_read_verify
 
 store = InMemoryEventStore()
 result = write_read_verify(plan, writer=store, reader=store)
@@ -60,7 +60,7 @@ print(result.status)  # PASS
 print(result.label)   # Offline Algorithm Verified
 ```
 
-FLSkill 的成功条件不是 Writer 返回成功，而是：
+DAWProof 的成功条件不是 Writer 返回成功，而是：
 
 ```text
 Plan

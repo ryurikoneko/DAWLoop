@@ -3,9 +3,9 @@ requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "flskill"
+name = "dawproof"
 version = "0.2.0a0"
-description = "Verification-oriented music production framework designed for AI agents"
+description = "Verification-oriented DAW automation framework for AI agents"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -39,25 +39,25 @@ production-full = [
 ]
 
 [project.scripts]
-flskill = "flskill.cli:main"
+dawproof = "dawproof.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src", "third_party/fl-studio-mcp/src"]
-include = ["flskill*", "fl_studio_mcp*"]
+include = ["dawproof*", "fl_studio_mcp*"]
 namespaces = false
 
 [tool.setuptools.data-files]
-"share/flskill/third_party/fl-studio-mcp" = [
+"share/dawproof/third_party/fl-studio-mcp" = [
     "third_party/fl-studio-mcp/LICENSE",
     "third_party/fl-studio-mcp/README.md",
     "third_party/fl-studio-mcp/pyproject.toml",
 ]
-"share/flskill/third_party/fl-studio-mcp/fl_controller" = [
+"share/dawproof/third_party/fl-studio-mcp/fl_controller" = [
     "third_party/fl-studio-mcp/fl_controller/device_FLStudioMCP.py",
 ]
-"share/flskill/third_party/fl-studio-mcp/scripts" = [
+"share/dawproof/third_party/fl-studio-mcp/scripts" = [
     "third_party/fl-studio-mcp/scripts/ComposeWithLLM.pyscript",
 ]
-"share/flskill/third_party/whale-music-pipeline" = [
+"share/dawproof/third_party/whale-music-pipeline" = [
     "third_party/whale-music-pipeline/LICENSE",
 ]

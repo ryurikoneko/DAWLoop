@@ -15,15 +15,15 @@ def _doctor(probe_fl: bool) -> int:
     checks.append(("Python", sys.version_info >= (3, 11), platform.python_version()))
 
     try:
-        import flskill
-        checks.append(("FLSkill Core", True, "可导入"))
+        import dawproof
+        checks.append(("DAWProof Core", True, "可导入"))
     except Exception as error:
-        checks.append(("FLSkill Core", False, str(error)))
+        checks.append(("DAWProof Core", False, str(error)))
 
     vendor = importlib.util.find_spec("fl_studio_mcp")
     checks.append(("Bundled FL Studio MCP", vendor is not None, "已找到" if vendor else "未找到"))
 
-    from flskill.setup import default_settings_dir, user_script_status
+    from dawproof.setup import default_settings_dir, user_script_status
     scripts = user_script_status(default_settings_dir())
     missing_scripts = [name for name, installed in scripts.items() if not installed]
     checks.append((
@@ -49,7 +49,7 @@ def _doctor(probe_fl: bool) -> int:
 
     if probe_fl and importlib.util.find_spec("fastmcp") is not None and vendor is not None:
         try:
-            from flskill.adapters.fl_studio_mcp.adapter import probe_connection
+            from dawproof.adapters.fl_studio_mcp.adapter import probe_connection
             connected, detail = asyncio.run(probe_connection())
             connection_status = "PASS" if connected else "STOP"
             connection_detail = detail
@@ -62,14 +62,14 @@ def _doctor(probe_fl: bool) -> int:
         print(f"{name:<24} {'PASS' if passed else 'STOP':<6} {detail}")
     print(f"{'FL Studio communication':<24} {connection_status:<18} {connection_detail}")
 
-    from flskill.production.environment import EnvironmentStatus, inspect_environment
+    from dawproof.production.environment import EnvironmentStatus, inspect_environment
     profile = inspect_environment()
     profile_checks = {check.name: check for check in profile.checks}
     production_rows = [
-        ("numpy", profile_checks["numpy"].status, 'pip install "flskill[production]"'),
+        ("numpy", profile_checks["numpy"].status, 'pip install "dawproof[production]"'),
         ("Production SMF analysis", EnvironmentStatus.AVAILABLE, "stdlib-only; no numpy required"),
-        ("Production audio analysis", profile_checks["numpy"].status, 'pip install "flskill[production]"'),
-        ("Production Windows loopback", profile_checks["WASAPI"].status, 'pip install "flskill[production-loopback]"'),
+        ("Production audio analysis", profile_checks["numpy"].status, 'pip install "dawproof[production]"'),
+        ("Production Windows loopback", profile_checks["WASAPI"].status, 'pip install "dawproof[production-loopback]"'),
         ("spectrum-peak", profile_checks["spectrum-peak"].status, "environment-specific optional dependency"),
         ("MuseScore", profile_checks["MuseScore"].status, "not required by current Production Pipeline APIs"),
         ("FluidSynth", profile_checks["FluidSynth"].status, "not required by current Production Pipeline APIs"),
@@ -82,7 +82,7 @@ def _doctor(probe_fl: bool) -> int:
 
 
 def _midi_inspect(path: str, beats_per_bar: int, window_bars: int) -> int:
-    from flskill.production.smf import parse_smf, recommend_dense_window
+    from dawproof.production.smf import parse_smf, recommend_dense_window
 
     try:
         summary = parse_smf(path)
@@ -114,7 +114,7 @@ def _midi_inspect(path: str, beats_per_bar: int, window_bars: int) -> int:
 
 def _measure_wav(paths: list[str], frame_ms: int, floor_dbfs: float) -> int:
     try:
-        from flskill.production.mix import active_rms
+        from dawproof.production.mix import active_rms
     except ImportError as error:
         print(f"measure-wav: {error}", file=sys.stderr)
         return 2
@@ -143,7 +143,7 @@ def main() -> int:
     for stream in (sys.stdout, sys.stderr):
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(encoding="utf-8", errors="backslashreplace")
-    parser = argparse.ArgumentParser(prog="flskill")
+    parser = argparse.ArgumentParser(prog="dawproof")
     subparsers = parser.add_subparsers(dest="command", required=True)
     doctor_parser = subparsers.add_parser("doctor", help="检查 Python、依赖和 FL Studio 通信")
     doctor_parser.add_argument("--probe-fl", action="store_true", help="发送只读状态查询以探测 FL Studio 通信")
@@ -166,7 +166,7 @@ def main() -> int:
         return _doctor(args.probe_fl)
     if args.command == "install-fl-scripts":
         from pathlib import Path
-        from flskill.setup import install_user_scripts
+        from dawproof.setup import install_user_scripts
         for destination in install_user_scripts(Path(args.settings_dir)):
             print(f"已安装：{destination}")
         return 0
