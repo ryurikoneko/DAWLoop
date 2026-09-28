@@ -1,7 +1,7 @@
 import unittest
 
-from dawproof.note_plan import NoteEvent, NotePlan
-from dawproof.time import MusicalGrid
+from dawloop.note_plan import NoteEvent, NotePlan
+from dawloop.time import MusicalGrid
 
 
 class NotePlanTests(unittest.TestCase):

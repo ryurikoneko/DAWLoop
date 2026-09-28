@@ -1,6 +1,6 @@
 # Quickstart
 
-DAWProof `v0.1.0-alpha` 当前只提供离线核心，不连接 FL Studio。
+本指南展示当前 `dawloop` 命名空间下的离线核心用法。历史版本 `v0.1.0-alpha` 以当时的项目名 FLSkill 发布，仍是离线核心版本；它的 tag 和 Release 内容保持原样，不包含本次改名后的 `dawloop` 命名空间。
 
 ## 1. 运行测试
 
@@ -11,12 +11,12 @@ $env:PYTHONPATH = "$PWD\src"
 python -m unittest discover -s tests -v
 ```
 
-当前发布版的预期结果是 14 项离线测试通过。
+当前分支的离线与适配器测试共 42 项。
 
 ## 2. 解析音乐位置
 
 ```python
-from dawproof.time import MusicalGrid, MusicalPosition, resolve_absolute_tick
+from dawloop.time import MusicalGrid, MusicalPosition, resolve_absolute_tick
 
 grid = MusicalGrid(ppq=480, beats_per_bar=4, beat_unit=4)
 position = MusicalPosition(bar=2, beat=1, tick=0)
@@ -28,8 +28,8 @@ print(absolute_tick)  # 1920
 ## 3. 创建 Note Plan
 
 ```python
-from dawproof.note_plan import NoteEvent, NotePlan
-from dawproof.time import MusicalGrid
+from dawloop.note_plan import NoteEvent, NotePlan
+from dawloop.time import MusicalGrid
 
 grid = MusicalGrid(ppq=480, beats_per_bar=4, beat_unit=4)
 plan = NotePlan(
@@ -50,8 +50,8 @@ plan = NotePlan(
 当前版本提供内存实现，用于证明验证流程，而不是证明 FL Studio 已被控制。
 
 ```python
-from dawproof.io import InMemoryEventStore
-from dawproof.verification import write_read_verify
+from dawloop.io import InMemoryEventStore
+from dawloop.verification import write_read_verify
 
 store = InMemoryEventStore()
 result = write_read_verify(plan, writer=store, reader=store)
@@ -60,7 +60,7 @@ print(result.status)  # PASS
 print(result.label)   # Offline Algorithm Verified
 ```
 
-DAWProof 的成功条件不是 Writer 返回成功，而是：
+DAWLoop 的成功条件不是 Writer 返回成功，而是：
 
 ```text
 Plan

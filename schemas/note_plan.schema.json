@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "DAWProof Note Plan v1",
+  "title": "DAWLoop Note Plan v1",
   "type": "object",
   "required": ["version", "target_id", "grid", "section_start_tick", "section_bars", "events"],
   "properties": {

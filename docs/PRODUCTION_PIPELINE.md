@@ -1,6 +1,6 @@
 # Production Pipeline
 
-DAWProof's optional Production Pipeline contains reusable tools for inspecting MIDI, analyzing rendered audio, planning orchestration and mixer changes, capturing Windows loopback audio, and reading SoundFont data. The package is separate from DAWProof Core and does not itself modify FL Studio or verify a DAW operation.
+DAWLoop's optional Production Pipeline contains reusable tools for inspecting MIDI, analyzing rendered audio, planning orchestration and mixer changes, capturing Windows loopback audio, and reading SoundFont data. The package is separate from DAWLoop Core and does not itself modify FL Studio or verify a DAW operation.
 
 ## Capabilities
 
@@ -12,14 +12,14 @@ DAWProof's optional Production Pipeline contains reusable tools for inspecting M
 - Optional SoundFont parsing and offline sample rendering.
 - Environment profile checks for Python modules, external tools, environment variables, and platform-specific capabilities.
 
-## Place in the DAWProof workflow
+## Place in the DAWLoop workflow
 
 ~~~text
 AI Agent
     ↓
 Production Analysis / Planning
     ↓
-DAWProof Core
+DAWLoop Core
     ↓
 Execution Adapter
     ↓
@@ -38,29 +38,29 @@ Audio and MIDI analysis can provide evidence for the next Production Plan:
 Audio / MIDI Analysis → next Production Plan
 ~~~
 
-A calculated fader target or analysis suggestion is not a successful DAW operation. DAWProof still requires the actual target state to be read back and checked before returning PASS.
+A calculated fader target or analysis suggestion is not a successful DAW operation. DAWLoop still requires the actual target state to be read back and checked before returning PASS.
 
 ## Environment compatibility
 
-The `dawproof.production.environment.EnvironmentProfile` records the detected operating system and Python version, optional modules and tools, configured environment-variable names, and source-workflow invocation assumptions. It records whether relevant variables are configured, not their values or local paths.
+The `dawloop.production.environment.EnvironmentProfile` records the detected operating system and Python version, optional modules and tools, configured environment-variable names, and source-workflow invocation assumptions. It records whether relevant variables are configured, not their values or local paths.
 
-The profile keeps the original developer environment report (reported_working) separate from probes of the current portable environment. It is descriptive and does not certify compatibility. Missing optional components are reported individually as OPTIONAL_MISSING; WASAPI endpoint enumeration is not performed by dawproof doctor.
+The profile keeps the original developer environment report (reported_working) separate from probes of the current portable environment. It is descriptive and does not certify compatibility. Missing optional components are reported individually as OPTIONAL_MISSING; WASAPI endpoint enumeration is not performed by dawloop doctor.
 
 The supplied source archive does not include the spectrum-peak module referenced by one script. The developer reports that their configured production environment provides the required dependency. Another source script expects an output path in sys.argv[1]; the developer reports that the normal invocation supplies it. These are recorded as environment and invocation assumptions, not confirmed source defects.
 
 ## API
 
-- `dawproof.production.smf.parse_smf()` — structured SMF track and note inspection.
-- `dawproof.production.smf.recommend_dense_window()` — selects a note-dense bar window.
-- `dawproof.production.orchestration.choose_instrument_for_phrase()` — register-aware phrase assignment.
-- `dawproof.production.orchestration.find_register_gaps()` — finds empty pitch-band windows.
-- `dawproof.production.orchestration.source_note_coverage()` — reports source events missing after an arrangement pass.
-- `dawproof.production.mix.active_rms()` — whole-file and active-frame RMS / peak measurement.
-- `dawproof.production.mix.FaderCalibration` — mapping between normalized fader values and measured dB.
-- `dawproof.production.mix.plan_fader_db()` — calibration-aware fader plan; live readback is still required for `PASS`.
-- `dawproof.production.loopback` — optional Windows WASAPI device listing and capture.
-- `dawproof.production.sf2.Sf2` — optional SoundFont parsing and sample rendering.
-- `dawproof.production.environment.inspect_environment()` — optional dependency and environment profile checks.
+- `dawloop.production.smf.parse_smf()` — structured SMF track and note inspection.
+- `dawloop.production.smf.recommend_dense_window()` — selects a note-dense bar window.
+- `dawloop.production.orchestration.choose_instrument_for_phrase()` — register-aware phrase assignment.
+- `dawloop.production.orchestration.find_register_gaps()` — finds empty pitch-band windows.
+- `dawloop.production.orchestration.source_note_coverage()` — reports source events missing after an arrangement pass.
+- `dawloop.production.mix.active_rms()` — whole-file and active-frame RMS / peak measurement.
+- `dawloop.production.mix.FaderCalibration` — mapping between normalized fader values and measured dB.
+- `dawloop.production.mix.plan_fader_db()` — calibration-aware fader plan; live readback is still required for `PASS`.
+- `dawloop.production.loopback` — optional Windows WASAPI device listing and capture.
+- `dawloop.production.sf2.Sf2` — optional SoundFont parsing and sample rendering.
+- `dawloop.production.environment.inspect_environment()` — optional dependency and environment profile checks.
 
 ## Installation and CLI
 
@@ -69,8 +69,8 @@ SMF inspection uses the Python standard library. Install the `production` extra 
 ~~~powershell
 python -m pip install -e ".[production]"
 python -m pip install -e ".[production-loopback]"
-dawproof midi-inspect song.mid --beats-per-bar 4 --window-bars 3
-dawproof measure-wav track.wav --frame-ms 100 --floor-dbfs -65
+dawloop midi-inspect song.mid --beats-per-bar 4 --window-bars 3
+dawloop measure-wav track.wav --frame-ms 100 --floor-dbfs -65
 ~~~
 
 These commands return structured data for agents. They do not by themselves mark any FL Studio operation as verified.

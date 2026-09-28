@@ -11,7 +11,7 @@ def _vendor_root() -> Path:
     checkout = Path(__file__).resolve().parents[2] / "third_party" / "fl-studio-mcp"
     if checkout.is_dir():
         return checkout
-    return Path(sysconfig.get_path("data")) / "share" / "dawproof" / "third_party" / "fl-studio-mcp"
+    return Path(sysconfig.get_path("data")) / "share" / "dawloop" / "third_party" / "fl-studio-mcp"
 
 
 def install_user_scripts(settings_dir: Path) -> tuple[Path, ...]:
@@ -42,7 +42,7 @@ def user_script_status(settings_dir: Path) -> dict[str, bool]:
 
 
 def default_settings_dir() -> Path:
-    override = os.environ.get("DAWPROOF_FL_SETTINGS_DIR")
+    override = os.environ.get("DAWLOOP_FL_SETTINGS_DIR")
     if override:
         return Path(override).expanduser()
     return Path.home() / "Documents" / "Image-Line" / "FL Studio" / "Settings"

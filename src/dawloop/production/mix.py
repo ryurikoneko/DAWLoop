@@ -17,7 +17,7 @@ try:
 except ImportError as error:  # optional dependency by design
     raise ImportError(
         "Optional dependency 'numpy' is required for Production audio analysis. "
-        'Install with: pip install "dawproof[production]"'
+        'Install with: pip install "dawloop[production]"'
     ) from error
 
 
@@ -152,7 +152,7 @@ def plan_fader_db(
     """Return (planned_fader_value, expected_readback_db).
 
     The returned dB is a plan derived from a calibration table, not proof of
-    the resulting FL Studio state. DAWProof callers must still write, read back,
+    the resulting FL Studio state. DAWLoop callers must still write, read back,
     and verify the real mixer value before returning PASS.
     """
     correction = max(

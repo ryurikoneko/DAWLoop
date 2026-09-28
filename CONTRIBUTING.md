@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping improve DAWProof. The project is experimental; clear scope and honest verification status matter more than broad claims.
+Thanks for helping improve DAWLoop. The project is experimental; clear scope and honest verification status matter more than broad claims.
 
 ## Development setup
 
@@ -29,7 +29,7 @@ Live FL Studio testing is not part of the ordinary test command. Use a disposabl
 
 ## Commit authorship
 
-DAWProof commits should use the repository maintainer Git identity. Automation and AI development tools must not be recorded automatically as commit authors or co-authors.
+DAWLoop commits should use the repository maintainer Git identity. Automation and AI development tools must not be recorded automatically as commit authors or co-authors.
 
 ## Commit messages
 
@@ -39,11 +39,11 @@ Examples:
 
 - `feat(mixer): add fader write/readback verification`
 - `fix(adapter): preserve duplicate MIDI events during readback`
-- `refactor(package): migrate public namespace to dawproof`
+- `refactor(package): migrate public namespace to dawloop`
 - `build(package): rename distribution and CLI entry point`
 - `docs(verification): define control and audio outcome boundaries`
 - `test(mixer): cover tolerance and readback mismatch cases`
 
 ## Pull Requests
 
-Describe the change, its scope, and the exact checks you ran. State whether evidence is offline, backend-only, or live. Do not present upstream capabilities as DAWProof-verified capabilities.
+Describe the change, its scope, and the exact checks you ran. State whether evidence is offline, backend-only, or live. Do not present upstream capabilities as DAWLoop-verified capabilities.

@@ -1,14 +1,14 @@
 # Roadmap
 
-This roadmap describes the current development state. It is separate from the published `v0.1.0-alpha`, which remains the original offline-core release. Status names describe DAWProof's own implementation; upstream/backend features do not count as DAWProof verification.
+This roadmap describes the current development state. It is separate from the published `v0.1.0-alpha`, which remains the original offline-core release. Status names describe DAWLoop's own implementation; upstream/backend features do not count as DAWLoop verification.
 
 ## Completed
 
 - Offline Musical Grid, absolute tick resolution, Note Plan, and Exact-Set Verification.
 - Structured `PASS` / `STOP` semantics for offline execution and comparison.
 - Pinned Community FL Studio MCP source snapshot under `third_party/`, with upstream license and copyright notices retained.
-- DAWProof MCP adapter foundation, Note Plan mapping, target-identity gate, and structured execution report.
-- Optional FL Studio dependencies, `dawproof doctor`, and explicit User Script installer.
+- DAWLoop MCP adapter foundation, Note Plan mapping, target-identity gate, and structured execution report.
+- Optional FL Studio dependencies, `dawloop doctor`, and explicit User Script installer.
 - Agent-oriented architecture and offline adapter tests.
 - Production Pipeline dependency-free SMF inspection and dense-section selection.
 - Production Pipeline orchestration helpers for register-aware phrase assignment, midrange-gap detection, and source-note coverage checks.
@@ -21,7 +21,7 @@ This roadmap describes the current development state. It is separate from the pu
 - Reproducible live Pattern / Channel identity checks.
 - Repeatable live note write, fresh readback, and Exact-Set evidence.
 - Integration of Production Pipeline fader planning with verified Mixer `write → readback → compare` operations.
-- Section-level agent workflows that turn MIDI inspection/orchestration analysis into structured DAWProof plans rather than direct unverified DAW edits.
+- Section-level agent workflows that turn MIDI inspection/orchestration analysis into structured DAWLoop plans rather than direct unverified DAW edits.
 - Stability and compatibility feedback across FL Studio installations.
 - User-facing setup and test workflow for the experimental integration path.
 
@@ -34,7 +34,7 @@ The maintainer reports completing an FL Studio integration run. The repository d
 - Plugin parameter operations with readback verification.
 - Higher-level orchestration policies built on the generic Production Pipeline checks, with score-independent tests and evidence.
 - Expanded audio analysis beyond RMS/peak where deterministic measurements materially help the agent.
-- DAWProof SysEx RPC adapter, implemented from the documented protocol specification.
+- DAWLoop SysEx RPC adapter, implemented from the documented protocol specification.
 - Native Computer Use adapter and compatibility bridge support.
 - Broader agent orchestration and resumable production workflows.
 

@@ -10,8 +10,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Awaitable, Callable
 
-from dawproof.note_plan import NotePlan
-from dawproof.verification import compare_events
+from dawloop.note_plan import NotePlan
+from dawloop.verification import compare_events
 
 from .identity import TargetIdentity, require_same_target
 from .mapping import plan_to_mcp_notes, state_to_events
@@ -35,7 +35,7 @@ class LiveExecutionReport:
     mismatches: tuple[dict[str, object], ...]
     errors: tuple[str, ...]
     timestamp_utc: str
-    dawproof_version: str
+    dawloop_version: str
     upstream_commit: str = UPSTREAM_COMMIT
 
     def to_json(self) -> str:
@@ -52,7 +52,7 @@ def _server_script() -> Path:
         installed = Path(package.origin).parent / "server.py"
         if installed.is_file():
             return installed
-    raise FileNotFoundError("找不到随 DAWProof 打包的 FL Studio MCP 服务端")
+    raise FileNotFoundError("找不到随 DAWLoop 打包的 FL Studio MCP 服务端")
 
 
 async def _call(client, name: str, arguments: dict | None = None):
@@ -86,13 +86,13 @@ def _report(plan: NotePlan, target: TargetIdentity, actual=(), errors=()) -> Liv
         mismatches=mismatch_rows,
         errors=tuple(errors),
         timestamp_utc=datetime.now(timezone.utc).isoformat(),
-        dawproof_version=_dawproof_version(),
+        dawloop_version=_dawloop_version(),
     )
 
 
-def _dawproof_version() -> str:
+def _dawloop_version() -> str:
     try:
-        return importlib.metadata.version("dawproof")
+        return importlib.metadata.version("dawloop")
     except importlib.metadata.PackageNotFoundError:
         return "0.2.0a0"
 

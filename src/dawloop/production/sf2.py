@@ -6,7 +6,7 @@
 """从第三方实现改编的 SoundFont(sf2) 采样播放引擎。
 
 This module parses a subset of the SF2 RIFF structure and renders notes from
-sample zones using numpy. It is intentionally kept outside DAWProof Core and is
+sample zones using numpy. It is intentionally kept outside DAWLoop Core and is
 available through the optional Production Pipeline dependency set.
 """
 import struct
@@ -16,7 +16,7 @@ try:
 except ImportError as error:
     raise ImportError(
         "Optional dependency 'numpy' is required for Production SoundFont utilities. "
-        'Install with: pip install "dawproof[production]"'
+        'Install with: pip install "dawloop[production]"'
     ) from error
 
 
