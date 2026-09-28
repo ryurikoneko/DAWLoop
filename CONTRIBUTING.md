@@ -27,6 +27,23 @@ Live FL Studio testing is not part of the ordinary test command. Use a disposabl
 - New live adapters must provide safe target checks, fresh readback, machine-readable evidence, and a defined `STOP` path.
 - Use original, synthetic test data. Do not include private projects, commercial samples, plugin binaries, credentials, or personal logs in a change.
 
+## Commit authorship
+
+DAWProof commits should use the repository maintainer Git identity. Automation and AI development tools must not be recorded automatically as commit authors or co-authors.
+
+## Commit messages
+
+Commit subjects should describe engineering intent and the affected area, rather than tool execution steps. Prefer a concise Conventional Commits subject.
+
+Examples:
+
+- `feat(mixer): add fader write/readback verification`
+- `fix(adapter): preserve duplicate MIDI events during readback`
+- `refactor(package): migrate public namespace to dawproof`
+- `build(package): rename distribution and CLI entry point`
+- `docs(verification): define control and audio outcome boundaries`
+- `test(mixer): cover tolerance and readback mismatch cases`
+
 ## Pull Requests
 
 Describe the change, its scope, and the exact checks you ran. State whether evidence is offline, backend-only, or live. Do not present upstream capabilities as DAWProof-verified capabilities.
