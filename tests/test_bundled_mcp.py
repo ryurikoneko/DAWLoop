@@ -2,7 +2,7 @@ import asyncio
 import importlib.util
 import unittest
 
-from flskill.adapters.fl_studio_mcp.adapter import _server_script
+from dawproof.adapters.fl_studio_mcp.adapter import _server_script
 
 
 @unittest.skipUnless(importlib.util.find_spec("fastmcp"), "需要安装 flstudio extra")

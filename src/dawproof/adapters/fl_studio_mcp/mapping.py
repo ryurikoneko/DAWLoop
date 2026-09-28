@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from flskill.note_plan import NoteEvent, NotePlan
+from dawproof.note_plan import NoteEvent, NotePlan
 
 
 def plan_to_mcp_notes(plan: NotePlan) -> list[dict[str, int | float]]:

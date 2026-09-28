@@ -1,6 +1,6 @@
 from collections.abc import Sequence
 
-from flskill.note_plan import NoteEvent
+from dawproof.note_plan import NoteEvent
 
 
 class InMemoryEventStore:

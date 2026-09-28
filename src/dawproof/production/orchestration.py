@@ -9,7 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable, Sequence
 
-from flskill.note_plan import NoteEvent
+from dawproof.note_plan import NoteEvent
 
 
 @dataclass(frozen=True)
@@ -118,7 +118,7 @@ def source_note_coverage(
 ) -> tuple[NoteEvent, ...]:
     """Return source events with no matching arranged onset/pitch.
 
-    此检查可发现编配过程中遗漏的源音符。FLSkill 将结果作为证据，不要求
+    此检查可发现编配过程中遗漏的源音符。DAWProof 将结果作为证据，不要求
     每一种改编都必须保留所有音符。
     """
     arranged = [event for part in arranged_parts for event in part]

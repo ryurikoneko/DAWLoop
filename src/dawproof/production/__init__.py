@@ -1,4 +1,4 @@
-"""FLSkill Production Pipeline 的可复用工具。"""
+"""DAWProof Production Pipeline 的可复用工具。"""
 
 from .orchestration import (
     InstrumentRange,

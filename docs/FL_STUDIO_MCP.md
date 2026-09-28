@@ -2,9 +2,9 @@
 
 ## 当前状态
 
-目标版本为 `v0.2.0-alpha`。固定 commit 的 Community FL Studio MCP 源码随仓库放在 `third_party/fl-studio-mcp/`；FLSkill 的 optional Python extra 与适配器已建立。维护者报告已完成真实 FL Studio 接入流程；该路径可能仍不稳定，欢迎用户实测并反馈环境兼容性问题。仓库没有归档该次运行的目标身份与实际 note readback 证据，因此不标记为可复现的 `Live Exact-Set Verified`。
+目标版本为 `v0.2.0-alpha`。固定 commit 的 Community FL Studio MCP 源码随仓库放在 `third_party/fl-studio-mcp/`；DAWProof 的 optional Python extra 与适配器已建立。维护者报告已完成真实 FL Studio 接入流程；该路径可能仍不稳定，欢迎用户实测并反馈环境兼容性问题。仓库没有归档该次运行的目标身份与实际 note readback 证据，因此不标记为可复现的 `Live Exact-Set Verified`。
 
-上游快照：`karl-andres/fl-studio-mcp`，commit `f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`，MIT。其依赖范围取自该 commit 的 `pyproject.toml`：FastMCP `>=2.0`、Mido `>=1.3.0`、python-rtmidi `>=1.5.0`、pynput `>=1.7`。FLSkill 将 FastMCP 限定在 `<3`，以匹配本适配器使用的 v2 Client API。
+上游快照：`karl-andres/fl-studio-mcp`，commit `f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`，MIT。其依赖范围取自该 commit 的 `pyproject.toml`：FastMCP `>=2.0`、Mido `>=1.3.0`、python-rtmidi `>=1.5.0`、pynput `>=1.7`。DAWProof 将 FastMCP 限定在 `<3`，以匹配本适配器使用的 v2 Client API。
 
 ## 安装
 
@@ -12,23 +12,23 @@
 
 ```powershell
 python -m pip install -e ".[flstudio]"
-python -m flskill doctor
+python -m dawproof doctor
 ```
 
 doctor 分别报告 Python、Core、上游 server、MCP/MIDI 依赖、MIDI 输出端口与 FL Studio 通信。依赖安装或 MIDI 端口存在都不代表 FL Studio 已连接。`--probe-fl` 会发起只读传输状态查询：
 
 ```powershell
-python -m flskill doctor --probe-fl
+python -m dawproof doctor --probe-fl
 ```
 
-User Script 检查默认查看 Windows 常见 FL Studio `Settings` 位置。若用户数据目录自定义，可设置 `FLSKILL_FL_SETTINGS_DIR` 指向实际 Settings 目录，再运行 doctor。
+User Script 检查默认查看 Windows 常见 FL Studio `Settings` 位置。若用户数据目录自定义，可设置 `DAWPROOF_FL_SETTINGS_DIR` 指向实际 Settings 目录，再运行 doctor。
 
 ## 安装 FL Studio User Scripts
 
 将 FL Studio 的 `Settings` 目录作为参数明确传入。工具只安装上游 Controller Script 与 Piano Roll Script；若目标文件已存在，会在替换前生成带时间戳的旁路备份。
 
 ```powershell
-python -m flskill install-fl-scripts --settings-dir "<FL Studio Settings directory>"
+python -m dawproof install-fl-scripts --settings-dir "<FL Studio Settings directory>"
 ```
 
 安装后按上游说明在 FL Studio 的 MIDI Settings 中选择并启用 `FLStudioMCP` Controller，并准备兼容的 MIDI 输出端口。该安装命令不会配置用户的 AI 客户端。
@@ -39,7 +39,7 @@ python -m flskill install-fl-scripts --settings-dir "<FL Studio Settings directo
 
 上游读回没有 Pattern 标识，写入脚本操作当前打开的 Piano Roll。适配器因此要求外部 `identity_reader` 在执行前后核对工程、Pattern、Channel 与 FL Studio 版本，并同时核对上游读回的选中 Channel。缺少该读取器、目标不一致、请求队列已有内容、Pattern 非空、脚本未刷新读回或 Exact-Set 不匹配时，返回结构化 `STOP`。不得把 MCP 排队响应当成 PASS。
 
-Live Execution Report 包含状态、目标、planned / actual events、planned / actual count、missing、extra、mismatches、错误、时间戳、FLSkill 版本与上游 commit，可用 `to_json()` 输出供 agent 消费。只有空白专用测试 Pattern 中完成真实写入、新鲜读回、目标复核和 Exact-Set 匹配，才允许返回 `PASS`。
+Live Execution Report 包含状态、目标、planned / actual events、planned / actual count、missing、extra、mismatches、错误、时间戳、DAWProof 版本与上游 commit，可用 `to_json()` 输出供 agent 消费。只有空白专用测试 Pattern 中完成真实写入、新鲜读回、目标复核和 Exact-Set 匹配，才允许返回 `PASS`。
 
 ## 能力状态
 

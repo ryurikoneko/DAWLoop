@@ -1,6 +1,6 @@
 from typing import Protocol, Sequence
 
-from flskill.note_plan import NoteEvent
+from dawproof.note_plan import NoteEvent
 
 
 class Writer(Protocol):

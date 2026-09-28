@@ -1,6 +1,6 @@
 import unittest
 
-from flskill.time import MusicalGrid, MusicalPosition, resolve_absolute_tick
+from dawproof.time import MusicalGrid, MusicalPosition, resolve_absolute_tick
 
 
 class MusicalGridTests(unittest.TestCase):

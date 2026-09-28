@@ -1,7 +1,7 @@
 import unittest
 
-from flskill.note_plan import NoteEvent
-from flskill.verification import compare_events
+from dawproof.note_plan import NoteEvent
+from dawproof.verification import compare_events
 
 
 class ExactSetTests(unittest.TestCase):
