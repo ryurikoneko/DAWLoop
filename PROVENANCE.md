@@ -49,9 +49,11 @@ DAWLoop 的公开仓库从独立、干净的 Git 历史开始。项目自己的 
 
 Bundled 运行文件包括 upstream `LICENSE`、`README.md`、`pyproject.toml`、FL controller script、ComposeWithLLM script，以及 `src/fl_studio_mcp/` 下运行所需 Python 文件。DAWLoop-specific adapter 位于 `src/dawloop/adapters/fl_studio_mcp/`，与第三方源码分离。
 
-## Production Pipeline / whale-music-pipeline
+## Production Pipeline：创作者致谢与代码来源
 
-来源：维护者提供的 whale-music-pipeline 源码包。压缩包中的代码声明为 MIT License，版权文本为 `Copyright (c) 2026 whale-music-pipeline contributors`；开发者为坏影子不坏（Bilibili UID 599132499）；维护者报告已获开发者直接授权复用代码。
+**创作者与工作流启发：** 感谢 Bilibili 创作者 [坏影子不坏](https://space.bilibili.com/599132499)（UID 599132499）。其 DSH 视频 / 工作流展示（包括[这条视频](https://www.bilibili.com/video/BV1PTht6cENP/)）及相关制作自动化实践，对 DAWLoop Production Pipeline 的编曲 / orchestration analysis、MIDI / section analysis、playback / loopback measurement、active-frame RMS、FL Studio Mixer / fader calibration 和 production workflow automation 设计有重要启发。这里的 DSH 指创作者的视频与工作流展示，不是单独打包的软件或代码来源。
+
+**代码来源与许可：** Production Pipeline 的部分通用化代码改编自维护者提供的 `whale-music-pipeline` 源码包。压缩包中的代码声明为 MIT License，版权文本为 `Copyright (c) 2026 whale-music-pipeline contributors`；维护者报告已获开发者直接授权复用代码，原始许可证保存在 `third_party/whale-music-pipeline/LICENSE`。创作者致谢、工作流启发与实际代码来源分别记录，不改变 DAWLoop 自有代码的归属。
 
 详细记录见 [`docs/PRODUCTION_PIPELINE_PROVENANCE.md`](docs/PRODUCTION_PIPELINE_PROVENANCE.md)。当前分类如下：
 

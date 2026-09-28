@@ -214,7 +214,7 @@ The repository does not currently provide a safe, self-contained live test runne
 
 ## Production Pipeline
 
-DAWLoop incorporates reusable code and design ideas from the open-source **`whale-music-pipeline`** project. The developer is credited as [坏影子不坏](https://space.bilibili.com/599132499) (Bilibili UID `599132499`). The source code carries an MIT license.
+Portions of DAWLoop's Production Pipeline are adapted from the supplied [`whale-music-pipeline`](docs/PRODUCTION_PIPELINE_PROVENANCE.md) source code. That code is MIT-licensed; its original notice is retained in `third_party/whale-music-pipeline/LICENSE`. The creator and workflow inspiration are credited separately below.
 
 Integrated, generalized capabilities include:
 
@@ -238,7 +238,9 @@ DAWLoop does not replace FL Studio MCP. It uses the project as an execution back
 
 ## Acknowledgements & Prior Art
 
-DAWLoop's development benefits from both the community [FL Studio MCP](https://github.com/karl-andres/fl-studio-mcp) project and the developer-provided `whale-music-pipeline` codebase. The pipeline contributes practical arranging, analysis, loopback-measurement, and mixer-calibration techniques. DAWLoop combines these execution and analysis capabilities with structured planning, readback, verification, and iterative agent decisions.
+DAWLoop gratefully acknowledges the community [FL Studio MCP](https://github.com/karl-andres/fl-studio-mcp) project and Bilibili creator [坏影子不坏](https://space.bilibili.com/599132499) (UID `599132499`). The creator's DSH videos and production-workflow demonstrations, including [this video](https://www.bilibili.com/video/BV1PTht6cENP/), provided important inspiration for the Production Pipeline's arranging and orchestration analysis, MIDI and section analysis, playback / loopback measurement, active-frame RMS, FL Studio Mixer / fader calibration, and production-workflow automation. Here, DSH refers to the creator's video and workflow demonstrations, not a separately bundled software package.
+
+The code source is distinct from that acknowledgement: DAWLoop adapts portions of the MIT-licensed `whale-music-pipeline` source code and retains its original license notice. DAWLoop combines generalized production-analysis techniques with structured planning, real DAW execution, state readback, verification, and iterative agent decisions.
 
 See [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md), [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md), [`PROVENANCE.md`](PROVENANCE.md), and [`docs/PRODUCTION_PIPELINE_PROVENANCE.md`](docs/PRODUCTION_PIPELINE_PROVENANCE.md) for source and license boundaries.
 

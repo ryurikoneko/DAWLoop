@@ -13,9 +13,13 @@ DAWLoop does not aim to replace FL Studio MCP. The upstream project provides an 
 
 > FL Studio MCP helped prove that FL Studio could be controlled programmatically; DAWLoop builds a planning, observation, verification, and iteration loop around those operations.
 
-## Production Pipeline / whale-music-pipeline
+## Creator acknowledgement: 坏影子不坏
 
-We thank the developer of whale-music-pipeline, 坏影子不坏 (Bilibili UID 599132499; https://space.bilibili.com/599132499), for the original workflow and reusable code. The DAWLoop maintainer reports receiving the developer's direct permission to reuse the code. The supplied source code is MIT-licensed, and its original notice is preserved at third_party/whale-music-pipeline/LICENSE.
+We thank Bilibili creator [坏影子不坏](https://space.bilibili.com/599132499) (UID 599132499) for their work. Their DSH videos and production-workflow demonstrations, including [this video](https://www.bilibili.com/video/BV1PTht6cENP/), were an important influence on the DAWLoop Production Pipeline design. Relevant areas include arranging and orchestration analysis, MIDI and section analysis, playback / loopback measurement, active-frame RMS, FL Studio Mixer / fader calibration, and production-workflow automation. DSH here means the creator's video / workflow demonstrations, not a separately bundled software package.
+
+## Code source and license: whale-music-pipeline
+
+Portions of DAWLoop's generalized Production Pipeline code are adapted from the supplied `whale-music-pipeline` source archive. The DAWLoop maintainer reports receiving the developer's direct permission to reuse the code. The source code is MIT-licensed, and its original notice is preserved at `third_party/whale-music-pipeline/LICENSE`. This code provenance is separate from the creator acknowledgement above.
 
 This work informed MIDI inspection, orchestration checks, Windows WASAPI loopback measurement, active-frame RMS, measured FL Studio fader calibration, and SoundFont utilities. Generalized modules live under src/dawloop/production/ and remain subject to DAWLoop's Plan → Execute → Read Back → Verify → PASS / STOP rule. An analysis result or fader plan is not proof of a verified DAW state.
 

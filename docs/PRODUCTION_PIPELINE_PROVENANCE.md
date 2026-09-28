@@ -11,6 +11,12 @@ This record covers the Production Pipeline integration and its source boundaries
 - Additional permission: the DAWLoop maintainer reports receiving direct permission from the developer to reuse the code.
 - The source archive was originally used in a DSH-based production environment.
 
+## Creator acknowledgement and workflow inspiration
+
+The DSH video / workflow demonstrations are associated with Bilibili creator [坏影子不坏](https://space.bilibili.com/599132499) (UID 599132499); see [the referenced video](https://www.bilibili.com/video/BV1PTht6cENP/). These demonstrations and related production-automation practices influenced DAWLoop's Production Pipeline design, including arranging / orchestration analysis, MIDI / section analysis, playback / loopback measurement, active-frame RMS, FL Studio Mixer / fader calibration, and production-workflow automation. DSH is used here to refer to those demonstrations, not as the name of a separately bundled software package or code source.
+
+The implementation source remains the separately identified `whale-music-pipeline` archive listed above. Its MIT license and original copyright notice apply to the adapted code and are preserved independently of this creator acknowledgement.
+
 ## Classification
 
 | Path | Classification | Source / relationship |
