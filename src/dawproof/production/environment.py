@@ -108,7 +108,7 @@ def inspect_environment() -> EnvironmentProfile:
         ),
     ))
 
-    soundfont = os.environ.get("FLSKILL_SOUNDFONT")
+    soundfont = os.environ.get("DAWPROOF_SOUNDFONT")
     checks.append(EnvironmentCheck(
         "SoundFont path",
         EnvironmentStatus.AVAILABLE if soundfont and Path(soundfont).is_file() else (
@@ -117,7 +117,7 @@ def inspect_environment() -> EnvironmentProfile:
         "configured file exists" if soundfont and Path(soundfont).is_file() else "not configured or file not found",
     ))
 
-    relevant_env = ("FL_STUDIO_PATH", "FLSKILL_SOUNDFONT", "PYTHONPATH")
+    relevant_env = ("FL_STUDIO_PATH", "DAWPROOF_SOUNDFONT", "PYTHONPATH")
     configured = tuple(name for name in relevant_env if os.environ.get(name))
     return EnvironmentProfile(
         os_name=platform.platform(),

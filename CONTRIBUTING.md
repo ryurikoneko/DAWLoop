@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping improve FLSkill. The project is experimental; clear scope and honest verification status matter more than broad claims.
+Thanks for helping improve DAWProof. The project is experimental; clear scope and honest verification status matter more than broad claims.
 
 ## Development setup
 
@@ -29,4 +29,4 @@ Live FL Studio testing is not part of the ordinary test command. Use a disposabl
 
 ## Pull Requests
 
-Describe the change, its scope, and the exact checks you ran. State whether evidence is offline, backend-only, or live. Do not present upstream capabilities as FLSkill-verified capabilities.
+Describe the change, its scope, and the exact checks you ran. State whether evidence is offline, backend-only, or live. Do not present upstream capabilities as DAWProof-verified capabilities.

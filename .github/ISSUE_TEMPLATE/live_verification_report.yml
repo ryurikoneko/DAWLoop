@@ -20,9 +20,9 @@ body:
     validations:
       required: true
   - type: input
-    id: flskill_version
+    id: dawproof_version
     attributes:
-      label: FLSkill version or commit
+      label: DAWProof version or commit
     validations:
       required: true
   - type: input
