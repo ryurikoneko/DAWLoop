@@ -4,12 +4,12 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from dawproof.adapters.fl_studio_mcp import FLStudioMCPAdapter, TargetIdentity
-from dawproof.adapters.fl_studio_mcp.identity import require_same_target
-from dawproof.adapters.fl_studio_mcp.mapping import plan_to_mcp_notes, state_to_events
-from dawproof.note_plan import NoteEvent, NotePlan
-from dawproof.setup import install_user_scripts, user_script_status
-from dawproof.time import MusicalGrid
+from dawloop.adapters.fl_studio_mcp import FLStudioMCPAdapter, TargetIdentity
+from dawloop.adapters.fl_studio_mcp.identity import require_same_target
+from dawloop.adapters.fl_studio_mcp.mapping import plan_to_mcp_notes, state_to_events
+from dawloop.note_plan import NoteEvent, NotePlan
+from dawloop.setup import install_user_scripts, user_script_status
+from dawloop.time import MusicalGrid
 
 
 def sample_plan() -> NotePlan:
@@ -72,7 +72,7 @@ class FLStudioMCPAdapterTests(unittest.TestCase):
             existing.parent.mkdir(parents=True)
             existing.write_text("user customized", encoding="utf-8")
 
-            with patch("dawproof.setup._vendor_root", return_value=vendor):
+            with patch("dawloop.setup._vendor_root", return_value=vendor):
                 installed = install_user_scripts(settings)
 
             self.assertEqual(len(installed), 2)

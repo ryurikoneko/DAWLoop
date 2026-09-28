@@ -2,8 +2,8 @@ from collections import Counter
 from dataclasses import dataclass
 from typing import Sequence
 
-from dawproof.io.protocol import Reader, Writer
-from dawproof.note_plan import NoteEvent, NotePlan
+from dawloop.io.protocol import Reader, Writer
+from dawloop.note_plan import NoteEvent, NotePlan
 
 
 _FIELDS = ("start_tick", "duration", "pitch", "velocity")

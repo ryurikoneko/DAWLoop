@@ -19,7 +19,7 @@ def list_loopback_devices() -> tuple[LoopbackDevice, ...]:
     try:
         import pyaudiowpatch as pyaudio
     except ImportError as error:
-        raise ImportError('install "dawproof[production-loopback]" for Windows WASAPI loopback') from error
+        raise ImportError('install "dawloop[production-loopback]" for Windows WASAPI loopback') from error
     pa = pyaudio.PyAudio()
     try:
         out = []
@@ -44,7 +44,7 @@ def record_loopback(path: str | Path, seconds: float, device_index: int | None =
         import numpy as np
         import pyaudiowpatch as pyaudio
     except ImportError as error:
-        raise ImportError('install "dawproof[production-loopback]" for Windows WASAPI loopback') from error
+        raise ImportError('install "dawloop[production-loopback]" for Windows WASAPI loopback') from error
     pa = pyaudio.PyAudio()
     try:
         info = (

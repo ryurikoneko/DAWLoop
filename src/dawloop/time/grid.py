@@ -54,7 +54,7 @@ def resolve_absolute_tick(
     section_start_tick: int = 0,
 ) -> int:
     if not isinstance(position, MusicalPosition) or not isinstance(grid, MusicalGrid):
-        raise TypeError("position and grid must use DAWProof time types")
+        raise TypeError("position and grid must use DAWLoop time types")
     if type(section_start_tick) is not int or section_start_tick < 0:
         raise ValueError("section_start_tick must be a non-negative integer")
     if position.beat > grid.beats_per_bar:

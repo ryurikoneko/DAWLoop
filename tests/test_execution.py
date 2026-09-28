@@ -1,9 +1,9 @@
 import unittest
 
-from dawproof.io import InMemoryEventStore
-from dawproof.note_plan import NoteEvent, NotePlan
-from dawproof.time import MusicalGrid
-from dawproof.verification import write_read_verify
+from dawloop.io import InMemoryEventStore
+from dawloop.note_plan import NoteEvent, NotePlan
+from dawloop.time import MusicalGrid
+from dawloop.verification import write_read_verify
 
 
 class ExecutionTests(unittest.TestCase):

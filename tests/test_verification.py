@@ -1,7 +1,7 @@
 import unittest
 
-from dawproof.note_plan import NoteEvent
-from dawproof.verification import compare_events
+from dawloop.note_plan import NoteEvent
+from dawloop.verification import compare_events
 
 
 class ExactSetTests(unittest.TestCase):

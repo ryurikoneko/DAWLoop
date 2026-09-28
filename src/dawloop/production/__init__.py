@@ -1,4 +1,4 @@
-"""DAWProof Production Pipeline 的可复用工具。"""
+"""DAWLoop Production Pipeline 的可复用工具。"""
 
 from .orchestration import (
     InstrumentRange,
