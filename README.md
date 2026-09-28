@@ -28,11 +28,11 @@ FLSkill is an independent project and is not affiliated with, endorsed by, or sp
 | Exact-Set Verification and `PASS` / `STOP` | ✅ Verified — offline algorithm |
 | AI-agent-oriented interfaces | ✅ Implemented |
 | Bundled Community FL Studio MCP snapshot | ✅ Available |
-| DSH SMF inspection / dense-window analysis | ✅ Implemented — offline tested |
-| DSH orchestration checks: register assignment / gap / source coverage | ✅ Implemented — offline tested |
-| DSH active-frame RMS / calibration-aware fader planning | ✅ Implemented — planning/analysis only |
-| DSH Environment Profile | ✅ Implemented — local probes; not a compatibility certification |
-| DSH SoundFont utility | ✅ Implemented — optional offline utility |
+| Production SMF inspection / dense-window analysis | ✅ Implemented — offline tested |
+| Production orchestration checks: register assignment / gap / source coverage | ✅ Implemented — offline tested |
+| Production active-frame RMS / calibration-aware fader planning | ✅ Implemented — planning/analysis only |
+| Production environment profile | ✅ Implemented — local probes; not a compatibility certification |
+| Production SoundFont utility | ✅ Implemented — optional offline utility |
 | Windows WASAPI loopback capture | 🟡 Available — optional, hardware/environment dependent |
 | FL Studio live integration | 🟡 Experimental — maintainer-reported; stability feedback requested |
 | Pattern / Channel identity and live note readback | 🚧 In Development — live evidence not archived here |
@@ -42,14 +42,14 @@ FLSkill is an independent project and is not affiliated with, endorsed by, or sp
 | Multi-pattern / multi-channel composition | 🗺 Roadmap |
 | Autonomous song production | 🗺 Roadmap |
 
-`v0.1.0-alpha` remains the original clean offline-core release. The bundled FL Studio backend and DSH pipeline integration are development work and are not part of that historical release.
+`v0.1.0-alpha` remains the original clean offline-core release. The bundled FL Studio backend and Production Pipeline integration are development work and are not part of that historical release.
 
 ## Architecture
 
 ```mermaid
 flowchart TD
     A[AI Agent / Tool-Using Model] --> B[FLSkill Core]
-    A --> Q[DSH-derived Analysis / Orchestration Helpers]
+    A --> Q[Production Analysis / Planning]
     Q --> B
     B --> C[Musical Grid]
     B --> D[Note Plan]
@@ -70,7 +70,7 @@ flowchart TD
     S --> Q
 ```
 
-A backend response such as “success” is not enough for FLSkill `PASS`. DSH-derived analysis can propose the next arrangement or mixer move, but any DAW-changing operation still requires actual readback evidence.
+A backend response such as “success” is not enough for FLSkill `PASS`. Production analysis can propose the next arrangement or mixer move, but any DAW-changing operation still requires actual readback evidence.
 
 ## Designed for AI Agents
 
@@ -83,9 +83,9 @@ Agent Plan → Validate → Execute → FL Studio
 
 The agent is never trusted solely because it claims an operation succeeded. On `STOP`, the agent should report the failure and avoid building further actions on an unverified state.
 
-## DSH Arranging / Mixing Pipeline
+## Production Pipeline
 
-FLSkill now directly incorporates reusable code and design ideas from the developer-provided **DSH / `whale-music-pipeline`** archive. The FLSkill maintainer states that the DSH developer explicitly authorized direct code reuse; the supplied code also carries an MIT license.
+FLSkill incorporates reusable code and design ideas from the open-source **`whale-music-pipeline`** project. The developer is credited as [坏影子不坏](https://space.bilibili.com/599132499) (Bilibili UID `599132499`). The FLSkill maintainer reports receiving the developer's direct permission to reuse the code; the source code also carries an MIT license.
 
 Integrated, generalized capabilities include:
 
@@ -97,9 +97,9 @@ Integrated, generalized capabilities include:
 - optional Windows WASAPI loopback capture;
 - optional SF2 / SoundFont sample rendering for offline auditioning.
 
-This is not a blind dump of one composition into FLSkill Core. Score-specific harmony, instrumentation, commissioned-work comments, and example music are not treated as universal rules. The generic algorithms were separated from work-specific data and placed under `src/flskill/dsh/` with explicit attribution.
+This is not a blind dump of one composition into FLSkill Core. Score-specific harmony, instrumentation, commissioned-work comments, and example music are not treated as universal rules. Generalized modules live under `src/flskill/production/` with explicit attribution.
 
-See [DSH pipeline integration](docs/DSH_PIPELINE.md), [DSH provenance addendum](docs/DSH_PROVENANCE.md), and [Third-Party Notices](THIRD_PARTY_NOTICES.md).
+See [Production Pipeline](docs/PRODUCTION_PIPELINE.md), [Production Pipeline provenance](docs/PRODUCTION_PIPELINE_PROVENANCE.md), and [Third-Party Notices](THIRD_PARTY_NOTICES.md).
 
 ## What FLSkill Gives You
 
@@ -117,26 +117,25 @@ See [DSH pipeline integration](docs/DSH_PIPELINE.md), [DSH provenance addendum](
 
 ## Installation
 
-The current integration work is not a published package release. For the DSH + FL Studio development branch:
+The current integration work is not a published package release. From a source checkout:
 
 ```powershell
 git clone https://github.com/ryurikoneko/FLSkill.git
 cd FLSkill
-git switch integration/dsh-pipeline
-python -m pip install -e ".[flstudio,dsh]"
+python -m pip install -e ".[flstudio,production]"
 flskill doctor
 ```
 
 For Windows loopback measurement:
 
 ```powershell
-python -m pip install -e ".[flstudio,dsh-loopback]"
+python -m pip install -e ".[flstudio,production-loopback]"
 ```
 
-For the broader DSH offline utility set, including Pillow / SciPy dependencies used by related workflows:
+For the broader Production Pipeline utility set, including Pillow / SciPy dependencies used by related workflows:
 
 ```powershell
-python -m pip install -e ".[flstudio,dsh-full]"
+python -m pip install -e ".[flstudio,production-full]"
 ```
 
 To install the bundled upstream FL Studio User Scripts, pass the actual FL Studio `Settings` directory. Existing destination files are backed up by the installer before replacement:
@@ -151,9 +150,9 @@ flskill install-fl-scripts --settings-dir "<FL Studio Settings directory>"
 flskill doctor --probe-fl
 ```
 
-### DSH analysis commands
+### Production analysis commands
 
-`midi-inspect` uses the standard library and does not require NumPy. Install the `dsh` extra for audio analysis and SoundFont utilities. The doctor reports these features independently and distinguishes the developer-reported working environment from the current machine's portable profile.
+`midi-inspect` uses the standard library and does not require NumPy. Install the `production` extra for audio analysis and SoundFont utilities. The doctor reports these features independently and distinguishes the developer-reported working environment from the current machine's portable profile.
 
 ```powershell
 flskill midi-inspect song.mid --beats-per-bar 4 --window-bars 3
@@ -182,7 +181,7 @@ The repository does not currently provide a safe, self-contained live test runne
 
 The maintainer reports completing an integration run in a real FL Studio environment and requests feedback because stability may vary. That report is not accompanied by archived target-identity and actual-event evidence in this repository. Accordingly, connection, Pattern / Channel targeting, note write/readback, Mixer write/readback, and Live Exact-Set are not presented here as reproducibly `Verified` capabilities.
 
-The live adapter is designed to check Pattern and Channel identity, confirm a blank target, write through the bundled MCP backend, request a fresh Piano Roll state, and compare planned and actual events. DSH-derived mixer calibration and loopback analysis add evidence for choosing a next mixer move, but do not weaken this readback requirement.
+The live adapter is designed to check Pattern and Channel identity, confirm a blank target, write through the bundled MCP backend, request a fresh Piano Roll state, and compare planned and actual events. Production Pipeline mixer calibration and loopback analysis add evidence for choosing a next mixer move, but do not weaken this readback requirement.
 
 ## Bundled FL Studio MCP
 
@@ -198,14 +197,14 @@ Many DAW automation tools focus on whether a command was sent. FLSkill focuses o
 
 ## Acknowledgements & Prior Art
 
-FLSkill's development benefits from both the community [FL Studio MCP](https://github.com/karl-andres/fl-studio-mcp) project and the developer-provided DSH / `whale-music-pipeline` codebase. FL Studio MCP provides an execution/control path; DSH contributes practical arranging, analysis, loopback-measurement, and mixer-calibration techniques. FLSkill adds its verification-oriented orchestration layer around these ideas and implementations.
+FLSkill's development benefits from both the community [FL Studio MCP](https://github.com/karl-andres/fl-studio-mcp) project and the developer-provided `whale-music-pipeline` codebase. The pipeline contributes practical arranging, analysis, loopback-measurement, and mixer-calibration techniques. FLSkill adds its verification-oriented orchestration layer around these ideas and implementations.
 
-See [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md), [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md), [`PROVENANCE.md`](PROVENANCE.md), and [`docs/DSH_PROVENANCE.md`](docs/DSH_PROVENANCE.md) for source and license boundaries.
+See [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md), [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md), [`PROVENANCE.md`](PROVENANCE.md), and [`docs/PRODUCTION_PIPELINE_PROVENANCE.md`](docs/PRODUCTION_PIPELINE_PROVENANCE.md) for source and license boundaries.
 
 ## Roadmap
 
-- **Completed:** Offline Core, Note Plan, Exact-Set algorithm, bundled MCP snapshot, adapter foundation, package extras, diagnostics, DSH MIDI inspection, generalized orchestration checks, active-RMS analysis, fader calibration planning, and SoundFont utility.
-- **In Development:** Stable live target identification and reproducible note write/readback evidence; deeper DSH-inspired section-level arrangement and mixer workflows; compatibility feedback from real-world use.
+- **Completed:** Offline Core, Note Plan, Exact-Set algorithm, bundled MCP snapshot, adapter foundation, package extras, diagnostics, Production SMF inspection, generalized orchestration checks, active-RMS analysis, fader calibration planning, and SoundFont utility.
+- **In Development:** Stable live target identification and reproducible note write/readback evidence; deeper Production Pipeline section-level arrangement and mixer workflows; compatibility feedback from real-world use.
 - **Planned:** Multi-pattern and multi-channel composition, verified Mixer and plugin operations, SysEx RPC, Native Computer Use adapter, expanded audio analysis, and section-level autonomous production.
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md) for details. Roadmap items are not implemented or verified merely because they are listed.
@@ -220,8 +219,8 @@ Contributions are welcome. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before open
 - [Architecture](docs/ARCHITECTURE.md)
 - [Verification rules](docs/VERIFICATION.md)
 - [FL Studio MCP integration](docs/FL_STUDIO_MCP.md)
-- [DSH pipeline integration](docs/DSH_PIPELINE.md)
-- [DSH provenance addendum](docs/DSH_PROVENANCE.md)
+- [Production Pipeline](docs/PRODUCTION_PIPELINE.md)
+- [Production Pipeline provenance](docs/PRODUCTION_PIPELINE_PROVENANCE.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Acknowledgements](docs/ACKNOWLEDGEMENTS.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)

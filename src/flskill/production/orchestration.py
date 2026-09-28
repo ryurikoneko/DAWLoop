@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-"""Reusable orchestration helpers derived from DSH's orchestration workflow.
+"""将第三方工作流中可复用的编配辅助逻辑通用化。
 
-The DSH source used register-aware melody handoff, explicit midrange-coverage
-checks, and source-note coverage checks. This module extracts those ideas into
-small deterministic helpers without carrying over composition-specific score
-data or instrument assignments.
+来源工作流采用按音域交接旋律、检查中音区覆盖及源音符覆盖。本模块将
+这些思路拆为确定性辅助函数，不携带具体作品的乐谱数据或乐器配置。
 """
 
 from dataclasses import dataclass
@@ -57,8 +55,7 @@ def choose_instrument_for_phrase(
 ) -> InstrumentRange:
     """Choose a playable instrument using phrase register and comfort range.
 
-    This implements the useful part of DSH's "melody changes instrument by
-    register" rule without hard-coding a particular orchestra.
+    按音域为乐句选择合适乐器，不硬编码特定管弦编制。
     """
     if not events:
         raise ValueError("phrase must contain at least one note")
@@ -121,9 +118,8 @@ def source_note_coverage(
 ) -> tuple[NoteEvent, ...]:
     """Return source events with no matching arranged onset/pitch.
 
-    DSH used this kind of coverage check to avoid silently dropping source
-    material during orchestration. FLSkill exposes the check as evidence; it
-    does not require every arrangement to preserve every note.
+    此检查可发现编配过程中遗漏的源音符。FLSkill 将结果作为证据，不要求
+    每一种改编都必须保留所有音符。
     """
     arranged = [event for part in arranged_parts for event in part]
     missing: list[NoteEvent] = []

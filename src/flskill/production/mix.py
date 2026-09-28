@@ -16,8 +16,8 @@ try:
     import numpy as np
 except ImportError as error:  # optional dependency by design
     raise ImportError(
-        "Optional dependency 'numpy' is required for DSH audio analysis. "
-        'Install with: pip install "flskill[dsh]"'
+        "Optional dependency 'numpy' is required for Production audio analysis. "
+        'Install with: pip install "flskill[production]"'
     ) from error
 
 
@@ -61,9 +61,8 @@ def active_rms(
 ) -> LevelMeasurement:
     """Measure all-frame and active-frame RMS for a PCM WAV file.
 
-    Active-frame RMS avoids over-boosting sparse instruments. The original DSH
-    implementation used 100 ms frames and a -65 dBFS floor after field tests;
-    both values are exposed here instead of being hard-coded policy.
+    活跃帧 RMS 可避免因音轨大部分时间静音而过度提升电平。来源实现
+    在实测后采用 100 ms 帧长和 -65 dBFS 门限；这里将两者作为参数公开。
     """
     if frame_ms <= 0:
         raise ValueError("frame_ms must be positive")
@@ -124,7 +123,7 @@ class FaderCalibration:
         return float(np.interp(db, dbs, values))
 
 
-DSH_FL_STUDIO_2025_CALIBRATION = FaderCalibration((
+PRODUCTION_FL_STUDIO_2025_CALIBRATION = FaderCalibration((
     (0.15, -24.9),
     (0.25, -19.0),
     (0.35, -14.6),

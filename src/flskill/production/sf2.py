@@ -3,11 +3,11 @@
 # See THIRD_PARTY_NOTICES.md.
 
 # -*- coding: utf-8 -*-
-"""SoundFont(sf2) sample playback engine adapted from DSH.
+"""从第三方实现改编的 SoundFont(sf2) 采样播放引擎。
 
 This module parses a subset of the SF2 RIFF structure and renders notes from
 sample zones using numpy. It is intentionally kept outside FLSkill Core and is
-available through the optional DSH dependency set.
+available through the optional Production Pipeline dependency set.
 """
 import struct
 
@@ -15,8 +15,8 @@ try:
     import numpy as np
 except ImportError as error:
     raise ImportError(
-        "Optional dependency 'numpy' is required for DSH SoundFont utilities. "
-        'Install with: pip install "flskill[dsh]"'
+        "Optional dependency 'numpy' is required for Production SoundFont utilities. "
+        'Install with: pip install "flskill[production]"'
     ) from error
 
 
