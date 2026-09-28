@@ -31,10 +31,6 @@ Live FL Studio testing is not part of the ordinary test command. Use a disposabl
 
 DAWLoop commits should use the repository maintainer Git identity. Automation and AI development tools must not be recorded automatically as commit authors or co-authors.
 
-## Commit messages
-
-Commit subjects should describe engineering intent and the affected area, rather than tool execution steps. Prefer a concise Conventional Commits subject.
-
 Examples:
 
 - `feat(mixer): add fader write/readback verification`
