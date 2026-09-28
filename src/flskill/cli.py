@@ -62,27 +62,27 @@ def _doctor(probe_fl: bool) -> int:
         print(f"{name:<24} {'PASS' if passed else 'STOP':<6} {detail}")
     print(f"{'FL Studio communication':<24} {connection_status:<18} {connection_detail}")
 
-    from flskill.dsh.environment import EnvironmentStatus, inspect_environment
+    from flskill.production.environment import EnvironmentStatus, inspect_environment
     profile = inspect_environment()
     profile_checks = {check.name: check for check in profile.checks}
-    dsh_rows = [
-        ("numpy", profile_checks["numpy"].status, 'pip install "flskill[dsh]"'),
-        ("DSH SMF parser", EnvironmentStatus.AVAILABLE, "stdlib-only; no numpy required"),
-        ("DSH audio analysis", profile_checks["numpy"].status, 'pip install "flskill[dsh]"'),
-        ("WASAPI loopback", profile_checks["WASAPI"].status, 'pip install "flskill[dsh-loopback]"'),
+    production_rows = [
+        ("numpy", profile_checks["numpy"].status, 'pip install "flskill[production]"'),
+        ("Production SMF analysis", EnvironmentStatus.AVAILABLE, "stdlib-only; no numpy required"),
+        ("Production audio analysis", profile_checks["numpy"].status, 'pip install "flskill[production]"'),
+        ("Production Windows loopback", profile_checks["WASAPI"].status, 'pip install "flskill[production-loopback]"'),
         ("spectrum-peak", profile_checks["spectrum-peak"].status, "environment-specific optional dependency"),
-        ("MuseScore", profile_checks["MuseScore"].status, "not required by current FLSkill DSH APIs"),
-        ("FluidSynth", profile_checks["FluidSynth"].status, "not required by current FLSkill DSH APIs"),
+        ("MuseScore", profile_checks["MuseScore"].status, "not required by current Production Pipeline APIs"),
+        ("FluidSynth", profile_checks["FluidSynth"].status, "not required by current Production Pipeline APIs"),
     ]
-    print("\nDSH environment (reported original environment: reported_working)")
-    for name, status, detail in dsh_rows:
+    print("\nProduction Pipeline optional environment checks")
+    for name, status, detail in production_rows:
         print(f"{name:<24} {status.value:<18} {detail}")
-    print(f"{'Portable profile':<24} {profile.portable_status:<18} OS={profile.os_name}; Python={profile.python_version}")
+    print(f"{'Production environment profile':<32} {profile.portable_status:<18} OS={profile.os_name}; Python={profile.python_version}")
     return 0 if all(passed for _, passed, _ in checks) else 1
 
 
 def _midi_inspect(path: str, beats_per_bar: int, window_bars: int) -> int:
-    from flskill.dsh.smf import parse_smf, recommend_dense_window
+    from flskill.production.smf import parse_smf, recommend_dense_window
 
     try:
         summary = parse_smf(path)
@@ -114,7 +114,7 @@ def _midi_inspect(path: str, beats_per_bar: int, window_bars: int) -> int:
 
 def _measure_wav(paths: list[str], frame_ms: int, floor_dbfs: float) -> int:
     try:
-        from flskill.dsh.mix import active_rms
+        from flskill.production.mix import active_rms
     except ImportError as error:
         print(f"measure-wav: {error}", file=sys.stderr)
         return 2
