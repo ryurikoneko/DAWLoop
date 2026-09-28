@@ -1,4 +1,4 @@
-"""Reusable music-pipeline utilities adapted from the DSH project."""
+"""FLSkill Production Pipeline 的可复用工具。"""
 
 from .orchestration import (
     InstrumentRange,

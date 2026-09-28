@@ -1,15 +1,15 @@
 # Architecture
 
-FLSkill separates musical analysis/planning and verification from host-specific execution. The public `v0.1.0-alpha` release contains only the offline Core; current integration work adds a bundled Community FL Studio MCP backend plus reusable DSH arranging/mixing analysis modules.
+FLSkill separates musical analysis/planning and verification from host-specific execution. The public `v0.1.0-alpha` release contains only the offline Core; current integration work adds a bundled Community FL Studio MCP backend plus reusable Production Pipeline analysis modules.
 
 ```text
 AI Agent
    ├─ structured musical intent
    ↓
 Analysis / Planning Layer
-   ├─ DSH SMF inspection / dense-window analysis
-   ├─ DSH orchestration checks
-   ├─ DSH active-frame RMS / fader calibration
+   ├─ Production SMF inspection / dense-window analysis
+   ├─ Production orchestration checks
+   ├─ Production active-frame RMS / fader calibration
    └─ optional loopback / SF2 audition
    ↓ structured plan
 FLSkill Core
@@ -31,18 +31,18 @@ Analysis and planning can suggest what to do next. They do not prove that a DAW-
 
 ## Core
 
-The Core has no FL Studio, MCP, Computer Use, SysEx, DSH, or audio-library runtime dependency. `MusicalGrid` resolves bar / beat / tick positions to integer absolute ticks. `NotePlan` validates target, section bounds, pitch, velocity, and event duration. The Exact-Set verifier compares planned and actual events while preserving duplicate counts and diagnosing missing, extra, and mismatched fields.
+The Core has no FL Studio, MCP, Computer Use, SysEx, Production Pipeline, or audio-library runtime dependency. `MusicalGrid` resolves bar / beat / tick positions to integer absolute ticks. `NotePlan` validates target, section bounds, pitch, velocity, and event duration. The Exact-Set verifier compares planned and actual events while preserving duplicate counts and diagnosing missing, extra, and mismatched fields.
 
 The in-memory event store supports offline tests only. `Offline Algorithm Verified` is not `FL Studio Verified`.
 
-## DSH Analysis / Planning Layer
+## Production Analysis / Planning Layer
 
-The DSH integration lives under `src/flskill/dsh/` and is optional. It is deliberately placed outside the Core because its job is to inspect material and propose better musical/mixing plans, not to redefine the verification rules.
+The Production Pipeline lives under `src/flskill/production/` and is optional. It is deliberately placed outside the Core because its job is to inspect material and propose better musical/mixing plans, not to redefine the verification rules.
 
 Integrated modules include:
 
 - `smf.py`: dependency-free Standard MIDI File parsing plus note-density window selection;
-- `orchestration.py`: register-aware phrase assignment, pitch-band gap detection, and source-note coverage checks generalized from DSH orchestration practice;
+- `orchestration.py`: register-aware phrase assignment, pitch-band gap detection, and source-note coverage checks generalized from the source orchestration workflow;
 - `mix.py`: active-frame RMS, measured fader calibration, and calibration-aware fader planning;
 - `loopback.py`: optional Windows WASAPI loopback capture;
 - `sf2.py`: optional SoundFont parsing/sample rendering for offline audition.
@@ -64,7 +64,7 @@ The first four steps may be fully deterministic and still do not establish `PASS
 
 ## Execution Adapter Model
 
-The adapter boundary keeps FLSkill Core independent of a specific control route. The current integration branch contains an FLSkill-specific adapter for the pinned Community FL Studio MCP snapshot. Native Computer Use, FLSkill SysEx RPC, compatibility bridges, and other DAW adapters remain future options.
+The adapter boundary keeps FLSkill Core independent of a specific control route. The current development tree contains an FLSkill-specific adapter for the pinned Community FL Studio MCP snapshot. Native Computer Use, FLSkill SysEx RPC, compatibility bridges, and other DAW adapters remain future options.
 
 The current MCP adapter foundation:
 
@@ -81,15 +81,15 @@ The upstream Piano Roll readback does not include Pattern identity, so the adapt
 
 `third_party/fl-studio-mcp/` is a fixed third-party source snapshot of Community FL Studio MCP. FLSkill-specific code lives separately in `src/flskill/adapters/fl_studio_mcp/`.
 
-DSH-derived reusable code is adapted into `src/flskill/dsh/`; the original DSH code license is preserved at `third_party/dsh-whale-music-pipeline/LICENSE`, and adapted files are classified as `ADAPTED_FROM_THIRD_PARTY` in the provenance records. DSH docs/example scores with separate terms are not bundled into the root MIT package.
+Reusable third-party code is adapted into `src/flskill/production/`; its original MIT license is preserved at `third_party/whale-music-pipeline/LICENSE`, and adapted files are classified as `ADAPTED_FROM_THIRD_PARTY` in the provenance records. Third-party documentation and example scores with separate terms are not bundled into the root MIT package.
 
-See [FL Studio MCP integration](FL_STUDIO_MCP.md), [DSH pipeline integration](DSH_PIPELINE.md), [Acknowledgements](ACKNOWLEDGEMENTS.md), [Provenance](../PROVENANCE.md), and [Third-Party Notices](../THIRD_PARTY_NOTICES.md).
+See [FL Studio MCP integration](FL_STUDIO_MCP.md), [Production Pipeline](PRODUCTION_PIPELINE.md), [Acknowledgements](ACKNOWLEDGEMENTS.md), [Provenance](../PROVENANCE.md), and [Third-Party Notices](../THIRD_PARTY_NOTICES.md).
 
 ## Live Status Boundary
 
 The maintainer reports completing an integration run against a real FL Studio environment and requests user feedback because the path may be unstable. No archived target-identity and actual-event evidence for that run is included in this repository. The project therefore distinguishes that report from reproducible live verification: connection, target selection, note write/readback, Mixer write/readback, and Exact-Set results are not claimed as repository-verified capabilities.
 
-Mixer track discovery and plugin parameter query operations are present in the adapter/backend path. DSH-derived fader calibration and active-RMS measurement make the planning side more capable, but they do not turn Mixer writes into verified operations by themselves.
+Mixer track discovery and plugin parameter query operations are present in the adapter/backend path. Production Pipeline fader calibration and active-RMS measurement make the planning side more capable, but they do not turn Mixer writes into verified operations by themselves.
 
 ## AI Agent Loop and Safety
 

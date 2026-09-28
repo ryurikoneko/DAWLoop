@@ -12,14 +12,14 @@ import wave
 
 import numpy as np
 
-from flskill.dsh.mix import FaderCalibration, active_rms, plan_fader_db
-from flskill.dsh.orchestration import (
+from flskill.production.mix import FaderCalibration, active_rms, plan_fader_db
+from flskill.production.orchestration import (
     InstrumentRange,
     choose_instrument_for_phrase,
     find_register_gaps,
     source_note_coverage,
 )
-from flskill.dsh.smf import parse_smf, recommend_dense_window
+from flskill.production.smf import parse_smf, recommend_dense_window
 from flskill.note_plan import NoteEvent
 
 
@@ -49,7 +49,7 @@ def write_wav(path: Path, samples: np.ndarray, *, channels: int = 1, width: int 
         handle.writeframes(samples.tobytes())
 
 
-class DshPipelineTests(unittest.TestCase):
+class ProductionPipelineTests(unittest.TestCase):
     def test_parse_smf_and_dense_window(self):
         body = bytearray()
         name = b"agent-test"
@@ -247,7 +247,7 @@ class DshPipelineTests(unittest.TestCase):
         self.assertEqual(source_note_coverage((duplicate, duplicate), ((duplicate,),)), (duplicate,))
 
     def test_sf2_rejects_invalid_truncated_and_missing_chunks(self):
-        from flskill.dsh.sf2 import Sf2
+        from flskill.production.sf2 import Sf2
 
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "invalid.sf2"
@@ -263,7 +263,7 @@ class DshPipelineTests(unittest.TestCase):
                 Sf2(path)
 
     def test_environment_profile_separates_reported_and_portable_status(self):
-        from flskill.dsh.environment import EnvironmentProfile, EnvironmentStatus, inspect_environment
+        from flskill.production.environment import EnvironmentProfile, EnvironmentStatus, inspect_environment
 
         profile = inspect_environment()
         self.assertIsInstance(profile, EnvironmentProfile)
@@ -279,12 +279,12 @@ class DshPipelineTests(unittest.TestCase):
             self.assertNotIn(str(directory), fl_check.detail)
 
     def test_loopback_dependency_is_optional(self):
-        from flskill.dsh.environment import EnvironmentStatus, inspect_environment
+        from flskill.production.environment import EnvironmentStatus, inspect_environment
 
         check = next(item for item in inspect_environment().checks if item.name == "pyaudiowpatch")
         if check.status is EnvironmentStatus.OPTIONAL_MISSING:
-            from flskill.dsh.loopback import list_loopback_devices
-            with self.assertRaisesRegex(ImportError, "dsh-loopback"):
+            from flskill.production.loopback import list_loopback_devices
+            with self.assertRaisesRegex(ImportError, "production-loopback"):
                 list_loopback_devices()
 
     def test_smf_and_cli_work_without_numpy(self):
@@ -298,7 +298,7 @@ class DshPipelineTests(unittest.TestCase):
                 "builtins.__import__=lambda name,*a,**k: (_ for _ in ()).throw(ImportError('blocked numpy')) "
                 "if name == 'numpy' or name.startswith('numpy.') else original(name,*a,**k); "
                 "sys.argv=['flskill','midi-inspect',r'" + str(path) + "','--window-bars','1']; "
-                "import flskill.dsh; from flskill.cli import main; raise SystemExit(main())"
+                "import flskill.production; from flskill.cli import main; raise SystemExit(main())"
             )
             result = subprocess.run([sys.executable, "-c", code], cwd=root, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
             self.assertEqual(result.returncode, 0, result.stderr)
@@ -317,10 +317,10 @@ class DshPipelineTests(unittest.TestCase):
             )
             result = subprocess.run([sys.executable, "-c", code], cwd=root, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
             self.assertEqual(result.returncode, 2)
-            self.assertIn('pip install "flskill[dsh]"', result.stderr)
+            self.assertIn('pip install "flskill[production]"', result.stderr)
             self.assertNotIn("Traceback", result.stderr)
 
-    def test_doctor_reports_dsh_capabilities_independently_without_numpy(self):
+    def test_doctor_reports_production_capabilities_independently_without_numpy(self):
         root = Path(__file__).resolve().parents[1]
         env = dict(os.environ, PYTHONPATH=str(root / "src"))
         code = (
@@ -331,11 +331,11 @@ class DshPipelineTests(unittest.TestCase):
             "sys.argv=['flskill','doctor']; from flskill.cli import main; raise SystemExit(main())"
         )
         result = subprocess.run([sys.executable, "-c", code], cwd=root, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
-        self.assertIn("DSH SMF parser", result.stdout)
-        self.assertIn("AVAILABLE", result.stdout.split("DSH SMF parser", 1)[1].splitlines()[0])
-        self.assertIn("DSH audio analysis", result.stdout)
-        self.assertIn("OPTIONAL_MISSING", result.stdout.split("DSH audio analysis", 1)[1].splitlines()[0])
-        self.assertNotIn("DSH analysis helpers", result.stdout)
+        self.assertIn("Production SMF analysis", result.stdout)
+        self.assertIn("AVAILABLE", result.stdout.split("Production SMF analysis", 1)[1].splitlines()[0])
+        self.assertIn("Production audio analysis", result.stdout)
+        self.assertIn("OPTIONAL_MISSING", result.stdout.split("Production audio analysis", 1)[1].splitlines()[0])
+        self.assertNotIn("Production Pipeline analysis helpers", result.stdout)
 
 
 if __name__ == "__main__":

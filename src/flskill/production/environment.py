@@ -1,4 +1,4 @@
-"""Lightweight checks for optional DSH environment requirements."""
+"""轻量检查 Production Pipeline 的可选环境依赖。"""
 
 from __future__ import annotations
 
@@ -108,7 +108,7 @@ def inspect_environment() -> EnvironmentProfile:
         ),
     ))
 
-    soundfont = os.environ.get("DSH_SOUNDFONT")
+    soundfont = os.environ.get("FLSKILL_SOUNDFONT")
     checks.append(EnvironmentCheck(
         "SoundFont path",
         EnvironmentStatus.AVAILABLE if soundfont and Path(soundfont).is_file() else (
@@ -117,7 +117,7 @@ def inspect_environment() -> EnvironmentProfile:
         "configured file exists" if soundfont and Path(soundfont).is_file() else "not configured or file not found",
     ))
 
-    relevant_env = ("FL_STUDIO_PATH", "DSH_SOUNDFONT", "PYTHONPATH")
+    relevant_env = ("FL_STUDIO_PATH", "FLSKILL_SOUNDFONT", "PYTHONPATH")
     configured = tuple(name for name in relevant_env if os.environ.get(name))
     return EnvironmentProfile(
         os_name=platform.platform(),
