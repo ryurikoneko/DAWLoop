@@ -10,6 +10,8 @@
 
 上游 Piano Roll 状态本身没有 Pattern 身份。因此 `identity_reader` 必须从独立的现场状态来源读取真实身份，返回 `TargetIdentity(project_id, pattern_id, channel_index, channel_name, fl_studio_version)`；不得直接回传预期常量、从计划或 CLI 参数构造身份，也不得只依靠截图。若没有这样的读取器，请停止，不要运行写入步骤。
 
+当前仓库尚未提供经过现场验证的该读取器，缺少时应报告 `PATTERN_IDENTITY_READER_MISSING`。最小后续实现应放在 DAWLoop 自有的只读 FL Studio User Script / controller 身份查询层，不修改 bundled 上游源码。Image-Line 的 [MIDI Scripting API](https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/midi_scripting.htm) 提供当前 Pattern 编号、Pattern 名称、选中 Channel、版本和项目标题等读取函数；项目标题不是持久文件身份，不能单凭它证明当前打开的是独立测试工程。新读取器还需将现场结果安全送回采集器并接受实际环境验证，不能预设自己已可靠。
+
 读取器需要在当前 Python 环境可导入。准备好专用测试工程后，显式运行：
 
 ```powershell
@@ -20,7 +22,7 @@ python tests/live_fl/capture_note_roundtrip.py --identity-reader your_reader_mod
 
 运行器先探测连接，再确认现场身份、选中 Channel、请求队列和空白 Piano Roll；正式写入经过现有 DAWLoop adapter。写入后重新触发 User Script 并等待新状态文件，读取实际事件后才做 Exact-Set 比较。任一检查失败均为 STOP。尤其不要把上游排队响应当成读回。
 
-运行前 Git 工作树须干净。环境记录包含当前提交和身份读取器源码的摘要，不会复制读取器文件或暴露其本机路径。若将一次 PASS 作为可复现的公开证据，仍需同时提供可审阅的身份读取器实现或明确其独立现场读取方法。
+运行前 Git 工作树须干净。环境记录包含仓库、分支、提交、工作树状态和身份读取器源码摘要，不会复制读取器文件或暴露其本机路径。若将一次 PASS 作为可复现的公开证据，仍需同时提供可审阅的身份读取器实现或明确其独立现场读取方法。`readback.json` 的观察时间是采集器本机收到读回时的时间；状态文件修改时间也是本机文件系统时间，均不冒充 DAW revision 或时间戳。
 
 每次运行创建独立目录 `evidence/live_fl/note_roundtrip/<run-id>/`，保存 `environment.json`、`target_identity.json`、`plan.json`、`pre_state.json`、`execution.json`、`readback.json`、`verification.json` 和 `README.md`。该目录默认由 Git 忽略；失败尝试也保存。请先审查全部文件，再决定是否把某次运行有意归档到公开仓库。不要使用私人歌曲工程、商业素材或本机状态文件作为公开证据。
 

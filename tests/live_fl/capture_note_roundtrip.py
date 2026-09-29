@@ -149,19 +149,24 @@ async def capture_note_roundtrip(
 
 
 async def _capture_once(identity_reader, ppq, output_root, adapter, connection_probe) -> Path:
-    plan = synthetic_plan(ppq)
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ") + "-" + uuid.uuid4().hex[:8]
     run_dir = output_root / run_id
     run_dir.mkdir(mode=0o700)
+    plan: NotePlan | None = None
     stages: dict[str, dict] = {}
     stage_times: dict[str, str] = {}
     target: TargetIdentity | None = None
     report = None
-    failure_stage = "checkout"
+    failure_stage = "plan"
     error_type = None
+    error_code = None
     connection_ok = False
     checkout_clean = False
+    initial_commit = None
+    initial_branch = None
     try:
+        plan = synthetic_plan(ppq)
+        failure_stage = "checkout"
         checkout = subprocess.run(
             ["git", "status", "--porcelain"], cwd=Path(__file__).resolve().parents[2],
             capture_output=True, text=True, check=False,
@@ -169,6 +174,18 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
         checkout_clean = checkout.returncode == 0 and not checkout.stdout.strip()
         if not checkout_clean:
             raise RuntimeError("采集代码所在 Git 工作树必须干净")
+        revision_before = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=Path(__file__).resolve().parents[2],
+            capture_output=True, text=True, check=False,
+        )
+        branch_before = subprocess.run(
+            ["git", "branch", "--show-current"], cwd=Path(__file__).resolve().parents[2],
+            capture_output=True, text=True, check=False,
+        )
+        if revision_before.returncode != 0 or branch_before.returncode != 0 or not branch_before.stdout.strip():
+            raise RuntimeError("无法确定采集代码的提交和分支")
+        initial_commit = revision_before.stdout.strip()
+        initial_branch = branch_before.stdout.strip()
         failure_stage = "connection"
         connected, _ = await connection_probe()
         if not connected:
@@ -187,8 +204,32 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
         )
     except Exception as error:
         error_type = type(error).__name__
+        if failure_stage == "identity":
+            error_code = (
+                "TARGET_IDENTITY_MISMATCH" if isinstance(error, ValueError)
+                else "PATTERN_IDENTITY_READER_MISSING"
+            )
 
-    planned = [item.to_dict() for item in plan.events]
+    final_checkout = subprocess.run(
+        ["git", "status", "--porcelain"], cwd=Path(__file__).resolve().parents[2],
+        capture_output=True, text=True, check=False,
+    )
+    final_revision = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=Path(__file__).resolve().parents[2],
+        capture_output=True, text=True, check=False,
+    )
+    final_branch = subprocess.run(
+        ["git", "branch", "--show-current"], cwd=Path(__file__).resolve().parents[2],
+        capture_output=True, text=True, check=False,
+    )
+    source_consistent = bool(
+        checkout_clean and initial_commit and initial_branch
+        and final_checkout.returncode == 0 and not final_checkout.stdout.strip()
+        and final_revision.returncode == 0 and final_revision.stdout.strip() == initial_commit
+        and final_branch.returncode == 0 and final_branch.stdout.strip() == initial_branch
+    )
+
+    planned = [item.to_dict() for item in plan.events] if plan else []
     actual = stages.get("readback", {}).get("events", [])
     required_stages = {
         "target_before", "pre_state", "write_attempt", "write_queued",
@@ -196,6 +237,7 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
     }
     complete = (
         required_stages <= stages.keys()
+        and plan is not None
         and target is not None
         and stages["target_before"] == target.to_dict()
         and stages["target_before_trigger"] == target.to_dict()
@@ -213,21 +255,33 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
         and list(report.actual_events) == actual
     )
     status = "PASS" if (
-        report is not None and report.status == "PASS" and complete
+        report is not None and report.status == "PASS" and complete and source_consistent
         and not report.errors and not report.missing and not report.extra and not report.mismatches
     ) else "STOP"
     if status == "STOP" and error_type is None:
-        if stages.get("pre_state", {}).get("note_count", 0) > 0:
+        if initial_commit and not source_consistent:
+            failure_stage = "checkout_changed"
+        elif stages.get("pre_state", {}).get("note_count", 0) > 0:
             failure_stage = "pre_state_nonempty"
         else:
             failure_stage = next((stage for stage in (
                 "target_before", "pre_state", "write_attempt", "write_queued",
                 "target_before_trigger", "target_after", "readback"
             ) if stage not in stages), "verification")
+    if status == "STOP" and error_code is None:
+        error_code = {
+            "plan": "INVALID_NOTE_PLAN_OR_PPQ",
+            "checkout": "DIRTY_OR_UNAVAILABLE_GIT_WORKTREE",
+            "checkout_changed": "SOURCE_CHANGED_DURING_RUN",
+            "connection": "FL_CONNECTION_UNAVAILABLE",
+            "pre_state_nonempty": "UNSAFE_NONBLANK_TARGET",
+            "readback": "READBACK_UNAVAILABLE",
+            "verification": "EXACT_SET_MISMATCH",
+        }.get(failure_stage, "TARGET_OR_EXECUTION_STOP")
     verification = {
         "operation": "piano_roll_note_roundtrip",
         "run_id": run_id,
-        "planned_count": len(planned),
+        "planned_count": len(planned) if plan else None,
         "actual_count": len(actual) if "readback" in stages else None,
         "missing": list(report.missing) if report and complete else None,
         "extra": list(report.extra) if report and complete else None,
@@ -240,22 +294,24 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
         "adapter_status": report.status if report else None,
         "status": status,
         "failure_stage": failure_stage if status == "STOP" else None,
+        "error_code": error_code if status == "STOP" else None,
         "error_type": error_type,
         "observed_at_utc": _utc_now(),
     }
     # 实际错误文本可能含本机路径；公开证据只保留阶段与异常类型。
-    revision = subprocess.run(
-        ["git", "rev-parse", "HEAD"], cwd=Path(__file__).resolve().parents[2],
-        capture_output=True, text=True, check=False,
-    )
     _write_json(run_dir / "environment.json", {
         "run_id": run_id,
         "scope": "live_fl_studio_note_roundtrip",
+        "repository": "ryurikoneko/DAWLoop",
+        "branch": initial_branch,
+        "commit_sha": initial_commit,
+        "dirty_worktree": not (
+            checkout_clean and final_checkout.returncode == 0 and not final_checkout.stdout.strip()
+        ),
+        "source_consistent_through_run": source_consistent,
         "python_version": platform.python_version(),
         "os": platform.system(),
         "dawloop_version": report.dawloop_version if report else "0.2.0a0",
-        "dawloop_commit": revision.stdout.strip() if revision.returncode == 0 else None,
-        "source_checkout_clean": checkout_clean,
         "identity_reader": _reader_fingerprint(identity_reader),
         "dependency_versions": {
             name: _package_version(name)
@@ -281,7 +337,7 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
     })
     _write_json(run_dir / "plan.json", {
         "run_id": run_id,
-        "plan": plan.to_dict(),
+        "plan": plan.to_dict() if plan else None,
         "time_mapping": "start_tick / ppq and duration / ppq become upstream quarter-note units",
         "ppq_source": "operator supplied; adapter confirms against fresh FL state before write",
     })
@@ -307,7 +363,12 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
     _write_json(run_dir / "readback.json", {
         "run_id": run_id,
         "observed": "readback" in stages,
-        "source": "fresh FL Studio Piano Roll state after an independent script trigger",
+        "source": (
+            "FL Studio Piano Roll state requested after an independent script trigger"
+            if "readback" in stages else None
+        ),
+        "observation_clock": "local UTC host time; not a DAW timestamp",
+        "state_mtime_clock": "local filesystem modification time; not a DAW revision",
         "actual_events": actual if "readback" in stages else None,
         "state_mtime_before_ns": stages.get("readback", {}).get("state_mtime_before_ns"),
         "state_mtime_after_ns": stages.get("readback", {}).get("state_mtime_after_ns"),
@@ -319,6 +380,7 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
         f"运行编号：`{run_id}`  \n结果：`{status}`\n\n"
         "此记录针对独立的合成测试目标。机器可读文件依次记录连接、目标身份、计划音符、"
         "写前空白状态、后端排队、FL Studio 现场新读回及 Exact-Set 比较。排队成功不构成 PASS。\n\n"
+        "字段为 null 或 false 时，表示相应阶段未取得证据；不能按零差异理解。\n\n"
         "主动归档或公开前，请逐项检查这些文件是否含敏感信息。\n",
         encoding="utf-8", newline="\n",
     )
@@ -327,21 +389,23 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="采集独立测试工程的现场音符往返证据")
-    parser.add_argument("--identity-reader", required=True, help="现场身份读取器 module:function")
+    parser.add_argument("--identity-reader", help="现场身份读取器 module:function")
     parser.add_argument("--ppq", required=True, type=int, help="FL Studio 当前工程的 PPQ；写前现场核对")
     parser.add_argument("--confirm-disposable-project", required=True)
     args = parser.parse_args(argv)
     if args.confirm_disposable_project != PROJECT_NAME:
         parser.error(f"必须明确确认独立测试工程：{PROJECT_NAME}")
     try:
-        reader = _load_reader(args.identity_reader)
+        reader = _load_reader(args.identity_reader) if args.identity_reader else None
     except (ImportError, AttributeError, TypeError, ValueError):
+        reader = None
+    if reader is None:
         def reader():
             raise RuntimeError("无法载入独立的现场身份读取器")
 
     result_dir = asyncio.run(capture_note_roundtrip(reader, args.ppq))
     result = json.loads((result_dir / "verification.json").read_text(encoding="utf-8"))
-    print(f"{result['status']} | {result_dir}")
+    print(f"LiveNoteRoundTripVerification: {result['status']} | {result_dir}")
     return 0 if result["status"] == "PASS" else 1
 
 
