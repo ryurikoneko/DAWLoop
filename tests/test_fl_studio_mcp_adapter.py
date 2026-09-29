@@ -88,6 +88,10 @@ class FLStudioMCPAdapterTests(unittest.TestCase):
                 paths["controller"].read_text(encoding="utf-8"),
             )
             self.assertIn("# supportedDevices=DAWLoop MCP IN,FLSkill MCP IN", paths["controller"].read_text(encoding="utf-8"))
+            self.assertRegex(
+                paths["controller"].read_text(encoding="utf-8"),
+                r'(?m)^CONTROLLER_BUILD_ID = "git:[0-9a-f]{40}\+controller:[0-9a-f]{16}"$',
+            )
             self.assertIn("SETTINGS_DIR_OVERRIDE = Path(", paths["controller"].read_text(encoding="utf-8"))
             self.assertEqual(paths["backend"].read_text(encoding="utf-8"), "upstream controller")
             self.assertEqual(paths["license"].read_text(encoding="utf-8"), "upstream MIT notice")

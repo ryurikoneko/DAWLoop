@@ -27,7 +27,7 @@ The bundled backend uses named MIDI devices and does not require Port 42. Do not
 
 ## Verify
 
-`dawloop doctor` reports dependencies, loopMIDI process, port names, installed scripts, and whether FL was actually queried. `dawloop doctor --probe-fl` sends only a read-only target identity request; a response is required before it reports the target as available. `supportedDevices` being present in the script means auto-binding is available in principle, not that FL has confirmed it in this installation.
+`dawloop doctor` reports dependencies, loopMIDI process, port names, and installed scripts. `dawloop doctor --probe-fl` reads the Controller's local runtime status file only; it does not send MIDI, PING, or an identity request. The Controller writes this file during initialization and refreshes `last_seen_at` through a throttled `OnIdle` callback. Runtime build identity is compared with the build ID embedded in the installed script; the file SHA256 is reported separately and is not treated as proof of the loaded in-memory version. `supportedDevices` being present in the script means auto-binding is available in principle, not that FL has confirmed it in this installation.
 
 ## Troubleshooting
 

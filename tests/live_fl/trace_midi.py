@@ -6,11 +6,30 @@ import uuid
 from pathlib import Path
 
 
+def runtime_ping_preflight(settings_dir: Path) -> dict:
+    from dawloop.controller_runtime import ping_preflight
+
+    observation = ping_preflight(settings_dir)
+    return {
+        "allowed": observation.ready,
+        "status": observation.status,
+        "error_code": None if observation.ready else observation.code,
+        "runtime_build_id": observation.payload.get("build_id") if observation.payload else None,
+        "session_id": observation.payload.get("session_id") if observation.payload else None,
+        "age_seconds": observation.age_seconds,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="只测试 DAWLoop Controller 是否收到 MIDI 触发")
     parser.add_argument("--midi-port", required=True, help="FL 控制器对应的精确 MIDI 输出端口名")
     parser.add_argument("--settings-dir", type=Path, required=True, help="FL 活动 Settings 目录")
     args = parser.parse_args()
+
+    gate = runtime_ping_preflight(args.settings_dir)
+    if not gate["allowed"]:
+        print(json.dumps({"status": "STOP", "stage": "runtime_preflight", **gate}, ensure_ascii=False, indent=2))
+        return 1
 
     from fl_studio_mcp.utils.midi_connection import MIDIConnection
 

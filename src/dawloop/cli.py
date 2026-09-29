@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import asyncio
 import importlib.util
 import json
 import platform
@@ -72,8 +71,10 @@ def _fl_setup_report(settings_dir: Path, dry_run: bool = False) -> dict:
 
 
 def _print_integration_doctor(settings_dir: Path, probe_fl: bool, midi_port: str | None) -> tuple[bool, bool]:
+    del midi_port
     from dawloop.midi_setup import inspect_loopmidi
-    from dawloop.setup import user_script_status
+    from dawloop.controller_runtime import inspect_runtime_status, installed_controller_identity
+    from dawloop.setup import configured_scripts, user_script_status
 
     midi_inputs, midi_outputs = _midi_inventory()
     loop = inspect_loopmidi(midi_inputs, midi_outputs)
@@ -81,13 +82,15 @@ def _print_integration_doctor(settings_dir: Path, probe_fl: bool, midi_port: str
     scripts = user_script_status(settings_dir)
     setup_report = _fl_setup_report(settings_dir)
     fl_installed = setup_report["fl_studio"]["installed"]
+    script_paths = configured_scripts(settings_dir)
+    expected_build_id, installed_sha = installed_controller_identity(script_paths["controller"])
     controller_source = Path(__file__).resolve().parent / "fl_scripts" / "device_DAWLoopController.py"
     identity_code_available = scripts["controller"] and (
         "dawloop.getTargetIdentity" in controller_source.read_text(encoding="utf-8")
     )
     rows: list[tuple[str, str, str]] = [
         ("FL Studio installation", "PASS" if fl_installed else "NOT_FOUND", "检测到可执行文件或运行中的 FL64" if fl_installed else "未找到 FL64"),
-        ("DAWLoop User Script", "PASS" if scripts["controller"] else "FL_USER_SCRIPT_MISSING", "主控制器"),
+        ("Controller installed", "PASS" if scripts["controller"] else "FL_USER_SCRIPT_MISSING", "主控制器文件"),
         ("Bundled MCP script", "PASS" if scripts["backend"] else "FL_USER_SCRIPT_MISSING", "非独立 Controller 的后端模块"),
         ("loopMIDI installed", "PASS" if loop["installed"] else "LOOPMIDI_NOT_INSTALLED", ""),
         ("loopMIDI running", "PASS" if loop["running"] else "LOOPMIDI_NOT_RUNNING", ""),
@@ -98,35 +101,35 @@ def _print_integration_doctor(settings_dir: Path, probe_fl: bool, midi_port: str
         ("loopMIDI autostart", str(loop["autostart"]), "通过当前用户登录启动项检测"),
         ("Controller auto-binding", setup_report["controller"]["binding_status"], "官方声明可自动关联；需现场加载确认"),
     ]
-    identity_status = "NOT_CHECKED"
+    runtime_code = "NOT_CHECKED"
+    runtime_observation = None
     if probe_fl:
-        selected_port = midi_port or ports["selected_python_output"]
-        if not selected_port:
-            identity_status = "DAWLOOP_MIDI_PORT_MISSING"
+        if not expected_build_id:
+            runtime_code = "CONTROLLER_BUILD_ID_MISSING"
         else:
-            try:
-                from dawloop.adapters.fl_studio_mcp.identity import read_current_target
-                identity = asyncio.run(read_current_target(selected_port, settings_dir=settings_dir))
-                identity_status = "PASS"
-                print(f"Target identity: Pattern #{identity.pattern_number}; Channel index {identity.channel_index}; PPQ {identity.ppq}")
-            except Exception as error:
-                identity_status = str(error) if str(error) in {
-                    "PATTERN_IDENTITY_NOT_AVAILABLE", "CHANNEL_IDENTITY_UNAVAILABLE",
-                    "PPQ_UNAVAILABLE", "FL_SAFE_TO_EDIT_UNAVAILABLE",
-                    "TARGET_IDENTITY_NOT_AVAILABLE", "MIDI_PORT_UNAVAILABLE",
-                    "IDENTITY_COMMAND_INVALID", "FL_IDENTITY_FIELDS_UNAVAILABLE",
-                } else "RPC_NOT_RESPONDING"
+            runtime_observation = inspect_runtime_status(
+                script_paths["controller"].with_name("controller_status.json"),
+                expected_build_id,
+            )
+            runtime_code = runtime_observation.code
     rows.extend([
-        ("RPC transport", "PASS" if identity_status == "PASS" else "STOP" if probe_fl else "NOT_CHECKED", "共享 MIDI/JSON 请求链"),
-        ("Target identity capability", identity_status if probe_fl else "AVAILABLE_NOT_PROBED" if identity_code_available else "NOT_INSTALLED", "主 Controller 只读查询"),
-        ("FL response", identity_status, "实际收到身份 RPC 响应才标 PASS"),
+        ("Installed controller build", expected_build_id or "UNAVAILABLE", "从已安装脚本读取，未用磁盘 SHA 代替"),
+        ("Installed script SHA256", installed_sha or "UNAVAILABLE", "磁盘文件摘要；不证明 FL 内存版本"),
+        ("Controller runtime", runtime_observation.status if runtime_observation else "STOP" if probe_fl else "NOT_CHECKED", runtime_code),
+        ("Runtime build id", runtime_observation.payload.get("build_id") if runtime_observation and runtime_observation.payload else "NOT_OBSERVED", "来自 FL 进程写出的状态文件"),
+        ("Runtime session id", runtime_observation.payload.get("session_id") if runtime_observation and runtime_observation.payload else "NOT_OBSERVED", "每次 OnInit 变化"),
+        ("Runtime initialized at", runtime_observation.payload.get("initialized_at") if runtime_observation and runtime_observation.payload else "NOT_OBSERVED", "Controller 本机观察时间"),
+        ("Runtime last seen", runtime_observation.payload.get("last_seen_at") if runtime_observation and runtime_observation.payload else "NOT_OBSERVED", "OnIdle 节流心跳"),
+        ("Runtime freshness", f"{runtime_observation.age_seconds:.1f}s" if runtime_observation and runtime_observation.age_seconds is not None else runtime_code, "阈值 10 秒"),
+        ("RPC transport", "NOT_CHECKED", "本次仅读取本机运行状态，不发送 MIDI/RPC 请求"),
+        ("Target identity capability", "AVAILABLE_NOT_PROBED" if identity_code_available else "NOT_INSTALLED", "本次未发身份请求"),
         ("Port number 42", "NOT_REQUIRED_BY_BUNDLED_BACKEND", "当前 bundled MCP 使用命名 MIDI 端口，不使用 Port 42"),
     ])
     print("\nDAWLoop FL Integration")
     for name, status, detail in rows:
         print(f"{name:<28} {status:<34} {detail}")
     required_ok = all((scripts["controller"], scripts["backend"]))
-    return required_ok, identity_status == "PASS"
+    return required_ok, bool(runtime_observation and runtime_observation.ready)
 
 
 def _doctor(probe_fl: bool, settings_dir: Path | None = None, midi_port: str | None = None) -> int:
@@ -212,6 +215,15 @@ def _setup_fl(settings_dir: Path | None, dry_run: bool) -> int:
             reason = type(error).__name__
         else:
             report["installation"] = {"status": "INSTALLED", "files": [path.name for path in installed]}
+            from dawloop.controller_runtime import installed_controller_identity
+            controller_path = next(path for path in installed if path.name.startswith("device_DAWLoop"))
+            expected_build_id, installed_sha = installed_controller_identity(controller_path)
+            report["controller_runtime"] = {
+                "status": "RELOAD_REQUIRED",
+                "expected_build_id": expected_build_id,
+                "installed_script_sha256": installed_sha,
+                "message": "FL Studio must reload the MIDI script before this build is active.",
+            }
             report["settings_dir"] = {"status": "FOUND", "exists": True}
             print(json.dumps(report, ensure_ascii=False, indent=2))
             return 0
@@ -290,7 +302,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(prog="dawloop")
     subparsers = parser.add_subparsers(dest="command", required=True)
     doctor_parser = subparsers.add_parser("doctor", help="检查 Python、依赖和 FL Studio 通信")
-    doctor_parser.add_argument("--probe-fl", action="store_true", help="发送只读状态查询以探测 FL Studio 通信")
+    doctor_parser.add_argument("--probe-fl", action="store_true", help="只读检查 FL Controller 运行状态文件；不发送 MIDI 或 RPC")
     doctor_parser.add_argument("--settings-dir", type=Path, help="活动 FL Studio Settings 目录")
     doctor_parser.add_argument("--midi-port", help="指定精确的 DAWLoop MCP IN MIDI 输出端口")
     setup_parser = subparsers.add_parser("setup-fl", help="检查并安装统一的 FL Studio 控制器")

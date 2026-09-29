@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import shutil
+import subprocess
 import sysconfig
 from datetime import datetime
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
 
@@ -81,6 +84,26 @@ def _same_text_bytes(left: bytes, right: bytes) -> bool:
     return left.replace(b"\r\n", b"\n") == right.replace(b"\r\n", b"\n")
 
 
+def _controller_build_id(source: Path) -> str:
+    digest = hashlib.sha256(source.read_bytes()).hexdigest()[:16]
+    repository_root = Path(__file__).resolve().parents[2]
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(repository_root), "rev-parse", "HEAD"],
+            check=True, capture_output=True, text=True, timeout=3,
+        )
+        commit = result.stdout.strip()
+        if commit:
+            return f"git:{commit}+controller:{digest}"
+    except (OSError, subprocess.SubprocessError):
+        pass
+    try:
+        package_version = version("dawloop")
+    except PackageNotFoundError:
+        package_version = "unknown"
+    return f"dawloop:{package_version}+controller:{digest}"
+
+
 def install_user_scripts(settings_dir: Path) -> tuple[Path, ...]:
     source = _vendor_root()
     own_controller = Path(__file__).resolve().parent / "fl_scripts" / "device_DAWLoopController.py"
@@ -102,6 +125,10 @@ def install_user_scripts(settings_dir: Path) -> tuple[Path, ...]:
         if kind == "controller":
             script = src.read_text(encoding="utf-8")
             script = script.replace(
+                'CONTROLLER_BUILD_ID = "source-uninstalled"',
+                f'CONTROLLER_BUILD_ID = "{_controller_build_id(src)}"',
+                1,
+            ).replace(
                 "SETTINGS_DIR_OVERRIDE = None",
                 f"SETTINGS_DIR_OVERRIDE = Path({str(settings_dir.resolve())!r})",
                 1,

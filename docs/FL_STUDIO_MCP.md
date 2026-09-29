@@ -17,7 +17,7 @@ python -m dawloop setup-fl --settings-dir "<FL Studio Settings directory>"
 python -m dawloop doctor --settings-dir "<FL Studio Settings directory>"
 ```
 
-doctor 分别报告 Python、Core、上游 server、MCP/MIDI 依赖、MIDI 输出端口与 FL Studio 通信。依赖安装或 MIDI 端口存在都不代表 FL Studio 已连接。`--probe-fl` 会发起只读传输状态查询：
+doctor 分别报告 Python、Core、上游 server、MCP/MIDI 依赖、MIDI 输出端口与 FL Studio 通信。依赖安装或 MIDI 端口存在都不代表 FL Studio 已连接。`--probe-fl` 只读取 Controller 本机运行状态文件，不发送 MIDI、PING 或身份 RPC；只有状态新鲜且运行时 build id 与已安装脚本一致时，才报告 Controller runtime READY：
 
 ```powershell
 python -m dawloop doctor --probe-fl

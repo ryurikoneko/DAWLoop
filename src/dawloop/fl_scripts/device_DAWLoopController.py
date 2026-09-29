@@ -7,6 +7,9 @@ import importlib.util
 import json
 import os
 import sys
+import time
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 import channels
@@ -17,12 +20,17 @@ import ui
 
 SETTINGS_DIR_OVERRIDE = None
 UPSTREAM_SCRIPT_OVERRIDE = None
+CONTROLLER_BUILD_ID = "source-uninstalled"
+CONTROLLER_VERSION = "phase0.7-runtime-status-v1"
+PROTOCOL_VERSION = "dawloop-midi-json-v1"
+HEARTBEAT_INTERVAL_SECONDS = 3.0
 SETTINGS_DIR = Path(SETTINGS_DIR_OVERRIDE) if SETTINGS_DIR_OVERRIDE else (
     Path.home() / "Documents" / "Image-Line" / "FL Studio" / "Settings"
 )
 SCRIPT_DIR = SETTINGS_DIR / "Hardware" / "DAWLoopMCP"
 COMMAND_FILE = SCRIPT_DIR / "mcp_command.json"
 RESPONSE_FILE = SCRIPT_DIR / "mcp_response.json"
+STATUS_FILE = SCRIPT_DIR / "controller_status.json"
 UPSTREAM_SCRIPT = Path(UPSTREAM_SCRIPT_OVERRIDE) if UPSTREAM_SCRIPT_OVERRIDE else (
     SCRIPT_DIR / "upstream_backend.py"
 )
@@ -43,6 +51,9 @@ def _load_upstream():
 
 
 _UPSTREAM = _load_upstream()
+_SESSION_ID = None
+_INITIALIZED_AT = None
+_LAST_STATUS_WRITE_MONOTONIC = 0.0
 
 
 def _safe_read(call):
@@ -104,6 +115,42 @@ def _write_response(response: dict) -> None:
         output.flush()
         os.fsync(output.fileno())
     temporary.replace(RESPONSE_FILE)
+
+
+def _local_timestamp() -> str:
+    return datetime.now(timezone.utc).astimezone().isoformat(timespec="milliseconds")
+
+
+def _write_runtime_status(state: str = "READY") -> bool:
+    global _LAST_STATUS_WRITE_MONOTONIC
+    try:
+        now = time.monotonic()
+        if state == "READY" and now - _LAST_STATUS_WRITE_MONOTONIC < HEARTBEAT_INTERVAL_SECONDS:
+            return True
+        timestamp = _local_timestamp()
+        payload = {
+            "controller": "DAWLoop Controller",
+            "build_id": CONTROLLER_BUILD_ID,
+            "session_id": _SESSION_ID,
+            "state": state,
+            "initialized_at": _INITIALIZED_AT,
+            "last_seen_at": timestamp,
+            "protocol_version": PROTOCOL_VERSION,
+            "controller_version": CONTROLLER_VERSION,
+            "source": "fl_studio_user_script",
+        }
+        temporary = STATUS_FILE.with_name(f".{STATUS_FILE.name}.tmp")
+        STATUS_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with temporary.open("w", encoding="utf-8", newline="\n") as output:
+            json.dump(payload, output, ensure_ascii=True)
+            output.flush()
+            os.fsync(output.fileno())
+        temporary.replace(STATUS_FILE)
+        _LAST_STATUS_WRITE_MONOTONIC = now
+        return True
+    except Exception as error:
+        print(f"DAWLOOP_RUNTIME_STATUS_WRITE_FAILED error={type(error).__name__}")
+        return False
 
 
 def _handle_diagnostic_request() -> None:
@@ -184,17 +231,28 @@ def _handle_diagnostic_request() -> None:
 
 
 def OnInit():
+    global _SESSION_ID, _INITIALIZED_AT, _LAST_STATUS_WRITE_MONOTONIC
     print("DAWLoop Controller initialized")
     print(f"DAWLOOP_TRACE command_path={COMMAND_FILE} response_path={RESPONSE_FILE}")
     _UPSTREAM.OnInit()
+    _SESSION_ID = uuid.uuid4().hex
+    _INITIALIZED_AT = _local_timestamp()
+    _LAST_STATUS_WRITE_MONOTONIC = 0.0
+    _write_runtime_status()
 
 
 def OnDeInit():
+    _write_runtime_status("STOPPED")
     _UPSTREAM.OnDeInit()
     print("DAWLoop Controller stopped")
 
 
+def OnIdle():
+    _write_runtime_status()
+
+
 def OnMidiMsg(event):
+    _write_runtime_status()
     if event.midiId == 0x90 and event.data1 == _UPSTREAM.TRIGGER_NOTE and event.data2 > 0:
         command = None
         try:
@@ -216,6 +274,7 @@ def OnMidiMsg(event):
 
 
 def OnMidiIn(event):
+    _write_runtime_status()
     if getattr(event, "data1", None) == _UPSTREAM.TRIGGER_NOTE and getattr(event, "data2", 0) > 0:
         print(
             "DAWLOOP_TRACE callback=OnMidiIn "
