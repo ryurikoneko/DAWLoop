@@ -210,7 +210,7 @@ For the historical published release, use the [offline Quickstart](docs/QUICKSTA
 8. Run a Note Plan through `FLStudioMCPAdapter`; inspect the returned report and readback.
 9. Treat `PASS` as operation-specific only when fresh target and event evidence supports it.
 
-The repository does not currently provide a safe, self-contained live test runner or a general command that submits arbitrary Note Plans. See [Live test prerequisites](tests/live_fl/README.md) and [FL Studio MCP integration](docs/FL_STUDIO_MCP.md). Do not use a private song for live testing.
+The repository includes a maintainer-only [live note evidence capture tool](tests/live_fl/README.md) for a dedicated synthetic test target. It requires an independent live Pattern / Channel identity reader; it is not a general command for arbitrary Note Plans. No archived live PASS is claimed by the existence of this tool. See [FL Studio MCP integration](docs/FL_STUDIO_MCP.md). Do not use a private song for live testing.
 
 ## Production Pipeline
 
