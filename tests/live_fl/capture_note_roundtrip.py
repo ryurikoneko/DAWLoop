@@ -330,7 +330,6 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--identity-reader", required=True, help="现场身份读取器 module:function")
     parser.add_argument("--ppq", required=True, type=int, help="FL Studio 当前工程的 PPQ；写前现场核对")
     parser.add_argument("--confirm-disposable-project", required=True)
-    parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args(argv)
     if args.confirm_disposable_project != PROJECT_NAME:
         parser.error(f"必须明确确认独立测试工程：{PROJECT_NAME}")
@@ -340,7 +339,7 @@ def main(argv: list[str] | None = None) -> int:
         def reader():
             raise RuntimeError("无法载入独立的现场身份读取器")
 
-    result_dir = asyncio.run(capture_note_roundtrip(reader, args.ppq, args.output_root))
+    result_dir = asyncio.run(capture_note_roundtrip(reader, args.ppq))
     result = json.loads((result_dir / "verification.json").read_text(encoding="utf-8"))
     print(f"{result['status']} | {result_dir}")
     return 0 if result["status"] == "PASS" else 1
