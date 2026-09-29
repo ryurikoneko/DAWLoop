@@ -104,6 +104,24 @@ class TargetIdentityPayloadTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "TARGET_IDENTITY_NOT_AVAILABLE"):
                 asyncio.run(read_current_target("DAWLoop MCP IN 1"))
 
+    def test_reader_surfaces_correlated_structured_stop(self):
+        class FakeConnection:
+            def send_command(self, action, params, timeout):
+                return {
+                    "success": False,
+                    "status": "STOP",
+                    "error_code": "FL_IDENTITY_FIELDS_UNAVAILABLE",
+                    "request_id": params["request_id"],
+                }
+
+            def disconnect(self):
+                pass
+
+        module = types.SimpleNamespace(MIDIConnection=FakeConnection)
+        with patch.dict(sys.modules, {"fl_studio_mcp.utils.midi_connection": module}):
+            with self.assertRaisesRegex(ValueError, "FL_IDENTITY_FIELDS_UNAVAILABLE"):
+                asyncio.run(read_current_target("DAWLoop MCP IN 1"))
+
 
 class PrimaryControllerTests(unittest.TestCase):
     def test_identity_uses_primary_controller_and_regular_commands_delegate(self):
@@ -151,6 +169,8 @@ class PrimaryControllerTests(unittest.TestCase):
                     "action": "dawloop.getTargetIdentity",
                     "params": {"request_id": "request-1"},
                 }), encoding="utf-8")
+                input_event = types.SimpleNamespace(status=0x90, data1=127, data2=127, port=42, handled=False)
+                script.OnMidiIn(input_event)
                 identity_event = types.SimpleNamespace(midiId=0x90, data1=127, data2=127, handled=False)
                 script.OnMidiMsg(identity_event)
                 identity_response = json.loads(script.RESPONSE_FILE.read_text(encoding="utf-8"))
@@ -159,11 +179,27 @@ class PrimaryControllerTests(unittest.TestCase):
                 )
                 regular_event = types.SimpleNamespace(midiId=0x90, data1=127, data2=127, handled=False)
                 script.OnMidiMsg(regular_event)
+                script.COMMAND_FILE.write_text(json.dumps({
+                    "action": "dawloop.ping",
+                    "params": {"request_id": "ping-1"},
+                }), encoding="utf-8")
+                ping_input = types.SimpleNamespace(status=0x90, data1=127, data2=127, port=42, handled=False)
+                script.OnMidiIn(ping_input)
+                ping_event = types.SimpleNamespace(midiId=0x90, status=0x90, data1=127, data2=127, port=42, handled=False)
+                with patch.object(script, "_target_identity", side_effect=AssertionError("PING 不得读取工程状态")):
+                    script.OnMidiMsg(ping_event)
+                ping_response = json.loads(script.RESPONSE_FILE.read_text(encoding="utf-8"))
         self.assertTrue(identity_event.handled)
+        self.assertFalse(input_event.handled)
         self.assertEqual(identity_response["target"]["pattern_number"], 1)
         self.assertEqual(identity_response["target"]["channel_index_type"], "global")
         self.assertEqual(identity_response["request_id"], "request-1")
         self.assertTrue(regular_event.forwarded)
+        self.assertFalse(ping_input.handled)
+        self.assertTrue(ping_event.handled)
+        self.assertEqual(ping_response["request_id"], "ping-1")
+        self.assertEqual(ping_response["status"], "PASS")
+        self.assertEqual(ping_response["stage"], "midi_callback")
 
     def test_identity_error_response_keeps_request_correlation(self):
         modules = {
@@ -188,10 +224,43 @@ class PrimaryControllerTests(unittest.TestCase):
                 script.RESPONSE_FILE = root / "mcp_response.json"
                 script.COMMAND_FILE.write_text(json.dumps({"action": "dawloop.getTargetIdentity", "params": {"request_id": "r-2"}}), encoding="utf-8")
                 with patch.object(script, "_target_identity", side_effect=RuntimeError("unavailable")):
-                    script._handle_identity_request()
+                    script._handle_diagnostic_request()
+                response = json.loads(script.RESPONSE_FILE.read_text(encoding="utf-8"))
+                self.assertFalse(script.RESPONSE_FILE.with_name(".mcp_response.json.tmp").exists())
+        self.assertFalse(response["success"])
+        self.assertEqual(response["status"], "STOP")
+        self.assertEqual(response["stage"], "identity_read")
+        self.assertIsNone(response["fields"])
+        self.assertEqual(response["request_id"], "r-2")
+
+    def test_malformed_identity_command_returns_correlated_stop_response(self):
+        modules = {
+            "channels": types.SimpleNamespace(selectedChannel=lambda *args: 0, getChannelName=lambda *args: "Test"),
+            "patterns": types.SimpleNamespace(patternNumber=lambda: 1, getPatternName=lambda number: "Test"),
+            "general": types.SimpleNamespace(getProjectTitle=lambda: "Test", getRecPPQ=lambda: 96, safeToEdit=lambda: 1, getVersion=lambda: 38),
+            "ui": types.SimpleNamespace(getVersion=lambda mode: "FL Studio 26"),
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            upstream = root / "upstream_backend.py"
+            upstream.write_text("TRIGGER_NOTE=127\ndef OnInit(): pass\ndef OnDeInit(): pass\ndef OnMidiMsg(event): pass\n", encoding="utf-8")
+            source_path = Path(__file__).resolve().parents[1] / "src" / "dawloop" / "fl_scripts" / "device_DAWLoopController.py"
+            source = source_path.read_text(encoding="utf-8").replace("UPSTREAM_SCRIPT_OVERRIDE = None", f"UPSTREAM_SCRIPT_OVERRIDE = Path({str(upstream)!r})")
+            wrapper = root / "controller.py"
+            wrapper.write_text(source, encoding="utf-8")
+            spec = importlib.util.spec_from_file_location("dawloop_malformed_identity_test", wrapper)
+            script = importlib.util.module_from_spec(spec)
+            with patch.dict(sys.modules, modules):
+                spec.loader.exec_module(script)
+                script.COMMAND_FILE = root / "mcp_command.json"
+                script.RESPONSE_FILE = root / "mcp_response.json"
+                script.COMMAND_FILE.write_text('{"action":"dawloop.getTargetIdentity","params":[]}', encoding="utf-8")
+                script._handle_diagnostic_request()
                 response = json.loads(script.RESPONSE_FILE.read_text(encoding="utf-8"))
         self.assertFalse(response["success"])
-        self.assertEqual(response["request_id"], "r-2")
+        self.assertEqual(response["status"], "STOP")
+        self.assertEqual(response["error_code"], "IDENTITY_COMMAND_INVALID")
+        self.assertIsNone(response["request_id"])
 
 
 if __name__ == "__main__":

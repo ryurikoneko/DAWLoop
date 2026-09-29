@@ -112,6 +112,9 @@ async def read_current_target(
     if not isinstance(response, dict) or response.get("request_id") != request_id:
         raise ValueError("TARGET_IDENTITY_NOT_AVAILABLE")
     if response.get("success") is not True and not response.get("target"):
+        error_code = response.get("error_code")
+        if isinstance(error_code, str) and error_code:
+            raise ValueError(error_code)
         raise ValueError("TARGET_IDENTITY_NOT_AVAILABLE")
     return identity_from_response(response)
 

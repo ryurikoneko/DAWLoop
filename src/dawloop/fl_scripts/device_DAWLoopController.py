@@ -5,6 +5,7 @@
 
 import importlib.util
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -83,25 +84,99 @@ def _identity_request_pending() -> bool:
         command = json.loads(COMMAND_FILE.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return False
-    return isinstance(command, dict) and command.get("action") == "dawloop.getTargetIdentity"
+    return isinstance(command, dict) and command.get("action") in {
+        "dawloop.getTargetIdentity", "dawloop.ping"
+    }
 
 
-def _handle_identity_request() -> None:
+def _request_id(command: dict | None) -> str | None:
+    if not isinstance(command, dict):
+        return None
+    params = command.get("params")
+    value = params.get("request_id") if isinstance(params, dict) else None
+    return value if isinstance(value, str) else None
+
+
+def _write_response(response: dict) -> None:
+    temporary = RESPONSE_FILE.with_name(f".{RESPONSE_FILE.name}.tmp")
+    with temporary.open("w", encoding="utf-8", newline="\n") as output:
+        json.dump(response, output, ensure_ascii=True)
+        output.flush()
+        os.fsync(output.fileno())
+    temporary.replace(RESPONSE_FILE)
+
+
+def _handle_diagnostic_request() -> None:
     request_id = None
+    action = None
+    stage = "command_read"
+    print(f"DAWLOOP_TRACE IDENTITY_HANDLER_ENTER path={COMMAND_FILE}")
     try:
         command = json.loads(COMMAND_FILE.read_text(encoding="utf-8"))
-        if command.get("action") != "dawloop.getTargetIdentity":
-            return
+        print("DAWLOOP_TRACE COMMAND_FILE_FOUND")
+        if not isinstance(command, dict):
+            raise ValueError("IDENTITY_COMMAND_INVALID")
+        action = command.get("action")
         params = command.get("params", {})
-        request_id = params.get("request_id") if isinstance(params, dict) else None
+        request_id = _request_id(command)
+        if not isinstance(params, dict) or not request_id:
+            raise ValueError("IDENTITY_COMMAND_INVALID")
+        print(f"DAWLOOP_TRACE COMMAND_PARSE_OK request_id={request_id}")
+        if action == "dawloop.ping":
+            response = {
+                "request_id": request_id,
+                "status": "PASS",
+                "success": True,
+                "stage": "midi_callback",
+            }
+        elif action == "dawloop.getTargetIdentity":
+            stage = "identity_read"
+            print(f"DAWLOOP_TRACE IDENTITY_READ_BEGIN request_id={request_id}")
+            target = _target_identity()
+            required = (
+                "project_title", "pattern_number", "pattern_name", "channel_index",
+                "channel_name", "ppq", "safe_to_edit", "api_version", "fl_studio_version",
+            )
+            missing = [key for key in required if target.get(key) is None]
+            if missing:
+                print(f"DAWLOOP_TRACE IDENTITY_READ_STOP request_id={request_id} missing_fields={','.join(missing)}")
+                response = {
+                    "success": False,
+                    "status": "STOP",
+                    "error_code": "FL_IDENTITY_FIELDS_UNAVAILABLE",
+                    "stage": "identity_read",
+                    "fields": None,
+                    "missing_fields": missing,
+                    "request_id": request_id,
+                }
+            else:
+                print(f"DAWLOOP_TRACE IDENTITY_READ_OK request_id={request_id}")
+                response = {
+                    "success": True,
+                    "status": "PASS",
+                    "target": target,
+                    "request_id": request_id,
+                }
+        else:
+            raise ValueError("IDENTITY_COMMAND_INVALID")
+    except Exception as error:
+        code = str(error) if isinstance(error, ValueError) else type(error).__name__
         response = {
-            "success": True,
-            "target": _target_identity(),
+            "success": False,
+            "status": "STOP",
+            "error_code": code,
+            "stage": stage,
+            "fields": None,
             "request_id": request_id,
         }
+        print(f"DAWLOOP_TRACE IDENTITY_READ_STOP request_id={request_id} error={type(error).__name__}")
+    try:
+        print(f"DAWLOOP_TRACE RESPONSE_WRITE_BEGIN request_id={request_id}")
+        _write_response(response)
+        print(f"DAWLOOP_TRACE RESPONSE_WRITE_OK request_id={request_id}")
     except Exception as error:
-        response = {"success": False, "error": type(error).__name__, "request_id": request_id}
-    RESPONSE_FILE.write_text(json.dumps(response, ensure_ascii=True), encoding="utf-8")
+        print(f"DAWLOOP_TRACE RESPONSE_WRITE_STOP request_id={request_id} error={type(error).__name__}")
+        raise
     try:
         COMMAND_FILE.unlink()
     except OSError:
@@ -110,6 +185,7 @@ def _handle_identity_request() -> None:
 
 def OnInit():
     print("DAWLoop Controller initialized")
+    print(f"DAWLOOP_TRACE command_path={COMMAND_FILE} response_path={RESPONSE_FILE}")
     _UPSTREAM.OnInit()
 
 
@@ -120,12 +196,34 @@ def OnDeInit():
 
 def OnMidiMsg(event):
     if event.midiId == 0x90 and event.data1 == _UPSTREAM.TRIGGER_NOTE and event.data2 > 0:
+        command = None
+        try:
+            command = json.loads(COMMAND_FILE.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            pass
+        request_id = _request_id(command)
+        print(
+            "DAWLOOP_TRACE callback=OnMidiMsg "
+            f"status={getattr(event, 'status', event.midiId)} "
+            f"data1={event.data1} data2={event.data2} "
+            f"port={getattr(event, 'port', 'unknown')} request_id={request_id}"
+        )
         if _identity_request_pending():
-            _handle_identity_request()
+            _handle_diagnostic_request()
             event.handled = True
             return
     _UPSTREAM.OnMidiMsg(event)
 
+
+def OnMidiIn(event):
+    if getattr(event, "data1", None) == _UPSTREAM.TRIGGER_NOTE and getattr(event, "data2", 0) > 0:
+        print(
+            "DAWLOOP_TRACE callback=OnMidiIn "
+            f"status={getattr(event, 'status', 'unknown')} "
+            f"data1={event.data1} data2={event.data2} "
+            f"port={getattr(event, 'port', 'unknown')}"
+        )
+    # 保持未处理状态，让 FL 按官方事件顺序继续调用 OnMidiMsg。
 
 def OnSysEx(event):
     callback = getattr(_UPSTREAM, "OnSysEx", None)

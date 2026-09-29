@@ -114,6 +114,7 @@ def _print_integration_doctor(settings_dir: Path, probe_fl: bool, midi_port: str
                     "PATTERN_IDENTITY_NOT_AVAILABLE", "CHANNEL_IDENTITY_UNAVAILABLE",
                     "PPQ_UNAVAILABLE", "FL_SAFE_TO_EDIT_UNAVAILABLE",
                     "TARGET_IDENTITY_NOT_AVAILABLE", "MIDI_PORT_UNAVAILABLE",
+                    "IDENTITY_COMMAND_INVALID", "FL_IDENTITY_FIELDS_UNAVAILABLE",
                 } else "RPC_NOT_RESPONDING"
     rows.extend([
         ("RPC transport", "PASS" if identity_status == "PASS" else "STOP" if probe_fl else "NOT_CHECKED", "共享 MIDI/JSON 请求链"),
