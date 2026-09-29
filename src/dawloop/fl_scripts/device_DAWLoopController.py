@@ -12,28 +12,126 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
-import channels
-import general
-import patterns
-import ui
-
-
 SETTINGS_DIR_OVERRIDE = None
 UPSTREAM_SCRIPT_OVERRIDE = None
 CONTROLLER_BUILD_ID = "source-uninstalled"
-CONTROLLER_VERSION = "phase0.7-runtime-status-v1"
+CONTROLLER_VERSION = "phase0.8-bootstrap-trace-v1"
 PROTOCOL_VERSION = "dawloop-midi-json-v1"
 HEARTBEAT_INTERVAL_SECONDS = 3.0
-SETTINGS_DIR = Path(SETTINGS_DIR_OVERRIDE) if SETTINGS_DIR_OVERRIDE else (
-    Path.home() / "Documents" / "Image-Line" / "FL Studio" / "Settings"
-)
-SCRIPT_DIR = SETTINGS_DIR / "Hardware" / "DAWLoopMCP"
+
+
+def _resolve_runtime_root() -> Path:
+    if SETTINGS_DIR_OVERRIDE:
+        settings = Path(SETTINGS_DIR_OVERRIDE).expanduser().resolve()
+        return (settings / "Hardware" / "DAWLoopMCP").resolve()
+    return Path(__file__).resolve().parent
+
+
+try:
+    SCRIPT_DIR = _resolve_runtime_root()
+    _RUNTIME_ROOT_ERROR = None
+except Exception as error:
+    SCRIPT_DIR = Path(os.path.abspath(os.path.dirname(__file__)))
+    _RUNTIME_ROOT_ERROR = error
+RUNTIME_ROOT = str(SCRIPT_DIR)
 COMMAND_FILE = SCRIPT_DIR / "mcp_command.json"
 RESPONSE_FILE = SCRIPT_DIR / "mcp_response.json"
 STATUS_FILE = SCRIPT_DIR / "controller_status.json"
+MODULE_STATUS_FILE = SCRIPT_DIR / "controller_module_status.json"
+INIT_STATUS_FILE = SCRIPT_DIR / "controller_init_status.json"
+BOOTSTRAP_ERROR_FILE = SCRIPT_DIR / "controller_bootstrap_error.json"
+MODULE_INSTANCE_ID = uuid.uuid4().hex
 UPSTREAM_SCRIPT = Path(UPSTREAM_SCRIPT_OVERRIDE) if UPSTREAM_SCRIPT_OVERRIDE else (
     SCRIPT_DIR / "upstream_backend.py"
 )
+
+
+class _DiagnosticWriteError(Exception):
+    def __init__(self, stage: str, original: Exception):
+        super().__init__(type(original).__name__)
+        self.stage = stage
+        self.original = original
+
+
+def _atomic_write_json(path: Path, payload: dict, stage_prefix: str) -> None:
+    temporary = path.with_name(f".{path.name}.{MODULE_INSTANCE_ID}.tmp")
+    stage = f"{stage_prefix}_PARENT_CREATE"
+    try:
+        os.makedirs(str(path.parent), exist_ok=True)
+        stage = f"{stage_prefix}_TEMP_WRITE"
+        with open(str(temporary), "w", encoding="utf-8", newline="\n") as output:
+            json.dump(payload, output, ensure_ascii=True)
+            output.flush()
+        stage = f"{stage_prefix}_REPLACE"
+        os.replace(str(temporary), str(path))
+    except Exception as error:
+        try:
+            if temporary.exists():
+                temporary.unlink()
+        except Exception:
+            pass
+        raise _DiagnosticWriteError(stage, error)
+
+
+def _record_bootstrap_error(stage: str, error: Exception) -> None:
+    if isinstance(error, _DiagnosticWriteError):
+        stage = error.stage
+        error = error.original
+    payload = {
+        "build_id": CONTROLLER_BUILD_ID,
+        "module_instance_id": MODULE_INSTANCE_ID,
+        "stage": stage,
+        "exception_type": type(error).__name__,
+        "safe_message": "文件系统操作失败" if isinstance(error, OSError) else "Controller 初始化阶段失败",
+        "observed_at": datetime.now(timezone.utc).astimezone().isoformat(timespec="milliseconds"),
+    }
+    try:
+        _atomic_write_json(BOOTSTRAP_ERROR_FILE, payload, "BOOTSTRAP_ERROR_WRITE")
+    except Exception as marker_error:
+        try:
+            fallback = BOOTSTRAP_ERROR_FILE.with_suffix(".marker")
+            with open(str(fallback), "w", encoding="utf-8", newline="\n") as output:
+                output.write(
+                    f"{CONTROLLER_BUILD_ID}\n{MODULE_INSTANCE_ID}\n"
+                    f"{stage}\n{type(error).__name__}\n"
+                )
+        except Exception:
+            print(f"DAWLOOP_BOOTSTRAP_ERROR_WRITE_FAILED error={type(marker_error).__name__}")
+
+
+def _write_lifecycle_marker(path: Path, event: str, session_id: str | None = None) -> bool:
+    payload = {
+        "controller": "DAWLoop Controller",
+        "event": event,
+        "build_id": CONTROLLER_BUILD_ID,
+        "module_instance_id": MODULE_INSTANCE_ID,
+        "session_id": session_id,
+        "observed_at": datetime.now(timezone.utc).astimezone().isoformat(timespec="milliseconds"),
+        "runtime_root": RUNTIME_ROOT,
+        "source": "fl_studio_user_script",
+    }
+    try:
+        _atomic_write_json(path, payload, f"{event}_STATUS_WRITE")
+        return True
+    except Exception as error:
+        _record_bootstrap_error(f"{event}_STATUS_WRITE", error)
+        print(f"DAWLOOP_BOOTSTRAP_STATUS_WRITE_FAILED stage={getattr(error, 'stage', event)} error={type(getattr(error, 'original', error)).__name__}")
+        return False
+
+
+if _RUNTIME_ROOT_ERROR is not None:
+    _record_bootstrap_error("MODULE_RUNTIME_ROOT_RESOLVE", _RUNTIME_ROOT_ERROR)
+_write_lifecycle_marker(MODULE_STATUS_FILE, "MODULE_LOADED")
+
+
+try:
+    import channels
+    import general
+    import patterns
+    import ui
+except Exception as error:
+    _record_bootstrap_error("PROJECT_IMPORT", error)
+    raise
 
 
 def _load_upstream():
@@ -50,7 +148,11 @@ def _load_upstream():
     return module
 
 
-_UPSTREAM = _load_upstream()
+try:
+    _UPSTREAM = _load_upstream()
+except Exception as error:
+    _record_bootstrap_error("PROJECT_IMPORT", error)
+    raise
 _SESSION_ID = None
 _INITIALIZED_AT = None
 _LAST_STATUS_WRITE_MONOTONIC = 0.0
@@ -121,7 +223,7 @@ def _local_timestamp() -> str:
     return datetime.now(timezone.utc).astimezone().isoformat(timespec="milliseconds")
 
 
-def _write_runtime_status(state: str = "READY") -> bool:
+def _write_runtime_status(state: str = "READY", stage_prefix: str = "ON_IDLE_STATUS_WRITE") -> bool:
     global _LAST_STATUS_WRITE_MONOTONIC
     try:
         now = time.monotonic()
@@ -139,17 +241,12 @@ def _write_runtime_status(state: str = "READY") -> bool:
             "controller_version": CONTROLLER_VERSION,
             "source": "fl_studio_user_script",
         }
-        temporary = STATUS_FILE.with_name(f".{STATUS_FILE.name}.tmp")
-        STATUS_FILE.parent.mkdir(parents=True, exist_ok=True)
-        with temporary.open("w", encoding="utf-8", newline="\n") as output:
-            json.dump(payload, output, ensure_ascii=True)
-            output.flush()
-            os.fsync(output.fileno())
-        temporary.replace(STATUS_FILE)
+        _atomic_write_json(STATUS_FILE, payload, stage_prefix)
         _LAST_STATUS_WRITE_MONOTONIC = now
         return True
     except Exception as error:
-        print(f"DAWLOOP_RUNTIME_STATUS_WRITE_FAILED error={type(error).__name__}")
+        _record_bootstrap_error(stage_prefix, error)
+        print(f"DAWLOOP_RUNTIME_STATUS_WRITE_FAILED stage={getattr(error, 'stage', stage_prefix)} error={type(getattr(error, 'original', error)).__name__}")
         return False
 
 
@@ -232,27 +329,32 @@ def _handle_diagnostic_request() -> None:
 
 def OnInit():
     global _SESSION_ID, _INITIALIZED_AT, _LAST_STATUS_WRITE_MONOTONIC
-    print("DAWLoop Controller initialized")
-    print(f"DAWLOOP_TRACE command_path={COMMAND_FILE} response_path={RESPONSE_FILE}")
-    _UPSTREAM.OnInit()
     _SESSION_ID = uuid.uuid4().hex
     _INITIALIZED_AT = _local_timestamp()
     _LAST_STATUS_WRITE_MONOTONIC = 0.0
-    _write_runtime_status()
+    _write_lifecycle_marker(INIT_STATUS_FILE, "ON_INIT_ENTERED", _SESSION_ID)
+    print("DAWLoop Controller initialized")
+    print(f"DAWLOOP_TRACE command_path={COMMAND_FILE} response_path={RESPONSE_FILE}")
+    try:
+        _UPSTREAM.OnInit()
+    except Exception as error:
+        _record_bootstrap_error("ON_INIT_UPSTREAM_INIT", error)
+        raise
+    _write_runtime_status(stage_prefix="ON_INIT_STATUS_WRITE")
 
 
 def OnDeInit():
-    _write_runtime_status("STOPPED")
+    _write_runtime_status("STOPPED", "ON_DEINIT_STATUS_WRITE")
     _UPSTREAM.OnDeInit()
     print("DAWLoop Controller stopped")
 
 
 def OnIdle():
-    _write_runtime_status()
+    _write_runtime_status(stage_prefix="ON_IDLE_STATUS_WRITE")
 
 
 def OnMidiMsg(event):
-    _write_runtime_status()
+    _write_runtime_status(stage_prefix="ON_MIDI_STATUS_WRITE")
     if event.midiId == 0x90 and event.data1 == _UPSTREAM.TRIGGER_NOTE and event.data2 > 0:
         command = None
         try:
@@ -274,7 +376,7 @@ def OnMidiMsg(event):
 
 
 def OnMidiIn(event):
-    _write_runtime_status()
+    _write_runtime_status(stage_prefix="ON_MIDI_STATUS_WRITE")
     if getattr(event, "data1", None) == _UPSTREAM.TRIGGER_NOTE and getattr(event, "data2", 0) > 0:
         print(
             "DAWLOOP_TRACE callback=OnMidiIn "

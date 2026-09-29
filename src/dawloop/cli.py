@@ -73,7 +73,9 @@ def _fl_setup_report(settings_dir: Path, dry_run: bool = False) -> dict:
 def _print_integration_doctor(settings_dir: Path, probe_fl: bool, midi_port: str | None) -> tuple[bool, bool]:
     del midi_port
     from dawloop.midi_setup import inspect_loopmidi
-    from dawloop.controller_runtime import inspect_runtime_status, installed_controller_identity
+    from dawloop.controller_runtime import (
+        inspect_controller_lifecycle, installed_controller_identity,
+    )
     from dawloop.setup import configured_scripts, user_script_status
 
     midi_inputs, midi_outputs = _midi_inventory()
@@ -103,24 +105,32 @@ def _print_integration_doctor(settings_dir: Path, probe_fl: bool, midi_port: str
     ]
     runtime_code = "NOT_CHECKED"
     runtime_observation = None
+    lifecycle = None
     if probe_fl:
         if not expected_build_id:
-            runtime_code = "CONTROLLER_BUILD_ID_MISSING"
+            runtime_code = "STOP"
         else:
-            runtime_observation = inspect_runtime_status(
-                script_paths["controller"].with_name("controller_status.json"),
-                expected_build_id,
-            )
-            runtime_code = runtime_observation.code
+            lifecycle = inspect_controller_lifecycle(script_paths["controller"], expected_build_id)
+            runtime_observation = lifecycle["runtime"]
+            runtime_code = lifecycle["verification"]
     rows.extend([
         ("Installed controller build", expected_build_id or "UNAVAILABLE", "从已安装脚本读取，未用磁盘 SHA 代替"),
         ("Installed script SHA256", installed_sha or "UNAVAILABLE", "磁盘文件摘要；不证明 FL 内存版本"),
-        ("Controller runtime", runtime_observation.status if runtime_observation else "STOP" if probe_fl else "NOT_CHECKED", runtime_code),
+        ("Controller runtime", runtime_code if probe_fl else "NOT_CHECKED", runtime_observation.code if runtime_observation else "CONTROLLER_BUILD_ID_MISSING" if probe_fl else ""),
         ("Runtime build id", runtime_observation.payload.get("build_id") if runtime_observation and runtime_observation.payload else "NOT_OBSERVED", "来自 FL 进程写出的状态文件"),
         ("Runtime session id", runtime_observation.payload.get("session_id") if runtime_observation and runtime_observation.payload else "NOT_OBSERVED", "每次 OnInit 变化"),
         ("Runtime initialized at", runtime_observation.payload.get("initialized_at") if runtime_observation and runtime_observation.payload else "NOT_OBSERVED", "Controller 本机观察时间"),
         ("Runtime last seen", runtime_observation.payload.get("last_seen_at") if runtime_observation and runtime_observation.payload else "NOT_OBSERVED", "OnIdle 节流心跳"),
         ("Runtime freshness", f"{runtime_observation.age_seconds:.1f}s" if runtime_observation and runtime_observation.age_seconds is not None else runtime_code, "阈值 10 秒"),
+        ("Canonical runtime root", str(lifecycle["paths"]["root"]) if lifecycle else "NOT_CHECKED", "由已安装 Controller 的绝对路径确定"),
+        ("Module load observed", "PASS" if lifecycle and lifecycle["module"] else "MISSING" if lifecycle else "NOT_CHECKED", lifecycle["module_error"] or "" if lifecycle else ""),
+        ("Module build", lifecycle["module"].get("build_id", "NOT_OBSERVED") if lifecycle and lifecycle["module"] else "NOT_OBSERVED", "只接受当前已安装 build"),
+        ("Module instance", lifecycle["module"].get("module_instance_id", "NOT_OBSERVED") if lifecycle and lifecycle["module"] else "NOT_OBSERVED", "每次模块加载生成"),
+        ("OnInit observed", "PASS" if lifecycle and lifecycle["init"] else "MISSING" if lifecycle else "NOT_CHECKED", lifecycle["init_error"] or "" if lifecycle else ""),
+        ("Init session", lifecycle["init"].get("session_id", "NOT_OBSERVED") if lifecycle and lifecycle["init"] else "NOT_OBSERVED", "与模块实例关联"),
+        ("Controller READY", "PASS" if runtime_observation and runtime_observation.ready else "MISSING" if runtime_observation and runtime_observation.code == "CONTROLLER_RUNTIME_STATUS_MISSING" else "STOP" if probe_fl else "NOT_CHECKED", runtime_observation.code if runtime_observation else ""),
+        ("Bootstrap error", lifecycle["error"].get("stage", "UNKNOWN") if lifecycle and lifecycle["error"] else "PRESENT" if lifecycle and lifecycle["fallback_error"] else "NONE" if lifecycle else "NOT_CHECKED", lifecycle["error"].get("exception_type", "") if lifecycle and lifecycle["error"] else lifecycle["fallback_error"] or "" if lifecycle else ""),
+        ("ControllerReloadVerification", runtime_code if probe_fl else "NOT_CHECKED", "需要当前 build、OnInit、READY 与新鲜心跳"),
         ("RPC transport", "NOT_CHECKED", "本次仅读取本机运行状态，不发送 MIDI/RPC 请求"),
         ("Target identity capability", "AVAILABLE_NOT_PROBED" if identity_code_available else "NOT_INSTALLED", "本次未发身份请求"),
         ("Port number 42", "NOT_REQUIRED_BY_BUNDLED_BACKEND", "当前 bundled MCP 使用命名 MIDI 端口，不使用 Port 42"),
@@ -129,7 +139,8 @@ def _print_integration_doctor(settings_dir: Path, probe_fl: bool, midi_port: str
     for name, status, detail in rows:
         print(f"{name:<28} {status:<34} {detail}")
     required_ok = all((scripts["controller"], scripts["backend"]))
-    return required_ok, bool(runtime_observation and runtime_observation.ready)
+    lifecycle_ok = bool(lifecycle and lifecycle["verification"] == "PASS")
+    return required_ok, lifecycle_ok if probe_fl else False
 
 
 def _doctor(probe_fl: bool, settings_dir: Path | None = None, midi_port: str | None = None) -> int:

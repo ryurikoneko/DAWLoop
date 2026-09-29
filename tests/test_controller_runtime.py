@@ -13,6 +13,8 @@ from unittest.mock import patch
 from contextlib import redirect_stdout
 
 from dawloop.controller_runtime import (
+    controller_runtime_paths,
+    inspect_controller_lifecycle,
     inspect_runtime_status,
     installed_controller_identity,
     ping_preflight,
@@ -117,6 +119,179 @@ class ControllerRuntimeTests(unittest.TestCase):
         self.assertEqual(len(disk_sha), 64)
         self.assertNotEqual(build_id, disk_sha)
 
+    def test_runtime_paths_are_absolute_and_independent_of_working_directory(self):
+        with tempfile.TemporaryDirectory() as directory, tempfile.TemporaryDirectory() as other:
+            root = Path(directory) / "Hardware" / "DAWLoopMCP"
+            controller = root / "device_DAWLoopController.py"
+            controller.parent.mkdir(parents=True)
+            previous = Path.cwd()
+            try:
+                import os
+                os.chdir(other)
+                paths = controller_runtime_paths(controller)
+            finally:
+                os.chdir(previous)
+        self.assertTrue(paths["root"].is_absolute())
+        self.assertEqual(paths["root"], root.resolve())
+        self.assertEqual(paths["ready"], root.resolve() / "controller_status.json")
+
+    def test_module_and_init_markers_are_separate_and_bound_to_one_instance(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            module = load_live_controller(root)
+            paths = controller_runtime_paths(root / "Hardware" / "DAWLoopMCP" / "device_DAWLoopController.py")
+            loaded = json.loads(paths["module"].read_text(encoding="utf-8"))
+            self.assertEqual(loaded["event"], "MODULE_LOADED")
+            self.assertEqual(loaded["build_id"], "source-uninstalled")
+            self.assertTrue(loaded["module_instance_id"])
+            self.assertFalse(paths["init"].exists())
+            module.CONTROLLER_BUILD_ID = "expected-build"
+            module.OnInit()
+            initialized = json.loads(paths["init"].read_text(encoding="utf-8"))
+            ready = json.loads(paths["ready"].read_text(encoding="utf-8"))
+            self.assertEqual(initialized["event"], "ON_INIT_ENTERED")
+            self.assertEqual(initialized["module_instance_id"], loaded["module_instance_id"])
+            self.assertEqual(initialized["session_id"], ready["session_id"])
+
+    def test_simulated_reload_changes_module_instance_id(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            paths = controller_runtime_paths(root / "Hardware" / "DAWLoopMCP" / "device_DAWLoopController.py")
+            first = load_live_controller(root)
+            first_id = json.loads(paths["module"].read_text(encoding="utf-8"))["module_instance_id"]
+            second = load_live_controller(root)
+            second_id = json.loads(paths["module"].read_text(encoding="utf-8"))["module_instance_id"]
+        self.assertNotEqual(first_id, second_id)
+        self.assertNotEqual(first.MODULE_INSTANCE_ID, second.MODULE_INSTANCE_ID)
+
+    def test_lifecycle_reports_module_without_init_as_stop(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            controller = root / "Hardware" / "DAWLoopMCP" / "device_DAWLoopController.py"
+            controller.parent.mkdir(parents=True)
+            controller.write_text('CONTROLLER_BUILD_ID = "expected"\n', encoding="utf-8")
+            paths = controller_runtime_paths(controller)
+            paths["module"].write_text(json.dumps({
+                "event": "MODULE_LOADED", "build_id": "expected",
+                "module_instance_id": "instance-a", "runtime_root": str(paths["root"]),
+            }), encoding="utf-8")
+            result = inspect_controller_lifecycle(controller, "expected", now=NOW)
+        self.assertEqual(result["verification"], "STOP")
+        self.assertIsNone(result["init"])
+
+    def test_lifecycle_reports_init_without_ready_as_stop(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            controller = root / "Hardware" / "DAWLoopMCP" / "device_DAWLoopController.py"
+            controller.parent.mkdir(parents=True)
+            controller.write_text('CONTROLLER_BUILD_ID = "expected"\n', encoding="utf-8")
+            paths = controller_runtime_paths(controller)
+            module_instance = "instance-a"
+            paths["module"].write_text(json.dumps({
+                "event": "MODULE_LOADED", "build_id": "expected",
+                "module_instance_id": module_instance, "runtime_root": str(paths["root"]),
+            }), encoding="utf-8")
+            paths["init"].write_text(json.dumps({
+                "event": "ON_INIT_ENTERED", "build_id": "expected",
+                "module_instance_id": module_instance, "session_id": "session-a",
+            }), encoding="utf-8")
+            result = inspect_controller_lifecycle(controller, "expected", now=NOW)
+        self.assertEqual(result["verification"], "STOP")
+
+    def test_lifecycle_requires_fresh_matching_ready_heartbeat(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            controller = root / "Hardware" / "DAWLoopMCP" / "device_DAWLoopController.py"
+            controller.parent.mkdir(parents=True)
+            controller.write_text('CONTROLLER_BUILD_ID = "expected"\n', encoding="utf-8")
+            paths = controller_runtime_paths(controller)
+            module_instance = "instance-a"
+            paths["module"].write_text(json.dumps({
+                "event": "MODULE_LOADED", "build_id": "expected",
+                "module_instance_id": module_instance, "runtime_root": str(paths["root"]),
+            }), encoding="utf-8")
+            paths["init"].write_text(json.dumps({
+                "event": "ON_INIT_ENTERED", "build_id": "expected",
+                "module_instance_id": module_instance, "session_id": "session-a",
+            }), encoding="utf-8")
+            old = NOW - timedelta(seconds=11)
+            paths["ready"].write_text(json.dumps(runtime_payload(
+                build_id="expected", session_id="session-a", last_seen_at=old.isoformat(),
+            )), encoding="utf-8")
+            stale = inspect_controller_lifecycle(controller, "expected", now=NOW)
+            paths["ready"].write_text(json.dumps(runtime_payload(
+                build_id="expected", session_id="session-a", last_seen_at=NOW.isoformat(),
+            )), encoding="utf-8")
+            fresh = inspect_controller_lifecycle(controller, "expected", now=NOW)
+        self.assertEqual(stale["verification"], "RELOAD_REQUIRED")
+        self.assertEqual(fresh["verification"], "PASS")
+
+    def test_stale_build_markers_are_ignored(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            controller = root / "Hardware" / "DAWLoopMCP" / "device_DAWLoopController.py"
+            controller.parent.mkdir(parents=True)
+            controller.write_text('CONTROLLER_BUILD_ID = "current"\n', encoding="utf-8")
+            paths = controller_runtime_paths(controller)
+            paths["module"].write_text(json.dumps({
+                "event": "MODULE_LOADED", "build_id": "old", "module_instance_id": "old-instance",
+            }), encoding="utf-8")
+            result = inspect_controller_lifecycle(controller, "current", now=NOW)
+        self.assertIsNone(result["module"])
+        self.assertEqual(result["verification"], "RELOAD_REQUIRED")
+
+    def test_bootstrap_error_from_previous_module_instance_is_ignored(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            controller = root / "Hardware" / "DAWLoopMCP" / "device_DAWLoopController.py"
+            controller.parent.mkdir(parents=True)
+            controller.write_text('CONTROLLER_BUILD_ID = "expected"\n', encoding="utf-8")
+            paths = controller_runtime_paths(controller)
+            paths["module"].write_text(json.dumps({
+                "event": "MODULE_LOADED", "build_id": "expected",
+                "module_instance_id": "new-instance", "runtime_root": str(paths["root"]),
+            }), encoding="utf-8")
+            paths["error"].write_text(json.dumps({
+                "build_id": "expected", "module_instance_id": "old-instance",
+                "stage": "PROJECT_IMPORT",
+            }), encoding="utf-8")
+            paths["error_marker"].write_text(
+                "expected\nold-instance\nPROJECT_IMPORT\nImportError\n", encoding="utf-8"
+            )
+            result = inspect_controller_lifecycle(controller, "expected", now=NOW)
+        self.assertIsNone(result["error"])
+        self.assertIsNone(result["fallback_error"])
+        self.assertEqual(result["verification"], "STOP")
+
+    def test_bootstrap_error_from_current_module_instance_stops(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            controller = root / "Hardware" / "DAWLoopMCP" / "device_DAWLoopController.py"
+            controller.parent.mkdir(parents=True)
+            controller.write_text('CONTROLLER_BUILD_ID = "expected"\n', encoding="utf-8")
+            paths = controller_runtime_paths(controller)
+            paths["module"].write_text(json.dumps({
+                "event": "MODULE_LOADED", "build_id": "expected",
+                "module_instance_id": "current-instance", "runtime_root": str(paths["root"]),
+            }), encoding="utf-8")
+            paths["error"].write_text(json.dumps({
+                "build_id": "expected", "module_instance_id": "current-instance",
+                "stage": "PROJECT_IMPORT",
+            }), encoding="utf-8")
+            result = inspect_controller_lifecycle(controller, "expected", now=NOW)
+        self.assertEqual(result["verification"], "STOP")
+
+    def test_bootstrap_error_is_serialized_without_daW_api_calls(self):
+        with tempfile.TemporaryDirectory() as directory:
+            module = load_live_controller(Path(directory))
+            module.CONTROLLER_BUILD_ID = "expected-build"
+            module._record_bootstrap_error("PROJECT_IMPORT", RuntimeError("safe diagnostic"))
+            payload = json.loads(module.BOOTSTRAP_ERROR_FILE.read_text(encoding="utf-8"))
+        self.assertEqual(payload["build_id"], "expected-build")
+        self.assertEqual(payload["stage"], "PROJECT_IMPORT")
+        self.assertEqual(payload["exception_type"], "RuntimeError")
+        self.assertNotIn("private", payload["safe_message"].lower())
+
     def test_ping_preflight_blocks_missing_stale_and_mismatched_runtime(self):
         with tempfile.TemporaryDirectory() as directory:
             settings = Path(directory)
@@ -174,6 +349,8 @@ class ControllerRuntimeTests(unittest.TestCase):
             module.STATUS_FILE = blocked_parent / "controller_status.json"
             module.OnInit()
             self.assertFalse(module.STATUS_FILE.exists())
+            error = json.loads(module.BOOTSTRAP_ERROR_FILE.read_text(encoding="utf-8"))
+            self.assertTrue(error["stage"].startswith("ON_INIT_STATUS_WRITE"))
 
     def test_runtime_status_callbacks_do_not_call_daw_mutation_apis(self):
         with tempfile.TemporaryDirectory() as directory:
