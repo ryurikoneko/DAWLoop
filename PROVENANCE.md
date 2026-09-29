@@ -35,6 +35,9 @@ DAWLoop 的公开仓库从独立、干净的 Git 历史开始。项目自己的 
 | `src/dawloop/verification/**` | `CONFIRMED_PROJECT_GENERATED` | Exact-Set Verification、重复事件计数、PASS / STOP 语义 |
 | `schemas/note_plan.schema.json` | `CONFIRMED_PROJECT_GENERATED` | Note Plan JSON Schema |
 | `src/dawloop/adapters/fl_studio_mcp/**` | `CONFIRMED_PROJECT_GENERATED` | DAWLoop 特有的 MCP 调用、目标身份门控、映射、读回与验证报告；不复制 upstream server 实现 |
+| `src/dawloop/midi_setup.py`, `src/dawloop/setup.py`, `src/dawloop/fl_mcp_server.py`, `src/dawloop/fl_scripts/device_DAWLoopController.py` | `CONFIRMED_PROJECT_GENERATED` | 统一控制器封装、只读身份请求复用、MIDI 端口与 loopMIDI 诊断、User Script 安装器和 bundled backend 端口选择胶水；上游实现仍单独归类 |
+| `docs/FL_STUDIO_SETUP.md` | `CONFIRMED_PROJECT_GENERATED` | 一次性 MIDI / User Script 配置和诊断说明；supportedDevices 行为参考 Image-Line 官方文档 |
+| `tests/test_midi_setup.py` | `CONFIRMED_PROJECT_GENERATED` | 合成设备名称与 mock 环境下的诊断测试 |
 | `src/dawloop/fl_scripts/**` | `CONFIRMED_PROJECT_GENERATED` | 新写的只读 FL Studio 目标身份查询脚本；复用上游 MIDI/JSON 通道并委托非身份命令，未改动 bundled 上游源码 |
 | `src/dawloop/setup.py` / `src/dawloop/cli.py` | `CONFIRMED_PROJECT_GENERATED` | 安装、doctor、CLI 与集成胶水；CLI 后续增加 Production Pipeline API 入口 |
 | `src/dawloop/production/environment.py` | `CONFIRMED_PROJECT_GENERATED` | Production Pipeline 环境档案及可选依赖探测 |

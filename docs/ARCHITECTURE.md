@@ -65,7 +65,7 @@ The adapter boundary keeps DAWLoop Core independent of a specific control route.
 
 The adapter maps validated Note Plans to upstream Piano Roll operations, checks the selected Channel and blank-target preconditions, requests fresh Piano Roll state, converts returned notes into DAWLoop events, and produces a structured execution report. The adapter also contains Mixer discovery and loaded-plugin parameter query paths. These implementations and upstream capabilities are not live-verified merely because the code is present.
 
-The upstream Piano Roll readback does not include Pattern identity. The adapter therefore requires an external identity reader to check the project, Pattern, Channel, and FL Studio version; it must not infer Pattern identity from the Piano Roll response.
+The upstream Piano Roll readback does not include Pattern identity. DAWLoop's primary FL Studio Controller adds a read-only identity action over the same MIDI-trigger / JSON request-response path used for upstream controller RPC, reporting project title, Pattern number and name, global Channel index and name, PPQ, `safeToEdit`, and available API / FL versions. It does not add a second Controller or transport. Piano Roll note operations remain a distinct upstream path using a request JSON file, the `ComposeWithLLM` script, and a `pynput` hotkey trigger. Identity capability is implemented but still requires live loading and response verification; it must not infer Pattern identity from Piano Roll data.
 
 ```text
 validated plan

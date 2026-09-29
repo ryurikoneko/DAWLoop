@@ -459,6 +459,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="采集独立测试工程的现场音符往返证据")
     parser.add_argument("--identity-reader", help="可选；默认使用 DAWLoop 只读身份读取器")
     parser.add_argument("--midi-port", required=True, help="与 DAWLoop 控制器对应的精确 MIDI 输出端口名")
+    parser.add_argument("--settings-dir", type=Path, help="活动 FL Studio Settings 目录；用于非默认用户数据位置")
     parser.add_argument("--ppq", required=True, type=int, help="FL Studio 当前工程的 PPQ；写前现场核对")
     parser.add_argument("--expected-pattern-number", required=True, type=int)
     parser.add_argument("--expected-channel-index", required=True, type=int, help="全局 Channel 索引")
@@ -468,7 +469,7 @@ def main(argv: list[str] | None = None) -> int:
         parser.error(f"必须明确确认独立测试工程：{PROJECT_NAME}")
     try:
         reader = _load_reader(args.identity_reader) if args.identity_reader \
-            else lambda: read_current_target(args.midi_port)
+            else lambda: read_current_target(args.midi_port, settings_dir=args.settings_dir)
     except (ImportError, AttributeError, TypeError, ValueError):
         reader = None
     if reader is None:

@@ -123,8 +123,7 @@ Implementation availability and verification evidence are separate. “Backend A
 | Bundled Community FL Studio MCP snapshot | Backend Available | Upstream source bundled; not a DAWLoop live result |
 | FL Studio connection path | Experimental | Maintainer Live Tested; setup may be unstable across environments, and feedback is welcome |
 | Transport control | Backend Available | No archived DAWLoop live evidence |
-| Pattern identity checks | Implemented; external identity reader required | Live test not established; no archived field-level evidence |
-| Channel identity checks | Implemented | Live test not established; no archived field-level evidence |
+| Pattern / Channel identity checks | Implemented through the primary DAWLoop Controller's read-only RPC | Live test not established; no archived field-level evidence |
 | Piano Roll note writing | Implemented | Maintainer Live Tested; archived field-level evidence pending |
 | Piano Roll note-state readback | Implemented | Maintainer Live Tested; archived field-level evidence pending |
 | Live Exact-Set comparison | Experimental | Maintainer live-tested status not established; no archived comparison; not Live Verified |
@@ -173,11 +172,17 @@ For the broader Production Pipeline utility set, including Pillow / SciPy depend
 python -m pip install -e ".[flstudio,production-full]"
 ```
 
-To install the bundled upstream FL Studio User Scripts, pass the actual FL Studio `Settings` directory. Existing destination files are backed up by the installer before replacement:
+### Quick FL Studio setup
+
+Preview the detected environment, then install the unified `DAWLoop Controller` and bundled backend into the active FL Studio `Settings` directory:
 
 ```powershell
-dawloop install-fl-scripts --settings-dir "<FL Studio Settings directory>"
+dawloop setup-fl --dry-run
+dawloop setup-fl --settings-dir "<FL Studio Settings directory>"
+dawloop doctor --settings-dir "<FL Studio Settings directory>"
 ```
+
+The installer does not configure loopMIDI or FL Studio MIDI ports. See [FL Studio setup](docs/FL_STUDIO_SETUP.md) for the one-time setup and persistence checks.
 
 `dawloop doctor` distinguishes installed dependencies and MIDI ports from an actual FL Studio response. To run its read-only connection probe:
 
@@ -204,13 +209,13 @@ For the historical published release, use the [offline Quickstart](docs/QUICKSTA
 2. Run `dawloop doctor` and resolve reported setup issues.
 3. Optionally inspect a MIDI file with `dawloop midi-inspect` to identify active sections and track structure.
 4. Optionally analyze rendered/loopback audio with the active-frame RMS tools.
-5. Install the FL Studio User Scripts and enable the bundled controller in FL Studio MIDI settings.
+5. Run `dawloop setup-fl`, then select or confirm `DAWLoop Controller` in FL Studio MIDI settings if automatic association has not occurred.
 6. Prepare a disposable test project with an existing blank Pattern and a known Channel.
-7. Use an external identity reader to confirm the project, Pattern, and Channel before any write.
+7. Use the primary Controller's read-only identity query to confirm the project, Pattern, Channel, and PPQ before any write.
 8. Run a Note Plan through `FLStudioMCPAdapter`; inspect the returned report and readback.
 9. Treat `PASS` as operation-specific only when fresh target and event evidence supports it.
 
-The repository includes a maintainer-only [live note evidence capture tool](tests/live_fl/README.md) for a dedicated synthetic test target. It requires an independent live Pattern / Channel identity reader; it is not a general command for arbitrary Note Plans. No archived live PASS is claimed by the existence of this tool. See [FL Studio MCP integration](docs/FL_STUDIO_MCP.md). Do not use a private song for live testing.
+The repository includes a maintainer-only [live note evidence capture tool](tests/live_fl/README.md) for a dedicated synthetic test target. It uses a read-only identity query on the primary Controller; it is not a general command for arbitrary Note Plans. No archived live PASS is claimed by the existence of this tool. See [FL Studio MCP integration](docs/FL_STUDIO_MCP.md) and [FL Studio setup](docs/FL_STUDIO_SETUP.md). Do not use a private song for live testing.
 
 ## Production Pipeline
 

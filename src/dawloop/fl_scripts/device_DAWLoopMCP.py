@@ -1,10 +1,9 @@
-# name=DAWLoop MCP Controller
+# name=DAWLoop Target Identity (development only / transitional)
 
-"""在原有 MCP MIDI/JSON 通道中增加只读目标身份查询。"""
+"""通过独立 MIDI/JSON 通道只读取当前目标身份。"""
 
 import json
 import os
-import sys
 from pathlib import Path
 
 import channels
@@ -13,18 +12,14 @@ import patterns
 import ui
 
 
-def _controller_dir():
-    if sys.platform == "win32":
-        base = Path(os.environ.get("USERPROFILE", "~"))
-    else:
-        base = Path.home()
-    return base / "Documents" / "Image-Line" / "FL Studio" / "Settings" / "Hardware" / "FLStudioMCP"
-
-
-sys.path.insert(0, str(_controller_dir()))
-import device_FLStudioMCP as upstream
-
-
+SETTINGS_DIR_OVERRIDE = None
+SETTINGS_DIR = Path(SETTINGS_DIR_OVERRIDE) if SETTINGS_DIR_OVERRIDE else (
+    Path(os.environ.get("USERPROFILE", str(Path.home())))
+    / "Documents" / "Image-Line" / "FL Studio" / "Settings"
+)
+SCRIPT_DIR = SETTINGS_DIR / "Hardware" / "DAWLoopMCP"
+COMMAND_FILE = SCRIPT_DIR / "identity_command.json"
+RESPONSE_FILE = SCRIPT_DIR / "identity_response.json"
 def _read(call):
     try:
         return call()
@@ -51,28 +46,21 @@ def read_target_identity():
     }
 
 
-def OnInit():
-    upstream.OnInit()
-
-
-def OnDeInit():
-    upstream.OnDeInit()
-
-
 def OnIdle():
-    upstream.OnIdle()
-
-
-def OnMidiMsg(event):
-    if event.midiId != 0x90 or event.data1 != upstream.TRIGGER_NOTE or event.data2 <= 0:
-        upstream.OnMidiMsg(event)
+    if not COMMAND_FILE.is_file():
         return
+    request_id = None
     try:
-        command = json.loads(upstream.COMMAND_FILE.read_text(encoding="utf-8"))
+        command = json.loads(COMMAND_FILE.read_text(encoding="utf-8"))
+        request_id = command.get("request_id") if isinstance(command, dict) else None
         if not isinstance(command, dict) or command.get("action") != "dawloop.getTargetIdentity":
-            upstream.OnMidiMsg(event)
-            return
-        upstream.write_response({"success": True, "target": read_target_identity()})
+            response = {"success": False, "error": "UNSUPPORTED_ACTION", "request_id": request_id}
+        else:
+            response = {"success": True, "target": read_target_identity(), "request_id": request_id}
     except Exception as error:
-        upstream.write_response({"success": False, "error": type(error).__name__})
-    event.handled = True
+        response = {"success": False, "error": type(error).__name__, "request_id": request_id}
+    try:
+        RESPONSE_FILE.write_text(json.dumps(response, ensure_ascii=False), encoding="utf-8")
+        COMMAND_FILE.unlink(missing_ok=True)
+    except OSError:
+        pass

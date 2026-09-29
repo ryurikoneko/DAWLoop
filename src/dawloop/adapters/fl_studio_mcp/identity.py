@@ -1,7 +1,12 @@
 from __future__ import annotations
 
+import asyncio
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
+from pathlib import Path
+from uuid import uuid4
+
+from dawloop.setup import default_settings_dir
 
 
 @dataclass(frozen=True)
@@ -58,18 +63,30 @@ def identity_from_response(response: dict) -> TargetIdentity:
     )
 
 
-def _connection_for_port(port_name: str):
-    from fl_studio_mcp.utils.midi_connection import MIDIConnection
-
+async def read_current_target(
+    port_name: str,
+    timeout: float = 5.0,
+    *,
+    settings_dir: Path | None = None,
+) -> TargetIdentity:
+    if timeout <= 0:
+        raise ValueError("IDENTITY_TIMEOUT_INVALID")
     if not isinstance(port_name, str) or not port_name.strip():
         raise ValueError("MIDI_PORT_REQUIRED")
+    from fl_studio_mcp.utils.midi_connection import MIDIConnection
 
     class ExactPortConnection(MIDIConnection):
+        def __init__(self):
+            super().__init__()
+            self._hardware_dir = (settings_dir or default_settings_dir()) / "Hardware" / "DAWLoopMCP"
+            self._hardware_dir.mkdir(parents=True, exist_ok=True)
+            self._command_file = self._hardware_dir / "mcp_command.json"
+            self._response_file = self._hardware_dir / "mcp_response.json"
+
         def connect(self) -> bool:
             if self.is_connected:
                 return True
             import mido
-
             if port_name not in mido.get_output_names():
                 raise ValueError("MIDI_PORT_UNAVAILABLE")
             self._port = mido.open_output(port_name)
@@ -78,20 +95,24 @@ def _connection_for_port(port_name: str):
             self._error = None
             return True
 
-    return ExactPortConnection()
-
-
-async def read_current_target(port_name: str) -> TargetIdentity:
-    import asyncio
-
-    def query():
-        connection = _connection_for_port(port_name)
-        try:
-            return connection.send_command("dawloop.getTargetIdentity", timeout=3.0)
-        finally:
-            connection.disconnect()
-
-    response = await asyncio.to_thread(query)
+    connection = ExactPortConnection()
+    command_file = connection._command_file
+    if command_file.exists():
+        raise RuntimeError("MIDI_COMMAND_QUEUE_BUSY")
+    request_id = uuid4().hex
+    try:
+        response = await asyncio.to_thread(
+            connection.send_command,
+            "dawloop.getTargetIdentity",
+            {"request_id": request_id},
+            timeout,
+        )
+    finally:
+        connection.disconnect()
+    if not isinstance(response, dict) or response.get("request_id") != request_id:
+        raise ValueError("TARGET_IDENTITY_NOT_AVAILABLE")
+    if response.get("success") is not True and not response.get("target"):
+        raise ValueError("TARGET_IDENTITY_NOT_AVAILABLE")
     return identity_from_response(response)
 
 

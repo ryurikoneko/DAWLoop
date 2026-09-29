@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import asyncio
 import importlib.metadata
-import importlib.util
 import inspect
 import json
 from dataclasses import asdict, dataclass
@@ -44,16 +43,10 @@ class LiveExecutionReport:
 
 
 def _server_script() -> Path:
-    checkout = Path(__file__).resolve().parents[4] / "third_party" / "fl-studio-mcp"
-    source = checkout / "src" / "fl_studio_mcp" / "server.py"
+    source = Path(__file__).resolve().parents[2] / "fl_mcp_server.py"
     if source.is_file():
         return source
-    package = importlib.util.find_spec("fl_studio_mcp")
-    if package and package.origin:
-        installed = Path(package.origin).parent / "server.py"
-        if installed.is_file():
-            return installed
-    raise FileNotFoundError("找不到随 DAWLoop 打包的 FL Studio MCP 服务端")
+    raise FileNotFoundError("找不到 DAWLoop FL Studio MCP 启动适配器")
 
 
 async def _call(client, name: str, arguments: dict | None = None):
