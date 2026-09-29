@@ -20,6 +20,7 @@ from pathlib import Path
 
 from dawloop.adapters.fl_studio_mcp import FLStudioMCPAdapter, TargetIdentity
 from dawloop.adapters.fl_studio_mcp.adapter import UPSTREAM_COMMIT, probe_connection
+from dawloop.adapters.fl_studio_mcp.identity import read_current_target
 from dawloop.note_plan import NoteEvent, NotePlan
 from dawloop.time import MusicalGrid
 
@@ -51,14 +52,22 @@ def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def _require_test_target(identity: TargetIdentity) -> None:
-    if (
-        identity.project_id != PROJECT_NAME
-        or identity.pattern_id != PATTERN_NAME
-        or identity.channel_name != CHANNEL_NAME
-        or any(character in identity.fl_studio_version for character in "\\/:\r\n")
-    ):
-        raise ValueError("现场目标不是指定的独立测试工程、Pattern 和 Channel")
+def _require_test_target(identity: TargetIdentity, pattern_number: int, channel_index: int, ppq: int) -> None:
+    checks = (
+        (identity.project_id == PROJECT_NAME, "PROJECT_TITLE_MISMATCH"),
+        (identity.pattern_number == pattern_number, "PATTERN_NUMBER_MISMATCH"),
+        (identity.pattern_id == PATTERN_NAME, "PATTERN_NAME_MISMATCH"),
+        (identity.channel_index_type == "global", "CHANNEL_INDEX_TYPE_MISMATCH"),
+        (identity.channel_index == channel_index, "CHANNEL_INDEX_MISMATCH"),
+        (identity.channel_name == CHANNEL_NAME, "CHANNEL_NAME_MISMATCH"),
+        (identity.ppq == ppq, "PPQ_MISMATCH"),
+        (identity.safe_to_edit is True, "FL_NOT_SAFE_TO_EDIT"),
+    )
+    for valid, code in checks:
+        if not valid:
+            raise ValueError(code)
+    if any(character in identity.fl_studio_version for character in "\\/:\r\n"):
+        raise ValueError("FL_STUDIO_VERSION_UNAVAILABLE")
 
 
 def _load_reader(specification: str):
@@ -77,7 +86,6 @@ async def _identity(reader) -> TargetIdentity:
         result = await result
     if not isinstance(result, TargetIdentity):
         raise TypeError("身份读取器必须返回 TargetIdentity")
-    _require_test_target(result)
     return result
 
 
@@ -130,11 +138,23 @@ def _fresh(stage: dict) -> bool:
     return type(before) is int and type(after) is int and after > before
 
 
+def _same_identity_observation(expected: TargetIdentity, observed: dict | None) -> bool:
+    if not isinstance(observed, dict):
+        return False
+    reference = expected.to_dict()
+    return all(
+        observed.get(key) == value for key, value in reference.items()
+        if key != "observed_at_utc"
+    )
+
+
 async def capture_note_roundtrip(
     identity_reader,
     ppq: int,
     output_root: Path = DEFAULT_OUTPUT,
     *,
+    expected_pattern_number: int,
+    expected_channel_index: int,
     adapter: FLStudioMCPAdapter | None = None,
     connection_probe=probe_connection,
 ) -> Path:
@@ -142,13 +162,17 @@ async def capture_note_roundtrip(
     lock_path = output_root / ".capture.lock"
     descriptor = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
     try:
-        return await _capture_once(identity_reader, ppq, output_root, adapter, connection_probe)
+        return await _capture_once(
+            identity_reader, ppq, output_root, adapter, connection_probe,
+            expected_pattern_number, expected_channel_index,
+        )
     finally:
         os.close(descriptor)
         lock_path.unlink(missing_ok=True)
 
 
-async def _capture_once(identity_reader, ppq, output_root, adapter, connection_probe) -> Path:
+async def _capture_once(identity_reader, ppq, output_root, adapter, connection_probe,
+                        expected_pattern_number, expected_channel_index) -> Path:
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ") + "-" + uuid.uuid4().hex[:8]
     run_dir = output_root / run_id
     run_dir.mkdir(mode=0o700)
@@ -156,6 +180,7 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
     stages: dict[str, dict] = {}
     stage_times: dict[str, str] = {}
     target: TargetIdentity | None = None
+    identity_match = False
     report = None
     failure_stage = "plan"
     error_type = None
@@ -166,6 +191,10 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
     initial_branch = None
     try:
         plan = synthetic_plan(ppq)
+        if type(expected_pattern_number) is not int or expected_pattern_number < 1:
+            raise ValueError("预期 Pattern 编号必须为正整数")
+        if type(expected_channel_index) is not int or expected_channel_index < 0:
+            raise ValueError("预期全局 Channel 索引必须为非负整数")
         failure_stage = "checkout"
         checkout = subprocess.run(
             ["git", "status", "--porcelain"], cwd=Path(__file__).resolve().parents[2],
@@ -193,6 +222,8 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
         connection_ok = True
         failure_stage = "identity"
         target = await _identity(identity_reader)
+        _require_test_target(target, expected_pattern_number, expected_channel_index, ppq)
+        identity_match = True
         failure_stage = "adapter"
         def record_stage(stage: str, data: dict) -> None:
             stages[stage] = data
@@ -205,10 +236,20 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
     except Exception as error:
         error_type = type(error).__name__
         if failure_stage == "identity":
-            error_code = (
-                "TARGET_IDENTITY_MISMATCH" if isinstance(error, ValueError)
-                else "PATTERN_IDENTITY_READER_MISSING"
-            )
+            known_codes = {
+                "PROJECT_TITLE_MISMATCH", "PATTERN_NUMBER_MISMATCH", "PATTERN_NAME_MISMATCH",
+                "CHANNEL_INDEX_TYPE_MISMATCH", "CHANNEL_INDEX_MISMATCH", "CHANNEL_NAME_MISMATCH",
+                "PPQ_MISMATCH", "FL_NOT_SAFE_TO_EDIT", "FL_STUDIO_VERSION_UNAVAILABLE",
+                "PATTERN_IDENTITY_UNAVAILABLE", "CHANNEL_IDENTITY_UNAVAILABLE",
+                "PPQ_UNAVAILABLE", "FL_SAFE_TO_EDIT_UNAVAILABLE", "FL_API_VERSION_UNAVAILABLE",
+                "PROJECT_TITLE_UNAVAILABLE", "PATTERN_NAME_UNAVAILABLE", "CHANNEL_NAME_UNAVAILABLE",
+            }
+            if isinstance(error, ValueError) and str(error) in known_codes:
+                error_code = str(error)
+            elif isinstance(error, TimeoutError):
+                error_code = "TARGET_IDENTITY_TIMEOUT"
+            else:
+                error_code = "PATTERN_IDENTITY_READER_MISSING"
 
     final_checkout = subprocess.run(
         ["git", "status", "--porcelain"], cwd=Path(__file__).resolve().parents[2],
@@ -239,9 +280,9 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
         required_stages <= stages.keys()
         and plan is not None
         and target is not None
-        and stages["target_before"] == target.to_dict()
-        and stages["target_before_trigger"] == target.to_dict()
-        and stages["target_after"] == target.to_dict()
+        and _same_identity_observation(target, stages["target_before"])
+        and _same_identity_observation(target, stages["target_before_trigger"])
+        and _same_identity_observation(target, stages["target_after"])
         and stages["pre_state"].get("note_count") == 0
         and stages["pre_state"].get("ppq") == ppq
         and _fresh(stages["pre_state"])
@@ -324,9 +365,19 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
     })
     _write_json(run_dir / "target_identity.json", {
         "run_id": run_id,
-        "expected": target.to_dict() if target else {
-            "project_id": PROJECT_NAME, "pattern_id": PATTERN_NAME, "channel_name": CHANNEL_NAME
+        "expected": {
+            "project_id": PROJECT_NAME, "pattern_number": expected_pattern_number,
+            "pattern_id": PATTERN_NAME, "channel_index": expected_channel_index,
+            "channel_index_type": "global", "channel_name": CHANNEL_NAME,
+            "ppq": ppq, "safe_to_edit": True,
         },
+        "actual": target.to_dict() if target else {
+            "project_id": None, "pattern_number": None, "pattern_id": None,
+            "channel_index": None, "channel_index_type": None,
+            "channel_name": None, "ppq": None, "safe_to_edit": None,
+            "api_version": None, "fl_studio_version": None,
+        },
+        "status": "PASS" if identity_match else "STOP",
         "observed_before": stages.get("target_before"),
         "observed_before_trigger": stages.get("target_before_trigger"),
         "observed_after": stages.get("target_after"),
@@ -389,21 +440,26 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="采集独立测试工程的现场音符往返证据")
-    parser.add_argument("--identity-reader", help="现场身份读取器 module:function")
+    parser.add_argument("--identity-reader", help="可选；默认使用 DAWLoop 只读身份读取器")
     parser.add_argument("--ppq", required=True, type=int, help="FL Studio 当前工程的 PPQ；写前现场核对")
+    parser.add_argument("--expected-pattern-number", required=True, type=int)
+    parser.add_argument("--expected-channel-index", required=True, type=int, help="全局 Channel 索引")
     parser.add_argument("--confirm-disposable-project", required=True)
     args = parser.parse_args(argv)
     if args.confirm_disposable_project != PROJECT_NAME:
         parser.error(f"必须明确确认独立测试工程：{PROJECT_NAME}")
     try:
-        reader = _load_reader(args.identity_reader) if args.identity_reader else None
+        reader = _load_reader(args.identity_reader) if args.identity_reader else read_current_target
     except (ImportError, AttributeError, TypeError, ValueError):
         reader = None
     if reader is None:
         def reader():
             raise RuntimeError("无法载入独立的现场身份读取器")
 
-    result_dir = asyncio.run(capture_note_roundtrip(reader, args.ppq))
+    result_dir = asyncio.run(capture_note_roundtrip(
+        reader, args.ppq, expected_pattern_number=args.expected_pattern_number,
+        expected_channel_index=args.expected_channel_index,
+    ))
     result = json.loads((result_dir / "verification.json").read_text(encoding="utf-8"))
     print(f"LiveNoteRoundTripVerification: {result['status']} | {result_dir}")
     return 0 if result["status"] == "PASS" else 1

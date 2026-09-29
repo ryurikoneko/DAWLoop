@@ -35,10 +35,11 @@ DAWLoop 的公开仓库从独立、干净的 Git 历史开始。项目自己的 
 | `src/dawloop/verification/**` | `CONFIRMED_PROJECT_GENERATED` | Exact-Set Verification、重复事件计数、PASS / STOP 语义 |
 | `schemas/note_plan.schema.json` | `CONFIRMED_PROJECT_GENERATED` | Note Plan JSON Schema |
 | `src/dawloop/adapters/fl_studio_mcp/**` | `CONFIRMED_PROJECT_GENERATED` | DAWLoop 特有的 MCP 调用、目标身份门控、映射、读回与验证报告；不复制 upstream server 实现 |
+| `src/dawloop/fl_scripts/**` | `CONFIRMED_PROJECT_GENERATED` | 新写的只读 FL Studio 目标身份查询脚本；复用上游 MIDI/JSON 通道并委托非身份命令，未改动 bundled 上游源码 |
 | `src/dawloop/setup.py` / `src/dawloop/cli.py` | `CONFIRMED_PROJECT_GENERATED` | 安装、doctor、CLI 与集成胶水；CLI 后续增加 Production Pipeline API 入口 |
 | `src/dawloop/production/environment.py` | `CONFIRMED_PROJECT_GENERATED` | Production Pipeline 环境档案及可选依赖探测 |
 | `tests/test_*.py`（除明确第三方 fixture 外） | `CONFIRMED_PROJECT_GENERATED` | 使用自造测试数据；当前不包含第三方音乐作品 fixture |
-| `tests/live_fl/capture_note_roundtrip.py` / `tests/live_fl/README.md` | `CONFIRMED_PROJECT_GENERATED` | 本项目新建的开发期现场证据采集器与说明；没有复制第三方实现；实际运行证据默认不纳入 Git |
+| `tests/live_fl/capture_note_roundtrip.py` / `tests/live_fl/probe_target_identity.py` / `tests/live_fl/README.md` | `CONFIRMED_PROJECT_GENERATED` | 本项目新建的开发期现场证据采集器、只读身份探测与说明；没有复制第三方实现；实际运行证据默认不纳入 Git |
 
 公开 clean-core 的历史创建提交仍保留在 Git 历史中；本文件不重写历史 commit，只维护当前来源状态。
 

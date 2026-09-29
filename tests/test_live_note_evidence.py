@@ -13,6 +13,7 @@ from unittest.mock import patch
 
 from dawloop.adapters.fl_studio_mcp import FLStudioMCPAdapter, TargetIdentity
 from dawloop.adapters.fl_studio_mcp import adapter as adapter_module
+from dawloop.adapters.fl_studio_mcp.identity import identity_from_response
 from dawloop.note_plan import NoteEvent
 
 
@@ -21,7 +22,9 @@ SPEC = importlib.util.spec_from_file_location("capture_note_roundtrip_for_tests"
 capture = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(capture)
 TARGET = TargetIdentity(
-    capture.PROJECT_NAME, capture.PATTERN_NAME, 0, capture.CHANNEL_NAME, "FL Studio 26"
+    capture.PROJECT_NAME, capture.PATTERN_NAME, 0, capture.CHANNEL_NAME, "FL Studio 26",
+    pattern_number=1, ppq=96, safe_to_edit=True, api_version=38,
+    observed_at_utc="initial-local-observation",
 )
 EVIDENCE_NAMES = {
     "environment.json", "target_identity.json", "plan.json", "pre_state.json",
@@ -50,7 +53,7 @@ class SimulatedAdapter:
 
     async def execute(self, plan, target, identity_reader, evidence_observer):
         self.calls += 1
-        evidence_observer("target_before", target.to_dict())
+        evidence_observer("target_before", replace(target, observed_at_utc="second-local-observation").to_dict())
         evidence_observer("pre_state", {
             "ppq": plan.grid.ppq,
             "note_count": 1 if self.mode == "nonblank" else 0,
@@ -63,7 +66,7 @@ class SimulatedAdapter:
         if self.mode == "write_fail":
             return adapter_module._report(plan, target, errors=("C:\\Users\\ExampleUser\\error",))
         evidence_observer("write_queued", {"accepted": True})
-        evidence_observer("target_before_trigger", target.to_dict())
+        evidence_observer("target_before_trigger", replace(target, observed_at_utc="third-local-observation").to_dict())
         if self.mode == "read_fail":
             return adapter_module._report(plan, target, errors=("read failed",))
         if self.mode == "backend_only":
@@ -76,7 +79,7 @@ class SimulatedAdapter:
             actual.append(NoteEvent(300, 12, 55, 70))
         elif self.mode == "duplicate":
             actual.append(plan.events[0])
-        evidence_observer("target_after", target.to_dict())
+        evidence_observer("target_after", replace(target, observed_at_utc="fourth-local-observation").to_dict())
         evidence_observer("readback", {
             "events": [event.to_dict() for event in actual],
             "state_mtime_before_ns": 20,
@@ -94,7 +97,8 @@ class CaptureEvidenceTests(unittest.TestCase):
         with patch.object(capture.subprocess, "run", side_effect=clean_git):
             run_dir = asyncio.run(capture.capture_note_roundtrip(
                 reader, ppq, Path(directory.name) / "evidence", adapter=backend,
-                connection_probe=connected,
+                connection_probe=connected, expected_pattern_number=1,
+                expected_channel_index=0,
             ))
         artifacts = {
             name: json.loads((run_dir / name).read_text(encoding="utf-8"))
@@ -114,13 +118,48 @@ class CaptureEvidenceTests(unittest.TestCase):
 
     def test_rejects_wrong_pattern_and_channel_before_write(self):
         for wrong in (
-            TargetIdentity(TARGET.project_id, "Other Pattern", 0, TARGET.channel_name, TARGET.fl_studio_version),
-            TargetIdentity(TARGET.project_id, TARGET.pattern_id, 0, "Other Channel", TARGET.fl_studio_version),
+            replace(TARGET, pattern_id="Other Pattern"),
+            replace(TARGET, channel_name="Other Channel"),
         ):
             with self.subTest(wrong=wrong):
                 backend, _, files = self.run_capture(reader=lambda: wrong)
                 self.assertEqual(backend.calls, 0)
                 self.assertEqual(files["verification.json"]["status"], "STOP")
+
+    def test_each_identity_gate_stops_before_adapter_write(self):
+        cases = (
+            ("pattern_number", 2, "PATTERN_NUMBER_MISMATCH"),
+            ("pattern_id", "Other Pattern", "PATTERN_NAME_MISMATCH"),
+            ("channel_index", 1, "CHANNEL_INDEX_MISMATCH"),
+            ("channel_name", "Other Channel", "CHANNEL_NAME_MISMATCH"),
+            ("channel_index_type", "grouped", "CHANNEL_INDEX_TYPE_MISMATCH"),
+            ("project_id", "Other Project", "PROJECT_TITLE_MISMATCH"),
+            ("ppq", 120, "PPQ_MISMATCH"),
+            ("safe_to_edit", False, "FL_NOT_SAFE_TO_EDIT"),
+        )
+        for field, value, code in cases:
+            with self.subTest(field=field):
+                backend, _, files = self.run_capture(reader=lambda: replace(TARGET, **{field: value}))
+                self.assertEqual(backend.calls, 0)
+                self.assertEqual(files["verification.json"]["error_code"], code)
+                self.assertEqual(files["target_identity.json"]["status"], "STOP")
+                self.assertEqual(files["target_identity.json"]["actual"][field], value)
+
+    def test_identity_timeout_stops_before_write(self):
+        def timeout():
+            raise TimeoutError("identity request timed out")
+
+        backend, _, files = self.run_capture(reader=timeout)
+        self.assertEqual(backend.calls, 0)
+        self.assertEqual(files["verification.json"]["status"], "STOP")
+        self.assertEqual(files["verification.json"]["error_code"], "TARGET_IDENTITY_TIMEOUT")
+
+    def test_identity_pass_records_actual_before_adapter(self):
+        backend, _, files = self.run_capture()
+        self.assertEqual(backend.calls, 1)
+        self.assertEqual(files["target_identity.json"]["status"], "PASS")
+        self.assertEqual(files["target_identity.json"]["actual"]["pattern_number"], 1)
+        self.assertEqual(files["target_identity.json"]["actual"]["channel_index_type"], "global")
 
     def test_rejects_invalid_ppq_with_null_comparison(self):
         backend, _, files = self.run_capture(ppq=3)
@@ -143,7 +182,8 @@ class CaptureEvidenceTests(unittest.TestCase):
             with patch.object(capture.subprocess, "run", side_effect=dirty_git):
                 run_dir = asyncio.run(capture.capture_note_roundtrip(
                     lambda: TARGET, 96, Path(directory) / "evidence", adapter=backend,
-                    connection_probe=connected,
+                    connection_probe=connected, expected_pattern_number=1,
+                    expected_channel_index=0,
                 ))
             result = json.loads((run_dir / "verification.json").read_text(encoding="utf-8"))
             environment = json.loads((run_dir / "environment.json").read_text(encoding="utf-8"))
@@ -167,6 +207,7 @@ class CaptureEvidenceTests(unittest.TestCase):
                 run_dir = asyncio.run(capture.capture_note_roundtrip(
                     lambda: TARGET, 96, Path(directory) / "evidence",
                     adapter=SimulatedAdapter(), connection_probe=connected,
+                    expected_pattern_number=1, expected_channel_index=0,
                 ))
             result = json.loads((run_dir / "verification.json").read_text(encoding="utf-8"))
             environment = json.loads((run_dir / "environment.json").read_text(encoding="utf-8"))
@@ -287,14 +328,24 @@ class LiveAdapterGateTests(unittest.TestCase):
             return report, simulated.calls
 
     def test_pattern_and_channel_identity_mismatch_stop_before_write(self):
-        wrong_pattern = TargetIdentity(
-            TARGET.project_id, "Other Pattern", 0, TARGET.channel_name, TARGET.fl_studio_version
-        )
+        wrong_pattern = replace(TARGET, pattern_id="Other Pattern")
         for mode, reader in (("pass", lambda: wrong_pattern), ("channel_mismatch", lambda: TARGET)):
             with self.subTest(mode=mode):
                 report, calls = self.execute_simulated(mode, reader)
                 self.assertEqual(report.status, "STOP")
                 self.assertNotIn("fl_send_notes", calls)
+
+    def test_identity_recheck_rejects_changed_pattern_number(self):
+        reads = 0
+
+        def changing_reader():
+            nonlocal reads
+            reads += 1
+            return replace(TARGET, pattern_number=2) if reads == 2 else TARGET
+
+        report, calls = self.execute_simulated(reader=changing_reader)
+        self.assertEqual(report.status, "STOP")
+        self.assertNotIn("fl_send_notes", calls)
 
     def test_ppq_and_nonblank_state_stop_before_write(self):
         for mode in ("ppq_mismatch", "nonblank"):
@@ -323,9 +374,7 @@ class LiveAdapterGateTests(unittest.TestCase):
         self.assertTrue(report.missing)
 
     def test_target_change_after_queue_clears_queue_without_triggering_write(self):
-        wrong_pattern = TargetIdentity(
-            TARGET.project_id, "Other Pattern", 0, TARGET.channel_name, TARGET.fl_studio_version
-        )
+        wrong_pattern = replace(TARGET, pattern_id="Other Pattern")
         reads = 0
 
         def changing_reader():

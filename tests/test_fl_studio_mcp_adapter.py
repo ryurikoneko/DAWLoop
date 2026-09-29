@@ -52,8 +52,8 @@ class FLStudioMCPAdapterTests(unittest.TestCase):
         self.assertTrue(any("身份读取器" in error for error in report.errors))
 
     def test_rejects_channel_or_pattern_identity_change(self):
-        expected = TargetIdentity("project", "pattern", 1, "Synth", "FL 2026")
-        actual = TargetIdentity("project", "other-pattern", 1, "Synth", "FL 2026")
+        expected = TargetIdentity("project", "pattern", 1, "Synth", "FL 2026", 1, 96, True, 38)
+        actual = TargetIdentity("project", "other-pattern", 1, "Synth", "FL 2026", 1, 96, True, 38)
         with self.assertRaises(ValueError):
             require_same_target(expected, actual)
 
@@ -75,12 +75,14 @@ class FLStudioMCPAdapterTests(unittest.TestCase):
             with patch("dawloop.setup._vendor_root", return_value=vendor):
                 installed = install_user_scripts(settings)
 
-            self.assertEqual(len(installed), 2)
+            self.assertEqual(len(installed), 3)
             self.assertEqual(existing.read_text(encoding="utf-8"), "upstream controller")
             backups = list(existing.parent.glob("device_FLStudioMCP.py.bak-*"))
             self.assertEqual(len(backups), 1)
             self.assertEqual(backups[0].read_text(encoding="utf-8"), "user customized")
-            self.assertEqual(user_script_status(settings), {"controller": True, "piano_roll": True})
+            self.assertEqual(user_script_status(settings), {
+                "controller": True, "identity_controller": True, "piano_roll": True,
+            })
 
 
 if __name__ == "__main__":

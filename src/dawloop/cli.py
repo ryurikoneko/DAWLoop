@@ -147,7 +147,7 @@ def main() -> int:
     subparsers = parser.add_subparsers(dest="command", required=True)
     doctor_parser = subparsers.add_parser("doctor", help="检查 Python、依赖和 FL Studio 通信")
     doctor_parser.add_argument("--probe-fl", action="store_true", help="发送只读状态查询以探测 FL Studio 通信")
-    install_parser = subparsers.add_parser("install-fl-scripts", help="安装上游所需的 FL Studio 脚本")
+    install_parser = subparsers.add_parser("install-fl-scripts", help="安装 FL Studio MCP 与 DAWLoop 身份查询脚本")
     install_parser.add_argument("--settings-dir", required=True, help="FL Studio Settings 目录，由用户明确指定")
 
     midi_parser = subparsers.add_parser("midi-inspect", help="检查 MIDI 轨道和高密度小节窗口")
