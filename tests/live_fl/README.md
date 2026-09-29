@@ -9,16 +9,16 @@
 - 在 FL Studio MIDI 设置中选择 `DAWLoop MCP Controller`，使用 DAWLoop 自有的只读身份查询；
 - 事先从测试工程界面确认 Pattern 编号、全局 Channel 索引和 PPQ，作为显式预期值传入。
 
-上游 Piano Roll 状态本身没有 Pattern 身份。DAWLoop 的 `device_DAWLoopMCP.py` 通过原有 MCP MIDI/JSON 通道只读获取工程标题、Pattern 编号与名称、全局 Channel 索引与名称、PPQ、`safeToEdit`、脚本 API 版本和 FL Studio 版本。该脚本把其他命令交给未修改的上游控制器。必须在 FL Studio MIDI 设置中将该脚本选为当前控制器；如果仍选择上游控制器，身份查询会失败并阻止写入。工程标题只是辅助安全字段，不是持久工程 ID。
+上游 Piano Roll 状态本身没有 Pattern 身份。DAWLoop 的 `device_DAWLoopMCP.py` 安装在独立的 `Hardware/DAWLoopMCP/` 目录，通过原有 MCP MIDI/JSON 通道只读获取工程标题、Pattern 编号与名称、全局 Channel 索引与名称、PPQ、`safeToEdit`、脚本 API 版本和 FL Studio 版本。该脚本把其他命令交给未修改的上游控制器。必须在 FL Studio MIDI 设置中将该脚本选为当前控制器；如果仍选择上游控制器，身份查询会失败并阻止写入。工程标题只是辅助安全字段，不是持久工程 ID。
 
 读取器实现已纳入源码，但尚未通过真实 FL Studio 身份探测。对应函数来自 Image-Line 的 [MIDI Scripting API](https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/midi_scripting.htm)。未得到现场响应、字段不可用或索引语义不一致时必须 STOP，不可根据界面猜测。
 
-第一次现场操作只运行 `python tests/live_fl/probe_target_identity.py`，核对只读输出与 FL Studio 当前界面。该探测不写音符。即使探测成功，也需维护者确认后才运行下方采集器。
+第一次现场操作只运行 `python tests/live_fl/probe_target_identity.py --midi-port "FL Studio MCP 4"`，核对只读输出与 FL Studio 当前界面。端口名必须换成当前 `mido` 列表中的精确名称；不得依赖上游自动选择第一个端口。该探测不写音符。即使探测成功，也需维护者确认后才运行下方采集器。采集器还会在写入前确认上游执行后端自动选择的端口与身份查询端口完全一致；不一致时 STOP。
 
 读取器需要在当前 Python 环境可导入。准备好专用测试工程后，显式运行：
 
 ```powershell
-python tests/live_fl/capture_note_roundtrip.py --ppq 96 --expected-pattern-number 1 --expected-channel-index 0 --confirm-disposable-project DAWLoop_Live_Verification
+python tests/live_fl/capture_note_roundtrip.py --midi-port "FL Studio MCP 4" --ppq 96 --expected-pattern-number 1 --expected-channel-index 0 --confirm-disposable-project DAWLoop_Live_Verification
 ```
 
 上例中的 `96`、Pattern 编号 `1` 和 Channel 索引 `0` 都只是命令格式示意，必须换成独立测试工程的实际值。采集器会先用 FL Studio User Script 独立读回并比较这些预期值，随后对新鲜 Piano Roll 读回中的 PPQ 再次核对；任何不符均在写入前 STOP。测试计划使用四分音符 tick 坐标，不依赖工程拍号的自动发现。

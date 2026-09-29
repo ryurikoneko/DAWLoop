@@ -6,7 +6,9 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from dawloop.adapters.fl_studio_mcp.identity import identity_from_response, read_current_target
+from dawloop.adapters.fl_studio_mcp.identity import (
+    _connection_for_port, identity_from_response, read_current_target,
+)
 
 
 PAYLOAD = {
@@ -62,11 +64,20 @@ class TargetIdentityPayloadTests(unittest.TestCase):
             calls.append((action, timeout))
             return {"success": True, "target": PAYLOAD}
 
-        connection = types.SimpleNamespace(send_command=send_command)
-        with patch("fl_studio_mcp.utils.connection.get_connection", return_value=connection):
-            target = asyncio.run(read_current_target())
-        self.assertEqual(calls, [("dawloop.getTargetIdentity", 3.0)])
+        connection = types.SimpleNamespace(send_command=send_command, disconnect=lambda: calls.append("disconnect"))
+        with patch("dawloop.adapters.fl_studio_mcp.identity._connection_for_port", return_value=connection) as make:
+            target = asyncio.run(read_current_target("FL Studio MCP 4"))
+        make.assert_called_once_with("FL Studio MCP 4")
+        self.assertEqual(calls, [("dawloop.getTargetIdentity", 3.0), "disconnect"])
         self.assertEqual(target.pattern_number, 1)
+
+    def test_explicit_port_selection_rejects_missing_port(self):
+        with self.assertRaisesRegex(ValueError, "MIDI_PORT_REQUIRED"):
+            _connection_for_port("")
+        with patch("mido.get_output_names", return_value=["Other Port"]):
+            connection = _connection_for_port("FL Studio MCP 4")
+            with self.assertRaisesRegex(ValueError, "MIDI_PORT_UNAVAILABLE"):
+                connection.connect()
 
 
 class ReadOnlyUserScriptTests(unittest.TestCase):

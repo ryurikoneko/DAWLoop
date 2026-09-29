@@ -19,7 +19,7 @@ def install_user_scripts(settings_dir: Path) -> tuple[Path, ...]:
     own_controller = Path(__file__).resolve().parent / "fl_scripts" / "device_DAWLoopMCP.py"
     installs = (
         (source / "fl_controller" / "device_FLStudioMCP.py", settings_dir / "Hardware" / "FLStudioMCP" / "device_FLStudioMCP.py"),
-        (own_controller, settings_dir / "Hardware" / "FLStudioMCP" / "device_DAWLoopMCP.py"),
+        (own_controller, settings_dir / "Hardware" / "DAWLoopMCP" / "device_DAWLoopMCP.py"),
         (source / "scripts" / "ComposeWithLLM.pyscript", settings_dir / "Piano roll scripts" / "ComposeWithLLM.pyscript"),
     )
     timestamp = datetime.now().astimezone().strftime("%Y%m%d-%H%M%S")
@@ -39,7 +39,7 @@ def install_user_scripts(settings_dir: Path) -> tuple[Path, ...]:
 def user_script_status(settings_dir: Path) -> dict[str, bool]:
     return {
         "controller": (settings_dir / "Hardware" / "FLStudioMCP" / "device_FLStudioMCP.py").is_file(),
-        "identity_controller": (settings_dir / "Hardware" / "FLStudioMCP" / "device_DAWLoopMCP.py").is_file(),
+        "identity_controller": (settings_dir / "Hardware" / "DAWLoopMCP" / "device_DAWLoopMCP.py").is_file(),
         "piano_roll": (settings_dir / "Piano roll scripts" / "ComposeWithLLM.pyscript").is_file(),
     }
 

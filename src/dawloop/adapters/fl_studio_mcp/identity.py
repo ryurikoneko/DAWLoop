@@ -58,13 +58,40 @@ def identity_from_response(response: dict) -> TargetIdentity:
     )
 
 
-async def read_current_target() -> TargetIdentity:
-    import asyncio
-    from fl_studio_mcp.utils.connection import get_connection
+def _connection_for_port(port_name: str):
+    from fl_studio_mcp.utils.midi_connection import MIDIConnection
 
-    response = await asyncio.to_thread(
-        get_connection().send_command, "dawloop.getTargetIdentity", timeout=3.0
-    )
+    if not isinstance(port_name, str) or not port_name.strip():
+        raise ValueError("MIDI_PORT_REQUIRED")
+
+    class ExactPortConnection(MIDIConnection):
+        def connect(self) -> bool:
+            if self.is_connected:
+                return True
+            import mido
+
+            if port_name not in mido.get_output_names():
+                raise ValueError("MIDI_PORT_UNAVAILABLE")
+            self._port = mido.open_output(port_name)
+            self._port_name = port_name
+            self._connected = True
+            self._error = None
+            return True
+
+    return ExactPortConnection()
+
+
+async def read_current_target(port_name: str) -> TargetIdentity:
+    import asyncio
+
+    def query():
+        connection = _connection_for_port(port_name)
+        try:
+            return connection.send_command("dawloop.getTargetIdentity", timeout=3.0)
+        finally:
+            connection.disconnect()
+
+    response = await asyncio.to_thread(query)
     return identity_from_response(response)
 
 

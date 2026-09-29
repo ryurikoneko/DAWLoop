@@ -90,6 +90,26 @@ class SimulatedAdapter:
 
 
 class CaptureEvidenceTests(unittest.TestCase):
+    def test_backend_port_must_match_identity_port(self):
+        class Connection:
+            disconnected = False
+
+            def connect(self):
+                return True
+
+            def get_status(self):
+                return {"port_name": "loopMIDI Port 1"}
+
+            def disconnect(self):
+                self.disconnected = True
+
+        connection = Connection()
+        module = types.SimpleNamespace(MIDIConnection=lambda: connection)
+        with patch.dict(sys.modules, {"fl_studio_mcp.utils.midi_connection": module}):
+            with self.assertRaisesRegex(ValueError, "BACKEND_MIDI_PORT_MISMATCH"):
+                capture._require_backend_port("FL Studio MCP 4")
+        self.assertTrue(connection.disconnected)
+
     def run_capture(self, reader=lambda: TARGET, ppq=96, mode="pass"):
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)

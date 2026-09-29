@@ -1,6 +1,7 @@
 """只读显示当前 FL Studio 目标身份；不会触发音符写入。"""
 
 import asyncio
+import argparse
 import json
 
 from dawloop.adapters.fl_studio_mcp.identity import read_current_target
@@ -9,8 +10,11 @@ PROJECT_NAME = "DAWLoop_Live_Verification"
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description="只读查询 FL Studio 测试目标身份")
+    parser.add_argument("--midi-port", required=True, help="与 FL Studio 中启用的 DAWLoop 控制器对应的精确 MIDI 输出端口名")
+    args = parser.parse_args()
     try:
-        identity = asyncio.run(read_current_target())
+        identity = asyncio.run(read_current_target(args.midi_port))
     except Exception as error:
         print(json.dumps({"status": "STOP", "reason": type(error).__name__}, ensure_ascii=False))
         return 1

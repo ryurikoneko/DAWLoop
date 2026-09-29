@@ -76,6 +76,7 @@ class FLStudioMCPAdapterTests(unittest.TestCase):
                 installed = install_user_scripts(settings)
 
             self.assertEqual(len(installed), 3)
+            self.assertIn(settings / "Hardware" / "DAWLoopMCP" / "device_DAWLoopMCP.py", installed)
             self.assertEqual(existing.read_text(encoding="utf-8"), "upstream controller")
             backups = list(existing.parent.glob("device_FLStudioMCP.py.bak-*"))
             self.assertEqual(len(backups), 1)

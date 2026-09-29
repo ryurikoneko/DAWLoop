@@ -148,6 +148,19 @@ def _same_identity_observation(expected: TargetIdentity, observed: dict | None) 
     )
 
 
+def _require_backend_port(expected_port: str) -> None:
+    from fl_studio_mcp.utils.midi_connection import MIDIConnection
+
+    if not isinstance(expected_port, str) or not expected_port.strip():
+        raise ValueError("BACKEND_MIDI_PORT_REQUIRED")
+    connection = MIDIConnection()
+    try:
+        if not connection.connect() or connection.get_status()["port_name"] != expected_port:
+            raise ValueError("BACKEND_MIDI_PORT_MISMATCH")
+    finally:
+        connection.disconnect()
+
+
 async def capture_note_roundtrip(
     identity_reader,
     ppq: int,
@@ -155,6 +168,7 @@ async def capture_note_roundtrip(
     *,
     expected_pattern_number: int,
     expected_channel_index: int,
+    midi_port: str | None = None,
     adapter: FLStudioMCPAdapter | None = None,
     connection_probe=probe_connection,
 ) -> Path:
@@ -164,7 +178,7 @@ async def capture_note_roundtrip(
     try:
         return await _capture_once(
             identity_reader, ppq, output_root, adapter, connection_probe,
-            expected_pattern_number, expected_channel_index,
+            expected_pattern_number, expected_channel_index, midi_port,
         )
     finally:
         os.close(descriptor)
@@ -172,7 +186,7 @@ async def capture_note_roundtrip(
 
 
 async def _capture_once(identity_reader, ppq, output_root, adapter, connection_probe,
-                        expected_pattern_number, expected_channel_index) -> Path:
+                        expected_pattern_number, expected_channel_index, midi_port) -> Path:
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ") + "-" + uuid.uuid4().hex[:8]
     run_dir = output_root / run_id
     run_dir.mkdir(mode=0o700)
@@ -215,6 +229,9 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
             raise RuntimeError("无法确定采集代码的提交和分支")
         initial_commit = revision_before.stdout.strip()
         initial_branch = branch_before.stdout.strip()
+        if adapter is None:
+            failure_stage = "routing"
+            _require_backend_port(midi_port)
         failure_stage = "connection"
         connected, _ = await connection_probe()
         if not connected:
@@ -441,6 +458,7 @@ async def _capture_once(identity_reader, ppq, output_root, adapter, connection_p
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="采集独立测试工程的现场音符往返证据")
     parser.add_argument("--identity-reader", help="可选；默认使用 DAWLoop 只读身份读取器")
+    parser.add_argument("--midi-port", required=True, help="与 DAWLoop 控制器对应的精确 MIDI 输出端口名")
     parser.add_argument("--ppq", required=True, type=int, help="FL Studio 当前工程的 PPQ；写前现场核对")
     parser.add_argument("--expected-pattern-number", required=True, type=int)
     parser.add_argument("--expected-channel-index", required=True, type=int, help="全局 Channel 索引")
@@ -449,7 +467,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.confirm_disposable_project != PROJECT_NAME:
         parser.error(f"必须明确确认独立测试工程：{PROJECT_NAME}")
     try:
-        reader = _load_reader(args.identity_reader) if args.identity_reader else read_current_target
+        reader = _load_reader(args.identity_reader) if args.identity_reader \
+            else lambda: read_current_target(args.midi_port)
     except (ImportError, AttributeError, TypeError, ValueError):
         reader = None
     if reader is None:
@@ -458,7 +477,7 @@ def main(argv: list[str] | None = None) -> int:
 
     result_dir = asyncio.run(capture_note_roundtrip(
         reader, args.ppq, expected_pattern_number=args.expected_pattern_number,
-        expected_channel_index=args.expected_channel_index,
+        expected_channel_index=args.expected_channel_index, midi_port=args.midi_port,
     ))
     result = json.loads((result_dir / "verification.json").read_text(encoding="utf-8"))
     print(f"LiveNoteRoundTripVerification: {result['status']} | {result_dir}")
