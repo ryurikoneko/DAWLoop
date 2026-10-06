@@ -90,9 +90,13 @@ class Observer:
         review = dict(region=[1536, 3072], active_region_empty=True, preview_absent=True,
                       human_available=True, preview_closed=True, phrase_visible=True)
         review.update(self.changes)
-        return dict(visible=True, confirmed=True, observer='human', pattern_number=1,
+        # 合成观察也必须体现独立采样阶段，不能与Windows身份时钟落在同一tick。
+        await asyncio.sleep(.02)
+        result = dict(visible=True, confirmed=True, observer='human', pattern_number=1,
             channel_name='808 Kick', window_pid=10, window_hwnd=20, session=binding,
             observed_unix=time.time(), evidence_ref='offline-reviewed-frame', review=review)
+        await asyncio.sleep(.02)
+        return result
 
 
 class LiveWiringTests(unittest.IsolatedAsyncioTestCase):
