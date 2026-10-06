@@ -1,0 +1,30 @@
+{
+  "ppq": 96,
+  "bars": 2,
+  "notes": [
+    {
+      "pitch": 60,
+      "start": 0,
+      "length": 48,
+      "velocity": 96
+    },
+    {
+      "pitch": 65,
+      "start": 240,
+      "length": 48,
+      "velocity": 96
+    },
+    {
+      "pitch": 64,
+      "start": 384,
+      "length": 48,
+      "velocity": 96
+    },
+    {
+      "pitch": 67,
+      "start": 624,
+      "length": 48,
+      "velocity": 96
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "dawloop-reference-v1"
+    },
+    "source_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+    },
+    "source_label": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "reference_group": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+    },
+    "independent_work_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+    },
+    "material_kind": {
+      "enum": [
+        "audio",
+        "midi",
+        "project",
+        "analysis",
+        "synthetic"
+      ]
+    },
+    "local_ref": {
+      "type": "string",
+      "pattern": "^(?!/|[A-Za-z]:|.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[^\\s].+$"
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "rights_status": {
+      "enum": [
+        "owned",
+        "permitted",
+        "unknown"
+      ]
+    },
+    "rights_note": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  },
+  "required": [
+    "schema_version",
+    "source_id",
+    "source_label",
+    "reference_group",
+    "independent_work_id",
+    "material_kind",
+    "local_ref",
+    "content_hash",
+    "rights_status",
+    "rights_note"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:dawloop:learning:reference_track:v1",
+  "$comment": "SPDX-License-Identifier: MIT; Copyright 2026 ryurikoneko"
+}

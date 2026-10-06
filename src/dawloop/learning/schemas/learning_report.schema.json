@@ -1,0 +1,216 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "dawloop-learning-report-v1"
+    },
+    "group_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "section_type": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+        },
+        "role": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+        },
+        "meter": {
+          "const": "4/4"
+        }
+      },
+      "required": [
+        "section_type",
+        "role",
+        "meter"
+      ],
+      "additionalProperties": false
+    },
+    "included": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+          },
+          "analysis_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "source_id",
+          "analysis_hash"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "excluded": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+          },
+          "reason": {
+            "enum": [
+              "holdout",
+              "rights_unknown",
+              "analysis_missing"
+            ]
+          }
+        },
+        "required": [
+          "source_id",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "independent_work_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "distributions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "enum": [
+              "note_density",
+              "register_center",
+              "mean_abs_interval",
+              "offbeat_ratio",
+              "tension_ratio",
+              "motif_change_ratio",
+              "tempo",
+              "phrase_length",
+              "mean_velocity"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "definition_version": {
+            "const": "dawloop-feature-v1"
+          },
+          "method": {
+            "enum": [
+              "observed",
+              "inferred"
+            ]
+          },
+          "samples": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "source_id": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+                },
+                "value": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "source_id",
+                "value"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "coverage": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "min": {
+            "type": "number"
+          },
+          "max": {
+            "type": "number"
+          },
+          "mean": {
+            "type": "number"
+          },
+          "stdev": {
+            "type": "number",
+            "minimum": 0
+          },
+          "confidence_min": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "classification": {
+            "const": "DESCRIPTIVE_ONLY"
+          }
+        },
+        "required": [
+          "name",
+          "unit",
+          "definition_version",
+          "method",
+          "samples",
+          "count",
+          "coverage",
+          "min",
+          "max",
+          "mean",
+          "stdev",
+          "confidence_min",
+          "classification"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "holdout_source_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+      },
+      "uniqueItems": true
+    },
+    "holdout_result": {
+      "const": "NOT_EVALUATED"
+    },
+    "generalization": {
+      "const": "NOT_CERTIFIED"
+    }
+  },
+  "required": [
+    "schema_version",
+    "group_id",
+    "scope",
+    "included",
+    "excluded",
+    "independent_work_count",
+    "distributions",
+    "holdout_source_ids",
+    "holdout_result",
+    "generalization"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:dawloop:learning:learning_report:v1",
+  "$comment": "SPDX-License-Identifier: MIT; Copyright 2026 ryurikoneko"
+}

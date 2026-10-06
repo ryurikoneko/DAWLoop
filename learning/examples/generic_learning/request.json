@@ -1,0 +1,43 @@
+{
+  "intent": "8小节拨弦句，前半克制，后半提高力度与音域；沿用动机",
+  "grid": {"ppq": 96, "beats_per_bar": 4, "beat_unit": 4},
+  "section": {
+    "section_type": "pre",
+    "bars": 8,
+    "energy_start": 0.4,
+    "energy_end": 0.8,
+    "density": 2,
+    "motion": 0.3,
+    "tension": 0.25,
+    "role": "pluck"
+  },
+  "harmony": {
+    "key": 2,
+    "scale": "natural_minor",
+    "progression": [
+      {"chord_id": "h1", "start_bar": 1, "end_bar": 2, "root": 2, "quality": "minor"},
+      {"chord_id": "h2", "start_bar": 3, "end_bar": 4, "root": 10, "quality": "major"},
+      {"chord_id": "h3", "start_bar": 5, "end_bar": 6, "root": 5, "quality": "major"},
+      {"chord_id": "h4", "start_bar": 7, "end_bar": 8, "root": 0, "quality": "major"}
+    ],
+    "harmonic_rhythm": 2,
+    "allowed_tensions": [2, 5, 9]
+  },
+  "voice": {
+    "min_pitch": 60,
+    "max_pitch": 72,
+    "preferred_center": 65,
+    "max_leap": 7,
+    "polyphony_limit": 1,
+    "overlap_policy": "forbid"
+  },
+  "variation": {
+    "motif_length": 2,
+    "repeat_count": 4,
+    "variation_strength": 1.0,
+    "preserve_rhythm": true,
+    "preserve_contour": false,
+    "phrase_boundary_behavior": "stop_at_boundary"
+  },
+  "style_constraints": null
+}
