@@ -182,7 +182,7 @@ class CompletionTransportTests(unittest.TestCase):
             with patch('dawloop.runtime.snapshot_transport.time', clock), \
                     patch.object(Path, 'read_bytes', observe_partial):
                 result = await client.request_piano_roll_snapshot(self.request, read_identity=read, trigger=trigger)
-            await pending
+            await asyncio.wait_for(pending, 1)
             self.assertTrue(partial_observed.is_set())
             self.assertEqual(result.freshness, FreshnessStatus.FRESH)
             self.assertFalse(result.target_bound)
