@@ -7,7 +7,7 @@
     "independent_work_id": "sample-a",
     "material_kind": "synthetic",
     "local_ref": "references/sample-a.json",
-    "content_hash": "39ed4ecf63eca41a13f03590529c6a83afd2dab1f60025b0bfdd9653e868fb91",
+    "content_hash": "dc8250fc66c445a9b14dae2ae2de6c69a430c82eb34a159f5b8e894a0b04b0b7",
     "rights_status": "owned",
     "rights_note": "Synthetic notes supplied with this MIT example"
   },
@@ -19,7 +19,7 @@
     "independent_work_id": "sample-b",
     "material_kind": "synthetic",
     "local_ref": "references/sample-b.json",
-    "content_hash": "2bfda36e5266c5f027eb49bcc2f7589ca6afeb8278c1207b4e5b8665941b1743",
+    "content_hash": "320293487eede90133a8cec417d59159b1491ba41d1f28c5b6cd02ef0137f302",
     "rights_status": "owned",
     "rights_note": "Synthetic notes supplied with this MIT example"
   },
@@ -31,7 +31,7 @@
     "independent_work_id": "sample-holdout",
     "material_kind": "synthetic",
     "local_ref": "references/sample-holdout.json",
-    "content_hash": "b488ac0def9e8b786efc06cc223feb9802e771e3913c8609b7714d5b3ba07632",
+    "content_hash": "c95692a8b4d11cf9c663f12380c0647375595107a0d481f98e20e84ac71e3759",
     "rights_status": "owned",
     "rights_note": "Synthetic notes supplied with this MIT example"
   }

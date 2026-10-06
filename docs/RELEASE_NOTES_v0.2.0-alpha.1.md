@@ -14,7 +14,7 @@
 
 [KNOWN｜HIGH] producer binding / Native structured readback / Exact Set未认证，VERIFIED研究冻结；Auto Accept延期，connection reuse未测试，正常作品连续写入未认证。图像与callback不能代替Exact Set。原始私人FLP、截图、Memos、token与大型session/debug数据未发布；公开脱敏摘要和必要回归输入。
 
-[KNOWN｜HIGH] 发布清理迁移了私有session依赖的测试输入，明确本机安装参数；关闭的文件快照入口在状态缺失时也拒绝。没有开启新现场实验或扩大16-note认证。
+[KNOWN｜HIGH] 发布清理迁移私有session依赖的测试输入，明确本机安装参数；合成学习例子的reference hash与Git规范化字节保持一致；关闭的文件快照入口在状态缺失时也拒绝。没有开启新现场实验或扩大16-note认证。
 
 ## 验证与部署
 

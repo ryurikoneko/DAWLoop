@@ -2,7 +2,7 @@
   "schema_version": "dawloop-profile-revision-v1",
   "profile_id": "generic-example",
   "revision": 2,
-  "parent_hash": "9a321d89d307929a4aed1cfc81cf3e71c01140257fa6d547d6f04db083eaaea4",
+  "parent_hash": "c7b2d54273a38065d19a089c4ed1ce42db959b680dcf465e41d6db3b2f41df12",
   "constraints": {
     "profile_id": "generic-example",
     "rhythm_syncopation": 0.1,
@@ -11,7 +11,7 @@
     "motif_variation_strength": 1
   },
   "mapping_version": "manual-review-v1",
-  "report_hash": "6cdd0df91e4d4a7a7283ddcafe5a9a7bce0310d700cd40d31c382ca5e12e73c5",
+  "report_hash": "916436f0e3238f31d9b874e597db191fa04114b7133e587baa7b9f67184c03d0",
   "mappings": [
     {
       "field": "rhythm_syncopation",
@@ -50,7 +50,7 @@
       "report_id": "synthetic-feedback-1",
       "source": "HUMAN",
       "context": "SYNTHETIC_EXAMPLE",
-      "profile_hash": "9a321d89d307929a4aed1cfc81cf3e71c01140257fa6d547d6f04db083eaaea4",
+      "profile_hash": "c7b2d54273a38065d19a089c4ed1ce42db959b680dcf465e41d6db3b2f41df12",
       "plan_hash": "4ccb4b86985042682e280e380f13aac326000b76bfd118744f390229ed738b72",
       "reported_at": "2026-10-07T00:00:00Z",
       "outcome": "VISUAL_REVIEW_ONLY",

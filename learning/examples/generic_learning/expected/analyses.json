@@ -2,7 +2,7 @@
   {
     "schema_version": "dawloop-features-v1",
     "source_id": "sample-a",
-    "source_hash": "39ed4ecf63eca41a13f03590529c6a83afd2dab1f60025b0bfdd9653e868fb91",
+    "source_hash": "dc8250fc66c445a9b14dae2ae2de6c69a430c82eb34a159f5b8e894a0b04b0b7",
     "scope": {
       "section_type": "verse",
       "role": "pluck",
@@ -68,7 +68,7 @@
   {
     "schema_version": "dawloop-features-v1",
     "source_id": "sample-b",
-    "source_hash": "2bfda36e5266c5f027eb49bcc2f7589ca6afeb8278c1207b4e5b8665941b1743",
+    "source_hash": "320293487eede90133a8cec417d59159b1491ba41d1f28c5b6cd02ef0137f302",
     "scope": {
       "section_type": "verse",
       "role": "pluck",
@@ -134,7 +134,7 @@
   {
     "schema_version": "dawloop-features-v1",
     "source_id": "sample-holdout",
-    "source_hash": "b488ac0def9e8b786efc06cc223feb9802e771e3913c8609b7714d5b3ba07632",
+    "source_hash": "c95692a8b4d11cf9c663f12380c0647375595107a0d481f98e20e84ac71e3759",
     "scope": {
       "section_type": "verse",
       "role": "pluck",
