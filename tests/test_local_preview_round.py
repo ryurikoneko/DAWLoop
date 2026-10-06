@@ -132,6 +132,7 @@ def test_new_round_preserves_original_closed_record(tmp_path,monkeypatch):
     calls=[]
     monkeypatch.setattr(live, 'fl_executable', lambda: str(tmp_path/'synthetic-FL.exe'))
     monkeypatch.setattr(live.subprocess,'Popen',lambda *a,**k: calls.append(a) or SimpleNamespace(pid=1))
+    monkeypatch.setattr(live.subprocess, 'DETACHED_PROCESS', 0x00000008, raising=False)
     monkeypatch.setattr(sys,'argv',['entry','launch','--round','validation_1','--trial','session_1'])
     live.main()
     assert len(calls)==1 and (root/'validation_1/session_1/launch.json').exists()

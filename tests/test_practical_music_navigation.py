@@ -159,9 +159,13 @@ class IntegratedMusicTests(unittest.IsolatedAsyncioTestCase):
 
         async def observe(target, binding):
             observed.append(dict(binding))
-            return dict(visible=True, confirmed=True, observer='agent_visual_review',
+            # 合成观察必须与夹读分开采样，不能依赖宿主wall clock的亚毫秒分辨率。
+            await asyncio.sleep(0.01)
+            result = dict(visible=True, confirmed=True, observer='agent_visual_review',
                 evidence_ref='offline/current-image', pattern_number=1, channel_name='808 Kick',
                 window_pid=10, window_hwnd=20, session=binding, observed_unix=time.time())
+            await asyncio.sleep(0.01)
+            return result
 
         prep = NavigatedMusicPreparation(navigator, observe, controller_context=context,
             native_guard=lambda value: value == native, window_identity=dict(pid=10, hwnd=20))

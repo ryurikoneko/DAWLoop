@@ -50,7 +50,7 @@ class ReportInteraction:
 class RunManagerTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         self.temp = tempfile.TemporaryDirectory()
-        self.root = Path(self.temp.name)
+        self.root = Path(self.temp.name).resolve()
         self.settings = self.root / 'settings'
         self.settings.mkdir()
         self.host = Host()

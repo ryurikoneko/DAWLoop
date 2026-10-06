@@ -4,6 +4,7 @@ import { acceptReviewedOnce } from '../scripts/controlled_accept_sky.mjs';
 
 const [directory, mode] = process.argv.slice(2);
 let clicks = 0;
+await writeFile(`${directory}/offline_peer_ready.json`, '{}', { encoding: 'utf8', flag: 'wx' });
 const deadline = performance.now() + 5000;
 async function readWhenReady(name) {
   while (performance.now() < deadline) {

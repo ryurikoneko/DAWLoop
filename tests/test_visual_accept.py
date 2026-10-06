@@ -98,7 +98,8 @@ def test_capture_failure_still_releases_resources():
         def close(self): self.closed = True
     capture = Capture()
     with pytest.raises(RuntimeError):
-        ReviewedAcceptLocator(enabled=True).capture(**facts(), capture_factory=lambda _: capture)
+        ReviewedAcceptLocator(enabled=True).capture(**facts(), capture_factory=lambda _: capture,
+            display_bounds=(0, 0, 2048, 1152))
     assert capture.closed
 
 

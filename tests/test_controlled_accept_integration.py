@@ -82,6 +82,10 @@ def test_real_accept_modules_exchange_with_simulated_external_action(tmp_path, m
             stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.PIPE)
         rejected_before_action = mode in ('target_changed','viewport_changed','callback_before_action','template_changed')
         try:
+            # 先确认模拟观察端启动，避免把Node冷启动算成待验证动作的证据年龄。
+            async with asyncio.timeout(3):
+                while not (tmp_path / 'offline_peer_ready.json').exists():
+                    await asyncio.sleep(0.01)
             if rejected_before_action or mode == 'unknown_action':
                 with pytest.raises(ValueError,match='VISUAL_ACCEPT_ACTION_UNKNOWN'):
                     await interaction.guarded_auto_accept(interaction.operation_id,FIXED_HASH)
