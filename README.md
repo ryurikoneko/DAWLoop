@@ -9,7 +9,7 @@ DAWLoop 是面向音乐 Agent 的实验性运行时：用结构化计划表达�
 [![MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)](pyproject.toml)
 [![Alpha](https://img.shields.io/badge/status-alpha-orange)](docs/ROADMAP.md)
-[![Latest preview](https://img.shields.io/badge/release-v0.2.0--alpha.1-purple)](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.2.0-alpha.1)
+[![Latest preview](https://img.shields.io/github/v/release/ryurikoneko/DAWLoop?include_prereleases&label=preview)](https://github.com/ryurikoneko/DAWLoop/releases)
 
 [快速开始](#快速开始) · [部署](docs/DEPLOYMENT.md) · [学习路径](learning/WORKFLOW.md) · [发布来源验证](docs/RELEASING.md) · [路线图](docs/ROADMAP.md)
 

@@ -9,7 +9,7 @@ DAWLoop is an experimental music agent runtime. It expresses musical intent as s
 [![MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)](pyproject.toml)
 [![Alpha](https://img.shields.io/badge/status-alpha-orange)](docs/ROADMAP.md)
-[![Latest preview](https://img.shields.io/badge/release-v0.2.0--alpha.1-purple)](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.2.0-alpha.1)
+[![Latest preview](https://img.shields.io/github/v/release/ryurikoneko/DAWLoop?include_prereleases&label=preview)](https://github.com/ryurikoneko/DAWLoop/releases)
 
 ```mermaid
 flowchart LR

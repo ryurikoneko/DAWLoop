@@ -32,6 +32,7 @@ def main():
         run(sys.executable, str(ROOT / 'learning/examples/generic_learning/run.py'),
             '--output', str(private / 'learning'), cwd=ROOT)
         expected = ROOT / 'learning/examples/generic_learning/expected'
+        assert len(list(expected.glob('*.json'))) == 7, 'LEARNING_FIXTURES_REQUIRED'
         for path in sorted(expected.glob('*.json')):
             assert json.loads(path.read_text(encoding='utf-8')) == json.loads(
                 (private / 'learning' / path.name).read_text(encoding='utf-8')), path.name
@@ -41,7 +42,7 @@ def main():
         python = environment / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
         wheels = list((ROOT / 'dist').glob('*.whl'))
         assert len(wheels) == 1, 'EXACTLY_ONE_WHEEL_REQUIRED'
-        run(str(python), '-m', 'pip', 'install', '--no-deps', str(wheels[0]), cwd=private)
+        run(str(python), '-I', '-m', 'pip', 'install', '--no-deps', str(wheels[0]), cwd=private)
         version = tomllib.loads((ROOT / 'pyproject.toml').read_text(encoding='utf-8'))['project']['version']
         probe = '''
 import importlib.metadata as metadata
