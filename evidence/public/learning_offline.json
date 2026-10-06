@@ -1,0 +1,45 @@
+{
+  "schema_version": "dawloop-learning-offline-evidence-v1",
+  "date": "2026-10-07",
+  "test_patterns": [
+    "test_learning.py",
+    "test_provenance.py",
+    "test_music_plan.py",
+    "test_note_plan.py",
+    "test_fast_music_caller.py"
+  ],
+  "tests_run": 41,
+  "test_result": "PASS",
+  "learning_framework": "OFFLINE_PROVEN_IN_IMPLEMENTED_V1_SCOPE",
+  "synthetic_training_works": 2,
+  "synthetic_holdout_works": 1,
+  "holdout_evaluation": "NOT_PERFORMED",
+  "synthetic_plan_note_count": 16,
+  "audition": "NOT_PERFORMED",
+  "fl_started": false,
+  "note_dispatches": 0,
+  "schema_packaging_check": "PASS_4_SCHEMAS_AND_ISOLATED_INSTALLED_VALIDATION",
+  "citation_validation": "PASS_OFFICIAL_CFF_1_2_0_SCHEMA",
+  "root_mit_unchanged": true,
+  "new_cc_licensed_assets": [],
+  "signed_release_created": false,
+  "doi_created": false,
+  "memos_sync": "UNAVAILABLE",
+  "source_hashes": {
+    "src/dawloop/learning/__init__.py": "aaa272923bfbcc7f093f03986cc980b757a56ee287ec62acbe2a15586bc81748",
+    "src/dawloop/learning/contracts.py": "7e815f0062d5e114cf1d518c25c5fcda150b8ffb98be089f87588bfd2d23f812",
+    "src/dawloop/learning/schemas/extracted_features.schema.json": "10bd1a4582ff7cedd0a8c46ec343a1742d47d413b1953c6d120863559b450cab",
+    "src/dawloop/learning/schemas/learning_report.schema.json": "b94bd06a5507540ca3eaff879d95cc0896a5a16a996a08d3500ed79ca7d1caed",
+    "src/dawloop/learning/schemas/reference_track.schema.json": "a70931d1de27027ef3135240575a486c829b94eb107f7b0646f42d7b893cd528",
+    "src/dawloop/learning/schemas/style_profile.schema.json": "7e548cd852da95783fb55a0f835abc83787de0ab0bcbe8b5d83444b1ebe56a57",
+    "src/dawloop/provenance.py": "1027cb07f2bad74abfd1f3983c9b95a7d8a20b4cec1b56405355f6c2b3224e61",
+    "tests/test_learning.py": "fc24b712b59b19428a9e59470c88955b0e4dc32435263691be09af2da1004ac6",
+    "tests/test_provenance.py": "567438bd6d13a8a82afef3607e260f35394012a6fe78f36011a123754eb12878"
+  },
+  "publication": {
+    "type": "SANITIZED_MAINTAINER_SUMMARY",
+    "source_sha256": "b9999eba447f99600b33550d9dadd131956357aeeb6d7bb9763d06fc60270cec",
+    "raw_session_distributed": false,
+    "independent_reproduction": "NOT_ESTABLISHED"
+  }
+}

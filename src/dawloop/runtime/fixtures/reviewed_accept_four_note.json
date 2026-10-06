@@ -1,0 +1,44 @@
+{
+  "scope": "FIXED_FOUR_NOTE_REVIEWED_VISUAL_CONTROL",
+  "template_sha256": "e340115a21ca6bde8cdf6b9ce2cbd04f74137414f5a27e2bcbdc9e2a95df97f4",
+  "reference_frame_sha256": "318c71e6df15acda0149f95d25f780b57035cd9ed4c05296bd85d974765bed5b",
+  "reviewed_dialog_rectangle": [
+    778,
+    470,
+    1271,
+    635
+  ],
+  "dialog_size": [
+    493,
+    165
+  ],
+  "dpi": 120,
+  "title_crop": [
+    4,
+    3,
+    285,
+    25
+  ],
+  "footer_crop": [
+    6,
+    118,
+    486,
+    158
+  ],
+  "accept_interior": [
+    426,
+    126,
+    477,
+    147
+  ],
+  "click_point": [
+    451,
+    136
+  ],
+  "method": "NATIVE_TITLE_AND_CLASS_WITH_EXACT_REVIEWED_BUTTON_BAR",
+  "title_evidence": "NATIVE_WINDOW_TEXT_AND_CLASS",
+  "contains_private_title": false,
+  "exact_set_verified": false,
+  "live_accept_certified": false,
+  "calibrated_from": "repaired_1/session_2/full_frame_hashes/stable"
+}

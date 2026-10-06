@@ -1,0 +1,38 @@
+[
+  {
+    "schema_version": "dawloop-reference-v1",
+    "source_id": "sample-a",
+    "source_label": "Synthetic exercise",
+    "reference_group": "generic-learning",
+    "independent_work_id": "sample-a",
+    "material_kind": "synthetic",
+    "local_ref": "references/sample-a.json",
+    "content_hash": "dc8250fc66c445a9b14dae2ae2de6c69a430c82eb34a159f5b8e894a0b04b0b7",
+    "rights_status": "owned",
+    "rights_note": "Synthetic notes supplied with this MIT example"
+  },
+  {
+    "schema_version": "dawloop-reference-v1",
+    "source_id": "sample-b",
+    "source_label": "Synthetic exercise",
+    "reference_group": "generic-learning",
+    "independent_work_id": "sample-b",
+    "material_kind": "synthetic",
+    "local_ref": "references/sample-b.json",
+    "content_hash": "320293487eede90133a8cec417d59159b1491ba41d1f28c5b6cd02ef0137f302",
+    "rights_status": "owned",
+    "rights_note": "Synthetic notes supplied with this MIT example"
+  },
+  {
+    "schema_version": "dawloop-reference-v1",
+    "source_id": "sample-holdout",
+    "source_label": "Synthetic exercise",
+    "reference_group": "generic-learning",
+    "independent_work_id": "sample-holdout",
+    "material_kind": "synthetic",
+    "local_ref": "references/sample-holdout.json",
+    "content_hash": "c95692a8b4d11cf9c663f12380c0647375595107a0d481f98e20e84ac71e3759",
+    "rights_status": "owned",
+    "rights_note": "Synthetic notes supplied with this MIT example"
+  }
+]

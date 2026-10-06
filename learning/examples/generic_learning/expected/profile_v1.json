@@ -1,0 +1,47 @@
+{
+  "schema_version": "dawloop-profile-revision-v1",
+  "profile_id": "generic-example",
+  "revision": 1,
+  "parent_hash": null,
+  "constraints": {
+    "profile_id": "generic-example",
+    "rhythm_syncopation": 0.2,
+    "melody_leap_tendency": 0.25,
+    "harmony_tension_usage": 0.25,
+    "motif_variation_strength": 1
+  },
+  "mapping_version": "manual-review-v1",
+  "report_hash": "916436f0e3238f31d9b874e597db191fa04114b7133e587baa7b9f67184c03d0",
+  "mappings": [
+    {
+      "field": "rhythm_syncopation",
+      "feature_names": [
+        "offbeat_ratio"
+      ],
+      "reason": "Illustrative reviewer choice; no calibrated conversion from offbeat ratio"
+    },
+    {
+      "field": "melody_leap_tendency",
+      "feature_names": [
+        "mean_abs_interval"
+      ],
+      "reason": "Illustrative mild motion preference within hard leap limits"
+    },
+    {
+      "field": "harmony_tension_usage",
+      "feature_names": [
+        "tension_ratio"
+      ],
+      "reason": "Illustrative low tension preference; eligibility remains a hard constraint"
+    },
+    {
+      "field": "motif_variation_strength",
+      "feature_names": [
+        "motif_change_ratio"
+      ],
+      "reason": "Allow existing variation budget; not a measured artistic characteristic"
+    }
+  ],
+  "user_overrides": {},
+  "feedback": []
+}

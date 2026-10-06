@@ -1,0 +1,12 @@
+"""固定输出探针：不读取请求、不访问工程、不调度后台任务。"""
+
+import json
+import os
+import uuid
+
+
+OUTPUT = os.path.join(os.environ['TEMP'], 'DAWLoop_RuntimeV2_OutputSnapshot', 'snapshot.json')
+payload = {'protocol_version': 1, 'producer': 'dawloop_piano_roll_snapshot',
+           'snapshot_id': uuid.uuid4().hex}
+with open(OUTPUT, 'w', encoding='utf-8') as stream:
+    json.dump(payload, stream, ensure_ascii=False, allow_nan=False)

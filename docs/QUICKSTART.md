@@ -11,7 +11,7 @@ $env:PYTHONPATH = "$PWD\src"
 python -m unittest discover -s tests -v
 ```
 
-当前分支的离线与适配器测试共 42 项。
+完整部署和测试依赖见 [DEPLOYMENT](DEPLOYMENT.md)；测试数量以本次发布记录为准。
 
 ## 2. 解析音乐位置
 
@@ -60,7 +60,7 @@ print(result.status)  # PASS
 print(result.label)   # Offline Algorithm Verified
 ```
 
-DAWLoop 的成功条件不是 Writer 返回成功，而是：
+本节离线 VERIFIED 算法的成功条件不是 Writer 返回成功，而是：
 
 ```text
 Plan
@@ -81,4 +81,4 @@ PASS / STOP
 - [`examples/note_plan.example.json`](../examples/note_plan.example.json)：一个完全自造的 Note Plan 示例，包含重复事件。
 - [`examples/verification_result.example.json`](../examples/verification_result.example.json)：一个 `duration` 不一致导致 `STOP` 的诊断示例。
 
-> `Offline Algorithm Verified` 不等于 `FL Studio Verified`。当前开发分支含可选 bundled MCP backend 与 adapter foundation；Live 写入 / 读回仍在开发，尚未通过现场验证。安装步骤见 [`FL_STUDIO_MCP.md`](FL_STUDIO_MCP.md)。
+> `Offline Algorithm Verified` 不等于 `FL Studio Verified`。Native FAST 的固定16-note人工接受流程已有受限现场证据；Native producer-side读回与Exact Set未认证，MCP live仍暂停。安装步骤见 [`FL_STUDIO_MCP.md`](FL_STUDIO_MCP.md)。

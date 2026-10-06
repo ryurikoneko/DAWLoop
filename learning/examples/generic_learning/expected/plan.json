@@ -1,0 +1,330 @@
+{
+  "schema_version": "dawloop-musical-plan-v1",
+  "metadata": {
+    "intent": "8小节拨弦句，前半克制，后半提高力度与音域；沿用动机",
+    "time_unit": "ticks",
+    "pitch_unit": "midi_number",
+    "velocity_unit": "midi_1_127"
+  },
+  "target_role": "pluck",
+  "ppq": 96,
+  "bars": 8,
+  "notes": [
+    {
+      "note_id": "n001",
+      "pitch": 65,
+      "start": 0,
+      "length": 96,
+      "velocity": 78,
+      "chord_id": "h1",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n002",
+      "pitch": 65,
+      "start": 202,
+      "length": 96,
+      "velocity": 80,
+      "chord_id": "h1",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n003",
+      "pitch": 65,
+      "start": 384,
+      "length": 96,
+      "velocity": 81,
+      "chord_id": "h1",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n004",
+      "pitch": 65,
+      "start": 586,
+      "length": 96,
+      "velocity": 83,
+      "chord_id": "h1",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n005",
+      "pitch": 65,
+      "start": 768,
+      "length": 96,
+      "velocity": 84,
+      "chord_id": "h2",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n006",
+      "pitch": 65,
+      "start": 970,
+      "length": 96,
+      "velocity": 86,
+      "chord_id": "h2",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n007",
+      "pitch": 65,
+      "start": 1152,
+      "length": 96,
+      "velocity": 87,
+      "chord_id": "h2",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n008",
+      "pitch": 65,
+      "start": 1354,
+      "length": 96,
+      "velocity": 89,
+      "chord_id": "h2",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n009",
+      "pitch": 65,
+      "start": 1536,
+      "length": 96,
+      "velocity": 90,
+      "chord_id": "h3",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n010",
+      "pitch": 65,
+      "start": 1738,
+      "length": 96,
+      "velocity": 92,
+      "chord_id": "h3",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n011",
+      "pitch": 65,
+      "start": 1920,
+      "length": 96,
+      "velocity": 93,
+      "chord_id": "h3",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n012",
+      "pitch": 65,
+      "start": 2122,
+      "length": 96,
+      "velocity": 95,
+      "chord_id": "h3",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n013",
+      "pitch": 67,
+      "start": 2304,
+      "length": 96,
+      "velocity": 96,
+      "chord_id": "h4",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n014",
+      "pitch": 67,
+      "start": 2506,
+      "length": 96,
+      "velocity": 98,
+      "chord_id": "h4",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n015",
+      "pitch": 67,
+      "start": 2688,
+      "length": 96,
+      "velocity": 99,
+      "chord_id": "h4",
+      "harmonic_function": "chord_tone"
+    },
+    {
+      "note_id": "n016",
+      "pitch": 67,
+      "start": 2890,
+      "length": 96,
+      "velocity": 101,
+      "chord_id": "h4",
+      "harmonic_function": "chord_tone"
+    }
+  ],
+  "phrase_map": [
+    {
+      "phrase_id": "phrase-1",
+      "start_bar": 1,
+      "end_bar": 2,
+      "function": "establish",
+      "motif_id": "motif-A",
+      "derived_from": null,
+      "note_ids": [
+        "n001",
+        "n002",
+        "n003",
+        "n004"
+      ],
+      "pitch_changes": 0,
+      "rhythm_changes": 0,
+      "contour_changes": 0,
+      "mean_register_shift": 0.0
+    },
+    {
+      "phrase_id": "phrase-2",
+      "start_bar": 3,
+      "end_bar": 4,
+      "function": "variation",
+      "motif_id": "motif-A",
+      "derived_from": "phrase-1",
+      "note_ids": [
+        "n005",
+        "n006",
+        "n007",
+        "n008"
+      ],
+      "pitch_changes": 0,
+      "rhythm_changes": 0,
+      "contour_changes": 0,
+      "mean_register_shift": 0.0
+    },
+    {
+      "phrase_id": "phrase-3",
+      "start_bar": 5,
+      "end_bar": 6,
+      "function": "variation",
+      "motif_id": "motif-A",
+      "derived_from": "phrase-1",
+      "note_ids": [
+        "n009",
+        "n010",
+        "n011",
+        "n012"
+      ],
+      "pitch_changes": 0,
+      "rhythm_changes": 0,
+      "contour_changes": 0,
+      "mean_register_shift": 0.0
+    },
+    {
+      "phrase_id": "phrase-4",
+      "start_bar": 7,
+      "end_bar": 8,
+      "function": "variation",
+      "motif_id": "motif-A",
+      "derived_from": "phrase-1",
+      "note_ids": [
+        "n013",
+        "n014",
+        "n015",
+        "n016"
+      ],
+      "pitch_changes": 4,
+      "rhythm_changes": 0,
+      "contour_changes": 0,
+      "mean_register_shift": 2.0
+    }
+  ],
+  "motif_map": [
+    {
+      "motif_id": "motif-A",
+      "source_phrase_id": "phrase-1",
+      "note_ids": [
+        "n001",
+        "n002",
+        "n003",
+        "n004"
+      ]
+    }
+  ],
+  "constraints_snapshot": {
+    "intent": "8小节拨弦句，前半克制，后半提高力度与音域；沿用动机",
+    "grid": {
+      "ppq": 96,
+      "beats_per_bar": 4,
+      "beat_unit": 4
+    },
+    "section": {
+      "section_type": "pre",
+      "bars": 8,
+      "energy_start": 0.4,
+      "energy_end": 0.8,
+      "density": 2,
+      "motion": 0.3,
+      "tension": 0.25,
+      "role": "pluck"
+    },
+    "harmony": {
+      "key": 2,
+      "scale": "natural_minor",
+      "progression": [
+        {
+          "chord_id": "h1",
+          "start_bar": 1,
+          "end_bar": 2,
+          "root": 2,
+          "quality": "minor"
+        },
+        {
+          "chord_id": "h2",
+          "start_bar": 3,
+          "end_bar": 4,
+          "root": 10,
+          "quality": "major"
+        },
+        {
+          "chord_id": "h3",
+          "start_bar": 5,
+          "end_bar": 6,
+          "root": 5,
+          "quality": "major"
+        },
+        {
+          "chord_id": "h4",
+          "start_bar": 7,
+          "end_bar": 8,
+          "root": 0,
+          "quality": "major"
+        }
+      ],
+      "harmonic_rhythm": 2,
+      "allowed_tensions": [
+        2,
+        5,
+        9
+      ]
+    },
+    "voice": {
+      "min_pitch": 60,
+      "max_pitch": 72,
+      "preferred_center": 65,
+      "max_leap": 7,
+      "polyphony_limit": 1,
+      "overlap_policy": "forbid"
+    },
+    "variation": {
+      "motif_length": 2,
+      "repeat_count": 4,
+      "variation_strength": 1.0,
+      "preserve_rhythm": true,
+      "preserve_contour": false,
+      "phrase_boundary_behavior": "stop_at_boundary"
+    },
+    "style_constraints": {
+      "profile_id": "generic-example",
+      "rhythm_syncopation": 0.2,
+      "melody_leap_tendency": 0.25,
+      "harmony_tension_usage": 0.25,
+      "motif_variation_strength": 1
+    }
+  },
+  "provenance": {
+    "builder": "dawloop-musical-plan-v1",
+    "input_hash": "02bb00e675ac88bd8fe99a6f01107c9a90750c729df1021125ed2b5516700800",
+    "notes_origin": "deterministic_reference"
+  }
+}

@@ -1,0 +1,5 @@
+import flpianoroll as flp
+
+
+def apply(form):
+    return {'ppq': flp.score.PPQ, 'note_count': flp.score.noteCount}

@@ -1,0 +1,14 @@
+{
+  "provenance": "Milestone 2 真实只读响应；默认空白工程；已脱敏",
+  "catalog_hash": "514d035244b0aea4d94fbb5ce8cad79415878e76dca6c85d94e1ebf692f4234e",
+  "tool": "get_plugin_parameter_value",
+  "payload": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Value for 'Input gain' (Visual Index 1): Normalized Value: 0.0000, String Value: '0.0 dB'"
+      }
+    ],
+    "isError": false
+  }
+}

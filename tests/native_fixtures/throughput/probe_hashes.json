@@ -1,0 +1,27 @@
+{
+  "1": {
+    "sha256": "334379a79bd53af0751e5e0474ecbf4bb069b9fdc5e1f2ef9e4149af202e8857",
+    "source_size_bytes": 489,
+    "note_count": 1
+  },
+  "4": {
+    "sha256": "cb5c5bacbd0af66353c7317acc5f435264bd8267317ca66a7449b1327fa7f6ab",
+    "source_size_bytes": 489,
+    "note_count": 4
+  },
+  "32": {
+    "sha256": "2ae1da0104fb61ac5863e08ed05d3692f133b02c239cc9be3eda51b29d00beec",
+    "source_size_bytes": 490,
+    "note_count": 32
+  },
+  "64": {
+    "sha256": "c5fbd46c80b817e581ab0a793a1fa38d29b245d86beb863f866410eedc9028e4",
+    "source_size_bytes": 490,
+    "note_count": 64
+  },
+  "128": {
+    "sha256": "36eaddd15a584ae346d34ed8cb78a9a493dd526612236fb6facfd7d15721fe38",
+    "source_size_bytes": 491,
+    "note_count": 128
+  }
+}

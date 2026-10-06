@@ -1,0 +1,98 @@
+"""只读导出的普通文件传输；宿主不创建目录、锁或替换文件。"""
+
+import hashlib
+import json
+import math
+import os
+import time
+
+
+ROOT = os.path.join(os.environ['TEMP'], 'DAWLoop_RuntimeV2_FreshSnapshot')
+STAGES = ('transport', 'ppq', 'note_count', 'snapshot')
+
+
+def valid_request(request):
+    fields = {'operation', 'protocol_version', 'request_id', 'generation', 'requested_at',
+              'expected_pattern_index', 'expected_pattern_name', 'expected_channel_index',
+              'expected_channel_name', 'sampling_stage'}
+    if not isinstance(request, dict) or set(request) != fields:
+        return False
+    if request['operation'] != 'read_snapshot' or type(request['protocol_version']) is not int or request['protocol_version'] != 1:
+        return False
+    if request['sampling_stage'] not in STAGES:
+        return False
+    for key in ('request_id', 'generation'):
+        value = request[key]
+        if not isinstance(value, str) or len(value) != 32 or any(c not in '0123456789abcdef' for c in value):
+            return False
+    for key in ('requested_at', 'expected_pattern_name', 'expected_channel_name'):
+        if not isinstance(request[key], str) or not request[key].strip() or len(request[key]) > 256:
+            return False
+    for key, minimum in (('expected_pattern_index', 1), ('expected_channel_index', 0)):
+        if type(request[key]) is not int or request[key] < minimum:
+            return False
+    return True
+
+
+def export_snapshot():
+    with open(os.path.join(ROOT, 'snapshot_request.json'), 'r', encoding='utf-8') as stream:
+        request = json.load(stream)
+    if not valid_request(request):
+        return
+    response_path = os.path.join(ROOT, 'response_' + request['generation'] + '.json')
+    done_path = os.path.join(ROOT, 'response_' + request['generation'] + '.done')
+    # 普通打开只能在已验证的串行菜单调用范围内使用，不声称防住并行外部生产方。
+    for path in (response_path, done_path):
+        try:
+            with open(path, 'r', encoding='utf-8'):
+                return
+        except FileNotFoundError:
+            pass
+    stage = request['sampling_stage']
+    response = {'protocol_version': 1, 'request_id': request['request_id'],
+                'generation': request['generation'], 'producer': 'dawloop_piano_roll_snapshot',
+                'producer_status': 'SUCCESS', 'sampling_stage': stage,
+                'sample_sequence': None, 'sampled_at': None,
+                'sample_started_monotonic_ns': None, 'sample_completed_monotonic_ns': None}
+    if stage != 'transport':
+        # 传输关卡不导入或访问钢琴卷帘对象。
+        import flpianoroll as flp
+        response['sample_started_monotonic_ns'] = time.monotonic_ns()
+        ppq = flp.score.PPQ
+        if type(ppq) is not int or ppq <= 0:
+            raise ValueError('PPQ_INVALID')
+        response['ppq'] = ppq
+        if stage in ('note_count', 'snapshot'):
+            count = flp.score.noteCount
+            if type(count) is not int or not 0 <= count <= 100000:
+                raise ValueError('NOTE_COUNT_INVALID')
+            response['note_count'] = count
+        if stage == 'snapshot':
+            notes = []
+            for index in range(count):
+                note = flp.score.getNote(index)
+                item = {'number': note.number, 'time': note.time,
+                        'length': note.length, 'velocity': note.velocity}
+                if (type(item['number']) is not int or not 0 <= item['number'] <= 131
+                        or type(item['time']) is not int or item['time'] < 0
+                        or type(item['length']) is not int or item['length'] <= 0
+                        or type(item['velocity']) not in (int, float)
+                        or not math.isfinite(item['velocity']) or not 0 <= item['velocity'] <= 1):
+                    raise ValueError('NOTE_INVALID')
+                notes.append(item)
+            if flp.score.PPQ != ppq or flp.score.noteCount != count:
+                raise ValueError('SCORE_CHANGED_DURING_SAMPLE')
+            response.update(notes=notes, time_unit='ticks')
+        response['sample_completed_monotonic_ns'] = time.monotonic_ns()
+    payload = json.dumps(response, ensure_ascii=False, allow_nan=False, separators=(',', ':'))
+    with open(response_path, 'w', encoding='utf-8') as stream:
+        stream.write(payload)
+    # 标记绑定完整响应字节，客户端须等标记本身形成完整JSON后再校验响应。
+    marker = {'protocol_version': 1, 'request_id': request['request_id'],
+              'generation': request['generation'], 'sampling_stage': stage,
+              'response_sha256': hashlib.sha256(payload.encode('utf-8')).hexdigest()}
+    with open(done_path, 'w', encoding='utf-8') as stream:
+        json.dump(marker, stream, ensure_ascii=False, allow_nan=False)
+
+
+export_snapshot()

@@ -1,0 +1,9 @@
+import flpianoroll as flp
+
+def apply(form):
+    note = flp.Note()
+    note.number = 120
+    note.time = 0
+    note.length = flp.score.PPQ
+    note.velocity = 0.5
+    flp.score.addNote(note)

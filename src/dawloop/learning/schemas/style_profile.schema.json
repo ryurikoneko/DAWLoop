@@ -1,0 +1,244 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "dawloop-profile-revision-v1"
+    },
+    "profile_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "parent_hash": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "profile_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+        },
+        "rhythm_syncopation": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "melody_leap_tendency": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "harmony_tension_usage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "motif_variation_strength": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "profile_id",
+        "rhythm_syncopation",
+        "melody_leap_tendency",
+        "harmony_tension_usage",
+        "motif_variation_strength"
+      ],
+      "additionalProperties": false
+    },
+    "mapping_version": {
+      "const": "manual-review-v1"
+    },
+    "report_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "mappings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "enum": [
+              "rhythm_syncopation",
+              "melody_leap_tendency",
+              "harmony_tension_usage",
+              "motif_variation_strength"
+            ]
+          },
+          "feature_names": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "note_density",
+                "register_center",
+                "mean_abs_interval",
+                "offbeat_ratio",
+                "tension_ratio",
+                "motif_change_ratio",
+                "tempo",
+                "phrase_length",
+                "mean_velocity"
+              ]
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "field",
+          "feature_names",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "user_overrides": {
+      "type": "object",
+      "properties": {
+        "rhythm_syncopation": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "melody_leap_tendency": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "harmony_tension_usage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "motif_variation_strength": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "feedback": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "report_id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,95}$"
+          },
+          "source": {
+            "const": "HUMAN"
+          },
+          "context": {
+            "enum": [
+              "USER_REPORTED",
+              "SYNTHETIC_EXAMPLE"
+            ]
+          },
+          "profile_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "plan_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "reported_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "outcome": {
+            "enum": [
+              "LISTENED_OK",
+              "LISTENED_BAD",
+              "VISUAL_REVIEW_ONLY"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "changes": {
+            "type": "object",
+            "properties": {
+              "rhythm_syncopation": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "melody_leap_tendency": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "harmony_tension_usage": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "motif_variation_strength": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "additionalProperties": false,
+            "minProperties": 1
+          }
+        },
+        "required": [
+          "report_id",
+          "source",
+          "context",
+          "profile_hash",
+          "plan_hash",
+          "reported_at",
+          "outcome",
+          "reason",
+          "changes"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "profile_id",
+    "revision",
+    "parent_hash",
+    "constraints",
+    "mapping_version",
+    "report_hash",
+    "mappings",
+    "user_overrides",
+    "feedback"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:dawloop:learning:style_profile:v1",
+  "$comment": "SPDX-License-Identifier: MIT; Copyright 2026 ryurikoneko"
+}

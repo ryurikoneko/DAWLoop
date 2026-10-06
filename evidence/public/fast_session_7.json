@@ -1,0 +1,95 @@
+{
+  "schema": "dawloop-fast-live-acceptance-summary-v1",
+  "recorded_at": "2026-10-06T11:02:20.616Z",
+  "scope": "EXISTING_DISPOSABLE_PATTERN_1_808_KICK_16_NOTES_BARS_5_TO_8",
+  "outcome": "PASS_IN_TEST_SCOPE",
+  "certification": {
+    "FAST_MUSIC_ENTRYPOINT": "LIVE_PROVEN_IN_TEST_SCOPE",
+    "HUMAN_REPORT_REALTIME_DELIVERY": "LIVE_PROVEN_IN_TEST_SCOPE",
+    "APPLICATION_OBSERVATION_DELIVERY": "LIVE_PROVEN_IN_TEST_SCOPE",
+    "HOST_COMPLETION_CALLBACK": "LIVE_OBSERVED_SUCCESS_IN_THIS_RUN"
+  },
+  "original_result": {
+    "state": "COMPLETED_UNVERIFIED",
+    "immutable": true,
+    "sha256": "e97a1307a5fb1a5b719e612de23e9b16d31b04646d0f2d5ad54ee94cc7dceb77",
+    "error_code": null
+  },
+  "target_preparation": "CONFIRMED_OBSERVATIONAL",
+  "counts": {
+    "runtime_navigation_transactions": 1,
+    "runtime_navigation_primitives": 3,
+    "setup_navigation_transactions": 1,
+    "setup_navigation_primitives": 3,
+    "dispatch_count": 1,
+    "unique_dispatch_operations": 1,
+    "dispatch_journal_files": 2,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "agent_accept_clicks": 0,
+    "note_count": 16
+  },
+  "human_accept": {
+    "submitted": true,
+    "claimed": true,
+    "delivery": "REALTIME",
+    "source": "HUMAN"
+  },
+  "application_observation": {
+    "produced": true,
+    "persisted": true,
+    "claimed": true,
+    "delivery": "REALTIME",
+    "application_confirmed": true
+  },
+  "host_completion": "CONFIRMED",
+  "audible_result": "USER_OK",
+  "timing_metrics": {
+    "capture_ms": 176.43259999994189,
+    "capture_to_review_ack_ms": 8653.747700000182,
+    "review_ack_to_submit_ms": 0.08279999997466803,
+    "submit_to_persist_ms": 1.2485000006854534,
+    "claim_to_confirm_ms": 16,
+    "persist_to_claim_wall_correlation_ms": 33.8974609375,
+    "precise_cross_process_consumption_latency_ms": null
+  },
+  "timing_semantics": {
+    "review": "OBSERVER_REVIEW_COMPLETION_ACKNOWLEDGED; capture-to-review includes transfer/scheduling/review",
+    "cross_process_consumption": "WALL_CLOCK_CORRELATION_ONLY; precise duration unknown",
+    "limits_changed": false
+  },
+  "recovery": {
+    "host_closed": true,
+    "debug_port_closed": true,
+    "baseline_size": 53498,
+    "baseline_sha256": "a2f9922d6b8cdc7f7627428d0d7072ed7dcab0a4f666fef42145c0c6e91b006f",
+    "callbacks_restored": true,
+    "controller_state": "STOPPED",
+    "controller_command_present": false,
+    "observer_teardown": "PASS",
+    "observer_tasks_remaining": 0,
+    "no_save_exit": true,
+    "save_changes_prompt_observed": true,
+    "permanent_debug_parameters_changed": false
+  },
+  "frozen_sources": {
+    "checked": 107,
+    "changed": []
+  },
+  "source_sha256": "7b7b6989b579350abfa7d50890c33e4f5bc4a9514c07b5132ff6b7afae048f3a",
+  "boundaries": {
+    "producer_target_binding": "NOT_VERIFIED",
+    "exact_set": "NOT_VERIFIED",
+    "verification_level": "UNVERIFIED",
+    "VERIFIED_WRITE_READY": "NO",
+    "NATIVE_VERIFIED_RESEARCH": "FROZEN_BLOCKED",
+    "AUTO_ACCEPT": "OFF_DEFERRED",
+    "universal_plan_reliability": "NOT_CERTIFIED"
+  },
+  "publication": {
+    "type": "SANITIZED_MAINTAINER_SUMMARY",
+    "source_sha256": "ef4df05b4206524dba2cefdfc2a776c5ac8dfe8462fd015f2c75ed054565794f",
+    "raw_session_distributed": false,
+    "independent_reproduction": "NOT_ESTABLISHED"
+  }
+}

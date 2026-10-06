@@ -4,16 +4,24 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dawloop"
-version = "0.2.0a0"
-description = "Closed-loop DAW automation framework for AI agents"
+version = "0.2.0a1"
+description = "Experimental structured music planning and evidence-aware FL Studio agent runtime"
 readme = "README.md"
 license = "MIT"
-license-files = ["LICENSE"]
+license-files = ["LICENSE", "NOTICE", "AUTHORS", "LICENSE_POLICY.md", "TRADEMARKS.md", "LICENSES/*.txt"]
 requires-python = ">=3.11"
 authors = [{ name = "ryurikoneko" }]
 dependencies = []
 
 [project.optional-dependencies]
+learning = ["jsonschema>=4.18,<5"]
+mcp = [
+    "fastmcp>=2.0,<3",
+]
+native = [
+    "websocket-client>=1.8,<2",
+    "jsonschema>=4.18,<5",
+]
 flstudio = [
     "fastmcp>=2.0,<3",
     "mido>=1.3.0",
@@ -40,13 +48,21 @@ production-full = [
 
 [project.scripts]
 dawloop = "dawloop.cli:main"
+dawloop-mcp = "dawloop.fast_mcp_server:main"
 
 [tool.setuptools.packages.find]
 where = ["src", "third_party/fl-studio-mcp/src"]
 include = ["dawloop*", "fl_studio_mcp*"]
 namespaces = false
 
+[tool.setuptools.package-data]
+"dawloop.learning" = ["schemas/*.json"]
+"dawloop.runtime" = ["fixtures/reviewed_accept_four_note.npz", "fixtures/reviewed_accept_four_note.json"]
+"dawloop.adapters.gopher_native" = ["bridge.js", "known_catalog.json"]
+"dawloop.fl_scripts" = ["*.pyscript"]
+
 [tool.setuptools.data-files]
+"share/dawloop" = ["CITATION.cff"]
 "share/dawloop/third_party/fl-studio-mcp" = [
     "third_party/fl-studio-mcp/LICENSE",
     "third_party/fl-studio-mcp/README.md",

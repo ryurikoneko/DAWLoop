@@ -1,0 +1,200 @@
+[
+  {
+    "schema_version": "dawloop-features-v1",
+    "source_id": "sample-a",
+    "source_hash": "dc8250fc66c445a9b14dae2ae2de6c69a430c82eb34a159f5b8e894a0b04b0b7",
+    "scope": {
+      "section_type": "verse",
+      "role": "pluck",
+      "meter": "4/4"
+    },
+    "analyzer": {
+      "id": "synthetic-example",
+      "version": "1"
+    },
+    "features": [
+      {
+        "name": "note_density",
+        "value": 2.0,
+        "unit": "notes_per_bar",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-a.json#/notes",
+        "missing_reason": null
+      },
+      {
+        "name": "mean_abs_interval",
+        "value": 2.6666666666666665,
+        "unit": "semitones",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-a.json#/notes",
+        "missing_reason": null
+      },
+      {
+        "name": "offbeat_ratio",
+        "value": 0.0,
+        "unit": "ratio",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-a.json#/notes",
+        "missing_reason": null
+      },
+      {
+        "name": "tension_ratio",
+        "value": 0.25,
+        "unit": "ratio",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-a.json#/notes",
+        "missing_reason": null
+      },
+      {
+        "name": "motif_change_ratio",
+        "value": 1.0,
+        "unit": "ratio",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-a.json#/notes",
+        "missing_reason": null
+      }
+    ]
+  },
+  {
+    "schema_version": "dawloop-features-v1",
+    "source_id": "sample-b",
+    "source_hash": "320293487eede90133a8cec417d59159b1491ba41d1f28c5b6cd02ef0137f302",
+    "scope": {
+      "section_type": "verse",
+      "role": "pluck",
+      "meter": "4/4"
+    },
+    "analyzer": {
+      "id": "synthetic-example",
+      "version": "1"
+    },
+    "features": [
+      {
+        "name": "note_density",
+        "value": 2.0,
+        "unit": "notes_per_bar",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-b.json#/notes",
+        "missing_reason": null
+      },
+      {
+        "name": "mean_abs_interval",
+        "value": 3,
+        "unit": "semitones",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-b.json#/notes",
+        "missing_reason": null
+      },
+      {
+        "name": "offbeat_ratio",
+        "value": 0.5,
+        "unit": "ratio",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-b.json#/notes",
+        "missing_reason": null
+      },
+      {
+        "name": "tension_ratio",
+        "value": 0.25,
+        "unit": "ratio",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-b.json#/notes",
+        "missing_reason": null
+      },
+      {
+        "name": "motif_change_ratio",
+        "value": 1.0,
+        "unit": "ratio",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-b.json#/notes",
+        "missing_reason": null
+      }
+    ]
+  },
+  {
+    "schema_version": "dawloop-features-v1",
+    "source_id": "sample-holdout",
+    "source_hash": "c95692a8b4d11cf9c663f12380c0647375595107a0d481f98e20e84ac71e3759",
+    "scope": {
+      "section_type": "verse",
+      "role": "pluck",
+      "meter": "4/4"
+    },
+    "analyzer": {
+      "id": "synthetic-example",
+      "version": "1"
+    },
+    "features": [
+      {
+        "name": "note_density",
+        "value": 2.0,
+        "unit": "notes_per_bar",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-holdout.json#/notes",
+        "missing_reason": null
+      },
+      {
+        "name": "mean_abs_interval",
+        "value": 2,
+        "unit": "semitones",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-holdout.json#/notes",
+        "missing_reason": null
+      },
+      {
+        "name": "offbeat_ratio",
+        "value": 0.0,
+        "unit": "ratio",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-holdout.json#/notes",
+        "missing_reason": null
+      },
+      {
+        "name": "tension_ratio",
+        "value": 0.25,
+        "unit": "ratio",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-holdout.json#/notes",
+        "missing_reason": null
+      },
+      {
+        "name": "motif_change_ratio",
+        "value": 1.0,
+        "unit": "ratio",
+        "definition_version": "dawloop-feature-v1",
+        "method": "observed",
+        "confidence": 1,
+        "evidence_ref": "sample-holdout.json#/notes",
+        "missing_reason": null
+      }
+    ]
+  }
+]

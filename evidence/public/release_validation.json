@@ -1,0 +1,31 @@
+{
+  "schema": "dawloop-release-validation-v1",
+  "date": "2026-10-07",
+  "version": "0.2.0a1",
+  "full_suite": {
+    "tests_passed": 710,
+    "subtests_passed": 331,
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 2,
+    "warning_source": "THIRD_PARTY_AUTHLIB_DEPRECATIONS"
+  },
+  "resource_change_regression": {
+    "tests_passed": 127,
+    "subtests_passed": 36
+  },
+  "package_build": "PASS_WHEEL_AND_SDIST",
+  "isolated_wheel_import": "PASS",
+  "packaged_learning_schemas": 4,
+  "schema_validation": "PASS_DRAFT_2020_12",
+  "private_asset_scan": "PASS_PUBLIC_ALLOWLIST_NO_PRIVATE_ASSETS",
+  "relative_markdown_links": "PASS",
+  "root_mit_changed": false,
+  "third_party_changed": false,
+  "live_host_started": false,
+  "note_dispatches": 0,
+  "script_dispatches": 0,
+  "signature_verified": false,
+  "doi_created": false,
+  "scope": "PUBLICATION_REGRESSION_NOT_NEW_LIVE_CERTIFICATION"
+}

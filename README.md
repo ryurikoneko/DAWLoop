@@ -1,279 +1,107 @@
 # DAWLoop
 
-**Closed-loop DAW automation framework for AI agents.**
+**把音乐意图变成结构化计划，再把计划送到正确的 FL Studio 目标。**
 
-**AI agents can understand, operate, observe, and iteratively work inside real DAWs.**
+*An experimental agent runtime for structured, evidence-aware FL Studio automation.*
 
-DAWLoop gives an agent a real execution path into a running FL Studio session through its integrated FL Studio MCP backend. It structures musical operations, reads DAW state back, verifies the result, and lets the agent decide what to do next. This is not limited to generating MIDI for a person to import later.
+[![MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue)](pyproject.toml)
+[![Research preview](https://img.shields.io/badge/status-research--preview-orange)](docs/ROADMAP.md)
 
-[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](pyproject.toml)
-[![Alpha](https://img.shields.io/badge/Status-Alpha-orange.svg)](docs/ROADMAP.md)
+[开始部署](docs/DEPLOYMENT.md) · [能力与证据](docs/DAWLOOP_RUNTIME_V2.md#current) · [让自己的 Agent 学习](learning/WORKFLOW.md) · [架构](docs/ARCHITECTURE.md) · [路线图](docs/ROADMAP.md)
 
-```text
-Understand → Analyze → Plan → Execute → Observe → Verify → Iterate
-```
+## 现在能做什么
 
-Supported DAW-changing operations are designed to be read back and verified before the agent continues.
-
-## Control Real FL Studio
-
-**Can DAWLoop actually control FL Studio? Yes—through its integrated FL Studio execution backend.**
-
-DAWLoop is not limited to generating MIDI files for manual import. An AI agent can use the bundled Community FL Studio MCP backend and DAWLoop adapter to interact with a running FL Studio environment.
-
-The pinned upstream backend provides control paths covering:
-
-- transport operations;
-- channel and current Pattern interactions;
-- Piano Roll note writing and note-state readback;
-- Mixer track state and routing;
-- access to parameters on already-loaded plugins.
-
-These are upstream backend capabilities, not DAWLoop live-verification claims. The upstream project documents that it cannot programmatically create new Patterns or load new plugins; prepare those targets in FL Studio.
-
-The maintainer reports successfully completing a DAWLoop integration run in real FL Studio. The path can be unstable across setups, and real-world testing feedback is welcome. The repository does not archive the complete environment, target identity, operation plan, fresh readback, and comparison from that run. This confirms maintainer live use; it does not make the run reproducible or establish `Live Verified` for individual operations.
-
-The backend source is bundled and the DAWLoop adapter is implemented. A backend response such as “success” does not by itself establish a DAWLoop `PASS`.
-
-## Three-Layer Architecture
-
-| Layer | Role |
-|---|---|
-| **Hands — FL Studio execution backend** | Bundled Community FL Studio MCP and the DAWLoop adapter provide the path for acting on a running FL Studio session. |
-| **Brain and Rules — DAWLoop Core** | Structures musical timing and Note Plans, validates targets, separates execution from fresh readback, and verifies planned state against actual state. |
-| **Ears / Production Assistance — Production Pipeline** | Inspects MIDI and audio, checks orchestration, measures active-frame RMS, and plans fader changes to help an agent choose what to do next. |
-
-The agent gets both a way to act and rules for proving whether the action actually succeeded.
+[KNOWN｜HIGH] Runtime V2 已在受限测试工程跑通：**自动导航 → 观察性确认目标 → 确定性批量写入 → 人工 Accept → 应用观察与宿主回调 → 试听确认**。现场认证范围是已有 Pattern 1 / 808 Kick、PPQ 96、第 5–8 小节、16 个音符、add-only、单次派发；结束后不保存退出并核验基线。它是实验性 FAST 工作流，尚不是普通作品工程的连续写入产品。
 
 ```mermaid
-flowchart TD
-    A[AI Agent] -->|musical intent| C[DAWLoop Core]
-    A -->|inspect or analyze| P[Production Pipeline]
-    P -->|context and suggestions| C
-    C -->|validated operation plan| X[Execution Adapter]
-    X --> M[Bundled FL Studio MCP]
-    M --> F[REAL FL STUDIO]
-    F -->|fresh DAW state| R[Readback]
-    R --> V[DAWLoop Verification]
-    V --> D{Plan matches actual state?}
-    D -->|Yes| PASS[PASS]
-    D -->|No| STOP[STOP]
-    PASS -->|next action| A
-    STOP -->|recover or re-plan| A
-    F -. optional audio capture .-> P
+flowchart LR
+    A[Agent / 用户意图] --> B[结构化计划与完整校验]
+    B --> C[Controller 自动目标准备]
+    C --> D[身份 → 新鲜界面 → 身份]
+    D --> E[确定性 renderer]
+    E --> F[Gopher 单次批量派发]
+    F --> G[人工 Preview / Accept]
+    G --> H[应用观察 + 完成回调]
+    H --> I[COMPLETED_UNVERIFIED]
 ```
 
-Production Pipeline analysis helps an agent understand material and choose a next operation. It does not replace execution or verification.
+[KNOWN｜HIGH] **FAST success ≠ VERIFIED write。** 观察性目标确认不能证明执行器内部对象绑定；可见、听感与成功回调不能代替精确音符读回。当前 Native VERIFIED 分支冻结于缺少可认证的 producer-side structured note readback。
 
-## The Agent Loop
+| 能力 | 当前状态 | 范围 |
+| --- | --- | --- |
+| Controller 运行时 build/session/project 身份 | 现场通过 | 运行中的 Controller 自己报告版本 |
+| 自动 Pattern / Channel / Piano Roll 导航 | 现场通过 | 已有 Kick ↔ Clap，观察性绑定 |
+| FAST 高层音乐入口 | 现场通过 | 固定 16-note disposable 测试范围 |
+| 人工回执、应用观察实时领取 | 现场通过 | 持久化与实际领取分别记录 |
+| MusicalPlan / Learning Framework | 离线实现与测试通过 | 风格无关合同、验证器、合成示例 |
+| 异步 stdio MCP / RunManager | 离线接线完成；现场未认证 | 外部浏览器 page identity 依赖阻塞 |
+| Native producer binding / Exact Set | 未认证；研究冻结 | 不以视觉、缓存或成功回调替代 |
+| 普通工程连续写入、连接复用、Auto Accept | 未认证 / 未测试 / 延期 | 不作为本版承诺 |
 
-```text
-Agent understands the task
-        ↓
-Production Pipeline analyzes context
-        ↓
-DAWLoop structures and validates the operation
-        ↓
-FL Studio MCP executes it in the running DAW
-        ↓
-DAWLoop reads the resulting state
-        ↓
-Verification compares actual state with the plan
-        ↓
-PASS / STOP
-        ↓
-Agent chooses the next action
-```
+[KNOWN｜HIGH] 表中“现场通过”是维护者限定实验结论，不表示所有用户环境已兼容。公开的是[脱敏证据摘要](evidence/public/README.md)与回归输入；私人 FLP、原始截图、会话日志不随仓库分发。
 
-An agent should not build later operations on a state that returned `STOP` or has not been read back.
+## 三个入口，三个成熟度
 
-## Why DAWLoop
+### 1. 离线音乐计划与学习框架：可以直接开始
 
-A typical AI music workflow may stop after producing MIDI, JSON, instructions, or a tool success response. DAWLoop is designed to continue through a closed loop:
-
-1. Understand musical intent.
-2. Analyze the current context.
-3. Structure a DAW operation.
-4. Execute it inside the running DAW.
-5. Observe the resulting state.
-6. Verify it against the plan.
-7. Continue or re-plan based on the result.
-
-**Backend success is not DAWLoop PASS.**
-
-**Maintainer Live Tested is not Live Verified.**
-
-## Capability and Evidence Status
-
-Implementation availability and verification evidence are separate. “Backend Available” describes the bundled upstream execution surface; it is not evidence that DAWLoop verified a live operation.
-
-### Core / Planning
-
-| Capability | Implementation | Evidence |
-|---|---|---|
-| Musical Grid, absolute tick resolution, Note Plan | Implemented | Offline Tested |
-| Exact-Set Verification | Implemented | Offline Tested |
-| Structured `PASS` / `STOP` results | Implemented | Offline Tested |
-
-### FL Studio Control
-
-| Capability | Implementation | Evidence |
-|---|---|---|
-| Bundled Community FL Studio MCP snapshot | Backend Available | Upstream source bundled; not a DAWLoop live result |
-| FL Studio connection path | Experimental | Maintainer Live Tested; setup may be unstable across environments, and feedback is welcome |
-| Transport control | Backend Available | No archived DAWLoop live evidence |
-| Pattern identity checks | Implemented; external identity reader required | Live test not established; no archived field-level evidence |
-| Channel identity checks | Implemented | Live test not established; no archived field-level evidence |
-| Piano Roll note writing | Implemented | Maintainer Live Tested; archived field-level evidence pending |
-| Piano Roll note-state readback | Implemented | Maintainer Live Tested; archived field-level evidence pending |
-| Live Exact-Set comparison | Experimental | Maintainer live-tested status not established; no archived comparison; not Live Verified |
-| Mixer discovery | Implemented in adapter; backend operation available | No archived live evidence |
-| Loaded-plugin parameter reads | Implemented in adapter; backend operation available | No archived live evidence |
-| Mixer writes / plugin parameter writes | Roadmap | Not DAWLoop-verified |
-
-### Production Analysis
-
-| Capability | Implementation | Evidence |
-|---|---|---|
-| SMF inspection, dense-window analysis, orchestration checks | Implemented | Offline Tested |
-| Active-frame RMS and fader calibration / planning | Implemented | Offline Tested; planning does not verify a DAW change |
-| SoundFont inspection / audition utility | Implemented | Offline utility |
-| Windows WASAPI loopback capture | Available | Optional; depends on the local audio environment |
-
-### Evidence Terms
-
-- **Offline Tested** means checked with offline tests or synthetic fixtures; it does not establish live DAW behavior.
-- **Maintainer Live Tested** records the maintainer's report that an integration path was exercised in real FL Studio. It may be unstable and is not equivalent to reproducible, archived evidence.
-- **Archived Live Evidence** means target and readback evidence is preserved in the repository for review.
-- **Live Verified** requires actual DAW readback and a passing comparison for the stated capability and target scope.
-
-The live integration run is therefore acknowledged without treating every backend or adapter capability as individually verified. No Mixer fader write/readback loop is marked verified; control verification and audio-outcome verification remain separate phases.
-
-## Installation
-
-The current development build is not yet a published package release. From a source checkout:
+[KNOWN｜HIGH] Core 接收 Section Brief、Harmony Context、音域/跳进/密度约束与 Motif/Variation，输出含 `notes[]`、`phrase_map`、`motif_map`、约束快照与来源的 MusicalPlan。参考生成器目前是受限、确定性的单声部实现，不是完整自动作曲模型。
 
 ```powershell
 git clone https://github.com/ryurikoneko/DAWLoop.git
 cd DAWLoop
-python -m pip install -e ".[flstudio,production]"
-dawloop doctor
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -e ".[learning]"
+.\.venv\Scripts\python.exe learning/examples/generic_learning/run.py --output workspace/personal/demo-v1
 ```
 
-For Windows loopback measurement:
+[KNOWN｜HIGH] 例子不启动 FL、不写音符、不访问外部素材，生成参考登记、特征、报告、两版 profile 和离线计划。用户自己的 Agent 分析自己的素材；公共仓库提供 **Learning Protocol + Schemas + Prompts + Validators**，不替用户学完某个艺术家或流派。详见[八步学习路径](learning/WORKFLOW.md#八步学习路径)。
 
-```powershell
-python -m pip install -e ".[flstudio,production-loopback]"
+### 2. Native FAST：已有现场证据的研究集成
+
+[KNOWN｜HIGH] `FastMusicRuntime.execute_fast_music_plan(...)` 拥有校验、目标准备、观察确认、规范渲染、一次派发与人工接受生命周期。输入是结构化字段，不能提交 arbitrary Python。未知派发结果不允许自动重试或 fallback。
+
+```python
+# backend 必须由显式配置的受审集成提供。
+from dawloop.runtime.fast_music import FastMusicRuntime
+
+result = await FastMusicRuntime(backend).execute_fast_music_plan(
+    target, musical_plan, operation_id=operation_id,
+    acceptance_mode="human", experimental_authorized=True,
+)
 ```
 
-For the broader Production Pipeline utility set, including Pillow / SciPy dependencies used by related workflows:
+[KNOWN｜HIGH] 须准备已有目标、自己的 disposable 工程、Controller、Gopher 和真实观察回执入口。维护者固定测试 FLP 不随包提供；历史 harness 的 fixture/build/hash 守卫不能为了运行示例而绕过。学习层的 MIDI velocity 与 FAST 的 normalized velocity 合同不同，自动转换接线尚未认证。[部署与输入合同](docs/DEPLOYMENT.md)。
 
-```powershell
-python -m pip install -e ".[flstudio,production-full]"
+### 3. DAWLoop MCP：异步接口预览，现场路径暂停
+
+[KNOWN｜HIGH] 三个工具：`fast_write_music(...)` 创建后台 run，`status(run_id)` 查询真实就绪与进度，`submit_human_report(...)` 转交用户报告。MCP handler 不阻塞到 Accept；RunManager 保持 operation 幂等身份与一次派发预算。
+
+```text
+MCP → RunManager → 既有 FAST Runtime
+                     ├─ Controller / Gopher
+                     ├─ 独立采样 + 真实视觉审阅
+                     └─ HumanReport / evidence channels
 ```
 
-To install the bundled upstream FL Studio User Scripts, pass the actual FL Studio `Settings` directory. Existing destination files are backed up by the installer before replacement:
+[KNOWN｜HIGH] **MCP_FAST_PATH / ZERO_AGENT_COMPUTER_USE_FAST_PATH 未现场认证**。Controller、Gopher、observer、预算任一缺失，`status()` 必须 NOT_READY。stdio 服务运行不等于 FL 可写；截图成功不等于目标确认。第一版允许用户每个 FL 会话人工 bootstrap 一次 Gopher；连接复用未测试。
 
-```powershell
-dawloop install-fl-scripts --settings-dir "<FL Studio Settings directory>"
-```
+## 保留的分析与验证工具
 
-`dawloop doctor` distinguishes installed dependencies and MIDI ports from an actual FL Studio response. To run its read-only connection probe:
+[KNOWN｜HIGH] 原离线 MusicalGrid、NotePlan 和 multiset Exact-Set 比较器继续可用；算法通过不代表 Native live verification。可选 Production Pipeline 提供 SMF/MIDI 检查、声部/音域辅助、active-frame RMS、推子标定计划、WASAPI loopback 与 SoundFont 工具。[分析文档](docs/PRODUCTION_PIPELINE.md)。Community FL Studio MCP 固定快照仍保留，上游能力与本项目认证分别记录。
 
-```powershell
-dawloop doctor --probe-fl
-```
+## 下一步与贡献
 
-### Production analysis commands
+[KNOWN｜HIGH] 主线是通用学习合同与实际音乐计划；MCP 候选路线等待可信 page identity 恢复，复验与止损条件见[路线图](docs/ROADMAP.md)。连接复用、正常工程、多 operation、语音均在后续阶段；本版不增加隐蔽返回通道或自动 Accept 研究。
 
-`midi-inspect` uses the standard library and does not require NumPy. Install the `production` extra for audio analysis and SoundFont utilities. The doctor reports these features independently and distinguishes the developer-reported working environment from the current machine's portable profile.
+[KNOWN｜HIGH] 贡献前阅读 [CONTRIBUTING](CONTRIBUTING.md) 与 [SECURITY](SECURITY.md)。个人 profiles、workspace、Memos 内容、凭据、原始实验会话不发布。官方手册 HTML/图片未收录，[本地知识规则](learning/WORKFLOW.md#官方操作知识与-flaik-html)不代授第三方许可。
 
-```powershell
-dawloop midi-inspect song.mid --beats-per-bar 4 --window-bars 3
-dawloop measure-wav track.wav --frame-ms 100 --floor-dbfs -65
-```
+## 来源与许可
 
-These commands return structured data for an agent. They do not by themselves mark any FL Studio operation as verified.
+[KNOWN｜HIGH] 自有代码、学习协议、示例和本次公开文档保持 [MIT](LICENSE)，允许商业使用并要求保留许可通知。`NOTICE`、`AUTHORS`、`CITATION.cff` 与 provenance 记录来源，不添加隐藏禁止转售条件。当前没有单独启用 CC BY-NC 资产；许可文本存在不等于目录已改许可。[精确许可范围](LICENSE_POLICY.md) · [品牌说明](TRADEMARKS.md) · [来源记录](PROVENANCE.md)。
 
-## Quick Start
+[KNOWN｜HIGH] Bundled backend 来自 [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) 固定 MIT 快照，保留原作者版权。Production Pipeline 部分代码改编自维护者提供的 MIT `whale-music-pipeline`，另见[第三方声明](THIRD_PARTY_NOTICES.md)。
 
-For the historical published release, use the [offline Quickstart](docs/QUICKSTART.md). To explore the current integration work:
+[KNOWN｜HIGH] 感谢 Bilibili 创作者[坏影子不坏](https://space.bilibili.com/599132499)的 DSH 视频与工作流展示（[示例视频](https://www.bilibili.com/video/BV1PTht6cENP/)）对编排、MIDI 分析、RMS、loopback、Mixer 标定与生产流程的启发。DSH 指视频/工作流，不是独立软件；创作者致谢与实际代码来源分别记录。
 
-1. Install the branch and optional dependencies using the commands above.
-2. Run `dawloop doctor` and resolve reported setup issues.
-3. Optionally inspect a MIDI file with `dawloop midi-inspect` to identify active sections and track structure.
-4. Optionally analyze rendered/loopback audio with the active-frame RMS tools.
-5. Install the FL Studio User Scripts and enable the bundled controller in FL Studio MIDI settings.
-6. Prepare a disposable test project with an existing blank Pattern and a known Channel.
-7. Use an external identity reader to confirm the project, Pattern, and Channel before any write.
-8. Run a Note Plan through `FLStudioMCPAdapter`; inspect the returned report and readback.
-9. Treat `PASS` as operation-specific only when fresh target and event evidence supports it.
-
-The repository does not currently provide a safe, self-contained live test runner or a general command that submits arbitrary Note Plans. See [Live test prerequisites](tests/live_fl/README.md) and [FL Studio MCP integration](docs/FL_STUDIO_MCP.md). Do not use a private song for live testing.
-
-## Production Pipeline
-
-Portions of DAWLoop's Production Pipeline are adapted from the supplied [`whale-music-pipeline`](docs/PRODUCTION_PIPELINE_PROVENANCE.md) source code. That code is MIT-licensed; its original notice is retained in `third_party/whale-music-pipeline/LICENSE`. The creator and workflow inspiration are credited separately below.
-
-Integrated, generalized capabilities include:
-
-- dependency-free Standard MIDI File inspection and dense-section selection;
-- register-aware phrase/instrument selection helpers;
-- midrange gap detection and source-note coverage checks for orchestration passes;
-- active-frame RMS so sparse tracks are not judged by whole-song silence;
-- measured FL Studio fader calibration and calibration-aware fader planning;
-- optional Windows WASAPI loopback capture;
-- optional SF2 / SoundFont sample rendering for offline auditioning.
-
-This is not a blind dump of one composition into DAWLoop Core. Score-specific harmony, instrumentation, commissioned-work comments, and example music are not treated as universal rules. Generalized modules live under `src/dawloop/production/` with explicit attribution.
-
-See [Production Pipeline](docs/PRODUCTION_PIPELINE.md), [Production Pipeline provenance](docs/PRODUCTION_PIPELINE_PROVENANCE.md), and [Third-Party Notices](THIRD_PARTY_NOTICES.md).
-
-## Bundled FL Studio MCP
-
-DAWLoop bundles a pinned source snapshot of [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) at commit [`f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`](https://github.com/karl-andres/fl-studio-mcp/commit/f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0), under its upstream MIT license. The snapshot is in `third_party/fl-studio-mcp/`; DAWLoop-specific adapter code is separate under `src/dawloop/adapters/fl_studio_mcp/`. Users do not need to download the upstream source separately.
-
-DAWLoop does not replace FL Studio MCP. It uses the project as an execution backend and adds musical planning, deterministic timing, readback-oriented verification, recovery boundaries, and agent-oriented orchestration. Upstream capability does not automatically mean DAWLoop capability, and an upstream success response does not equal DAWLoop `PASS`.
-
-## Acknowledgements & Prior Art
-
-DAWLoop gratefully acknowledges the community [FL Studio MCP](https://github.com/karl-andres/fl-studio-mcp) project and Bilibili creator [坏影子不坏](https://space.bilibili.com/599132499) (UID `599132499`). The creator's DSH videos and production-workflow demonstrations, including [this video](https://www.bilibili.com/video/BV1PTht6cENP/), provided important inspiration for the Production Pipeline's arranging and orchestration analysis, MIDI and section analysis, playback / loopback measurement, active-frame RMS, FL Studio Mixer / fader calibration, and production-workflow automation. Here, DSH refers to the creator's video and workflow demonstrations, not a separately bundled software package.
-
-The code source is distinct from that acknowledgement: DAWLoop adapts portions of the MIT-licensed `whale-music-pipeline` source code and retains its original license notice. DAWLoop combines generalized production-analysis techniques with structured planning, real DAW execution, state readback, verification, and iterative agent decisions.
-
-See [`docs/ACKNOWLEDGEMENTS.md`](docs/ACKNOWLEDGEMENTS.md), [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md), [`PROVENANCE.md`](PROVENANCE.md), and [`docs/PRODUCTION_PIPELINE_PROVENANCE.md`](docs/PRODUCTION_PIPELINE_PROVENANCE.md) for source and license boundaries.
-
-## Roadmap
-
-- **Completed:** Offline Core, Note Plan, Exact-Set algorithm, bundled MCP snapshot, adapter foundation, package extras, diagnostics, Production SMF inspection, generalized orchestration checks, active-RMS analysis, fader calibration planning, and SoundFont utility.
-- **In Development:** Stable live target identification and reproducible note write/readback evidence; deeper Production Pipeline section-level arrangement and mixer workflows; compatibility feedback from real-world use.
-- **Planned:** Multi-pattern and multi-channel composition, verified Mixer and plugin operations, SysEx RPC, Native Computer Use adapter, expanded audio analysis, and section-level autonomous production.
-
-See [`docs/ROADMAP.md`](docs/ROADMAP.md) for details. Roadmap items are not implemented or verified merely because they are listed.
-
-## Contributing and Safety
-
-Contributions are welcome. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a Pull Request. Report bugs, feature ideas, and sanitized live-test feedback through the [GitHub issue tracker](https://github.com/ryurikoneko/DAWLoop/issues). Never attach private FL Studio projects, commercial samples, credentials, or plugin binaries. See [`SECURITY.md`](SECURITY.md).
-
-## Project Documents
-
-- [Offline Quickstart](docs/QUICKSTART.md)
-- [Architecture](docs/ARCHITECTURE.md)
-- [Verification rules](docs/VERIFICATION.md)
-- [FL Studio MCP integration](docs/FL_STUDIO_MCP.md)
-- [Production Pipeline](docs/PRODUCTION_PIPELINE.md)
-- [Production Pipeline provenance](docs/PRODUCTION_PIPELINE_PROVENANCE.md)
-- [Roadmap](docs/ROADMAP.md)
-- [Acknowledgements](docs/ACKNOWLEDGEMENTS.md)
-- [Third-party notices](THIRD_PARTY_NOTICES.md)
-- [Provenance](PROVENANCE.md)
-- [Live test prerequisites](tests/live_fl/README.md)
-
-## Project history
-
-DAWLoop was previously developed under the names FLSkill and DAWProof. The final name reflects the project's broader closed-loop architecture: analysis, planning, DAW execution, observation, verification, and iterative agent control. Historical tags and releases retain the names used at the time.
-
-## License
-
-DAWLoop is licensed under the [MIT License](LICENSE), Copyright (c) 2026 ryurikoneko. Bundled and adapted components retain their separate copyrights and license terms; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+[KNOWN｜HIGH] 历史名称 FLSkill → DAWProof → DAWLoop，旧 tag 与发布保留。这是 research-preview，不是 stable；签名、DOI 与第三方复现实验尚未完成，不以内容 hash 冒充作者证明。

@@ -35,9 +35,16 @@ DAWLoop 的公开仓库从独立、干净的 Git 历史开始。项目自己的 
 | `src/dawloop/verification/**` | `CONFIRMED_PROJECT_GENERATED` | Exact-Set Verification、重复事件计数、PASS / STOP 语义 |
 | `schemas/note_plan.schema.json` | `CONFIRMED_PROJECT_GENERATED` | Note Plan JSON Schema |
 | `src/dawloop/adapters/fl_studio_mcp/**` | `CONFIRMED_PROJECT_GENERATED` | DAWLoop 特有的 MCP 调用、目标身份门控、映射、读回与验证报告；不复制 upstream server 实现 |
+| `src/dawloop/midi_setup.py`, `src/dawloop/setup.py`, `src/dawloop/fl_mcp_server.py`, `src/dawloop/fl_scripts/device_DAWLoopController.py` | `CONFIRMED_PROJECT_GENERATED` | 统一控制器封装、只读身份请求复用、MIDI 端口与 loopMIDI 诊断、模块/OnInit/READY 生命周期诊断、User Script 安装器和 bundled backend 端口选择胶水；上游实现仍单独归类 |
+| `docs/FL_STUDIO_SETUP.md` | `CONFIRMED_PROJECT_GENERATED` | 一次性 MIDI / User Script 配置和诊断说明；supportedDevices 行为参考 Image-Line 官方文档 |
+| `tests/test_midi_setup.py` | `CONFIRMED_PROJECT_GENERATED` | 合成设备名称与 mock 环境下的诊断测试 |
+| `src/dawloop/fl_scripts/**` | `CONFIRMED_PROJECT_GENERATED` | 新写的只读 FL Studio 目标身份查询脚本；复用上游 MIDI/JSON 通道并委托非身份命令，未改动 bundled 上游源码 |
 | `src/dawloop/setup.py` / `src/dawloop/cli.py` | `CONFIRMED_PROJECT_GENERATED` | 安装、doctor、CLI 与集成胶水；CLI 后续增加 Production Pipeline API 入口 |
+| `src/dawloop/controller_runtime.py` | `CONFIRMED_PROJECT_GENERATED` | 以已安装 Controller 的绝对目录统一解析生命周期标记、READY 状态、build identity 和心跳新鲜度；不依赖磁盘 SHA 推断内存运行版本 |
+| `tests/test_controller_runtime.py` | `CONFIRMED_PROJECT_GENERATED` | 合成状态 JSON 与 mock FL API 下的路径一致性、模块/OnInit/READY 生命周期、错误阶段和 PING 门禁测试 |
 | `src/dawloop/production/environment.py` | `CONFIRMED_PROJECT_GENERATED` | Production Pipeline 环境档案及可选依赖探测 |
 | `tests/test_*.py`（除明确第三方 fixture 外） | `CONFIRMED_PROJECT_GENERATED` | 使用自造测试数据；当前不包含第三方音乐作品 fixture |
+| `tests/live_fl/capture_note_roundtrip.py` / `tests/live_fl/probe_target_identity.py` / `tests/live_fl/README.md` | `CONFIRMED_PROJECT_GENERATED` | 本项目新建的开发期现场证据采集器、只读身份探测与说明；没有复制第三方实现；实际运行证据默认不纳入 Git |
 
 公开 clean-core 的历史创建提交仍保留在 Git 历史中；本文件不重写历史 commit，只维护当前来源状态。
 
@@ -101,9 +108,15 @@ supplied archive 未包含 `track-scan.py` 引用的 `spectrum-peak` 模块。�
 
 ## 验证与来源是两条独立轴
 
+### 运行时第二版第一轮
+
+[KNOWN｜HIGH] `src/dawloop/runtime/`、`src/dawloop/adapters/gopher_native/` 及对应测试和文档为本项目独立实现，分类为 `CONFIRMED_PROJECT_GENERATED`。原生协议研究参考 [宿主桥接协议说明](https://github.com/sadoway7/flaik/blob/main/gopher_override/FL_BRIDGE_PROTOCOL.md)和其公开工具参数定义；没有复制参考项目源码、界面、知识库或手册资源。原生依赖通过可选安装项提供。
+
+[KNOWN｜HIGH] 新运行时将执行确认与结果验证分开，旧音符适配器保持下述闭环契约。当前Native FAST固定16-note流程已有受限现场证据；producer绑定/Exact Set未认证。模拟基准不构成真实宿主性能证据。
+
 某段代码来源合法、许可证清楚，并不等于其行为已经在 FL Studio 中现场验证。同样，某个 third-party backend 支持一项能力，也不自动等于 DAWLoop 对该能力宣称 `Verified`。
 
-DAWLoop 对 DAW-changing operation 继续使用：
+DAWLoop 的 VERIFIED 契约使用下列闭环；Native FAST 使用观察与人工接受，结果为COMPLETED_UNVERIFIED：
 
 `Plan → Execute → Read Back → Verify → PASS / STOP`
 
@@ -117,3 +130,18 @@ DAWLoop 对 DAW-changing operation 继续使用：
 - Python dependencies 通过包管理器安装，不把其源码自动重新许可为 DAWLoop MIT。
 
 更完整的第三方声明见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
+
+
+## Learning Framework 与来源清单（2026-10-07）
+
+[KNOWN｜HIGH] src/dawloop/learning、learning/prompts、合成generic_learning例子、src/dawloop/provenance.py及对应测试为本项目新增实现，继续MIT。Schema源只有随包安装的一份；没有引入艺术家样本或官方手册全文。NOTICE/AUTHORS/CITATION.cff记录来源，不增加MIT之外的引用义务。
+
+[KNOWN｜HIGH] dawloop provenance的默认清单是开发快照，记录当前HEAD、dirty状态与实际允许列表字节hash；并不把未提交实现归为HEAD既有内容，也不证明签名、作者或研究优先权。LICENSE_POLICY.md明确未来新研究资产的逐项许可与发布准备；本轮不改变既有资料许可。
+
+## Runtime V2 research-preview 发布范围
+
+[KNOWN｜HIGH] 新增 runtime、Native adapter、Controller导航、FAST/MCP胶水、MusicalPlan、learning合同及对应研究/测试为本项目自有实现；继续MIT。third_party固定快照与Production改编的既有版权保持。公开catalog是现场工具参数事实记录；固定回归source是本项目生成。
+
+[KNOWN｜HIGH] evidence/public只含脱敏摘要；完整私有会话、FLP、截图、Memos、凭据与development-manifest不发布。历史模板NPZ仅含受审窗口标题/按钮条裁剪，不含私人桌面；Auto Accept仍延期且默认关闭。合成JPEG仅作返回格式回归。
+
+[KNOWN｜HIGH] 发布清理只参数化维护者安装路径、迁移回归输入、保留关闭标记并使缺失状态拒绝。未重新进行现场实验，已认证范围没有扩张；重整的公开源码摘要与原实验源码冻结记录属于不同版本证据。
