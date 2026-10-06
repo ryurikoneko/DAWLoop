@@ -40,12 +40,20 @@ jobs:
         shell: python
         run: |
           import os
+          import tempfile
           from pathlib import Path
           paths = ('src', 'third_party/fl-studio-mcp/src', '.')
           with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as stream:
               stream.write('PYTHONPATH=' + os.pathsep.join(str(Path(p).resolve()) for p in paths) + '\n')
+              stream.write('TEMP=' + tempfile.gettempdir() + '\n')
       - name: Offline regression (no FL host)
-        run: python -m pytest -q tests --tb=short -ra --junitxml=test-results.xml
+        shell: python
+        run: |
+          import subprocess, sys
+          arguments = [sys.executable, '-m', 'pytest', '-q', 'tests', '--tb=short', '-ra', '--junitxml=test-results.xml']
+          if sys.platform != 'win32':
+              arguments.append('--ignore=tests/test_target_prepare_live_catalog.py')
+          subprocess.run(arguments, check=True)
       - name: Node observer smoke (synthetic image)
         run: node tests/fast_observation_peer_harness.mjs
       - name: Build wheel and sdist

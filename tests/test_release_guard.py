@@ -71,6 +71,15 @@ class ReleaseGuardTests(unittest.TestCase):
         self.git('branch', '-f', 'trusted-main')
         self.git('tag', '-s', 'v0.2.0-alpha.2', '-m', 'Synthetic signed release')
         self.assertEqual(self.verify(), self.git('rev-parse', 'HEAD'))
+        other = self.root / 'untrusted-key'
+        subprocess.run(['ssh-keygen', '-q', '-t', 'ed25519', '-N', '', '-f', str(other)],
+                       check=True, capture_output=True, timeout=15)
+        self.git('config', 'user.signingkey', str(other))
+        self.git('tag', '-f', '-s', 'v0.2.0-alpha.2', '-m', 'Valid but untrusted signature')
+        with self.assertRaises(subprocess.CalledProcessError):
+            self.verify()
+        self.git('config', 'user.signingkey', str(key))
+        self.git('tag', '-f', '-s', 'v0.2.0-alpha.2', '-m', 'Synthetic trusted release')
         (self.root / '.github/release-signers.allowed').write_text('# Changed key\n', encoding='utf-8')
         with self.assertRaisesRegex(ValueError, 'SIGNER_FILE_MISMATCH'):
             self.verify()

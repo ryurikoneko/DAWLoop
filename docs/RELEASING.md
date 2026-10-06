@@ -4,7 +4,7 @@
 
 `v0.2.0-alpha.1` 是保留的历史快照，未签名、没有构建 attestation。本轮不移动 tag、不覆盖 Release 或资产。新流程把内容摘要、tag 签名和 CI 构建来源分别验证。
 
-CI 在 Ubuntu Python 3.11/3.12 和 Windows Python 3.12 执行离线回归；Node 观察测试使用合成图像。构建、隔离 wheel 安装、学习教程与来源摘要检查均不启动 FL。Linux 会明确跳过需要 Win32 API 的三项测试，由 Windows job 执行。测试 JUnit 报告保留 14 天。
+CI 在 Ubuntu Python 3.11/3.12 和 Windows Python 3.12 执行离线回归；Node 观察测试使用合成图像。构建、隔离 wheel 安装、学习教程与来源摘要检查均不启动 FL。Linux 不收集依赖 Win32 启动器的 `test_target_prepare_live_catalog.py`，并明确跳过需要 Win32 API 的三项测试；这些检查由 Windows job 执行。测试 JUnit 报告保留 14 天。
 
 ## 两个发布入口
 
