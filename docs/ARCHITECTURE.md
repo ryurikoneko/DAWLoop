@@ -1,93 +1,53 @@
 # Architecture
 
-DAWLoop combines three layers for agent-directed music work: the **Hands** that operate a DAW, the **Brain and Rules** that structure and verify operations, and the **Ears / Production Assistance** that analyze musical and audio context.
+[KNOWN｜HIGH] DAWLoop 分为音乐合同、学习接口、执行Runtime与证据层。个人数据在Git忽略的workspace/profile目录；Core不关心参考艺术家或资料来源标签。
 
 ```mermaid
 flowchart TD
-    A[AI Agent] -->|musical intent| C[DAWLoop Core]
-    A -->|analysis request| P[Production Pipeline]
-    P -->|context and suggestions| C
-    C -->|validated operation plan| X[Execution Adapter]
-    X --> M[Bundled FL Studio MCP]
-    M --> F[Running FL Studio]
-    F -->|fresh DAW state| R[Readback]
-    R --> V[DAWLoop Verification]
-    V --> D{Plan matches actual state?}
-    D -->|Yes| PASS[PASS]
-    D -->|No| STOP[STOP]
-    PASS -->|next action| A
-    STOP -->|recover or re-plan| A
-    F -. optional audio capture .-> P
+    A[用户自己的 Agent / 分析器] --> L[Learning Protocol]
+    L --> P[通用 ProfileRevision / StyleConstraints]
+    B[Section + Harmony + Voice + Variation] --> M[MusicalPlan]
+    P --> M
+    M --> V[离线确定性 validator]
+    V -. 尚待独立接线的单位转换 .-> F[FAST Runtime]
+    C[MCP 三工具 / RunManager] -. 现场未认证 .-> F
+    F --> N[Controller 目标导航]
+    N --> O[identity / UI / identity]
+    O --> R[deterministic renderer + source guards]
+    R --> G[Gopher one-shot dispatch]
+    G --> H[Human Preview / Accept]
+    H --> E[报告领取 + application observation + callback]
+    E --> U[COMPLETED_UNVERIFIED]
 ```
 
-## Hands: FL Studio Execution Backend
+## 音乐合同与学习
 
-The current execution path combines a DAWLoop-specific adapter with the pinned Community FL Studio MCP snapshot in `third_party/fl-studio-mcp/`. The backend exposes control domains including transport, Channel and Pattern interactions, Piano Roll note operations, note-state readback, Mixer state and routing, and access to parameters on loaded plugins.
+[KNOWN｜HIGH] `src/dawloop/music_plan.py` 保存Section Brief/Harmony/Voice/Variation与乐句、动机解释结构；参考生成器当前单声部、4/4、最多8小节、受限16-note离线计划。`src/dawloop/learning/` 保存唯一四份Schema与来源/统计/profile版本合同；用户自己的Agent或外部分析器负责实际提取，Core不提供内置艺术家学习库。
 
-The upstream project documents that it cannot programmatically create new Patterns or load new plugins. The user must prepare those targets in FL Studio.
+[KNOWN｜HIGH] `src/dawloop/production/` 提供SMF、orchestration、RMS、loopback、SF2辅助。算法中的音域/源覆盖等通用逻辑与第三方来源分别登记，分析建议不产生DAW写入认证。
 
-A maintainer-reported real FL Studio integration run has exercised the path. The setup may be unstable across environments, and real-world user testing feedback is welcome. The run's target identity and machine-readable note readback evidence are not archived here, so this report is not a reproducible Live Verified result.
+## Runtime FAST
 
-## Brain and Rules: DAWLoop Core
+[KNOWN｜HIGH] `FastMusicRuntime`组合既有Native write backend，不接受任意source。完整输入先校验，再Controller导航与观察确认，deterministic renderer输出source，source/AST/hash/target/generation/one-shot journal守卫控制派发。人工接受、应用观察、回调彼此独立。
 
-The Core is independent of a specific DAW runtime. `MusicalGrid` resolves bar / beat / tick positions to integer absolute ticks. `NotePlan` validates target, section bounds, pitch, velocity, and event duration. The Exact-Set verifier compares planned and actual events while preserving duplicate counts and diagnosing missing, extra, and mismatched fields.
+[KNOWN｜HIGH] 当前导航固定三个primitive，全局channel index从入口到独占选择/回读/定向event id一致。一次事务允许这些有限动作，UNKNOWN仍消耗预算；不得重试或替换方法修复。Piano Roll标题与Controller选择可能不同，所以`showWindow`不承担定向绑定。
 
-The in-memory event store supports offline tests only. `Offline Algorithm Verified` is not `FL Studio Verified`.
+[KNOWN｜HIGH] Controller build、session、project generation与Gopher page target、host generation、bridge epoch各自承担不同代次约束。project_title描述可空，不参与唯一身份；运行时build由Controller报告，不从磁盘注入。
 
-## Ears / Production Assistance: Production Pipeline
+## 观察和报告
 
-The Production Pipeline lives under `src/dawloop/production/` and is optional. Its purpose is to inspect musical/audio material and help the agent choose a useful next operation; it does not replace execution or verification.
+[KNOWN｜HIGH] observer绑定原始图像payload/hash、真实capture调用区间、request/operation/generation，并在identity夹读内提交新鲜证据。自动采样不等于内容确认；Agent视觉回执必须来自实际图像，不从expected填目标。
 
-- `smf.py`: dependency-free Standard MIDI File parsing and note-density window selection;
-- `orchestration.py`: register-aware phrase assignment, pitch-band gap detection, and source-note coverage checks;
-- `mix.py`: active-frame RMS, measured fader calibration, and calibration-aware fader planning;
-- `loopback.py`: optional Windows WASAPI loopback capture;
-- `sf2.py`: optional SoundFont parsing and offline audition.
+[KNOWN｜HIGH] HumanReport使用唯一run/session/report。先persist再claim；REALTIME必须有实际领取，LATE只追加证据，不改immutable terminal。应用观察同样分produced/persisted/claimed/confirmed；跨clock domain不直接减monotonic时间。取消、迟到隔离与有界teardown保留。
 
-A typical future mixer loop is:
+## MCP候选入口
 
-```text
-loopback capture
-→ active-frame RMS
-→ choose target/correction
-→ calibration-aware fader plan
-→ FL Studio write
-→ mixer readback
-→ compare actual value/state
-→ PASS / STOP
-```
+[KNOWN｜HIGH] `fast_mcp_server.py`只公开三工具；RunManager持有后台事务。operation_id是调用幂等身份，run_id是执行实例，session_id是证据会话。MCP和observer采用真实factory组合现有FAST，不另造执行器。缺少Controller/Gopher/observer/预算时NOT_READY。
 
-The first four steps can inform a plan but do not establish a DAW operation's PASS.
+[KNOWN｜HIGH] stdio常驻不等于桥接复用；当前bridge每run关闭。MCP现场路径暂停于外部browser page identity，不能用连接端口替代真实UI身份。连接复用、normal project与连续预算是之后独立阶段。
 
-## Execution, Readback, and Verification
+## VERIFIED与Community边界
 
-The adapter boundary keeps DAWLoop Core independent of a specific control route. The current tree contains a DAWLoop adapter for the pinned Community FL Studio MCP snapshot. Native Computer Use, DAWLoop SysEx RPC, compatibility bridges, and other DAW adapters remain future options.
+[KNOWN｜HIGH] 离线`verification/`按多重集合比较事件，保留重复计数。Community backend固定快照位于`third_party/fl-studio-mcp/`，DAWLoop adapter独立；上游缓存及能力不自动构成本项目fresh producer readback认证。
 
-The adapter maps validated Note Plans to upstream Piano Roll operations, checks the selected Channel and blank-target preconditions, requests fresh Piano Roll state, converts returned notes into DAWLoop events, and produces a structured execution report. The adapter also contains Mixer discovery and loaded-plugin parameter query paths. These implementations and upstream capabilities are not live-verified merely because the code is present.
-
-The upstream Piano Roll readback does not include Pattern identity. The adapter therefore requires an external identity reader to check the project, Pattern, Channel, and FL Studio version; it must not infer Pattern identity from the Piano Roll response.
-
-```text
-validated plan
-→ execution adapter
-→ running FL Studio
-→ fresh state readback
-→ compare actual state with plan
-→ PASS / STOP
-```
-
-An adapter success response, a calculated fader target, an audio-analysis result, or an interface screenshot is not proof of the resulting DAW state.
-
-## Agent Loop and Safety
-
-DAWLoop is designed for tool-using agents through structured inputs and machine-readable reports. This does not mean every agent is already integrated or that music production is autonomous. An agent can use Production Pipeline analysis to shape a plan, submit the plan to Core validation, call an execution adapter, observe the readback and verification result, and then continue or re-plan. This iterative agent decision closes the loop; it does not make unverified state safe to use.
-
-On `STOP`, the agent should report the failure and avoid building further operations on an unverified state. Analysis suggestions cannot be promoted to PASS without fresh DAW readback.
-
-## Third-Party Boundaries
-
-`third_party/fl-studio-mcp/` is a fixed third-party source snapshot of Community FL Studio MCP. DAWLoop-specific code lives separately in `src/dawloop/adapters/fl_studio_mcp/`.
-
-Production Pipeline files adapted from `whale-music-pipeline` retain their original MIT license at `third_party/whale-music-pipeline/LICENSE` and remain classified as `ADAPTED_FROM_THIRD_PARTY` in provenance records.
-
-See [FL Studio MCP integration](FL_STUDIO_MCP.md), [Production Pipeline](PRODUCTION_PIPELINE.md), [Acknowledgements](ACKNOWLEDGEMENTS.md), [Provenance](../PROVENANCE.md), and [Third-Party Notices](../THIRD_PARTY_NOTICES.md).
+[KNOWN｜HIGH] Native FAST返回COMPLETED_UNVERIFIED；当前无可认证producer notes[]，Native VERIFIED冻结。未来add-only验证必须比较baseline+planned additions而非只比较plan，且锁定PPQ/request/实际读取对象。参见[验证规则](VERIFICATION.md)、[来源](../PROVENANCE.md)、[第三方通知](../THIRD_PARTY_NOTICES.md)。

@@ -1,43 +1,57 @@
 # Roadmap
 
-This roadmap describes the current development state. It is separate from the published `v0.1.0-alpha`, which remains the original offline-core release. Status names describe DAWLoop's own implementation; upstream/backend features do not count as DAWLoop verification.
+[KNOWN｜HIGH] 本版是 Runtime V2 research-preview；旧 `v0.1.0-alpha` 保留。路线图区分已实现、现场认证与未来计划，不用上游支持或离线测试替代现场证据。
 
-## Completed
+## 已完成
 
-- Offline Musical Grid, absolute tick resolution, Note Plan, and Exact-Set Verification.
-- Structured `PASS` / `STOP` semantics for offline execution and comparison.
-- Pinned Community FL Studio MCP source snapshot under `third_party/`, with upstream license and copyright notices retained.
-- DAWLoop MCP adapter foundation, Note Plan mapping, target-identity gate, and structured execution report.
-- Optional FL Studio dependencies, `dawloop doctor`, and explicit User Script installer.
-- Agent-oriented architecture and offline adapter tests.
-- Production Pipeline dependency-free SMF inspection and dense-section selection.
-- Production Pipeline orchestration helpers for register-aware phrase assignment, midrange-gap detection, and source-note coverage checks.
-- Production Pipeline active-frame RMS measurement and calibration-aware fader planning.
-- Optional Windows WASAPI loopback capture and SF2 / SoundFont audition utility.
-- Explicit Production Pipeline attribution, license boundary, and provenance classification.
+- [KNOWN｜HIGH] 离线 MusicalGrid、NotePlan、保留重复次数的 Exact-Set 比较器。
+- [KNOWN｜HIGH] Community 固定快照、安装/诊断与通用 Production 分析工具，保留第三方来源。
+- [KNOWN｜HIGH] Controller build/session/project 身份；已有 Kick ↔ Clap 自动导航与观察性确认。
+- [KNOWN｜HIGH] 固定16-note Native FAST 高层入口、单次派发、人工接受、应用观察和完成回调的受限现场闭环。
+- [KNOWN｜HIGH] HumanReport 独立持久化/领取/晚到关联，原终态不可改写。
+- [KNOWN｜HIGH] MusicalPlan、通用约束、动机/乐句解释、Learning Protocol/Schema/Prompt/版本化profile的离线实现。
+- [KNOWN｜HIGH] 三工具 stdio MCP、后台 RunManager、real factory、truthful readiness 与 observer 接线的离线实现。
 
-## In Development
+## P0：音乐计划与用户自己的学习
 
-- Reproducible live Pattern / Channel identity checks.
-- Repeatable live note write, fresh readback, and Exact-Set evidence.
-- Integration of Production Pipeline fader planning with verified Mixer `write → readback → compare` operations.
-- Section-level agent workflows that turn MIDI inspection/orchestration analysis into structured DAWLoop plans rather than direct unverified DAW edits.
-- Stability and compatibility feedback across FL Studio installations.
-- User-facing setup and test workflow for the experimental integration path.
+[INFERRED｜HIGH] 用户 Agent 用自有素材跑分析 → 同类统计 → 显式映射 → 计划验证 → 用户反馈 → 新profile版本。公共项目提供框架，不内置艺术家偏好或宣称学习泛化已认证。下一项接线是学习MusicalPlan到FAST的单位/字段转换与独立验收，不直接开放任意源码或扩张现场note预算。
 
-The maintainer reports completing an FL Studio integration run. The repository does not include archived target-identity and actual-event evidence for that run, so the live path is not marked `Verified` here.
+## 暂停候选路线：ZERO-AGENT-COMPUTER-USE FAST
 
-## Planned
+```text
+MCP_FAST_PATH = NOT_LIVE_CERTIFIED
+ZERO_AGENT_COMPUTER_USE_FAST_PATH = NOT_LIVE_CERTIFIED
+BROWSER_PAGE_IDENTITY_TRANSPORT = UNAVAILABLE
+OBSERVER_UI_BINDING = BLOCKED
+OBSERVER_REQUEST_COMPLETION = NOT_PROVEN
+```
 
-- Multi-channel and multi-pattern planning and execution.
-- Mixer operations with per-operation write, readback, and verification.
-- Plugin parameter operations with readback verification.
-- Higher-level orchestration policies built on the generic Production Pipeline checks, with score-independent tests and evidence.
-- Expanded audio analysis beyond RMS/peak where deterministic measurements materially help the agent.
-- DAWLoop SysEx RPC adapter, implemented from the documented protocol specification.
-- Native Computer Use adapter and compatibility bridge support.
-- Broader agent orchestration and resumable production workflows.
+[KNOWN｜HIGH] 已有实验FAST路径仍有受限证据；新MCP候选路径没有完成现场run。不得重复同一个fetch失败、猜URL、用窗口标题/焦点/坐标替代页面身份或为了发布而降级READY。
 
-## Verification Milestone
+### GitHub待办：复验与分支展示
 
-The `v1.0.0` milestone is intended to require an installable workflow that can identify a real target, write a deterministic Note Plan to FL Studio, read the actual events back, and produce a reproducible Exact-Set `PASS` / `STOP` report. Production analysis may inform the plan, but analysis alone does not satisfy this live verification milestone. `v1.0.0` is not a released version.
+1. [INFERRED｜HIGH] 浏览器连接端修复后，先稳定取得真实URL/page identity。
+2. [INFERRED｜HIGH] 不开FL，在两个不同process/session generation下各完成一次observer UI binding + request completion，并正常shutdown无残留。
+3. [INFERRED｜HIGH] 两次都过才开一个独立MCP现场会话：固定16 notes、一次派发、人工Accept、REALTIME报告/应用领取、宿主回调、试听、不保存恢复。MCP调用与zero-agent-CU分别认证。
+4. [INFERRED｜HIGH] 若目标用户仍无法使用该依赖，建立单独候选分支与兼容性说明，展示MCP路径作为可选路线，同时指向已通过的受限FAST/既有观察工作流。不得把未通过的候选路线宣传成更可靠默认方案。
+
+[KNOWN｜HIGH] 本次只是将复验条件列为公开待办，未进行新浏览器/FL实验，也未创建一个虚构“已验证替代observer”分支。候选分支只在有实际兼容方案和证据后建立。
+
+## 之后的独立阶段
+
+| 顺序 | 阶段 | 必须保留的边界 |
+| --- | --- | --- |
+| MCP现场通过后 | 只读bridge/session reuse | status/read/reconnect先行，generation与ledger不拆 |
+| 然后 | normal-project / multi-operation | 工程身份、checkpoint、dirty/save策略、operation预算及失效守卫 |
+| 然后 | 语音输入 | 只是输入层，不重新开启自动commit |
+| 独立评估 | Human telemetry完善 / Auto Accept | Auto Accept默认关闭，无新增像素识别框架 |
+
+## 冻结：Native VERIFIED
+
+[KNOWN｜HIGH] `NATIVE_VERIFIED_RESEARCH = FROZEN_BLOCKED`，原因是缺少可认证producer-side完整音符读回。现有normal return没有数据传播证据，error channel unresolved，file routes closed，缓存/视觉不足以Exact Set。只有新的可信完整读取接口才解冻，不再重包装旧payload/文件/日志路线。
+
+[INFERRED｜HIGH] 解冻后的顺序仍是 notes[] → 请求freshness与producer实际目标证据 → baseline+additions multiset/PPQ比较。不能从截图或callback直接跳到VERIFIED。普通工程持续写入与 `v1.0 stable` 的完成条件尚未达成。
+
+## 来源与发行待办
+
+[KNOWN｜HIGH] MIT/NOTICE/AUTHORS/CFF/品牌说明与公开内容hash已有；签名身份、公钥/可信发布流水线、artifact attestation、可选真实DOI及第三方复现尚待完成。CC BY-NC只保存许可文本，当前资产清单为空。不要追溯回收MIT许可或伪造签名/DOI。

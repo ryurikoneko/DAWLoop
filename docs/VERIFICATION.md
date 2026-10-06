@@ -1,12 +1,14 @@
 # 验证规则
 
+[KNOWN｜HIGH] 当前Native FAST固定16-note人工接受流程已通过受限现场验收，终态为`COMPLETED_UNVERIFIED`；不能依赖下文Exact-Set算法宣称VERIFIED。producer-side实际note集合仍不可认证，Native VERIFIED冻结。下文历史接入说明针对Community读回路径；当前Native范围与公开证据见[统一状态](DAWLOOP_RUNTIME_V2.md#current)。
+
 ## 验证级别
 
 - **Unit Tests：** 音乐时间、Note Plan、字段映射、目标身份门控与 Exact-Set 算法。
 - **Offline Integration Tests：** 使用自造测试数据和替身验证 Writer / Reader 或 MCP adapter 映射，不启动 FL Studio。
 - **Live FL Studio Integration Tests：** 单独人工启动；必须使用专用测试工程和确认过的 Pattern / Channel。普通 `unittest` / `pytest` 不得自动执行 Live 测试。
 
-维护者报告曾在真实 FL Studio 环境完成接入流程，但该次运行的目标身份和实际事件读回没有归档在仓库中。当前仓库也没有可自包含运行的 Live runner：上游 Piano Roll state 不返回 Pattern 身份，需要外部身份 provider。参见 [`tests/live_fl/README.md`](../tests/live_fl/README.md)。欢迎用户使用专用测试工程实测，并提交脱敏反馈。
+维护者报告曾在真实 FL Studio 环境完成接入流程，但该次运行的目标身份和实际事件读回没有归档在仓库中。开发用采集器位于 [`tests/live_fl/capture_note_roundtrip.py`](../tests/live_fl/capture_note_roundtrip.py)，它为每次尝试保存独立的机器可读记录；上游 Piano Roll state 不返回 Pattern 身份，仍需外部现场身份读取器。运行步骤与安全门控见 [`tests/live_fl/README.md`](../tests/live_fl/README.md)。采集器的实现不等于已经归档现场 PASS。
 
 只有真实 FL Studio 写入后获得新鲜读回，且目标身份、PPQ、planned / actual Exact-Set 全部一致，才能将现场结果标为 `Live FL Studio Verified`。依赖安装、MCP 命令排队或连接状态不能单独构成 PASS。
 
