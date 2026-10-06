@@ -28,6 +28,16 @@ NORMAL_PROJECT_CONTINUOUS_WRITE = NOT_CERTIFIED
 
 ## 已完成的主线
 
+### 公开工程化：2026-10-07
+
+[KNOWN｜HIGH] Ubuntu Python 3.11/3.12 与 Windows Python 3.12 的完整离线 CI 已在 [Actions](https://github.com/ryurikoneko/DAWLoop/actions/runs/37512272581) 通过，包括 Node 合成观察测试、构建、隔离 wheel 安装、学习教程与 provenance 校验。跨平台测试只修正模拟环境与时间边界，不放宽 Runtime deadline、target guard 或 dispatch budget，不启动 FL。
+
+[KNOWN｜HIGH] 中英首页先介绍能力，再集中列出 alpha 范围；公开部署和未来 Release 文案使用项目语言，内部研究记录保留证据标签。包元数据补齐 Alpha classifiers 与项目链接；仓库开启合并后删除分支、关闭 Wiki。
+
+[KNOWN｜HIGH] 新发布流程区分 main 候选构建和可信 SSH signed tag 构建，生成并验证 GitHub artifact attestation。当前可信签名公钥未登记，正式签名 tag 发布仍拒绝；候选 attestation 尚待现场 Actions 验收。历史 `v0.2.0-alpha.1` 的 tag、Release 和资产保持原样。维护顺序见 [发布指南](RELEASING.md)。
+
+[KNOWN｜HIGH] 此更新不增加任何 FL 现场认证；MCP 外部页面身份阻塞和 Native VERIFIED 冻结继续保持。
+
 [KNOWN｜HIGH] Controller 身份区分 build（代码）、session（加载会话）、project generation（工程上下文）。身份由运行 Controller 回报，不以磁盘脚本摘要冒充。空标题只作为 EMPTY_ACCEPTED 描述，不参与 generation equality。
 
 [KNOWN｜HIGH] 导航使用三个固定 primitive：选已有 Pattern → `selectOneChannel(global_index, True)` 独占选通道 → `openEventEditor(getRecEventId(global_index, True) + REC_Chan_PianoRoll, EE_PR)` 定向打开卷帘。曾经点击 Channel Button 打开 Sampler、`showWindow` 只显示旧 Kick 卷帘的失败已定位并更换动作语义；不是通过反复点击凑成功。
