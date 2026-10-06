@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main, 'chore/**', 'feat/**', 'fix/**', 'release/**']
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    name: Offline (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-latest, python: '3.11'}
+          - {os: ubuntu-latest, python: '3.12'}
+          - {os: windows-latest, python: '3.12'}
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+      - name: Install offline dependencies
+        run: python -m pip install -r requirements-ci.txt -e ".[learning,native,mcp,production]"
+      - name: Configure source imports
+        shell: python
+        run: |
+          import os
+          from pathlib import Path
+          paths = ('src', 'third_party/fl-studio-mcp/src', '.')
+          with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as stream:
+              stream.write('PYTHONPATH=' + os.pathsep.join(str(Path(p).resolve()) for p in paths) + '\n')
+      - name: Offline regression (no FL host)
+        run: python -m pytest -q tests --tb=short -ra --junitxml=test-results.xml
+      - name: Node observer smoke (synthetic image)
+        run: node tests/fast_observation_peer_harness.mjs
+      - name: Build wheel and sdist
+        run: python -m build
+      - name: Isolated wheel, learning and provenance checks
+        run: python scripts/ci_validate.py
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: offline-${{ matrix.os }}-${{ matrix.python }}
+          path: test-results.xml
+          if-no-files-found: error
+          retention-days: 14
+
+  gate:
+    name: CI gate
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [offline]
+    steps:
+      - name: Require every offline job to pass
+        env:
+          RESULT: ${{ needs.offline.result }}
+        run: test "$RESULT" = success
