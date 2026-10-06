@@ -30,11 +30,13 @@ NORMAL_PROJECT_CONTINUOUS_WRITE = NOT_CERTIFIED
 
 ### 公开工程化：2026-10-07
 
-[KNOWN｜HIGH] Ubuntu Python 3.11/3.12 与 Windows Python 3.12 的完整离线 CI 已在 [Actions](https://github.com/ryurikoneko/DAWLoop/actions/runs/37512272581) 通过，包括 Node 合成观察测试、构建、隔离 wheel 安装、学习教程与 provenance 校验。跨平台测试只修正模拟环境与时间边界，不放宽 Runtime deadline、target guard 或 dispatch budget，不启动 FL。
+[KNOWN｜HIGH] Ubuntu Python 3.11/3.12 与 Windows Python 3.12 的完整离线 CI 已在 [main Actions](https://github.com/ryurikoneko/DAWLoop/actions/runs/37514929489) 通过，包括 Node 合成观察测试、构建、隔离 wheel 安装、学习教程与 provenance 校验。Windows 为 715 tests + 331 subtests；Linux 为 710 tests + 331 subtests，另有 3 个 Win32 项目跳过及 2 个 Win32 启动器用例不收集。跨平台测试只修正模拟环境与时间边界，不放宽 Runtime deadline、target guard 或 dispatch budget，不启动 FL。
 
 [KNOWN｜HIGH] 中英首页先介绍能力，再集中列出 alpha 范围；公开部署和未来 Release 文案使用项目语言，内部研究记录保留证据标签。包元数据补齐 Alpha classifiers 与项目链接；仓库开启合并后删除分支、关闭 Wiki。
 
-[KNOWN｜HIGH] 新发布流程区分 main 候选构建和可信 SSH signed tag 构建，生成并验证 GitHub artifact attestation。当前可信签名公钥未登记，正式签名 tag 发布仍拒绝；候选 attestation 尚待现场 Actions 验收。历史 `v0.2.0-alpha.1` 的 tag、Release 和资产保持原样。维护顺序见 [发布指南](RELEASING.md)。
+[KNOWN｜HIGH] 新发布流程区分 main 候选构建和可信 SSH signed tag 构建。[候选验收](https://github.com/ryurikoneko/DAWLoop/actions/runs/37514976009) 已通过，构建 commit 为 `3e0688e2603e166cdeb4dfe123bcf0a08505fd63`；五份产物的 GitHub artifact attestation 按仓库/workflow/ref/commit 验证，下载包摘要与四项校验和均匹配。此为 main 候选，不是新版 Release，也不是维护者个人签名。当前可信签名公钥未登记，正式签名 tag 发布仍拒绝。历史 `v0.2.0-alpha.1` 的 tag、Release 和五份资产摘要保持原样。维护顺序见 [发布指南](RELEASING.md)。
+
+[KNOWN｜HIGH] [main-quality-gate](https://github.com/ryurikoneko/DAWLoop/rules/24603386) 已启用：PR、严格 `CI gate`、禁止 force-push/删除；管理员例外仅限 PR，不要求单人项目自审批准。发布沿用先合并 main、CI、可信 signed tag、重新构建与验证的顺序。
 
 [KNOWN｜HIGH] 此更新不增加任何 FL 现场认证；MCP 外部页面身份阻塞和 Native VERIFIED 冻结继续保持。
 

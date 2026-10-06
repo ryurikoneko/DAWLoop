@@ -6,6 +6,10 @@
 
 CI 在 Ubuntu Python 3.11/3.12 和 Windows Python 3.12 执行离线回归；Node 观察测试使用合成图像。构建、隔离 wheel 安装、学习教程与来源摘要检查均不启动 FL。Linux 不收集依赖 Win32 启动器的 `test_target_prepare_live_catalog.py`，并明确跳过需要 Win32 API 的三项测试；这些检查由 Windows job 执行。测试 JUnit 报告保留 14 天。
 
+2026-10-07 的 [main CI](https://github.com/ryurikoneko/DAWLoop/actions/runs/37514929489) 与 [候选发布验收](https://github.com/ryurikoneko/DAWLoop/actions/runs/37514976009) 均通过。候选来源 commit 为 `3e0688e2603e166cdeb4dfe123bcf0a08505fd63`，五份产物的 attestation 已按仓库、workflow、ref 和 source digest 验证；下载包与校验和另行核对。这没有创建新版 Release，不等于维护者个人 tag 签名认证。
+
+main 已启用 [质量规则](https://github.com/ryurikoneko/DAWLoop/rules/24603386)：PR、严格 `CI gate`、禁止 force-push 与删除。管理员 bypass 仅限 PR；单人项目不要求自审批准。
+
 ## 两个发布入口
 
 - **main 候选构建**：在 Actions 手动运行 `Release provenance`，只允许当前 main。通过同一套 CI 后生成 wheel、sdist、来源清单、SHA256SUMS 与构建 attestation，保存在 Actions artifacts，不发布新 Release。
