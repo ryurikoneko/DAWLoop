@@ -1,6 +1,6 @@
 # Community FL Studio MCP 集成
 
-[KNOWN｜HIGH] 本页记录Community backend与adapter合同；异步FAST三工具MCP是另一层入口，现场认证仍暂停。先阅读[DEPLOYMENT](DEPLOYMENT.md)与[当前认证状态](DAWLOOP_RUNTIME_V2.md#current)，不要把上游能力当作Native VERIFIED或MCP FAST现场成功。
+本页记录Community backend与adapter合同；异步FAST三工具MCP是另一层入口，现场认证仍暂停。先阅读[DEPLOYMENT](DEPLOYMENT.md)与[当前认证状态](DAWLOOP_RUNTIME_V2.md#current)，不要把上游能力当作Native VERIFIED或MCP FAST现场成功。
 
 ## 当前状态
 

@@ -1,6 +1,6 @@
 # 验证规则
 
-[KNOWN｜HIGH] 当前Native FAST固定16-note人工接受流程已通过受限现场验收，终态为`COMPLETED_UNVERIFIED`；不能依赖下文Exact-Set算法宣称VERIFIED。producer-side实际note集合仍不可认证，Native VERIFIED冻结。下文历史接入说明针对Community读回路径；当前Native范围与公开证据见[统一状态](DAWLOOP_RUNTIME_V2.md#current)。
+当前Native FAST固定16-note人工接受流程已通过受限现场验收，终态为`COMPLETED_UNVERIFIED`；不能依赖下文Exact-Set算法宣称VERIFIED。producer-side实际note集合仍不可认证，Native VERIFIED冻结。下文历史接入说明针对Community读回路径；当前Native范围与公开证据见[统一状态](DAWLOOP_RUNTIME_V2.md#current)。
 
 ## 验证级别
 
