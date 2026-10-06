@@ -1,6 +1,8 @@
 include AGENTS.md AUTHORS CITATION.cff NOTICE LICENSE LICENSE_POLICY.md TRADEMARKS.md
 include PROVENANCE.md THIRD_PARTY_NOTICES.md CONTRIBUTING.md SECURITY.md
 include .gitignore .gitattributes
+include README.en.md requirements-ci.txt
+recursive-include .github *.yml *.allowed
 recursive-include docs *.md
 recursive-include learning *.py *.json *.md
 recursive-include profiles/examples *.json *.yaml

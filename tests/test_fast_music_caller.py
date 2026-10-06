@@ -100,9 +100,13 @@ class CallerTests(unittest.IsolatedAsyncioTestCase):
 
         async def observe(target, binding):
             observed.append(binding)
-            return dict(visible=True, confirmed=True, observer='agent_visual_review',
+            # 模拟独立采样边界，避免低分辨率时钟把夹读顺序压成同一时刻。
+            await asyncio.sleep(.01)
+            result = dict(visible=True, confirmed=True, observer='agent_visual_review',
                 evidence_ref='offline-current-frame', pattern_number=1, channel_name='808 Kick',
                 window_pid=10, window_hwnd=20, session=binding, observed_unix=time.time())
+            await asyncio.sleep(.01)
+            return result
 
         preparation = NavigatedMusicPreparation(navigator, observe, controller_context=context,
             native_guard=lambda s: s == native, window_identity=dict(pid=10, hwnd=20))

@@ -12,11 +12,26 @@ license-files = ["LICENSE", "NOTICE", "AUTHORS", "LICENSE_POLICY.md", "TRADEMARK
 requires-python = ">=3.11"
 authors = [{ name = "ryurikoneko" }]
 dependencies = []
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Multimedia :: Sound/Audio :: MIDI",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: Microsoft :: Windows",
+]
+
+[project.urls]
+Repository = "https://github.com/ryurikoneko/DAWLoop"
+Issues = "https://github.com/ryurikoneko/DAWLoop/issues"
+Documentation = "https://github.com/ryurikoneko/DAWLoop/blob/main/docs/DEPLOYMENT.md"
+Changelog = "https://github.com/ryurikoneko/DAWLoop/releases"
 
 [project.optional-dependencies]
 learning = ["jsonschema>=4.18,<5"]
 mcp = [
-    "fastmcp>=2.0,<3",
+    "fastmcp>=2.14.7,<3",
 ]
 native = [
     "websocket-client>=1.8,<2",

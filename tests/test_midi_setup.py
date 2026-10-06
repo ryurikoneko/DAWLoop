@@ -51,7 +51,8 @@ class MidiPortInspectionTests(unittest.TestCase):
 
     def test_process_detection_is_case_insensitive(self):
         result = type("Result", (), {"returncode": 0, "stdout": '"loopMIDI.exe","123"'})()
-        with patch("dawloop.midi_setup.subprocess.run", return_value=result):
+        with patch("dawloop.midi_setup.subprocess.run", return_value=result), \
+                patch("dawloop.midi_setup.sys.platform", "win32"):
             from dawloop.midi_setup import loopmidi_process_running
             self.assertTrue(loopmidi_process_running())
 

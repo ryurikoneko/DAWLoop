@@ -9,7 +9,9 @@ import subprocess
 import tempfile
 import threading
 import time
+from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 from uuid import uuid4
 
 from dawloop.adapters.gopher_native.write_backend import CERTIFIED_VERSION
@@ -22,16 +24,16 @@ from test_target_preparation import identity
 
 
 class Controller:
-    def __init__(self):
+    def __init__(self, sample):
         self.changes = {}
         self.navigation = 0
+        self.sample = sample
 
     async def read_identity(self):
-        await asyncio.sleep(.001)
-        value = identity(time.time(), controller_build_id='offline-build', controller_session_id='controller',
+        await asyncio.sleep(0)
+        value = identity(self.sample(), controller_build_id='offline-build', controller_session_id='controller',
                          project_title='offline-fixture')
         value.update(self.changes)
-        await asyncio.sleep(.001)
         return value
 
     async def navigate_once(self, target, binding, operation_id):
@@ -77,10 +79,11 @@ class ConnectedHost(Host):
 
 
 class Observer:
-    def __init__(self):
+    def __init__(self, sample):
         self.ready = True
         self.changes = {}
         self.calls = 0
+        self.sample = sample
 
     def readiness(self):
         return dict(ready=self.ready, request_generation='observer' if self.ready else None)
@@ -90,9 +93,11 @@ class Observer:
         review = dict(region=[1536, 3072], active_region_empty=True, preview_absent=True,
                       human_available=True, preview_closed=True, phrase_visible=True)
         review.update(self.changes)
-        return dict(visible=True, confirmed=True, observer='human', pattern_number=1,
+        await asyncio.sleep(0)
+        result = dict(visible=True, confirmed=True, observer='human', pattern_number=1,
             channel_name='808 Kick', window_pid=10, window_hwnd=20, session=binding,
-            observed_unix=time.time(), evidence_ref='offline-reviewed-frame', review=review)
+            observed_unix=self.sample(), evidence_ref='offline-reviewed-frame', review=review)
+        return result
 
 
 class LiveWiringTests(unittest.IsolatedAsyncioTestCase):
@@ -106,7 +111,16 @@ class LiveWiringTests(unittest.IsolatedAsyncioTestCase):
             fixture_sha256='a2f9922d6b8cdc7f7627428d0d7072ed7dcab0a4f666fef42145c0c6e91b006f',
             fixture_size=53498, project_title='offline-fixture', controller_session_id='controller',
             project_generation='project', observer_dir=str(self.root / 'observer'), experimental_authorized=True)
-        self.controller, self.host, self.observer = Controller(), ConnectedHost(), Observer()
+        # 接线用例共享可控采样时钟，避免系统tick与ISO舍入扰动证据顺序。
+        self.sample_time = 100.0
+        backend_clock = patch('dawloop.adapters.gopher_native.write_backend.time',
+            SimpleNamespace(time=lambda: self.sample_time, monotonic=time.monotonic))
+        backend_clock.start()
+        self.addCleanup(backend_clock.stop)
+        def sample():
+            self.sample_time += .25
+            return self.sample_time
+        self.controller, self.host, self.observer = Controller(sample), ConnectedHost(), Observer(sample)
         self.preview = True
         self.target_page = {'id': 'target'}
         self.wiring = LiveWiring(self.config, settings_dir=self.settings, expected_build='offline-build',
@@ -117,8 +131,12 @@ class LiveWiringTests(unittest.IsolatedAsyncioTestCase):
         target, self.plan = inputs()
         target['pattern_name'] = TARGET['expected_pattern_name']
         self.target = target
+        def factory(context, store):
+            runtime = self.wiring.factory(context, store)
+            self.wiring.backend.target_preparer.preparer.clock = lambda: self.sample_time
+            return runtime
         self.manager = RunManager(self.root / 'runs', settings_dir=self.settings, expected_build='offline-build',
-            runtime_factory=self.wiring.factory, readiness=self.wiring.readiness,
+            runtime_factory=factory, readiness=self.wiring.readiness,
             experimental_authorized=True, allowed_target=target)
 
     async def asyncTearDown(self):

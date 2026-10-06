@@ -16,7 +16,7 @@ PUBLIC_PATHS = ('src/dawloop', 'research', 'scripts', 'third_party', 'docs',
     'LICENSES', 'MANIFEST.in', '.gitignore', '.gitattributes', 'SECURITY.md', 'AGENTS.md',
     'evidence/runtime_v2/file_snapshot_route.json',
     'LICENSE', 'NOTICE', 'AUTHORS', 'CITATION.cff', 'TRADEMARKS.md', 'LICENSE_POLICY.md',
-    'README.md', 'CONTRIBUTING.md', 'pyproject.toml',
+    'README.md', 'README.en.md', '.github', 'requirements-ci.txt', 'CONTRIBUTING.md', 'pyproject.toml',
     'PROVENANCE.md', 'THIRD_PARTY_NOTICES.md')
 
 
