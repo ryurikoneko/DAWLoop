@@ -11,6 +11,8 @@
 - HumanReport 独立持久化/领取/晚到关联，原终态不可改写。
 - MusicalPlan、通用约束、动机/乐句解释、Learning Protocol/Schema/Prompt/版本化profile的离线实现。
 - 三工具 stdio MCP、后台 RunManager、real factory、truthful readiness 与 observer 接线的离线实现。
+- Ubuntu 3.11/3.12、Windows 3.12 离线 CI、构建与隔离安装、Node 合成观察和学习/provenance 回归。
+- main PR/CI 保护、双语项目首页，以及经实际 Actions 验收的 main 候选构建 attestation。
 
 ## P0：音乐计划与用户自己的学习
 
@@ -54,4 +56,4 @@ OBSERVER_REQUEST_COMPLETION = NOT_PROVEN
 
 ## 来源与发行待办
 
-MIT/NOTICE/AUTHORS/CFF/品牌说明与公开内容hash已有；签名身份、公钥/可信发布流水线、artifact attestation、可选真实DOI及第三方复现尚待完成。CC BY-NC只保存许可文本，当前资产清单为空。不要追溯回收MIT许可或伪造签名/DOI。
+MIT/NOTICE/AUTHORS/CFF/品牌说明与公开内容hash已有。main 候选构建 attestation 已通过真实验收；可信 signed-tag 发布流程已实现，但维护者公钥与本机签名配置尚未登记，因此 alpha.2、个人签名 tag、checksum detached signature 尚未发布。具体顺序与验证方法见[发布指南](RELEASING.md)。可选真实 DOI 与第三方复现继续列为后续事项。CC BY-NC 只保存许可文本，当前资产清单为空；历史 MIT 授权保持。
