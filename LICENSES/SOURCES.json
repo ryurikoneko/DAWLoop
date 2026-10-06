@@ -1,0 +1,17 @@
+{
+  "schema_version": "dawloop-license-sources-v1",
+  "fetched_on": "2026-10-07",
+  "files": {
+    "MIT.txt": {
+      "source": "../LICENSE",
+      "sha256": "1b8e0b3253ae05d5b44c9bac4a03f24a16f123c67d7baf61f8e14f62c875fc3d",
+      "applies_to": "Existing project-owned MIT files"
+    },
+    "CC-BY-NC-4.0.txt": {
+      "source": "https://raw.githubusercontent.com/creativecommons/cc-legal-tools-data/main/docs/licenses/by-nc/4.0/legalcode.txt",
+      "sha256": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0",
+      "applies_to": [],
+      "status": "PROSPECTIVE_TEXT_ONLY"
+    }
+  }
+}
