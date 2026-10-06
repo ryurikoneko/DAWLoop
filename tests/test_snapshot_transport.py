@@ -3,6 +3,7 @@ import asyncio
 from dataclasses import asdict, replace
 from datetime import datetime, timezone
 import hashlib
+import itertools
 import json
 from pathlib import Path
 import tempfile
@@ -158,18 +159,31 @@ class CompletionTransportTests(unittest.TestCase):
             async def read():
                 return identity()
             pending = None
+            partial_observed = asyncio.Event()
+            read_bytes = Path.read_bytes
+            def observe_partial(path):
+                raw = read_bytes(path)
+                if path.suffix == '.done' and raw == b'{':
+                    partial_observed.set()
+                return raw
             def trigger():
                 nonlocal pending
                 raw, marker = self.produce(publish=False)
                 response, done = response_paths(self.root, self.request.generation)
                 done.write_text('{', encoding='utf-8')
                 async def finish():
-                    await asyncio.sleep(.02)
+                    await partial_observed.wait()
                     done.write_text(json.dumps(marker), encoding='utf-8')
                 pending = asyncio.create_task(finish())
             client = CompletionSnapshotClient(self.root, timeout=.1)
-            result = await client.request_piano_roll_snapshot(self.request, read_identity=read, trigger=trigger)
+            # 验证部分标记必须先被观察；共享 runner 的调度耗时不属于此协议测试。
+            clock = SimpleNamespace(monotonic=lambda: next(ticks))
+            ticks = itertools.count(step=.001)
+            with patch('dawloop.runtime.snapshot_transport.time', clock), \
+                    patch.object(Path, 'read_bytes', observe_partial):
+                result = await client.request_piano_roll_snapshot(self.request, read_identity=read, trigger=trigger)
             await pending
+            self.assertTrue(partial_observed.is_set())
             self.assertEqual(result.freshness, FreshnessStatus.FRESH)
             self.assertFalse(result.target_bound)
         asyncio.run(check())
