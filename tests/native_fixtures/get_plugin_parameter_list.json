@@ -1,0 +1,14 @@
+{
+  "provenance": "Milestone 2 真实只读响应；默认空白工程；已脱敏",
+  "catalog_hash": "514d035244b0aea4d94fbb5ce8cad79415878e76dca6c85d94e1ebf692f4234e",
+  "tool": "get_plugin_parameter_list",
+  "payload": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Parameters for 'Emphasizer':\n  Index 1: Input gain\n  Index 2: Emphasis\n  Index 3: Clipping\n  Index 4: Level matching\n  Index 5: Bypass\n  Index 6: 杈撳嚭澧炵泭"
+      }
+    ],
+    "isError": false
+  }
+}

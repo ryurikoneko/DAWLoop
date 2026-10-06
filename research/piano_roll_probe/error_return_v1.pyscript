@@ -1,0 +1,10 @@
+import flpianoroll as flp
+
+
+def createDialog() -> flp.ScriptDialog:
+    return flp.ScriptDialog("DAWLoop Error Return Probe", "Exception propagation diagnostic.")
+
+
+def apply(form):
+    count = flp.score.noteCount
+    raise Exception("DAWLOOP_ERROR_V1|COUNT=" + str(count))

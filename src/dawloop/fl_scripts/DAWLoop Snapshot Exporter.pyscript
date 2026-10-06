@@ -1,0 +1,122 @@
+"""请求驱动的独立只读导出器；不读取旧请求或写队列。"""
+
+import flpianoroll as flp
+import json
+import math
+import os
+import time
+import uuid
+
+
+ROOT = os.path.join(os.environ['TEMP'], 'DAWLoop_RuntimeV2_FreshSnapshot')
+PROTOCOL = 1
+
+
+def atomic_write(path, value):
+    temporary = path + '.' + uuid.uuid4().hex + '.tmp'
+    try:
+        with open(temporary, 'x', encoding='utf-8') as stream:
+            json.dump(value, stream, ensure_ascii=False, allow_nan=False)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def valid_request(request):
+    fields = {'operation', 'protocol_version', 'request_id', 'generation', 'requested_at',
+              'expected_pattern_index', 'expected_pattern_name',
+              'expected_channel_index', 'expected_channel_name'}
+    if not isinstance(request, dict) or set(request) != fields:
+        return False
+    if request['operation'] != 'read_snapshot' or type(request['protocol_version']) is not int or request['protocol_version'] != PROTOCOL:
+        return False
+    for key in ('request_id', 'generation'):
+        value = request[key]
+        if not isinstance(value, str) or len(value) != 32 or any(c not in '0123456789abcdef' for c in value):
+            return False
+    for key in ('expected_pattern_name', 'expected_channel_name', 'requested_at'):
+        if not isinstance(request[key], str) or not request[key].strip() or len(request[key]) > 256:
+            return False
+    for key, minimum in (('expected_pattern_index', 1), ('expected_channel_index', 0)):
+        if type(request[key]) is not int or request[key] < minimum:
+            return False
+    return True
+
+
+def export_snapshot():
+    # 请求目录由客户端准备；宿主只消费请求，不调用内嵌环境的目录创建接口。
+    lock_path = os.path.join(ROOT, 'producer.lock')
+    try:
+        lock = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    except FileExistsError:
+        return
+    try:
+        with open(os.path.join(ROOT, 'snapshot_request.json'), encoding='utf-8') as stream:
+            request = json.load(stream)
+        if not valid_request(request):
+            return
+        state_path = os.path.join(ROOT, 'producer_state.json')
+        if os.path.exists(state_path):
+            with open(state_path, encoding='utf-8') as stream:
+                state = json.load(stream)
+            if (not isinstance(state, dict) or type(state.get('sample_sequence')) is not int
+                    or state['sample_sequence'] < 0 or not isinstance(state.get('producer_epoch'), str)
+                    or len(state['producer_epoch']) != 32
+                    or any(c not in '0123456789abcdef' for c in state['producer_epoch'])):
+                return
+        else:
+            state = {'producer_epoch': uuid.uuid4().hex, 'sample_sequence': 0,
+                     'request_id': None, 'generation': None}
+        # 同一请求再次打开脚本时不重复取样或把成功结果覆盖成另一次调用。
+        if request['request_id'] == state.get('request_id') or request['generation'] == state.get('generation'):
+            return
+        response = {'protocol_version': PROTOCOL, 'request_id': request['request_id'],
+                    'generation': request['generation'], 'producer_status': 'ERROR',
+                    'producer_epoch': state['producer_epoch'], 'producer_invocation': uuid.uuid4().hex,
+                    'sample_sequence': None, 'sampled_at': None,
+                    'ppq': None, 'note_count': None, 'notes': None,
+                    'sample_started_monotonic_ns': None, 'sample_completed_monotonic_ns': None,
+                    'response_written_at': None, 'time_unit': 'ticks'}
+        try:
+            response['sample_started_monotonic_ns'] = time.monotonic_ns()
+            ppq = flp.score.PPQ
+            count = flp.score.noteCount
+            if type(ppq) is not int or ppq <= 0 or type(count) is not int or not 0 <= count <= 100000:
+                raise ValueError('SCORE_METADATA_INVALID')
+            notes = []
+            for index in range(count):
+                note = flp.score.getNote(index)
+                item = {'number': note.number, 'time': note.time,
+                        'length': note.length, 'velocity': note.velocity}
+                if (type(item['number']) is not int or not 0 <= item['number'] <= 131
+                        or type(item['time']) is not int or item['time'] < 0
+                        or type(item['length']) is not int or item['length'] <= 0
+                        or type(item['velocity']) not in (int, float)
+                        or not math.isfinite(item['velocity']) or not 0 <= item['velocity'] <= 1):
+                    raise ValueError('NOTE_INVALID')
+                notes.append(item)
+            if flp.score.noteCount != count or flp.score.PPQ != ppq:
+                raise ValueError('SCORE_CHANGED_DURING_SAMPLE')
+            response['sample_completed_monotonic_ns'] = time.monotonic_ns()
+            sequence = state['sample_sequence'] + 1
+            state.update(sample_sequence=sequence, request_id=request['request_id'], generation=request['generation'])
+            # 先持久化真实取样序号；崩溃可造成跳号，但不回滚序号冒充新调用。
+            atomic_write(state_path, state)
+            response.update(producer_status='SUCCESS', sample_sequence=sequence,
+                            ppq=ppq, note_count=count, notes=notes)
+        except Exception as error:
+            response['error_code'] = type(error).__name__
+        response['response_written_at'] = time.time()
+        atomic_write(os.path.join(ROOT, 'snapshot_response.json'), response)
+    except (OSError, ValueError, TypeError):
+        return
+    finally:
+        os.close(lock)
+        os.unlink(lock_path)
+
+
+# 不使用预览入口，避免一次请求被界面预览反复执行；返回值通过独立文件传输。
+export_snapshot()

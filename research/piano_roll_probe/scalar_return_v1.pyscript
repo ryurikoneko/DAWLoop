@@ -1,0 +1,10 @@
+import flpianoroll as flp
+
+
+def createDialog() -> flp.ScriptDialog:
+    return flp.ScriptDialog("DAWLoop Scalar Return Probe", "Read-only return contract research.")
+
+
+def apply(form):
+    count = flp.score.noteCount
+    return "DAWLOOP_RETURN_V1|" + str(count)

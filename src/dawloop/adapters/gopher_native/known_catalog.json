@@ -1,0 +1,1517 @@
+{
+  "catalog_hash": "514d035244b0aea4d94fbb5ce8cad79415878e76dca6c85d94e1ebf692f4234e",
+  "fl_version": "26.1.6.5639",
+  "tools": {
+    "get_session_context": {
+      "capability": "system.session_context",
+      "risk": "READ_ONLY",
+      "read": true,
+      "write": false,
+      "verifiable": false,
+      "live_tested": true,
+      "live_data_valid": false,
+      "dispatch_supported": true,
+      "classification_reason": "读取速度、通道和修改过的混音状态；不是完整工程身份。",
+      "evidence": "现场目录 description 与 inputSchema；已有只读响应证据",
+      "confidence": "HIGH",
+      "possible_side_effects": "目录声明仅读取；尚未证明所有隐藏副作用",
+      "target_semantics": "",
+      "return_semantics": "已保存响应样本；会话上下文样本格式非法",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "description": "Returns a snapshot of the current FL Studio session: tempo, active channels, and modified mixer tracks (including names, volumes, panning, routing, loaded plugins, and send routing to other tracks)."
+    },
+    "get_browser_names": {
+      "capability": "browser.names.read",
+      "risk": "READ_ONLY",
+      "read": true,
+      "write": false,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "枚举指定目录；可能暴露私人路径，不加载资源。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "目录声明仅读取；尚未证明所有隐藏副作用",
+      "target_semantics": "name: The exact directory path to search.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The exact directory path to search."
+          },
+          "fullRecursive": {
+            "type": "integer",
+            "description": "Use 1 for deep search, 0 for direct children only."
+          }
+        },
+        "required": [
+          "name",
+          "fullRecursive"
+        ]
+      },
+      "description": "Use this tool to collect browser contents. CRITICAL PATHS TO USE: 'Plugin database' (Use this to find instruments or generators for the Channel Rack)"
+    },
+    "get_highlight_names": {
+      "capability": "ui.highlight.names.read",
+      "risk": "READ_ONLY",
+      "read": true,
+      "write": false,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "只列出支持高亮的界面元素。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "目录声明仅读取；尚未证明所有隐藏副作用",
+      "target_semantics": "",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "description": "Returns a list of all currently valid UI elements that can be highlighted. Call this tool to get the exact string names required for the 'show_highlight' tool."
+    },
+    "get_tempo": {
+      "capability": "transport.tempo.read",
+      "risk": "READ_ONLY",
+      "read": true,
+      "write": false,
+      "verifiable": false,
+      "live_tested": true,
+      "live_data_valid": true,
+      "dispatch_supported": true,
+      "classification_reason": "只返回当前速度。",
+      "evidence": "现场目录 description 与 inputSchema；已有只读响应证据",
+      "confidence": "HIGH",
+      "possible_side_effects": "目录声明仅读取；尚未证明所有隐藏副作用",
+      "target_semantics": "",
+      "return_semantics": "已保存响应样本；会话上下文样本格式非法",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "description": "Gets the current project tempo in BPM."
+    },
+    "list_channel_names": {
+      "capability": "channel.list",
+      "risk": "READ_ONLY",
+      "read": true,
+      "write": false,
+      "verifiable": false,
+      "live_tested": true,
+      "live_data_valid": true,
+      "dispatch_supported": true,
+      "classification_reason": "只枚举通道名称和插件，不标明当前选择。",
+      "evidence": "现场目录 description 与 inputSchema；已有只读响应证据",
+      "confidence": "HIGH",
+      "possible_side_effects": "目录声明仅读取；尚未证明所有隐藏副作用",
+      "target_semantics": "",
+      "return_semantics": "已保存响应样本；会话上下文样本格式非法",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "description": "Retrieves and lists all channels in the Channel Rack with their name and plugin. Returns a numbered list showing both the channel name and the underlying plugin (useful when channels have been renamed and the plugin name differs)."
+    },
+    "get_channel_volumes": {
+      "capability": "channel.volume.read",
+      "risk": "READ_ONLY",
+      "read": true,
+      "write": false,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "只读取目标通道的音量。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "目录声明仅读取；尚未证明所有隐藏副作用",
+      "target_semantics": "target_channels: Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected').",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channels": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected')."
+          }
+        },
+        "required": [
+          "target_channels"
+        ]
+      },
+      "description": "Returns the current volume of one or more channels in normalized, percentage and dB form. Use this before relative volume changes: - 'reduce by X dB' → get volume_db, calculate target_db = current_db - X, call set_channels_volume_db - 'reduce by X%' → get volume_percent, calculate new_percent = current_percent * (1 - X/100), convert to normalized (new_percent / 100), call set_channels_volume"
+    },
+    "get_mixer_tracks_volume": {
+      "capability": "mixer.volume.read",
+      "risk": "READ_ONLY",
+      "read": true,
+      "write": false,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "只读取目标混音轨音量。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "目录声明仅读取；尚未证明所有隐藏副作用",
+      "target_semantics": "target_tracks: Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). Master is 0. Inserts match visual numbers. DO NOT subtract 1.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_tracks": {
+            "type": "string",
+            "description": "Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). Master is 0. Inserts match visual numbers. DO NOT subtract 1."
+          }
+        },
+        "required": [
+          "target_tracks"
+        ]
+      },
+      "description": "Returns the current volume of one or more mixer tracks in normalized, percentage and dB form. Use this before relative volume changes: - 'reduce by X dB' → get volume_db, calculate target_db = current_db - X, call set_mixer_tracks_volume_db - 'reduce by X%' → get volume_percent, calculate new_percent = current_percent * (1 - X/100), call set_mixer_tracks_volume_percent with the result."
+    },
+    "get_mixer_routing": {
+      "capability": "mixer.routing.read",
+      "risk": "READ_ONLY",
+      "read": true,
+      "write": false,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "只读取活跃混音轨的发送与接收矩阵。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "目录声明仅读取；尚未证明所有隐藏副作用",
+      "target_semantics": "",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "description": "Returns the full send/receive routing matrix for all active mixer tracks. Shows which tracks are sending to which destinations and at what level. Call this before setting up or modifying mixer routing."
+    },
+    "get_playlist_track_names": {
+      "capability": "playlist.track.names.read",
+      "risk": "READ_ONLY",
+      "read": true,
+      "write": false,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "只枚举播放列表轨名，不返回片段或选区身份。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "目录声明仅读取；尚未证明所有隐藏副作用",
+      "target_semantics": "",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "description": "Returns a numbered list of all current Playlist track names. Use this before renaming to find the correct track index."
+    },
+    "get_plugin_parameter_list": {
+      "capability": "plugin.parameter.list",
+      "risk": "READ_ONLY",
+      "read": true,
+      "write": false,
+      "verifiable": false,
+      "live_tested": true,
+      "live_data_valid": true,
+      "dispatch_supported": true,
+      "classification_reason": "只列出明确通道或混音槽的参数。",
+      "evidence": "现场目录 description 与 inputSchema；已有只读响应证据",
+      "confidence": "HIGH",
+      "possible_side_effects": "目录声明仅读取；尚未证明所有隐藏副作用",
+      "target_semantics": "target: Channel (1-based index or name) or Mixer Track (Master=0, Inserts=1+); slot_number: Visual mixer slot (1-10) for effects, or -1 for channel generators.",
+      "return_semantics": "已保存响应样本；会话上下文样本格式非法",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "type": "string",
+            "description": "Channel (1-based index or name) or Mixer Track (Master=0, Inserts=1+)"
+          },
+          "slot_number": {
+            "type": "integer",
+            "description": "Visual mixer slot (1-10) for effects, or -1 for channel generators."
+          }
+        },
+        "required": [
+          "target",
+          "slot_number"
+        ]
+      },
+      "description": "Lists all parameters for a specific plugin."
+    },
+    "get_plugin_parameter_value": {
+      "capability": "plugin.parameter.read",
+      "risk": "READ_ONLY",
+      "read": true,
+      "write": false,
+      "verifiable": false,
+      "live_tested": true,
+      "live_data_valid": true,
+      "dispatch_supported": true,
+      "classification_reason": "只读取明确插件参数。",
+      "evidence": "现场目录 description 与 inputSchema；已有只读响应证据",
+      "confidence": "HIGH",
+      "possible_side_effects": "目录声明仅读取；尚未证明所有隐藏副作用",
+      "target_semantics": "target: Channel (1-based index or name) or Mixer Track (Master=0, Inserts=1+); slot_number: Visual mixer slot (1-10) for effects, or -1 for channel generators.",
+      "return_semantics": "已保存响应样本；会话上下文样本格式非法",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "type": "string",
+            "description": "Channel (1-based index or name) or Mixer Track (Master=0, Inserts=1+)"
+          },
+          "param_identifier": {
+            "type": "string",
+            "description": "The 1-based visual index (e.g., '1', '6') or exact name of the parameter."
+          },
+          "slot_number": {
+            "type": "integer",
+            "description": "Visual mixer slot (1-10) for effects, or -1 for channel generators."
+          }
+        },
+        "required": [
+          "target",
+          "param_identifier",
+          "slot_number"
+        ]
+      },
+      "description": "Gets the current value of a plugin parameter."
+    },
+    "show_or_hide_window": {
+      "capability": "ui.window.visibility.write",
+      "risk": "LOW_RISK_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "改变窗口可见性和焦点上下文。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "改变窗口可见性和焦点上下文。",
+      "target_semantics": "window_name: The name of the window. Valid names: {VALID_WINDOW_NAMES}",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "window_name": {
+            "type": "string",
+            "description": "The name of the window. Valid names: {VALID_WINDOW_NAMES}"
+          },
+          "state": {
+            "type": "string",
+            "description": "The desired visibility state. Valid states: 'show', 'hide', 'open', 'close'."
+          }
+        },
+        "required": [
+          "window_name",
+          "state"
+        ]
+      },
+      "description": "Sets the visibility state (shows or hides) of specified FL Studio window. Use for requests to open or close windows."
+    },
+    "show_highlight": {
+      "capability": "ui.highlight.write",
+      "risk": "LOW_RISK_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "添加界面高亮及可能需要确认的提示。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "添加界面高亮及可能需要确认的提示。",
+      "target_semantics": "item: The specific UI element to highlight. CRITICAL: This MUST be an exact string returned by the 'get_highlight_names' tool. DO NOT guess or substitute. If the user's requested element (e.g., 'browser') is not in the returned list, you MUST NOT substitute it with a workaround like 'Add channel'. You must leave this tool uncalled and tell the user you cannot highlight that specific item.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "The specific UI element to highlight. CRITICAL: This MUST be an exact string returned by the 'get_highlight_names' tool. DO NOT guess or substitute. If the user's requested element (e.g., 'browser') is not in the returned list, you MUST NOT substitute it with a workaround like 'Add channel'. You must leave this tool uncalled and tell the user you cannot highlight that specific item."
+          },
+          "tutorialName": {
+            "type": "string",
+            "description": "A short label/identifier for the tutorial step (e.g., 'Open Piano Roll'). This is shown internally and used for grouping. ALWAYS provide a value."
+          },
+          "tutorialCaption": {
+            "type": "string",
+            "description": "The instructional text displayed to the user along with the highlight.Keep this very brief. Never say 'click here' as the user will need to click a Continue button to remove this message."
+          }
+        },
+        "required": [
+          "item",
+          "tutorialName",
+          "tutorialCaption"
+        ]
+      },
+      "description": "Highlights a toolbar icon or UI element. Use when user asks to be shown something."
+    },
+    "play": {
+      "capability": "transport.play",
+      "risk": "LOW_RISK_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "启动播放，改变运输状态并产生音频。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "启动播放，改变运输状态并产生音频。",
+      "target_semantics": "",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "description": "Starts playback in FL Studio."
+    },
+    "stop": {
+      "capability": "transport.stop",
+      "risk": "LOW_RISK_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "停止播放，改变运输状态。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "停止播放，改变运输状态。",
+      "target_semantics": "",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "description": "Stops playback in FL Studio."
+    },
+    "select_channels": {
+      "capability": "channel.selection.write",
+      "risk": "LOW_RISK_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "改变通道选择；可影响后续目标。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "改变通道选择；可影响后续目标。",
+      "target_semantics": "target_channels: Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected').",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channels": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected')."
+          },
+          "selected": {
+            "type": "integer",
+            "description": "1 to select, 0 to deselect, -1 to toggle."
+          }
+        },
+        "required": [
+          "target_channels",
+          "selected"
+        ]
+      },
+      "description": "Selects, deselects, or toggles one or more channels in the Channel Rack. Use this when the user says 'select [instrument name]' or 'select channel [n]'. The target can be a channel name or number — no need for the word 'channel' to be present."
+    },
+    "open_piano_roll_for_channel": {
+      "capability": "piano_roll.target.select",
+      "risk": "LOW_RISK_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "先取消所有通道选择，再选择目标并关闭重开窗口。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "先取消所有通道选择，再选择目标并关闭重开窗口。",
+      "target_semantics": "target_channel: 1-based visual index or name of the channel to open the Piano Roll for.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channel": {
+            "type": "string",
+            "description": "1-based visual index or name of the channel to open the Piano Roll for."
+          }
+        },
+        "required": [
+          "target_channel"
+        ]
+      },
+      "description": "Opens the Piano Roll for a specific channel. Deselects all channels first, selects only the target channel exclusively, closes the Piano Roll if already open, then reopens it — ensuring the correct channel is always loaded even if the Piano Roll was already open on another channel."
+    },
+    "remove_channels": {
+      "capability": "channel.delete",
+      "risk": "DESTRUCTIVE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "删除通道及其内容；目录明确标记破坏性。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "删除通道及其内容；目录明确标记破坏性。",
+      "target_semantics": "target_channels: Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected').",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channels": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected')."
+          }
+        },
+        "required": [
+          "target_channels"
+        ]
+      },
+      "description": "Removes one or more channels from the Channel Rack. DESTRUCTIVE: if the matched channel's display name differs from its actual plugin (e.g. a channel named 'Sytrus' that is actually running Patcher), confirm with the user which channel they mean before removing — call list_channel_names first to check, and state both the name and plugin in your confirmation."
+    },
+    "remove_effect": {
+      "capability": "mixer.effect.delete",
+      "risk": "DESTRUCTIVE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "移除效果及设置，目录明确说明脚本无法撤销。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "移除效果及设置，目录明确说明脚本无法撤销。",
+      "target_semantics": "target_tracks: Comma-separated list of tracks. Master is 0. Inserts match their visual numbers (Insert 4 = 4). DO NOT subtract 1.; slot_numbers: Comma-separated visual slot numbers to clear (1–10), or 'all' to clear all 10 slots.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_tracks": {
+            "type": "string",
+            "description": "Comma-separated list of tracks. Master is 0. Inserts match their visual numbers (Insert 4 = 4). DO NOT subtract 1."
+          },
+          "slot_numbers": {
+            "type": "string",
+            "description": "Comma-separated visual slot numbers to clear (1–10), or 'all' to clear all 10 slots."
+          }
+        },
+        "required": [
+          "target_tracks",
+          "slot_numbers"
+        ]
+      },
+      "description": "Remove effects from mixer track slot(s). This cannot be undone via script — the effect and its settings are lost."
+    },
+    "reset_mixer_tracks": {
+      "capability": "mixer.track.reset",
+      "risk": "DESTRUCTIVE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "清除效果、发送、名称和其他轨道状态。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "清除效果、发送、名称和其他轨道状态。",
+      "target_semantics": "target_tracks: Comma-separated list of tracks to reset. Master is 0. Inserts match visual numbers (Insert 15 = 15). 'all' or 'selected' also valid.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_tracks": {
+            "type": "string",
+            "description": "Comma-separated list of tracks to reset. Master is 0. Inserts match visual numbers (Insert 15 = 15). 'all' or 'selected' also valid."
+          }
+        },
+        "required": [
+          "target_tracks"
+        ]
+      },
+      "description": "Resets one or multiple mixer tracks to their default state. This resets volume to unity (0dB), pan to center, clears custom names, removes all effect plugins, clears all send routing to other tracks, and resets colours. This can be used as a substitution for deletion if the user agrees. Deletion is possible in FL Studio but you cannot do it."
+    },
+    "reset_mixer_routing": {
+      "capability": "mixer.routing.clear",
+      "risk": "DESTRUCTIVE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "清除全部发送后恢复默认主轨发送。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "清除全部发送后恢复默认主轨发送。",
+      "target_semantics": "target_tracks: Comma-separated list of tracks to reset. Master is 0. Inserts match visual numbers (Insert 15 = 15). 'all' or 'selected' also valid.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_tracks": {
+            "type": "string",
+            "description": "Comma-separated list of tracks to reset. Master is 0. Inserts match visual numbers (Insert 15 = 15). 'all' or 'selected' also valid."
+          }
+        },
+        "required": [
+          "target_tracks"
+        ]
+      },
+      "description": "Removes ALL send routing from one or more mixer tracks in a single call — accepts 'all', a list, or 'selected'. Restores the default send to Master after clearing. For setting up a single send, use set_mixer_routing instead."
+    },
+    "quantize_channel": {
+      "capability": "channel.notes.quantize",
+      "risk": "DESTRUCTIVE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "改变已有音符时间，不是状态读取。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "改变已有音符时间，不是状态读取。",
+      "target_semantics": "channel_number: 1-based visual index of the channel.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "channel_number": {
+            "type": "integer",
+            "description": "1-based visual index of the channel."
+          }
+        },
+        "required": [
+          "channel_number"
+        ]
+      },
+      "description": "Quickly quantizes notes of the specified channel."
+    },
+    "run_piano_roll_script": {
+      "capability": "piano_roll.script.execute",
+      "risk": "DESTRUCTIVE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "接受任意完整 Python 源码，可能修改音符及产生其他副作用；按最大允许作用域分类。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "接受任意完整 Python 源码，可能修改音符及产生其他副作用；按最大允许作用域分类。",
+      "target_semantics": "",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "The full Python code block for the script."
+          }
+        },
+        "required": [
+          "source"
+        ]
+      },
+      "description": "Runs a Piano Roll script. Opens the Piano Roll first if it isn't already visible. Suggest this tool when the previous interaction saw a piano roll script being written."
+    },
+    "set_step_sequencer_pattern": {
+      "capability": "pattern.steps.replace",
+      "risk": "DESTRUCTIVE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "覆盖16步序列，也允许全零清空；输入不携带片段身份。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "HIGH",
+      "possible_side_effects": "覆盖16步序列，也允许全零清空；输入不携带片段身份。",
+      "target_semantics": "target_channels: Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected').",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channels": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected')."
+          },
+          "pattern": {
+            "type": "string",
+            "description": "16-character string of 1s and 0s (e.g. '1000100010001000')."
+          }
+        },
+        "required": [
+          "target_channels",
+          "pattern"
+        ]
+      },
+      "description": "Sets a 16-step pattern for one or more channels. Can also clear a pattern (all 0s). For vague requests like 'add a beat', call once per channel with a distinct, musically sensible pattern per role — never the same pattern for 'all' unless asked."
+    },
+    "set_tempo": {
+      "capability": "transport.tempo.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改工程速度。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改工程速度。",
+      "target_semantics": "",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "bpm": {
+            "type": "integer",
+            "description": "The tempo in BPM to set the project to."
+          }
+        },
+        "required": [
+          "bpm"
+        ]
+      },
+      "description": "Sets the project tempo."
+    },
+    "rename_channels": {
+      "capability": "channel.rename",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改目标通道名称。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改目标通道名称。",
+      "target_semantics": "",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "channel_mapping": {
+            "type": "string",
+            "description": "Dictionary mapping 1-based visual channel numbers (or names) to new names. (e.g. {'1': 'Kick', '2': 'Snare'})."
+          }
+        },
+        "required": [
+          "channel_mapping"
+        ]
+      },
+      "description": "Renames one or multiple channels in a single call. If the user asks you to choose names (e.g. 'rename after colours'), generate them yourself and call this tool directly."
+    },
+    "add_channel": {
+      "capability": "channel.create",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "加载生成器并创建通道。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "加载生成器并创建通道。",
+      "target_semantics": "",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "plugin": {
+            "type": "string",
+            "description": "The exact name of the generator plugin. Do NOT include folder paths or file extensions (like .fst)."
+          }
+        },
+        "required": [
+          "plugin"
+        ]
+      },
+      "description": "Use this tool to add a new instrument/generator to the channel rack. Effects are not for the channel rack. CRITICAL RULE: NEVER guess the plugin name. Before calling this tool, you MUST call get_browser_names with the path 'Plugin database' (fullRecursive=1)."
+    },
+    "route_channels_to_mixer": {
+      "capability": "channel.mixer.route",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改通道的混音路由。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改通道的混音路由。",
+      "target_semantics": "target_channels: Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected') for source channels.; mixer_track_target: The name or 0-based index of the destination mixer track (Master = 0, Insert 1 = 1).",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channels": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected') for source channels."
+          },
+          "mixer_track_target": {
+            "type": "string",
+            "description": "The name or 0-based index of the destination mixer track (Master = 0, Insert 1 = 1)."
+          }
+        },
+        "required": [
+          "target_channels",
+          "mixer_track_target"
+        ]
+      },
+      "description": "Routes one or more channels to a specified mixer track (useful for bus routing)."
+    },
+    "set_channels_volume_db": {
+      "capability": "channel.volume.db.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "设置目标通道绝对分贝音量。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "设置目标通道绝对分贝音量。",
+      "target_semantics": "target_channels: Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected'). Pass 'mapping' to use per-channel values via volume_db.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channels": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected'). Pass 'mapping' to use per-channel values via volume_db."
+          },
+          "volume_db": {
+            "type": "string",
+            "description": "Either a single dB value (e.g. '-10') applied to all target_channels, or a JSON mapping of channel→dB (e.g. '{'1': -5.0, '2': -3.0}') for per-channel targets. Max is 0dB (unity). Use mapping for relative changes across channels with different starting volumes."
+          }
+        },
+        "required": [
+          "target_channels",
+          "volume_db"
+        ]
+      },
+      "description": "Sets volume for one or more channels in the Channel Rack using decibels (dB). Channel Rack volume maxes out at 0dB (unity, normalized 1.0). Accepts either a single dB value for all channels, or a per-channel mapping. For relative changes, call get_channel_volumes first, calculate each target, then pass a mapping. Never interpret 'reduce by X dB' as 'set to X dB'. The default volume is -5.2dB."
+    },
+    "set_channels_volume": {
+      "capability": "channel.volume.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "设置目标通道归一化音量。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "设置目标通道归一化音量。",
+      "target_semantics": "target_channels: Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected'). Pass 'mapping' to use per-channel values via volume.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channels": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected'). Pass 'mapping' to use per-channel values via volume."
+          },
+          "volume": {
+            "type": "string",
+            "description": "Either a single normalized value (e.g. '0.8') applied to all target_channels, or a JSON mapping of channel→normalized (e.g. '{'1': 0.7, '2': 0.9}') for per-channel targets. 1.0 = unity (0dB). 0.0 = silence."
+          }
+        },
+        "required": [
+          "target_channels",
+          "volume"
+        ]
+      },
+      "description": "Sets the volume for one or more channels in the Channel Rack as a normalized value. Accepts either a single normalized value for all channels, or a per-channel mapping. For relative % changes, call get_channel_volumes first, calculate each target normalized value, then pass a mapping. For dB changes use set_channels_volume_db. The default volume is 78%."
+    },
+    "set_channels_pan": {
+      "capability": "channel.pan.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改目标通道声像。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改目标通道声像。",
+      "target_semantics": "target_channels: Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected'). Ignored when 'pan' is a JSON mapping.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channels": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected'). Ignored when 'pan' is a JSON mapping."
+          },
+          "pan": {
+            "type": "string",
+            "description": "Either a single pan value (e.g. '-0.5') applied to all target_channels, or a JSON mapping of channel to pan like {'1': -0.5, '2': 0.3} for per-channel pan. -1.0 is full left, 1.0 is full right, 0.0 is center."
+          }
+        },
+        "required": [
+          "target_channels",
+          "pan"
+        ]
+      },
+      "description": "Sets the stereo pan for one or more channels in the Channel Rack. Accepts either a single pan value for all target_channels, or a per-channel mapping."
+    },
+    "set_channels_colour": {
+      "capability": "channel.colour.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改目标通道颜色。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改目标通道颜色。",
+      "target_semantics": "target_channels: Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected'). Ignored when 'colour' is a JSON mapping.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channels": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected'). Ignored when 'colour' is a JSON mapping."
+          },
+          "colour": {
+            "type": "string",
+            "description": "Either a single colour (name like 'red' or hex like '#FF0000') applied to all target_channels, or a JSON mapping of channel to colour like {'1': 'red', '2': 'blue'} for per-channel colours."
+          }
+        },
+        "required": [
+          "target_channels",
+          "colour"
+        ]
+      },
+      "description": "Sets the color for one or more channels in the Channel Rack. Accepts either a single colour for all target_channels, or a per-channel mapping. The default channel colour is #5C656A"
+    },
+    "mute_channels": {
+      "capability": "channel.mute.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改或切换目标通道静音状态。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改或切换目标通道静音状态。",
+      "target_semantics": "target_channels: Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected').",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channels": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected')."
+          },
+          "muted": {
+            "type": "integer",
+            "description": "1 to mute, 0 to unmute, -1 to toggle."
+          }
+        },
+        "required": [
+          "target_channels",
+          "muted"
+        ]
+      },
+      "description": "Mutes, unmutes, or toggles the mute state of one or more channels."
+    },
+    "solo_channels": {
+      "capability": "channel.solo.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改独奏状态，可能同时影响其他通道的可听状态。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改独奏状态，可能同时影响其他通道的可听状态。",
+      "target_semantics": "target_channels: Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected').",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channels": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected')."
+          },
+          "value": {
+            "type": "integer",
+            "description": "1 to solo, 0 to unsolo, -1 to toggle."
+          }
+        },
+        "required": [
+          "target_channels",
+          "value"
+        ]
+      },
+      "description": "Solos, unsolos, or toggles the solo state of one or more channels."
+    },
+    "set_step_sequencer_step": {
+      "capability": "pattern.step.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改当前片段中的目标步进事件，输入不携带片段身份。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改当前片段中的目标步进事件，输入不携带片段身份。",
+      "target_semantics": "target_channels: Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected').",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_channels": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based visual indices, names, or keywords ('all', 'selected')."
+          },
+          "step_number": {
+            "type": "integer",
+            "description": "Step position (1-16 for a standard pattern)."
+          },
+          "value": {
+            "type": "integer",
+            "description": "1 to activate the step, 0 to deactivate."
+          }
+        },
+        "required": [
+          "target_channels",
+          "step_number",
+          "value"
+        ]
+      },
+      "description": "Sets a single step in the step sequencer for one or more channels."
+    },
+    "set_mixer_tracks_pan": {
+      "capability": "mixer.pan.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改目标混音轨声像。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改目标混音轨声像。",
+      "target_semantics": "target_tracks: Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). For numbers: Master is 0. Inserts match visual numbers (Insert 4 = 4). DO NOT subtract 1. Ignored when 'pan' is a JSON mapping.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_tracks": {
+            "type": "string",
+            "description": "Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). For numbers: Master is 0. Inserts match visual numbers (Insert 4 = 4). DO NOT subtract 1. Ignored when 'pan' is a JSON mapping."
+          },
+          "pan": {
+            "type": "string",
+            "description": "Either a single pan value (e.g. '-0.5') applied to all target_tracks, or a JSON mapping of track to pan like {'1': -0.5, '2': 0.3} for per-track pan. -1.0 is full left, 1.0 is full right, 0.0 is center."
+          }
+        },
+        "required": [
+          "target_tracks",
+          "pan"
+        ]
+      },
+      "description": "Sets stereo pan for one or more mixer tracks. Accepts either a single pan value for all target_tracks, or a per-track mapping."
+    },
+    "set_mixer_tracks_volume_db": {
+      "capability": "mixer.volume.db.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "设置目标混音轨绝对分贝音量。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "设置目标混音轨绝对分贝音量。",
+      "target_semantics": "target_tracks: Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). For numbers: Master is 0. Inserts match visual numbers (Insert 4 = 4). DO NOT subtract 1. Pass 'mapping' to use per-track values via volume_db.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_tracks": {
+            "type": "string",
+            "description": "Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). For numbers: Master is 0. Inserts match visual numbers (Insert 4 = 4). DO NOT subtract 1. Pass 'mapping' to use per-track values via volume_db."
+          },
+          "volume_db": {
+            "type": "string",
+            "description": "Either a single dB value (e.g. '-10') applied to all target_tracks, or a JSON mapping of track→dB (e.g. '{'1': -5.0, '2': -2.0, '3': -2.0}') for per-track targets. Use mapping for relative changes across tracks with different starting volumes."
+          }
+        },
+        "required": [
+          "target_tracks",
+          "volume_db"
+        ]
+      },
+      "description": "Sets volume level for specified mixer tracks using decibels (dB). Accepts either a single dB value for all tracks, or a per-track mapping. This sets ABSOLUTE dB values. For relative changes ('reduce by 5dB'), call get_mixer_track_volumes first, calculate each target, then pass a mapping."
+    },
+    "set_mixer_tracks_volume_percent": {
+      "capability": "mixer.volume.percent.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "设置目标混音轨绝对百分比音量。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "设置目标混音轨绝对百分比音量。",
+      "target_semantics": "target_tracks: Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). For numbers: Master is 0. Inserts match visual numbers (Insert 4 = 4). DO NOT subtract 1. Pass 'mapping' to use per-track values via percent.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_tracks": {
+            "type": "string",
+            "description": "Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). For numbers: Master is 0. Inserts match visual numbers (Insert 4 = 4). DO NOT subtract 1. Pass 'mapping' to use per-track values via percent."
+          },
+          "percent": {
+            "type": "string",
+            "description": "Either a single percentage (e.g. '80') applied to all target_tracks, or a JSON mapping of track→percent (e.g. '{'1': 70.0, '2'': 80.0}') for per-track targets. 100% = unity (0dB). 125% = max. 0% = silence."
+          }
+        },
+        "required": [
+          "target_tracks",
+          "percent"
+        ]
+      },
+      "description": "Sets volume level for specified mixer tracks as a percentage. 100% = unity (0dB, normalized 0.8). 125% = maximum (+5.6dB, normalized 1.0). Accepts either a single percentage for all tracks, or a per-track mapping. This sets ABSOLUTE percentages. For relative changes, call get_mixer_tracks_volume first, calculate each target, then pass a mapping."
+    },
+    "rename_mixer_tracks": {
+      "capability": "mixer.track.rename",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改混音轨名称。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改混音轨名称。",
+      "target_semantics": "",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "track_mapping": {
+            "type": "string",
+            "description": "Dictionary mapping tracks to names. Master is '0'. Inserts match visual numbers (e.g. '4'). DO NOT subtract 1."
+          }
+        },
+        "required": [
+          "track_mapping"
+        ]
+      },
+      "description": "Renames one or multiple mixer tracks in a single call. If the user asks you to choose names (e.g. 'rename after instruments', 'rename randomly'), generate them yourself and call this tool directly."
+    },
+    "add_effect": {
+      "capability": "mixer.effect.create",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "在指定槽加载效果；占用槽是否覆盖尚未实测。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "在指定槽加载效果；占用槽是否覆盖尚未实测。",
+      "target_semantics": "target_tracks: Comma-separated list of tracks. Master is 0. Inserts match their visual numbers (Insert 4 = 4). DO NOT subtract 1.; slot_number: The visual mixer slot number (1 to 10). DO NOT subtract 1.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "plugin": {
+            "type": "string",
+            "description": "The exact plugin name to add. First call getBrowserNames with path 'Plugin database' (fullRecursive=1) to get valid names. Pass only the base name (e.g., 'Fruity Compressor')."
+          },
+          "target_tracks": {
+            "type": "string",
+            "description": "Comma-separated list of tracks. Master is 0. Inserts match their visual numbers (Insert 4 = 4). DO NOT subtract 1."
+          },
+          "slot_number": {
+            "type": "integer",
+            "description": "The visual mixer slot number (1 to 10). DO NOT subtract 1."
+          }
+        },
+        "required": [
+          "plugin",
+          "target_tracks",
+          "slot_number"
+        ]
+      },
+      "description": "Add an effect plugin to mixer track slot(s). NEVER guess the plugin name — always call get_browser_names first."
+    },
+    "set_mixer_tracks_colour": {
+      "capability": "mixer.colour.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改目标混音轨颜色。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改目标混音轨颜色。",
+      "target_semantics": "target_tracks: Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). Master is 0. Inserts match visual numbers. DO NOT subtract 1. Ignored when 'colour' is a JSON mapping.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_tracks": {
+            "type": "string",
+            "description": "Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). Master is 0. Inserts match visual numbers. DO NOT subtract 1. Ignored when 'colour' is a JSON mapping."
+          },
+          "colour": {
+            "type": "string",
+            "description": "Either a single colour (name like 'red' or hex like '#FF0000') applied to all target_tracks, or a JSON mapping of track→colour (e.g. '{'1': 'red', '2': 'blue'}') for per-track colours."
+          }
+        },
+        "required": [
+          "target_tracks",
+          "colour"
+        ]
+      },
+      "description": "Sets the color of one or more mixer tracks. Accepts either a single colour for all target_tracks, or a per-track mapping. The default mixer track colour is #636C71"
+    },
+    "mute_mixer_tracks": {
+      "capability": "mixer.mute.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改或切换混音轨静音状态。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改或切换混音轨静音状态。",
+      "target_semantics": "target_tracks: Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). Master is 0. Inserts match visual numbers. DO NOT subtract 1.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_tracks": {
+            "type": "string",
+            "description": "Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). Master is 0. Inserts match visual numbers. DO NOT subtract 1."
+          },
+          "muted": {
+            "type": "integer",
+            "description": "1 to mute, 0 to unmute, -1 to toggle."
+          }
+        },
+        "required": [
+          "target_tracks",
+          "muted"
+        ]
+      },
+      "description": "Mutes, unmutes, or toggles the mute state of one or more mixer tracks."
+    },
+    "solo_mixer_tracks": {
+      "capability": "mixer.solo.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改混音轨独奏，可影响其他轨的可听状态。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改混音轨独奏，可影响其他轨的可听状态。",
+      "target_semantics": "target_tracks: Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). Master is 0. Inserts match visual numbers. DO NOT subtract 1.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_tracks": {
+            "type": "string",
+            "description": "Comma-separated list of track numbers, names, or keywords ('all', 'all_inserts', 'master', 'selected'). Master is 0. Inserts match visual numbers. DO NOT subtract 1."
+          },
+          "value": {
+            "type": "integer",
+            "description": "1 to solo, 0 to unsolo, -1 to toggle."
+          }
+        },
+        "required": [
+          "target_tracks",
+          "value"
+        ]
+      },
+      "description": "Solos or unsolos one or more mixer tracks."
+    },
+    "set_mixer_routing": {
+      "capability": "mixer.routing.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "增加、禁用或改变目标发送及电平。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "增加、禁用或改变目标发送及电平。",
+      "target_semantics": "source_track: The source mixer track. Master is 0. Inserts match visual numbers. DO NOT subtract 1.; dest_track: The destination mixer track to send to. Master is 0. Inserts match visual numbers. DO NOT subtract 1.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "source_track": {
+            "type": "string",
+            "description": "The source mixer track. Master is 0. Inserts match visual numbers. DO NOT subtract 1."
+          },
+          "dest_track": {
+            "type": "string",
+            "description": "The destination mixer track to send to. Master is 0. Inserts match visual numbers. DO NOT subtract 1."
+          },
+          "active": {
+            "type": "integer",
+            "description": "1 to enable the send, 0 to disable it."
+          },
+          "level": {
+            "type": "number",
+            "description": "Send level as a normalized value (0.0 to 1.0). Default is 1.0 (full)."
+          }
+        },
+        "required": [
+          "source_track",
+          "dest_track",
+          "active",
+          "level"
+        ]
+      },
+      "description": "Sets up or removes a send from one mixer track to another. Use this to create send/return effects chains, group routing, or sidechain setups. To clear ALL sends from one or multiple track at once, use reset_mixer_routing instead. Call get_mixer_routing first to understand existing routing before making changes."
+    },
+    "rename_playlist_tracks": {
+      "capability": "playlist.track.rename",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改播放列表轨名。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改播放列表轨名。",
+      "target_semantics": "",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "track_mapping": {
+            "type": "string",
+            "description": "Dictionary mapping track numbers to names. Playlist tracks are 1-based (e.g., '1': 'Vocals'). DO NOT subtract 1."
+          }
+        },
+        "required": [
+          "track_mapping"
+        ]
+      },
+      "description": "Renames one or multiple playlist tracks in a single call. If the user asks you to choose names (e.g. 'rename after animals'), generate them yourself and call this tool directly."
+    },
+    "set_playlist_tracks_colour": {
+      "capability": "playlist.track.colour.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "修改播放列表轨颜色。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "修改播放列表轨颜色。",
+      "target_semantics": "target_tracks: Comma-separated list of 1-based playlist track numbers (e.g. '1', '2,3,5'). DO NOT subtract 1. Ignored when 'colour' is a JSON mapping.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target_tracks": {
+            "type": "string",
+            "description": "Comma-separated list of 1-based playlist track numbers (e.g. '1', '2,3,5'). DO NOT subtract 1. Ignored when 'colour' is a JSON mapping."
+          },
+          "colour": {
+            "type": "string",
+            "description": "Either a single colour (name like 'red' or hex like '#FF0000') applied to all target_tracks, or a JSON mapping of track to colour like {'1': 'red', '2': 'blue'} for per-track colours."
+          }
+        },
+        "required": [
+          "target_tracks",
+          "colour"
+        ]
+      },
+      "description": "Sets the color of one or more playlist tracks. Accepts either a single colour for all target_tracks, or a per-track mapping. The default playlist track colour is #485156"
+    },
+    "set_plugin_parameter_value": {
+      "capability": "plugin.parameter.write",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "设置明确槽和参数的值。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "设置明确槽和参数的值。",
+      "target_semantics": "target: Channel (1-based index or name) or Mixer Track (Master=0, Inserts=1+); slot_number: Visual mixer slot (1-10) for effects, or -1 for channel generators.",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "type": "string",
+            "description": "Channel (1-based index or name) or Mixer Track (Master=0, Inserts=1+)"
+          },
+          "param_identifier": {
+            "type": "string",
+            "description": "The 1-based visual index (e.g., '1', '6') or exact name of the parameter."
+          },
+          "value": {
+            "type": "number",
+            "description": "Desired normalized value (0.0 to 1.0)."
+          },
+          "slot_number": {
+            "type": "integer",
+            "description": "Visual mixer slot (1-10) for effects, or -1 for channel generators."
+          }
+        },
+        "required": [
+          "target",
+          "param_identifier",
+          "value",
+          "slot_number"
+        ]
+      },
+      "description": "Sets the value of a plugin parameter."
+    },
+    "save_piano_roll_script": {
+      "capability": "piano_roll.script.save",
+      "risk": "TARGETED_WRITE",
+      "read": false,
+      "write": true,
+      "verifiable": false,
+      "live_tested": false,
+      "live_data_valid": false,
+      "dispatch_supported": false,
+      "classification_reason": "保存 Python 文件；同名文件覆盖和路径边界没有返回契约，禁止派发。",
+      "evidence": "现场目录 description 与 inputSchema；未现场调用",
+      "confidence": "MED",
+      "possible_side_effects": "保存 Python 文件；同名文件覆盖和路径边界没有返回契约，禁止派发。",
+      "target_semantics": "script_name: The filename to save as (e.g., 'TransposeScript').",
+      "return_semantics": "目录未提供 outputSchema；未取得响应",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "script_name": {
+            "type": "string",
+            "description": "The filename to save as (e.g., 'TransposeScript')."
+          },
+          "source": {
+            "type": "string",
+            "description": "The full Python code block for the script."
+          }
+        },
+        "required": [
+          "script_name",
+          "source"
+        ]
+      },
+      "description": "Use this tool to save Piano Roll scripts."
+    }
+  }
+}

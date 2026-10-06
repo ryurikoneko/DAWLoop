@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import asyncio
 import importlib.metadata
-import importlib.util
 import inspect
 import json
 from dataclasses import asdict, dataclass
@@ -19,6 +18,7 @@ from .mapping import plan_to_mcp_notes, state_to_events
 
 UPSTREAM_COMMIT = "f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0"
 IdentityReader = Callable[[], TargetIdentity | Awaitable[TargetIdentity]]
+EvidenceObserver = Callable[[str, dict], None]
 
 
 @dataclass(frozen=True)
@@ -43,16 +43,10 @@ class LiveExecutionReport:
 
 
 def _server_script() -> Path:
-    checkout = Path(__file__).resolve().parents[4] / "third_party" / "fl-studio-mcp"
-    source = checkout / "src" / "fl_studio_mcp" / "server.py"
+    source = Path(__file__).resolve().parents[2] / "fl_mcp_server.py"
     if source.is_file():
         return source
-    package = importlib.util.find_spec("fl_studio_mcp")
-    if package and package.origin:
-        installed = Path(package.origin).parent / "server.py"
-        if installed.is_file():
-            return installed
-    raise FileNotFoundError("找不到随 DAWLoop 打包的 FL Studio MCP 服务端")
+    raise FileNotFoundError("找不到 DAWLoop FL Studio MCP 启动适配器")
 
 
 async def _call(client, name: str, arguments: dict | None = None):
@@ -163,12 +157,17 @@ class FLStudioMCPAdapter:
         plan: NotePlan,
         target: TargetIdentity,
         identity_reader: IdentityReader | None = None,
+        evidence_observer: EvidenceObserver | None = None,
     ) -> LiveExecutionReport:
         if identity_reader is None:
             return _report(plan, target, errors=("缺少现场 Pattern / Channel 身份读取器；未写入",))
 
         actual_events = ()
         write_attempted = False
+        def observe(stage: str, data: dict) -> None:
+            if evidence_observer is not None:
+                evidence_observer(stage, data)
+
         try:
             plan_notes = plan_to_mcp_notes(plan)
             from fastmcp import Client
@@ -178,15 +177,22 @@ class FLStudioMCPAdapter:
                 require_same_target(target, initial_identity)
                 _require_plan_target(plan, target)
                 _require_selected_channel(await _call(client, "fl_get_selected_channel"), target)
+                observe("target_before", initial_identity.to_dict())
 
                 piano_info = await _call(client, "fl_get_piano_roll_info")
                 if piano_info.get("request_file_exists"):
                     raise RuntimeError("上游请求队列已有内容；为避免执行他人操作，未继续")
                 state_file = Path(piano_info["state_file"])
                 before = state_file.stat().st_mtime_ns if state_file.exists() else 0
-                await _trigger_and_require_refresh(client, state_file, before)
+                refreshed = await _trigger_and_require_refresh(client, state_file, before)
                 initial_state = await _call(client, "fl_get_piano_roll_state")
                 initial_events = state_to_events(initial_state, plan.grid.ppq)
+                observe("pre_state", {
+                    "ppq": initial_state["ppq"],
+                    "note_count": len(initial_events),
+                    "state_mtime_before_ns": before,
+                    "state_mtime_after_ns": refreshed,
+                })
                 if initial_events:
                     raise RuntimeError("目标 Piano Roll 非空；请使用专用空白测试 Pattern，未写入")
 
@@ -197,6 +203,7 @@ class FLStudioMCPAdapter:
                     raise RuntimeError("上游请求队列在写入前发生变化；未继续")
 
                 write_attempted = True
+                observe("write_attempt", {"requested_count": len(plan_notes)})
                 queued = await _call(client, "fl_send_notes", {
                     "notes": plan_notes,
                     "mode": "add",
@@ -204,14 +211,33 @@ class FLStudioMCPAdapter:
                 })
                 if not isinstance(queued, str) or not queued.startswith("Queued "):
                     raise RuntimeError(f"上游未确认请求已排队：{queued!r}")
+                observe("write_queued", {"accepted": True})
+
+                try:
+                    queued_identity = await _read_identity(identity_reader)
+                    require_same_target(target, queued_identity)
+                    _require_selected_channel(await _call(client, "fl_get_selected_channel"), target)
+                except Exception:
+                    await _call(client, "fl_clear_request_queue")
+                    observe("queue_cleared", {"reason": "target_changed_before_trigger"})
+                    raise
+                observe("target_before_trigger", queued_identity.to_dict())
 
                 before = state_file.stat().st_mtime_ns if state_file.exists() else 0
-                await _trigger_and_require_refresh(client, state_file, before)
-                actual_events = state_to_events(
+                refreshed = await _trigger_and_require_refresh(client, state_file, before)
+                candidate_events = state_to_events(
                     await _call(client, "fl_get_piano_roll_state"), plan.grid.ppq
                 )
-                require_same_target(target, await _read_identity(identity_reader))
+                final_identity = await _read_identity(identity_reader)
+                require_same_target(target, final_identity)
                 _require_selected_channel(await _call(client, "fl_get_selected_channel"), target)
+                actual_events = candidate_events
+                observe("target_after", final_identity.to_dict())
+                observe("readback", {
+                    "events": [_event_dict(item) for item in actual_events],
+                    "state_mtime_before_ns": before,
+                    "state_mtime_after_ns": refreshed,
+                })
 
             report = _report(plan, target, actual_events)
             if not report.missing and not report.extra and not report.mismatches:
@@ -243,12 +269,18 @@ def _require_selected_channel(selected: dict | None, target: TargetIdentity) -> 
         raise ValueError("FL Studio 当前选中 Channel 与计划目标不一致")
 
 
-async def _trigger_and_require_refresh(client, state_file: Path, previous_mtime: int) -> None:
+async def _trigger_and_require_refresh(client, state_file: Path, previous_mtime: int) -> int:
     response = await _call(client, "fl_trigger_script")
     if not isinstance(response, str) or "triggered successfully" not in response.lower():
         raise RuntimeError(f"FL Studio 脚本未确认触发：{response!r}")
-    if not state_file.exists() or state_file.stat().st_mtime_ns <= previous_mtime:
-        raise RuntimeError("没有观察到新的 Piano Roll 状态读回")
+    # 上游触发函数只确认按键已发送，状态文件由 FL Studio 异步刷新。
+    for _ in range(50):
+        if state_file.exists():
+            current_mtime = state_file.stat().st_mtime_ns
+            if current_mtime > previous_mtime:
+                return current_mtime
+        await asyncio.sleep(0.1)
+    raise RuntimeError("没有观察到新的 Piano Roll 状态读回")
 
 
 async def probe_connection() -> tuple[bool, str]:
