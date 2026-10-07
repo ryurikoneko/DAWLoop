@@ -19,7 +19,10 @@ flowchart LR
     A["用户 / AI Agent"] --> B["音乐智能 · Brain"]
     G["用户自己的学习资料与 Profile"] --> B
     B --> C["结构化 MusicalPlan"]
-    C -. "计划转换接入待验收" .-> D["DAWLoop Runtime · Hands"]
+    C --> P["Plan Adapter · Planned"]
+    P -. "通用计划转换待实现与验收" .-> I["FAST 结构化输入合同"]
+    S["既有受限结构化计划"] --> I
+    I --> D["DAWLoop Runtime · Hands"]
     H["Python API / MCP Preview"] --> D
     D --> E["FL Studio"]
     E --> F["观察与证据 · Ears"]
@@ -30,13 +33,13 @@ flowchart LR
     classDef daw fill:#40351f,stroke:#facc15,color:#fff;
     classDef evidence fill:#173d2b,stroke:#4ade80,color:#fff;
     class A agent;
-    class B,C,G music;
-    class D,H runtime;
+    class B,C,G,P,S music;
+    class D,H,I runtime;
     class E daw;
     class F evidence;
 ```
 
-实线展示模块关系；虚线标出尚待接入验收的链路。持续创作是项目愿景，当前现场能力见下方状态表。
+FAST 已接受受限结构化计划；通用学习 MusicalPlan 的字段与单位转换由计划中的 Plan Adapter 承担。虚线仅标出这项待实现与验收的转换。持续创作是项目愿景，当前现场能力见下方状态表。
 
 ## 为什么选择 DAWLoop
 
