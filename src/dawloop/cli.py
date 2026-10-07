@@ -143,7 +143,9 @@ def _print_integration_doctor(settings_dir: Path, probe_fl: bool, midi_port: str
     return required_ok, lifecycle_ok if probe_fl else False
 
 
-def _doctor(probe_fl: bool, settings_dir: Path | None = None, midi_port: str | None = None) -> int:
+def _doctor(probe_fl: bool, settings_dir: Path | None = None, midi_port: str | None = None,
+            *, no_update_check: bool = False, refresh_updates: bool = False,
+            update_channel: str = "prerelease") -> int:
     checks: list[tuple[str, bool, str]] = []
     checks.append(("Python", sys.version_info >= (3, 11), platform.python_version()))
 
@@ -201,6 +203,14 @@ def _doctor(probe_fl: bool, settings_dir: Path | None = None, midi_port: str | N
     for name, status, detail in production_rows:
         print(f"{name:<24} {status.value:<18} {detail}")
     print(f"{'Production environment profile':<32} {profile.portable_status:<18} OS={profile.os_name}; Python={profile.python_version}")
+    from dawloop import __version__
+    from dawloop.updates import print_update_status
+    try:
+        print_update_status(__version__, settings_dir, disabled=no_update_check,
+                            refresh=refresh_updates, channel=update_channel)
+    except Exception:
+        # 附加提醒不可改变已有本地诊断的退出码，也不暴露异常中的路径或凭据。
+        print("\nDAWLoop Update Status: UNAVAILABLE")
     return 0 if all(passed for _, passed, _ in checks) and integration_ok and (identity_ok or not probe_fl) else 1
 
 
@@ -323,6 +333,9 @@ def main() -> int:
     doctor_parser.add_argument("--probe-fl", action="store_true", help="只读检查 FL Controller 运行状态文件；不发送 MIDI 或 RPC")
     doctor_parser.add_argument("--settings-dir", type=Path, help="活动 FL Studio Settings 目录")
     doctor_parser.add_argument("--midi-port", help="指定精确的 DAWLoop MCP IN MIDI 输出端口")
+    doctor_parser.add_argument("--no-update-check", action="store_true", help="禁用远端发布检查，不读写更新缓存")
+    doctor_parser.add_argument("--refresh-updates", action="store_true", help="忽略 24 小时缓存，重新检查发布")
+    doctor_parser.add_argument("--update-channel", choices=("stable", "prerelease"), default="prerelease", help="发布通道；Alpha 默认包含预发布")
     setup_parser = subparsers.add_parser("setup-fl", help="检查并安装统一的 FL Studio 控制器")
     setup_parser.add_argument("--settings-dir", type=Path, help="活动 FL Studio Settings 目录")
     setup_parser.add_argument("--dry-run", action="store_true", help="只检查并显示计划，不写入文件")
@@ -358,7 +371,9 @@ def main() -> int:
         if args.settings_dir:
             import os
             os.environ["DAWLOOP_FL_SETTINGS_DIR"] = str(args.settings_dir.expanduser())
-        return _doctor(args.probe_fl, args.settings_dir, args.midi_port)
+        return _doctor(args.probe_fl, args.settings_dir, args.midi_port,
+                       no_update_check=args.no_update_check, refresh_updates=args.refresh_updates,
+                       update_channel=args.update_channel)
     if args.command == "setup-fl":
         return _setup_fl(args.settings_dir, args.dry_run)
     if args.command == "install-fl-scripts":

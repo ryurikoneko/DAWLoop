@@ -204,6 +204,8 @@ Linux/macOS 使用 `.venv/bin/python`。教程生成参考登记、特征、学�
 
 按[部署指南](docs/DEPLOYMENT.md)配置可选依赖、活动 Controller Settings 目录、Gopher 与真实观察回执。[FL 设置指南](docs/FL_STUDIO_SETUP.md)说明 bundled Community backend 的 MIDI 配置；Native FAST 的配置与研究入口以部署指南为准。
 
+`dawloop doctor` 同时提供低频[发布与 Controller 版本提醒](docs/FL_STUDIO_SETUP.md#release-and-controller-update-awareness)，只提示，不自动升级；使用 `--no-update-check` 可禁用远端检查。
+
 ```python
 from dawloop.runtime.fast_music import FastMusicRuntime
 
