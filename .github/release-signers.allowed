@@ -1,2 +1,2 @@
-# 正式发布前由维护者通过PR登记可信SSH公钥；不得放入私钥。
-# 当前为空：签名tag发布必须拒绝，main候选构建仍可验证attestation。
+# 发布签名仅信任下列维护者公钥；私钥与口令不进入仓库。
+318691087+ryurikoneko@users.noreply.github.com namespaces="git" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBvai1otxyEYO53il7tctNXzDPb9X2WWOwyWQPyp+byj DAWLoop release signing / ryurikoneko
