@@ -36,6 +36,13 @@ entries and compares recognized `major.minor.patch` versions, including
 alpha, beta and rc suffixes in the project's SemVer or Python package format.
 Unrecognized versions are not guessed.
 
+Release status is one of `UP_TO_DATE`, `UPDATE_AVAILABLE`, `AHEAD_OF_RELEASE`,
+`CHECK_DISABLED` or `CHECK_UNAVAILABLE`. A development installation newer than
+the selected published release receives `AHEAD_OF_RELEASE`, with no downgrade
+or package update recommendation. Python `.devN` versions are compared before
+the corresponding alpha/beta/rc or final version. An empty release channel or
+an unrecognized installed version yields `CHECK_UNAVAILABLE`, not `UP_TO_DATE`.
+
 ```powershell
 dawloop doctor --refresh-updates
 dawloop doctor --update-channel stable

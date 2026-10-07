@@ -22,16 +22,18 @@ CACHE_SECONDS = 86400
 MAX_RESPONSE_BYTES = 1024 * 1024
 
 
-def version_key(value: str) -> tuple[int, int, int, int, int] | None:
+def version_key(value: str) -> tuple[int, int, int, int, int, int, int] | None:
     """比较项目采用的 PEP 440 / SemVer 预发布格式；未知格式不猜顺序。"""
     match = re.fullmatch(
-        r"v?(\d+)\.(\d+)\.(\d+)(?:[-.]?(a|alpha|b|beta|rc)[.-]?(\d*))?", value
+        r"v?(\d+)\.(\d+)\.(\d+)(?:[-.]?(a|alpha|b|beta|rc)[.-]?(\d*))?(?:\.dev(\d+))?", value
     )
     if not match:
         return None
-    major, minor, patch, stage, number = match.groups()
+    major, minor, patch, stage, number, dev = match.groups()
     rank = {"a": 0, "alpha": 0, "b": 1, "beta": 1, "rc": 2, None: 3}[stage]
-    return int(major), int(minor), int(patch), rank, int(number or 0)
+    if stage is None and dev is not None:
+        rank = -1
+    return int(major), int(minor), int(patch), rank, int(number or 0), int(dev is None), int(dev or 0)
 
 
 def select_release(data: object, channel: str) -> dict | None:
@@ -83,7 +85,7 @@ def _read_cache(path: Path, channel: str, now: float) -> dict | None:
             if not isinstance(release, dict):
                 return None
             sanitized = select_release([dict(draft=False, prerelease=False,
-                tag_name=release.get("tag"), html_url=release.get("url"))], "prerelease")
+                tag_name=release.get("tag"), html_url=release.get("url"))], channel)
             if sanitized != release:
                 return None
         elif release is not None:
@@ -116,7 +118,7 @@ def check_updates(installed: str, *, channel: str = "prerelease", disabled: bool
                   refresh: bool = False, cache_path: Path | None = None,
                   now: float | None = None, fetch=None) -> dict:
     if disabled or os.environ.get("DAWLOOP_NO_UPDATE_CHECK", "").lower() in ("1", "true", "yes"):
-        return {"status": "DISABLED", "update_available": None}
+        return {"status": "DISABLED", "release_status": "CHECK_DISABLED", "update_available": None}
     if channel not in ("stable", "prerelease"):
         raise ValueError("INVALID_UPDATE_CHANNEL")
     now = time.time() if now is None else now
@@ -137,7 +139,16 @@ def check_updates(installed: str, *, channel: str = "prerelease", disabled: bool
         cache_written = _write_cache(path, result)
     latest = version_key(result["release"]["tag"]) if result["release"] else None
     current = version_key(installed)
+    if latest is None or current is None:
+        release_status = "CHECK_UNAVAILABLE"
+    elif current > latest:
+        release_status = "AHEAD_OF_RELEASE"
+    elif current < latest:
+        release_status = "UPDATE_AVAILABLE"
+    else:
+        release_status = "UP_TO_DATE"
     result.update(from_cache=from_cache, age_seconds=now - result["checked_at"], stale=False,
+                  release_status=release_status,
                   cache_written=cache_written,
                   previous_checked_at=cached["checked_at"] if cached and not from_cache else None,
                   update_available=latest > current if latest is not None and current is not None else None)
@@ -221,7 +232,7 @@ def print_update_status(installed: str, settings_dir: Path, **options) -> None:
     report = check_updates(installed, **options)
     print("\nDAWLoop Update Status")
     print(f"CLI version                 {installed}")
-    print(f"Release check               {report['status']}")
+    print(f"Release status              {report['release_status']}")
     if report["status"] != "DISABLED":
         checked = datetime.fromtimestamp(report["checked_at"], timezone.utc).isoformat()
         print(f"Checked at (UTC)            {checked}")
@@ -246,6 +257,11 @@ def print_update_status(installed: str, settings_dir: Path, **options) -> None:
         value = versions[key]
         print(f"{name:<28}{'MATCH' if value is True else 'MISMATCH' if value is False else 'UNKNOWN'}")
     if report["update_available"] or versions["installed_matches_package"] is False or versions["protocol_match"] is False:
-        print("Recommended action:")
-        for line in update_instructions(source):
-            print(f"  {line}")
+        if report["release_status"] == "AHEAD_OF_RELEASE":
+            print("Controller action: review local script/protocol compatibility; no package downgrade recommended.")
+        else:
+            print("Recommended action:")
+            for line in update_instructions(source):
+                print(f"  {line}")
+    if report["release_status"] == "AHEAD_OF_RELEASE":
+        print("No update action recommended. This installation is newer than the latest published release.")

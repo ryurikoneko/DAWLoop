@@ -42,6 +42,44 @@ class UpdateTests(unittest.TestCase):
         self.assertTrue(result["update_available"])
         self.assertEqual(result["release"]["tag"], "v1.0.0-alpha.2")
 
+    def test_release_state_machine(self):
+        for tag, expected in (("1.0.0-alpha.1", "UP_TO_DATE"), ("1.0.0-alpha.2", "UPDATE_AVAILABLE"),
+                              ("0.2.0-alpha.1", "AHEAD_OF_RELEASE")):
+            with self.subTest(tag=tag):
+                result = self.check(lambda: [release(tag)], refresh=True)
+                self.assertEqual(result["release_status"], expected)
+        self.assertEqual(self.check(Mock(), disabled=True)["release_status"], "CHECK_DISABLED")
+        self.assertEqual(self.check(Mock(side_effect=TimeoutError), refresh=True)["release_status"], "CHECK_UNAVAILABLE")
+
+    def test_prerelease_channel_accepts_final_release(self):
+        result = self.check(lambda: [release("1.0.0-alpha.3"), release("1.0.0")])
+        self.assertEqual(result["release_status"], "UPDATE_AVAILABLE")
+        self.assertEqual(result["release"]["tag"], "1.0.0")
+
+    def test_development_version_ordering(self):
+        tags = ["1.0.0.dev1", "1.0.0a1.dev1", "1.0.0a1", "1.0.0a3", "1.0.0a4.dev2", "1.0.0a4", "1.0.0"]
+        self.assertEqual(tags, sorted(tags, key=updates.version_key))
+        result = updates.check_updates("1.0.0a4.dev2", cache_path=self.cache, now=100000, fetch=lambda: [release("1.0.0-alpha.3")])
+        self.assertEqual(result["release_status"], "AHEAD_OF_RELEASE")
+        self.assertFalse(result["update_available"])
+
+    def test_ahead_display_has_no_update_instructions(self):
+        with patch.object(updates, "fetch_releases", return_value=[release("0.2.0")]), \
+             patch.object(updates, "update_instructions") as instructions, \
+             patch("sys.stdout", new_callable=io.StringIO) as output:
+            updates.print_update_status("1.0.0a1", Path(self.directory.name), cache_path=self.cache)
+        instructions.assert_not_called()
+        self.assertIn("AHEAD_OF_RELEASE", output.getvalue())
+        self.assertIn("No update action recommended", output.getvalue())
+
+    def test_invalid_json_and_rate_limit_stay_unavailable(self):
+        from urllib.error import HTTPError
+        for error in (ValueError("invalid JSON"), HTTPError(updates.RELEASES_API, 429, "rate limit", {}, None)):
+            with self.subTest(error=type(error).__name__):
+                result = self.check(Mock(side_effect=error), refresh=True)
+                self.assertEqual(result["release_status"], "CHECK_UNAVAILABLE")
+                self.assertIsNone(result["update_available"])
+
     def test_stable_excludes_prereleases(self):
         result = self.check(lambda: [release("0.2.0"), release("1.0.0-alpha.2")], channel="stable")
         self.assertFalse(result["update_available"])
@@ -69,6 +107,14 @@ class UpdateTests(unittest.TestCase):
         result = self.check(fetch)
         self.assertTrue(result["from_cache"])
         self.assertEqual(fetch.call_count, 1)
+
+    def test_stable_cache_cannot_supply_prerelease(self):
+        self.cache.write_text(json.dumps(dict(schema=1, channel="stable", checked_at=100000,
+            status="AVAILABLE", release={"tag":"1.0.0-alpha.2", "url":updates.REPOSITORY + "/releases/tag/1.0.0-alpha.2"})), encoding="utf-8")
+        fetch = Mock(return_value=[release("1.0.0")])
+        result = self.check(fetch, channel="stable")
+        fetch.assert_called_once()
+        self.assertEqual(result["release"]["tag"], "1.0.0")
 
     def test_failure_is_cached_without_credentials(self):
         fetch = Mock(side_effect=TimeoutError("proxy password secret"))
@@ -174,7 +220,7 @@ class UpdateTests(unittest.TestCase):
     def test_unavailable_display_does_not_claim_up_to_date(self):
         with patch.object(updates, "fetch_releases", side_effect=TimeoutError), patch("sys.stdout", new_callable=io.StringIO) as output:
             updates.print_update_status("1.0.0a1", Path(self.directory.name), cache_path=self.cache)
-        self.assertIn("UNAVAILABLE", output.getvalue())
+        self.assertIn("CHECK_UNAVAILABLE", output.getvalue())
         self.assertIn("UNKNOWN", output.getvalue())
         self.assertNotIn("up to date", output.getvalue())
 
