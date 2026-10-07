@@ -41,6 +41,7 @@ DAWLoop 的公开仓库从独立、干净的 Git 历史开始。项目自己的 
 | `src/dawloop/fl_scripts/**` | `CONFIRMED_PROJECT_GENERATED` | 新写的只读 FL Studio 目标身份查询脚本；复用上游 MIDI/JSON 通道并委托非身份命令，未改动 bundled 上游源码 |
 | `src/dawloop/setup.py` / `src/dawloop/cli.py` | `CONFIRMED_PROJECT_GENERATED` | 安装、doctor、CLI 与集成胶水；CLI 后续增加 Production Pipeline API 入口 |
 | `src/dawloop/controller_runtime.py` | `CONFIRMED_PROJECT_GENERATED` | 以已安装 Controller 的绝对目录统一解析生命周期标记、READY 状态、build identity 和心跳新鲜度；不依赖磁盘 SHA 推断内存运行版本 |
+| `src/dawloop/updates.py`, `tests/test_updates.py` | `CONFIRMED_PROJECT_GENERATED` | 新写的公开 Release 查询、24 小时成功/失败缓存、安装来源识别、只读 Controller 版本观察及合成测试；仅提醒，不升级或操作宿主 |
 | `tests/test_controller_runtime.py` | `CONFIRMED_PROJECT_GENERATED` | 合成状态 JSON 与 mock FL API 下的路径一致性、模块/OnInit/READY 生命周期、错误阶段和 PING 门禁测试 |
 | `src/dawloop/production/environment.py` | `CONFIRMED_PROJECT_GENERATED` | Production Pipeline 环境档案及可选依赖探测 |
 | `tests/test_*.py`（除明确第三方 fixture 外） | `CONFIRMED_PROJECT_GENERATED` | 使用自造测试数据；当前不包含第三方音乐作品 fixture |

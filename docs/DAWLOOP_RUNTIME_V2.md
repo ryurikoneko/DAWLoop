@@ -2,6 +2,12 @@
 
 <a id="current"></a>
 
+## 更新提醒工程：2026-10-07
+
+[KNOWN｜HIGH] `doctor` 增加公开 GitHub Release 查询和 24 小时成功/失败缓存，支持禁用、手动刷新和 stable/prerelease 通道。发布状态、安装来源、Controller 磁盘 build 与新鲜运行时协议分别报告；网络不可用不改变本地诊断退出码。只输出明确更新建议，不自动升级、不安装脚本、不 Reload、不发送 MIDI/RPC；MCP 和 Native VERIFIED 冻结范围不变。使用说明见 [FL Studio setup](FL_STUDIO_SETUP.md#release-and-controller-update-awareness)。
+
+[COMPUTED｜HIGH] 本轮新增 26 tests / 8 subtests；完整离线回归 767 tests / 375 subtests 通过，0 fail / 0 skip。编译、5 个 Schema JSON、3 个 Issue YAML、`git diff --check`、sdist/wheel 和隔离 wheel 导入/doctor 检查通过。真实只读发布查询返回 `v0.2.0-alpha.1`，低于本地 `1.0.0a1`；未将 `v1.0.0-alpha.1` 草稿当作已发布版本。隔离环境缺少 FL 可选依赖时保持原有 STOP，不以更新检查替代环境诊断；未现场认证 Controller 或执行宿主操作。
+
 ## 公开主页更新：2026-10-07
 
 [KNOWN｜HIGH] 中英文 README 恢复项目动机、Brain/Hands/Ears、Agent 工作循环、音乐合同、学习路径、真实 FL 控制、Production 分析、Agent 接口、三项完整致谢与 FLSkill → DAWProof → DAWLoop 历史。架构图改为纵向循环与辅助入口，Plan Adapter 保持 Planned 虚线；MCP Preview 与 Python FAST 现场路径分开说明，Alpha 范围集中呈现。
