@@ -205,6 +205,8 @@ The tutorial creates reference records, features, a report, two profile revision
 
 Follow the [deployment guide](docs/DEPLOYMENT.md) for optional dependencies, the active Controller settings root, Gopher and actual visual review receipts. [FL setup](docs/FL_STUDIO_SETUP.md) covers the bundled Community backend's MIDI configuration; the deployment guide governs Native FAST setup and research entrypoints.
 
+`dawloop doctor` also offers infrequent [release and Controller version reminders](docs/FL_STUDIO_SETUP.md#release-and-controller-update-awareness), without automatic updates. Use `--no-update-check` to disable the remote check.
+
 ```python
 from dawloop.runtime.fast_music import FastMusicRuntime
 
