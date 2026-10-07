@@ -6,7 +6,7 @@ does not support loading new plugins programmatically.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from fastmcp import FastMCP
@@ -99,15 +99,17 @@ def register_plugin_tools(mcp: FastMCP) -> None:
         index: int,
         slot_index: int = -1,
         use_global_index: bool = True,
-        max_params: int = 50
-    ) -> list[dict]:
+        max_params: int | None = None,
+        include_metadata: bool = False,
+    ) -> list[dict[str, Any]] | dict[str, Any]:
         """Get all parameters of a plugin with their current values.
 
         Args:
             index: Channel index (global) or mixer track index
             slot_index: Effect slot index for mixer plugins (-1 for channel rack)
             use_global_index: Whether to use global channel indexing
-            max_params: Maximum number of parameters to return (default 50)
+            max_params: 显式截断上限；None 请求完整布局（宿主最多扫描4096项）
+            include_metadata: 返回完整性、错误和布局元数据，默认保留列表接口
         """
         conn = get_connection()
         result = conn.send_command("plugins.getParams", {
@@ -118,9 +120,14 @@ def register_plugin_tools(mcp: FastMCP) -> None:
         })
 
         if not result.get("success", False) and "error" in result:
-            return [{"error": result["error"]}]
-
-        return result.get("params", [])
+            return result if include_metadata else [{"error": result["error"]}]
+        if include_metadata:
+            return result
+        rows = list(result.get("params", []))
+        rows.extend(result.get("errors", []))
+        if result.get("truncated"):
+            rows.append({"error": "PARAMETER_SCAN_TRUNCATED"})
+        return rows
 
     @mcp.tool()
     def fl_get_plugin_param_value(
@@ -186,7 +193,7 @@ def register_plugin_tools(mcp: FastMCP) -> None:
 
         name = result.get("name", f"Parameter {param_index}")
         new_value = result.get("value", value)
-        value_str = result.get("value_string", "")
+        value_str = result.get("value_string") or ""
         return f"Parameter '{name}' set to {new_value:.4f} ({value_str})"
 
     @mcp.tool()

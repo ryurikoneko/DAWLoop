@@ -25,6 +25,8 @@ from pathlib import Path
 
 # FL Studio API modules (available when running inside FL Studio)
 import channels
+import general
+import math
 import mixer
 import plugins
 import transport
@@ -702,9 +704,9 @@ def handle_plugins_get_name(params: dict) -> dict:
     use_global = params.get("use_global", True)
 
     if slot_index >= 0:
-        name = plugins.getPluginName(index, slot_index, True)
+        name = plugins.getPluginName(index, slot_index, 0, True)
     else:
-        name = plugins.getPluginName(index, -1, use_global)
+        name = plugins.getPluginName(index, -1, 0, use_global)
 
     return {"name": name}
 
@@ -723,91 +725,121 @@ def handle_plugins_get_param_count(params: dict) -> dict:
     return {"count": count}
 
 
+def _plugin_location(params, index_key="index"):
+    index = params.get(index_key)
+    slot = params.get("slot_index", -1)
+    global_index = params.get("use_global", True)
+    if type(index) is not int or index < 0 or type(slot) is not int or slot < -1:
+        raise ValueError("PLUGIN_LOCATION_INVALID")
+    if type(global_index) is not bool:
+        raise ValueError("PLUGIN_INDEX_MODE_INVALID")
+    api_version = general.getVersion()
+    if type(api_version) is not int or api_version < 26:
+        raise ValueError("PLUGIN_API_VERSION_UNSUPPORTED")
+    return index, slot, True if slot >= 0 else global_index, api_version
+
+
+def _plugin_display_value(param_index, index, slot, global_index):
+    try:
+        value = plugins.getParamValueString(param_index, index, slot, global_index)
+        if type(value) is not str:
+            raise ValueError("DISPLAY_TYPE_INVALID")
+        return value, None
+    except Exception as error:
+        return None, {"index": param_index, "stage": "display", "error": type(error).__name__}
+
+
 def handle_plugins_get_params(params: dict) -> dict:
-    """Get all plugin parameters."""
-    index = params.get("index", 0)
-    slot_index = params.get("slot_index", -1)
-    use_global = params.get("use_global", True)
-    max_params = params.get("max_params", 50)
-
-    if slot_index >= 0:
-        param_count = plugins.getParamCount(index, slot_index, True)
-    else:
-        param_count = plugins.getParamCount(index, -1, use_global)
-
-    param_list = []
-    for i in range(min(param_count, max_params)):
+    """全量扫描保留失败项；调用前后校验布局，显示文本允许缺失。"""
+    index, slot, global_index, api_version = _plugin_location(params)
+    max_params = params.get("max_params")
+    if max_params is not None and (type(max_params) is not int or max_params < 0):
+        raise ValueError("PARAMETER_LIMIT_INVALID")
+    if plugins.isValid(index, slot, global_index) != 1:
+        raise ValueError("PLUGIN_NOT_VALID")
+    plugin_name = plugins.getPluginName(index, slot, 0, global_index)
+    param_count = plugins.getParamCount(index, slot, global_index)
+    if type(param_count) is not int or param_count < 0:
+        raise ValueError("PARAMETER_COUNT_INVALID")
+    if type(plugin_name) is not str or not plugin_name.strip():
+        raise ValueError("PLUGIN_NAME_INVALID")
+    errors, warnings, rows = [], [], []
+    try:
+        user_name = plugins.getPluginName(index, slot, 1, global_index)
+        if type(user_name) is not str:
+            raise ValueError("USER_NAME_INVALID")
+    except Exception as error:
+        user_name = None
+        warnings.append({"index": None, "stage": "user_name", "error": type(error).__name__})
+    # 超大布局明确标记截断，避免单次观察无限占用宿主线程。
+    limit = min(param_count, 4096, param_count if max_params is None else max_params)
+    for i in range(limit):
         try:
-            if slot_index >= 0:
-                name = plugins.getParamName(i, index, slot_index, True)
-                value = plugins.getParamValue(i, index, slot_index, True)
-                value_str = plugins.getParamValueString(i, index, slot_index, True)
-            else:
-                name = plugins.getParamName(i, index, -1, use_global)
-                value = plugins.getParamValue(i, index, -1, use_global)
-                value_str = plugins.getParamValueString(i, index, -1, use_global)
-
-            param_list.append({
-                "index": i,
-                "name": name,
-                "value": value,
-                "value_string": value_str,
-            })
-        except Exception as e:
-            print(f"Warning: could not read param {i}: {e}")
+            name = plugins.getParamName(i, index, slot, global_index)
+            value = plugins.getParamValue(i, index, slot, global_index)
+            if type(name) is not str or not name.strip():
+                raise ValueError("PARAMETER_NAME_INVALID")
+            if type(value) not in (int, float) or not math.isfinite(value) or not 0 <= value <= 1:
+                raise ValueError("NORMALIZED_VALUE_INVALID")
+        except Exception as error:
+            errors.append({"index": i, "stage": "parameter", "error": type(error).__name__})
             continue
-
-    return {"params": param_list}
+        value_string, warning = _plugin_display_value(i, index, slot, global_index)
+        if warning is not None:
+            warnings.append(warning)
+        rows.append({"index": i, "name": name, "value": value, "value_string": value_string})
+    count_after = None
+    try:
+        count_after = plugins.getParamCount(index, slot, global_index)
+        name_after = plugins.getPluginName(index, slot, 0, global_index)
+        if type(count_after) is not int or count_after != param_count or name_after != plugin_name:
+            errors.append({"index": None, "stage": "identity", "error": "PLUGIN_LAYOUT_CHANGED"})
+        # 参数总数不变仍可能发生重排，必须重新读取名字序列。
+        for row in rows:
+            if plugins.getParamName(row["index"], index, slot, global_index) != row["name"]:
+                errors.append({"index": row["index"], "stage": "layout", "error": "PARAMETER_LAYOUT_CHANGED"})
+    except Exception as error:
+        errors.append({"index": None, "stage": "identity", "error": type(error).__name__})
+    truncated = limit < param_count
+    return {
+        "schema_version": "plugin-parameter-scan-v1", "api_version": api_version,
+        "plugin_name": plugin_name, "plugin_user_name": user_name,
+        "parameter_count": param_count, "parameter_count_after": count_after,
+        "params": rows, "errors": errors, "warnings": warnings,
+        "truncated": truncated, "complete": not truncated and not errors and len(rows) == param_count,
+    }
 
 
 def handle_plugins_get_param_value(params: dict) -> dict:
-    """Get specific parameter value."""
-    param_index = params.get("param_index", 0)
-    plugin_index = params.get("plugin_index", 0)
-    slot_index = params.get("slot_index", -1)
-    use_global = params.get("use_global", True)
-
-    if slot_index >= 0:
-        name = plugins.getParamName(param_index, plugin_index, slot_index, True)
-        value = plugins.getParamValue(param_index, plugin_index, slot_index, True)
-        value_str = plugins.getParamValueString(param_index, plugin_index, slot_index, True)
-    else:
-        name = plugins.getParamName(param_index, plugin_index, -1, use_global)
-        value = plugins.getParamValue(param_index, plugin_index, -1, use_global)
-        value_str = plugins.getParamValueString(param_index, plugin_index, -1, use_global)
-
-    return {
-        "index": param_index,
-        "name": name,
-        "value": value,
-        "value_string": value_str,
-    }
+    """显示字符串不可用时保留实际 normalized 读值。"""
+    index, slot, global_index, _ = _plugin_location(params, "plugin_index")
+    param_index = params.get("param_index")
+    count = plugins.getParamCount(index, slot, global_index)
+    if type(param_index) is not int or type(count) is not int or not 0 <= param_index < count:
+        raise ValueError("PARAMETER_INDEX_INVALID")
+    name = plugins.getParamName(param_index, index, slot, global_index)
+    value = plugins.getParamValue(param_index, index, slot, global_index)
+    value_string, warning = _plugin_display_value(param_index, index, slot, global_index)
+    return {"index": param_index, "name": name, "value": value,
+            "value_string": value_string, "display_warning": warning}
 
 
 def handle_plugins_set_param_value(params: dict) -> dict:
-    """Set plugin parameter value."""
-    param_index = params.get("param_index", 0)
-    value = params.get("value", 0.0)
-    plugin_index = params.get("plugin_index", 0)
-    slot_index = params.get("slot_index", -1)
-    use_global = params.get("use_global", True)
-
-    if slot_index >= 0:
-        name = plugins.getParamName(param_index, plugin_index, slot_index, True)
-        plugins.setParamValue(value, param_index, plugin_index, slot_index, True)
-        new_value = plugins.getParamValue(param_index, plugin_index, slot_index, True)
-        value_str = plugins.getParamValueString(param_index, plugin_index, slot_index, True)
-    else:
-        name = plugins.getParamName(param_index, plugin_index, -1, use_global)
-        plugins.setParamValue(value, param_index, plugin_index, -1, use_global)
-        new_value = plugins.getParamValue(param_index, plugin_index, -1, use_global)
-        value_str = plugins.getParamValueString(param_index, plugin_index, -1, use_global)
-
-    return {
-        "name": name,
-        "value": new_value,
-        "value_string": value_str,
-    }
+    """保留既有写接口；所有校验在 setter 前完成，不重试。"""
+    index, slot, global_index, _ = _plugin_location(params, "plugin_index")
+    param_index, value = params.get("param_index"), params.get("value")
+    count = plugins.getParamCount(index, slot, global_index)
+    if type(param_index) is not int or type(count) is not int or not 0 <= param_index < count:
+        raise ValueError("PARAMETER_INDEX_INVALID")
+    if type(value) not in (int, float) or not math.isfinite(value) or not 0 <= value <= 1:
+        raise ValueError("NORMALIZED_VALUE_INVALID")
+    if plugins.isValid(index, slot, global_index) != 1:
+        raise ValueError("PLUGIN_NOT_VALID")
+    name = plugins.getParamName(param_index, index, slot, global_index)
+    plugins.setParamValue(value, param_index, index, slot, 0, global_index)
+    new_value = plugins.getParamValue(param_index, index, slot, global_index)
+    value_string, warning = _plugin_display_value(param_index, index, slot, global_index)
+    return {"name": name, "value": new_value, "value_string": value_string, "display_warning": warning}
 
 
 def handle_plugins_get_preset_count(params: dict) -> dict:
@@ -831,10 +863,10 @@ def handle_plugins_next_preset(params: dict) -> dict:
     use_global = params.get("use_global", True)
 
     if slot_index >= 0:
-        plugin_name = plugins.getPluginName(index, slot_index, True)
+        plugin_name = plugins.getPluginName(index, slot_index, 0, True)
         plugins.nextPreset(index, slot_index, True)
     else:
-        plugin_name = plugins.getPluginName(index, -1, use_global)
+        plugin_name = plugins.getPluginName(index, -1, 0, use_global)
         plugins.nextPreset(index, -1, use_global)
 
     return {"plugin_name": plugin_name}
@@ -847,10 +879,10 @@ def handle_plugins_prev_preset(params: dict) -> dict:
     use_global = params.get("use_global", True)
 
     if slot_index >= 0:
-        plugin_name = plugins.getPluginName(index, slot_index, True)
+        plugin_name = plugins.getPluginName(index, slot_index, 0, True)
         plugins.prevPreset(index, slot_index, True)
     else:
-        plugin_name = plugins.getPluginName(index, -1, use_global)
+        plugin_name = plugins.getPluginName(index, -1, 0, use_global)
         plugins.prevPreset(index, -1, use_global)
 
     return {"plugin_name": plugin_name}
@@ -863,8 +895,8 @@ def handle_plugins_get_color(params: dict) -> dict:
     use_global = params.get("use_global", True)
 
     if slot_index >= 0:
-        color = plugins.getColor(index, slot_index, True)
+        color = plugins.getColor(index, slot_index, 0, 0, True)
     else:
-        color = plugins.getColor(index, -1, use_global)
+        color = plugins.getColor(index, -1, 0, 0, use_global)
 
     return {"color": hex(color)}
