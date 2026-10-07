@@ -9,9 +9,9 @@
 
 The upstream README describes transport controls, Mixer volume / pan / mute / solo, Channel control and Mixer routing, Piano Roll note writing and readback, and access to parameters on loaded plugins. It also documents that the project cannot load new plugins or create Patterns programmatically. These upstream capabilities are not claims that DAWLoop has independently implemented or verified each operation.
 
-DAWLoop does not aim to replace FL Studio MCP. The upstream project provides an FL Studio control path; DAWLoop combines musical timing and structured Note Plans with write/readback separation, Exact-Set Verification, state checks, and iterative agent orchestration.
+The upstream project provides an FL Studio control path. DAWLoop adds musical timing, structured plans, target preparation, execution budgets, human acceptance and result evidence around host operations. Its Exact-Set comparator is tested offline; Native FAST live results remain `COMPLETED_UNVERIFIED` because producer-side structured note readback is not certified.
 
-> FL Studio MCP helped prove that FL Studio could be controlled programmatically; DAWLoop builds a planning, observation, verification, and iteration loop around those operations.
+> FL Studio MCP helped demonstrate programmatic FL Studio control; DAWLoop builds a planning, execution and observation loop around host operations, with verification levels recorded separately.
 
 ## Creator acknowledgement: 坏影子不坏
 
