@@ -10,7 +10,7 @@ DAWLoop 的第一代产品架构预览：结构化音乐规划、用户拥有的
 
 - 跨平台离线 CI：Ubuntu Python 3.11/3.12、Windows Python 3.12、Node 合成观察测试、构建及隔离 wheel 安装。
 - Learning Framework 合成教程与 provenance/hash 回归纳入 CI。
-- main 候选产物的构建 attestation，以及受可信 SSH 公钥校验约束的签名 tag 发布流程。
+- main 候选产物的构建 attestation，以及受已登记维护者 SSH 公钥校验约束的签名 tag 发布流程。
 - 中文/英文首页、分层架构图、能力状态表与集中说明的 Alpha 范围。
 - 完整包元数据与发布验证教程；包版本统一为 `1.0.0a1`。
 - 架构图分开展示已实现的 FAST 结构化输入与待实现的通用 MusicalPlan 转换层。

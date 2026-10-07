@@ -26,6 +26,12 @@ CONNECTION_REUSE = NOT_TESTED
 NORMAL_PROJECT_CONTINUOUS_WRITE = NOT_CERTIFIED
 ```
 
+## 维护者签名准备
+
+[KNOWN｜HIGH] 维护者已在本机生成专用带口令 Ed25519 密钥；只登记公钥，指纹 `SHA256:pjgoJ3EUboMqiQ+n45ORU3rh+VqB18616hnIThH//O0`。仓库信任表与本机持钥签名、GitHub Signing Key 登记、正式发布认证分别判断，不以公钥入库冒充已发布。
+
+[KNOWN｜HIGH] PR #13 通过后，main 的 [Windows 离线回归](https://github.com/ryurikoneko/DAWLoop/actions/runs/37573805736) 在本地线程交接测试的身份 freshness 检查失败；两个 Linux job 通过。此次只将该合成测试的身份/采样/年龄检查统一到可控墙钟，线程与交付计时保留真实单调时钟。Runtime freshness、期限和导航守卫未修改；原失败 run 保留。
+
 ## 发布准备：1.0.0-alpha.1
 
 [KNOWN｜HIGH] 下一版目标调整为 `v1.0.0-alpha.1` / 包版本 `1.0.0a1`，副标题 Runtime V2 Architecture Preview。版本元数据与发布触发器同步调整；历史 `v0.2.0-alpha.1` 不变，当前尚无新版正式发布或维护者签名认证。版本定位不增加任何现场能力范围。

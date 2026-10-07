@@ -15,7 +15,7 @@ main 已启用 [质量规则](https://github.com/ryurikoneko/DAWLoop/rules/24603
 - **main 候选构建**：在 Actions 手动运行 `Release provenance`，只允许当前 main。通过同一套 CI 后生成 wheel、sdist、来源清单、SHA256SUMS 与构建 attestation，保存在 Actions artifacts，不发布新 Release。
 - **签名 tag 构建**：只接受 `vX.Y.Z-alpha.N`，对应包版本 `X.Y.ZaN`，必须指向当时的 main HEAD。SSH tag 签名必须匹配 main 中明确登记的可信公钥；通过后创建新的 prerelease **draft**，维护者审核后发布。
 
-当前 `.github/release-signers.allowed` 仅含说明，没有可信公钥。正式 tag 构建会拒绝。尚未进行新的签名 tag 发布；不要把流程代码已存在写成发布认证已完成。
+`.github/release-signers.allowed` 登记维护者的专用 Ed25519 公钥，指纹为 `SHA256:pjgoJ3EUboMqiQ+n45ORU3rh+VqB18616hnIThH//O0`。私钥在维护者本机带口令加密保存，不进入仓库或构建环境。正式 tag 必须通过该信任表验证；公钥入库不等于已完成签名发布，实际结果以 tag、Actions 和 Release 资产验证为准。
 
 ## 下一版定位
 

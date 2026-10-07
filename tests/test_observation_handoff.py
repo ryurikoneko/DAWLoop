@@ -12,6 +12,7 @@ import tempfile
 import threading
 import time
 import unittest
+from unittest.mock import patch
 from datetime import datetime, timezone
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -176,25 +177,35 @@ class HandoffFreshnessTests(unittest.TestCase):
                           expected_channel_index=0, expected_channel_name='808 Kick')
             reads = []
             latest = None
+            sample_time = 100.0
+            clock_lock = threading.Lock()
+            # 身份、采样和年龄检查共用可表示的合成墙钟；线程交接仍使用真实单调时钟。
+            def sample_stamp(domain):
+                nonlocal sample_time
+                point = stamp(domain)
+                with clock_lock:
+                    sample_time += .25
+                    point['wall'] = sample_time
+                return point
             class Identity:
                 async def read_identity(inner):
                     nonlocal latest
                     if reads:
                         exchange.confirm_started()
+                    latest = sample_stamp(exchange.domain)
                     value = dict(source='fl_studio_midi_scripting', controller_session='controller',
                         project_generation='project', project_loading=False, pattern_number=1,
                         pattern_name='样式 1', channel_index=0, channel_name='808 Kick',
                         selected_channels=[0], channel_index_type='global', ppq=96,
-                        fl_studio_version='OFFLINE', observed_at=datetime.now(timezone.utc).isoformat())
-                    latest = stamp(exchange.domain)
+                        fl_studio_version='OFFLINE', observed_at=datetime.fromtimestamp(latest['wall'], timezone.utc).isoformat())
                     reads.append(value)
                     if len(reads) == 2:
                         exchange.confirm_complete()
                     return value
             def capture(worker, request):
-                t3 = stamp(worker.domain)
+                t3 = sample_stamp(worker.domain)
                 worker.wait(.002)
-                t4 = stamp(worker.domain)
+                t4 = sample_stamp(worker.domain)
                 evidence = dict(visible=True, confirmed=True, observer='agent_visual_review',
                     evidence_ref='OFFLINE_SYNTHETIC_CAPTURE', pattern_number=1, channel_name='808 Kick',
                     window_pid=10, window_hwnd=20, session=session,
@@ -207,7 +218,6 @@ class HandoffFreshnessTests(unittest.TestCase):
                 worker.check()
                 mailbox.write(result['request']['request_id']+'.result.json', result)
             worker = CooperativeObserver(capture, publish)
-            worker.start()
             async def ui(target, session):
                 request = exchange.begin(BINDING, latest)
                 worker.requests.put(request, timeout=.01)
@@ -216,15 +226,18 @@ class HandoffFreshnessTests(unittest.TestCase):
             async def forbidden(*args):
                 raise AssertionError('禁止导航')
             preparer = ControllerTargetPreparer(Identity(), forbidden, ui,
-                                                window_identity=dict(pid=10,hwnd=20))
-            try:
-                evidence = await preparer.observe(target,session,('controller','project'))
-                self.assertEqual(evidence['binding']['level'],'OBSERVATIONAL')
-                self.assertFalse(evidence['binding']['producer_target_verified'])
-                self.assertEqual(set(exchange.trace), {'T'+str(i) for i in range(9)})
-            finally:
-                exchange.terminate('STOPPED')
-                teardown = worker.close()
+                                                window_identity=dict(pid=10,hwnd=20),
+                                                clock=lambda: sample_time)
+            with patch('research.observation_handoff.stamp', sample_stamp):
+                worker.start()
+                try:
+                    evidence = await preparer.observe(target,session,('controller','project'))
+                    self.assertEqual(evidence['binding']['level'],'OBSERVATIONAL')
+                    self.assertFalse(evidence['binding']['producer_target_verified'])
+                    self.assertEqual(set(exchange.trace), {'T'+str(i) for i in range(9)})
+                finally:
+                    exchange.terminate('STOPPED')
+                    teardown = worker.close()
             self.assertEqual(teardown['status'],'PASS')
             REPORTS.append(dict(scope='LOCAL_REHEARSAL_SYNTHETIC_CAPTURE',
                 case='actual_preparer_capture_bracket', trace=exchange.trace,
