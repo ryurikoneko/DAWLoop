@@ -6,7 +6,7 @@
 
 CI 在 Ubuntu Python 3.11/3.12 和 Windows Python 3.12 执行离线回归；Node 观察测试使用合成图像。构建、隔离 wheel 安装、学习教程与来源摘要检查均不启动 FL。Linux 不收集依赖 Win32 启动器的 `test_target_prepare_live_catalog.py`，并明确跳过需要 Win32 API 的三项测试；这些检查由 Windows job 执行。测试 JUnit 报告保留 14 天。
 
-2026-10-07 的 [main CI](https://github.com/ryurikoneko/DAWLoop/actions/runs/37514929489) 与 [候选发布验收](https://github.com/ryurikoneko/DAWLoop/actions/runs/37514976009) 均通过。候选来源 commit 为 `3e0688e2603e166cdeb4dfe123bcf0a08505fd63`，五份产物的 attestation 已按仓库、workflow、ref 和 source digest 验证；下载包与校验和另行核对。这没有创建新版 Release，不等于维护者个人 tag 签名认证。
+2026-10-07 的首次 [main CI 验收（initial validation run）](https://github.com/ryurikoneko/DAWLoop/actions/runs/37514929489) 与 [候选发布验收](https://github.com/ryurikoneko/DAWLoop/actions/runs/37514976009) 均通过。候选来源 commit 为 `3e0688e2603e166cdeb4dfe123bcf0a08505fd63`，五份产物的 attestation 已按仓库、workflow、ref 和 source digest 验证；下载包与校验和另行核对。这没有创建新版 Release，不等于维护者个人 tag 签名认证。
 
 main 已启用 [质量规则](https://github.com/ryurikoneko/DAWLoop/rules/24603386)：PR、严格 `CI gate`、禁止 force-push 与删除。管理员 bypass 仅限 PR；单人项目不要求自审批准。
 
@@ -17,16 +17,20 @@ main 已启用 [质量规则](https://github.com/ryurikoneko/DAWLoop/rules/24603
 
 当前 `.github/release-signers.allowed` 仅含说明，没有可信公钥。正式 tag 构建会拒绝。尚未进行新的签名 tag 发布；不要把流程代码已存在写成发布认证已完成。
 
+## 下一版定位
+
+下一版目标为 `v1.0.0-alpha.1`，包版本为 `1.0.0a1`，副标题为 **Runtime V2 Architecture Preview**。这是第一代产品架构预览，仍为 Alpha；版本号不增加 API 稳定性或生产工程认证。历史 `v0.2.0-alpha.1` 保持不变，不再计划发布 `v0.2.0-alpha.2`。
+
 ## 维护者准备与顺序
 
 1. 使用由维护者控制的 SSH 签名密钥；在安全位置保存私钥，不上传到仓库、聊天或 artifact。
 2. 通过 PR 将可信**公钥**登记到 `.github/release-signers.allowed`，格式例如 `maintainer@example.invalid namespaces="git" ssh-ed25519 <public-key>`，实际 principal 与公钥由维护者确认。只需要支持本流程的 SSH 签名；GPG 发布可单独接入，不能混称已支持。
 3. 配置本地 Git：`git config gpg.format ssh`、`git config user.signingkey <path-to-signing-key>`。确认 GitHub 账户的 signing key 登记与公开指纹一致。
 4. 更新包版本、`src/dawloop/__init__.py`、CITATION 与最终 release notes，经 PR 合并 main，等待 `CI gate` 成功。
-5. 在最新 main 上执行 `git tag -s v0.2.0-alpha.2 -m "DAWLoop v0.2.0-alpha.2"`；先用可信公钥表运行 `git verify-tag`，再 push 这个新 tag。
+5. 在最新 main 上执行 `git tag -s v1.0.0-alpha.1 -m "DAWLoop v1.0.0-alpha.1 — Runtime V2 Architecture Preview"`；配置 `git config gpg.ssh.allowedSignersFile .github/release-signers.allowed`，先运行 `git verify-tag v1.0.0-alpha.1` 与 `python scripts/release_guard.py v1.0.0-alpha.1`，再 push 这个新 tag。
 6. Actions 重跑离线检查、验证 main/tag/version/signer，构建并 attest 产物。审核 draft 内容、下载产物并独立验证，再公开发布。
 
-本轮不会代维护者生成签名身份，也不自动升版或创建 alpha.2。独立签名 `SHA256SUMS.txt` 的 maintainer detached signature 尚未接入；当前新流程将其作为 attestation subject，证明的是受信 GitHub 构建身份，不是维护者个人签名。独立签名以后应在安全签名环境完成，另附 `.sig` 与验证说明。
+版本元数据已准备为 `1.0.0a1`；可信公钥登记、维护者本机签名和正式 tag 验证完成前，不创建正式发布。私钥和口令只在维护者本机处理，不能以临时测试密钥代替发布身份。独立签名 `SHA256SUMS.txt` 的 maintainer detached signature 尚未接入；当前新流程将其作为 attestation subject，证明的是受信 GitHub 构建身份，不是维护者个人签名。独立签名以后应在安全签名环境完成，另附 `.sig` 与验证说明。
 
 ## 使用者验证
 
@@ -38,7 +42,7 @@ main 已启用 [质量规则](https://github.com/ryurikoneko/DAWLoop/rules/24603
 gh attestation verify <wheel-or-SHA256SUMS.txt> \
   --repo ryurikoneko/DAWLoop \
   --signer-workflow ryurikoneko/DAWLoop/.github/workflows/release.yml \
-  --source-ref refs/tags/v0.2.0-alpha.2
+  --source-ref refs/tags/v1.0.0-alpha.1
 ```
 
 验证候选产物时改为 `--source-ref refs/heads/main`，并核对输出的 source commit 与目标提交。检查 tag 签名时使用维护者公开的可信 SSH 公钥表，不能只相信文件里的作者字符串或未知公钥。

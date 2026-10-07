@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you reference this project, please cite this repository and the exact commit or released version used. Citation is appreciated, not an additional MIT license condition."
 type: software
 title: DAWLoop
-version: "0.2.0a1"
+version: "1.0.0a1"
 authors:
   - name: ryurikoneko
 repository-code: "https://github.com/ryurikoneko/DAWLoop"
