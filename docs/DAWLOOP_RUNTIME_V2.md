@@ -2,6 +2,14 @@
 
 <a id="current"></a>
 
+## 公开主页更新：2026-10-07
+
+[KNOWN｜HIGH] 中英文 README 恢复项目动机、Brain/Hands/Ears、Agent 工作循环、音乐合同、学习路径、真实 FL 控制、Production 分析、Agent 接口、三项完整致谢与 FLSkill → DAWProof → DAWLoop 历史。架构图改为纵向循环与辅助入口，Plan Adapter 保持 Planned 虚线；MCP Preview 与 Python FAST 现场路径分开说明，Alpha 范围集中呈现。
+
+[KNOWN｜HIGH] 致谢文档同步区分离线 Exact-Set 算法和 Native FAST `COMPLETED_UNVERIFIED`，不扩大 producer readback 或 MCP 现场认证。本次只修改公开文档，不改 Runtime、协议、预算、期限或版本。
+
+[KNOWN｜HIGH] `v1.0.0-alpha.1` 已由维护者密钥签名并通过本机与 GitHub 验签；[tag 发布构建](https://github.com/ryurikoneko/DAWLoop/actions/runs/37576241940)成功，六份资产摘要及 252 个来源文件已核验。[新版发布草稿](https://github.com/ryurikoneko/DAWLoop/releases/tag/untagged-5df5e66f6571db5b9fc0)尚未 Publish，来源提交固定为 `732c3357e4475bd34e0a3a74904e2a5bd8f0a088`。本次主页更新独立于该历史快照，不移动标签、不替换资产；下方发布准备章节保留当时状态。
+
 ## 当前状态：2026-10-07 research-preview
 
 [KNOWN｜HIGH] Phase 1 的受限 FAST 主线已完成。Phase 2 的音乐计划/学习合同已有离线实现；MCP 现场候选路线暂停于外部浏览器 page identity 传输。当前状态以实际结果为依据，历史失败不回填成功。完整本地会话不公开，本文件与 [evidence/public](../evidence/public/README.md) 提供脱敏摘要。
