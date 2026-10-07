@@ -17,7 +17,10 @@ flowchart LR
     A["User / AI Agent"] --> B["Music Intelligence · Brain"]
     G["User-owned Learning Profiles"] --> B
     B --> C["Structured MusicalPlan"]
-    C -. "Conversion integration pending" .-> D["DAWLoop Runtime · Hands"]
+    C --> P["Plan Adapter · Planned"]
+    P -. "Generic conversion pending implementation and validation" .-> I["FAST Structured Input Contract"]
+    S["Existing Constrained Structured Plan"] --> I
+    I --> D["DAWLoop Runtime · Hands"]
     H["Python API / MCP Preview"] --> D
     D --> E["FL Studio"]
     E --> F["Observation & Evidence · Ears"]
@@ -28,13 +31,13 @@ flowchart LR
     classDef daw fill:#40351f,stroke:#facc15,color:#fff;
     classDef evidence fill:#173d2b,stroke:#4ade80,color:#fff;
     class A agent;
-    class B,C,G music;
-    class D,H runtime;
+    class B,C,G,P,S music;
+    class D,H,I runtime;
     class E daw;
     class F evidence;
 ```
 
-The diagram shows module relationships. The dashed link marks integration awaiting validation. Iterative production is the project vision; tested capabilities are listed below.
+FAST already accepts a constrained structured plan. The planned Plan Adapter will convert generic learning MusicalPlans into the FAST field and unit contract; only that conversion remains pending implementation and validation. Iterative production is the project vision; tested capabilities are listed below.
 
 ## Why DAWLoop?
 

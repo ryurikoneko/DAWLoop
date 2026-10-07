@@ -26,6 +26,12 @@ CONNECTION_REUSE = NOT_TESTED
 NORMAL_PROJECT_CONTINUOUS_WRITE = NOT_CERTIFIED
 ```
 
+## 发布准备：1.0.0-alpha.1
+
+[KNOWN｜HIGH] 下一版目标调整为 `v1.0.0-alpha.1` / 包版本 `1.0.0a1`，副标题 Runtime V2 Architecture Preview。版本元数据与发布触发器同步调整；历史 `v0.2.0-alpha.1` 不变，当前尚无新版正式发布或维护者签名认证。版本定位不增加任何现场能力范围。
+
+[KNOWN｜HIGH] 中英架构图区分已有 FAST 结构化输入和计划中的通用 MusicalPlan → Plan Adapter 转换；后者仍待实现与独立验收。发布指南将首次 CI 链接标为 initial validation run，保留原始验收证据。MCP 与 VERIFIED 冻结继续保持。
+
 ## 已完成的主线
 
 ### 公开工程化：2026-10-07

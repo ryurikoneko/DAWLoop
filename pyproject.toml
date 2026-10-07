@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dawloop"
-version = "0.2.0a1"
+version = "1.0.0a1"
 description = "Experimental structured music planning and evidence-aware FL Studio agent runtime"
 readme = "README.md"
 license = "MIT"

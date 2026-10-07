@@ -20,7 +20,7 @@ class ReleaseGuardTests(unittest.TestCase):
         self.git('config', 'user.email', 'synthetic@example.invalid')
         (self.root / '.github').mkdir()
         (self.root / '.github/release-signers.allowed').write_text('# No trusted signer\n', encoding='utf-8')
-        (self.root / 'pyproject.toml').write_text('[project]\nversion="0.2.0a2"\n', encoding='utf-8')
+        (self.root / 'pyproject.toml').write_text('[project]\nversion="1.0.0a1"\n', encoding='utf-8')
         self.commit()
         self.git('branch', 'trusted-main')
 
@@ -32,7 +32,7 @@ class ReleaseGuardTests(unittest.TestCase):
         self.git('add', '.')
         self.git('-c', 'commit.gpgsign=false', 'commit', '-qm', 'Synthetic release fixture')
 
-    def verify(self, tag='v0.2.0-alpha.2'):
+    def verify(self, tag='v1.0.0-alpha.1'):
         return verify_release(self.root, tag, main_ref='trusted-main')
 
     def test_invalid_tag_name(self):
@@ -40,19 +40,19 @@ class ReleaseGuardTests(unittest.TestCase):
             self.verify('--help')
 
     def test_lightweight_tag_rejected(self):
-        self.git('tag', 'v0.2.0-alpha.2')
+        self.git('tag', 'v1.0.0-alpha.1')
         with self.assertRaisesRegex(ValueError, 'SIGNED_TAG_REQUIRED'):
             self.verify()
 
     def test_missing_trusted_key_rejected(self):
-        self.git('-c', 'tag.gpgsign=false', 'tag', '-a', 'v0.2.0-alpha.2', '-m', 'Unsigned')
+        self.git('-c', 'tag.gpgsign=false', 'tag', '-a', 'v1.0.0-alpha.1', '-m', 'Unsigned')
         with self.assertRaisesRegex(ValueError, 'SIGNER_NOT_CONFIGURED'):
             self.verify()
 
     def test_branch_tag_rejected(self):
         (self.root / 'new.txt').write_text('Synthetic branch\n', encoding='utf-8')
         self.commit()
-        self.git('tag', 'v0.2.0-alpha.2')
+        self.git('tag', 'v1.0.0-alpha.1')
         with self.assertRaisesRegex(ValueError, 'CURRENT_MAIN'):
             self.verify()
 
@@ -69,17 +69,17 @@ class ReleaseGuardTests(unittest.TestCase):
         self.git('add', '.github/release-signers.allowed')
         self.git('-c', 'commit.gpgsign=false', 'commit', '-qm', 'Synthetic trusted signer')
         self.git('branch', '-f', 'trusted-main')
-        self.git('tag', '-s', 'v0.2.0-alpha.2', '-m', 'Synthetic signed release')
+        self.git('tag', '-s', 'v1.0.0-alpha.1', '-m', 'Synthetic signed release')
         self.assertEqual(self.verify(), self.git('rev-parse', 'HEAD'))
         other = self.root / 'untrusted-key'
         subprocess.run(['ssh-keygen', '-q', '-t', 'ed25519', '-N', '', '-f', str(other)],
                        check=True, capture_output=True, timeout=15)
         self.git('config', 'user.signingkey', str(other))
-        self.git('tag', '-f', '-s', 'v0.2.0-alpha.2', '-m', 'Valid but untrusted signature')
+        self.git('tag', '-f', '-s', 'v1.0.0-alpha.1', '-m', 'Valid but untrusted signature')
         with self.assertRaises(subprocess.CalledProcessError):
             self.verify()
         self.git('config', 'user.signingkey', str(key))
-        self.git('tag', '-f', '-s', 'v0.2.0-alpha.2', '-m', 'Synthetic trusted release')
+        self.git('tag', '-f', '-s', 'v1.0.0-alpha.1', '-m', 'Synthetic trusted release')
         (self.root / '.github/release-signers.allowed').write_text('# Changed key\n', encoding='utf-8')
         with self.assertRaisesRegex(ValueError, 'SIGNER_FILE_MISMATCH'):
             self.verify()
