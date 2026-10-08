@@ -59,4 +59,5 @@ Live Execution Report 包含状态、目标、planned / actual events、planned 
 - **Bundled / Implemented:** 固定上游源码、可选依赖、MCP backend 发现与调用骨架、音符字段映射、备份式 User Script 安装、目标身份门控。
 - **Live Read / Write:** 维护者报告已完成现场接入；该次运行证据未归档，仓库不能据此宣称可复现的 Live Exact-Set 验证。稳定性仍待更多用户环境反馈。
 - **Mixer / Plugin:** adapter 有只读 Mixer track discovery 和已加载插件参数查询入口；尚未在真实 FL Studio 中验证这些读取。任何写入能力均未标为 Verified。
+- **Plugin scan contract:** 参数扫描默认请求全量，DAWLoop 使用既有 `fl_get_plugin_params(include_metadata=True)` 读取完整性元数据；截断、参数错误、可观察布局变化或旧格式均返回 STOP。原始插件名与用户标签分开，显示字符串不可用时保留 normalized 值。读到完整列表不认证实例身份或原子快照。多插件混音合同目前只允许离线编译，见 [Production Pipeline](PRODUCTION_PIPELINE.md#multi-plugin-mixing-contracts-offline)。
 - **AI agents:** Designed for AI agents and tool-using models；并不表示已适配所有 agent。
