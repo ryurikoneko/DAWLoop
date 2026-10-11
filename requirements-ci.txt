@@ -1,5 +1,5 @@
 pytest==9.1.1
-fastmcp==2.14.7
+fastmcp==4.0.10
 jsonschema==4.26.0
 websocket-client==1.9.2
 numpy>=1.24,<3

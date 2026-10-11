@@ -31,14 +31,14 @@ Changelog = "https://github.com/ryurikoneko/DAWLoop/releases"
 [project.optional-dependencies]
 learning = ["jsonschema>=4.18,<5"]
 mcp = [
-    "fastmcp>=2.14.7,<3",
+    "fastmcp>=2.14.7,<5",
 ]
 native = [
     "websocket-client>=1.8,<2",
     "jsonschema>=4.18,<5",
 ]
 flstudio = [
-    "fastmcp>=2.0,<3",
+    "fastmcp>=2.0,<5",
     "mido>=1.3.0",
     "python-rtmidi>=1.5.0",
     "pynput>=1.7",
