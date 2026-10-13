@@ -16,7 +16,7 @@
 
 ## Social Preview 与徽章
 
-[COMPUTED｜HIGH] [social-preview.png](media/social-preview.png) 已准备1280×640、低于1MB，黑底白字来自实际 Splash；不会替代正式圆环 Logo。尺寸依据 [GitHub官方说明](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview)。本轮未改 Settings，候选审核和推送仍需后续授权。
+[COMPUTED｜HIGH] [social-preview.png](media/social-preview.png) 已准备1280×640、低于1MB，黑底白字沿用 Splash 风格，由SVG排版生成版权头图，不冒充软件截图；不会替代正式圆环 Logo。尺寸依据 [GitHub官方说明](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview)。本轮未改 Settings，候选审核和推送仍需后续授权。
 
 [KNOWN｜HIGH] README 只保留真实 main CI、MIT code 与 Alpha 标识。CI 徽章表示公开 main 的离线检查，不认证内部 Desktop 或 FL 现场；没有下载量、用户数或稳定版徽章。图像另有品牌版权条款。
 

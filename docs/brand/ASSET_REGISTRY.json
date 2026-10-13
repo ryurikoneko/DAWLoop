@@ -165,19 +165,19 @@
       "assetId": "black-white-splash-hero",
       "name": "黑底白字启动画面及Hero/Social衍生图",
       "category": "SPLASH_HERO",
-      "version": "0.5.6-internal.1-capture-1",
+      "version": "hero-copyright-20261014-1; application-splash-0.5.6-internal.1-reference",
       "versionBasis": "内部清单标识，不是法定登记版本。",
       "existence": "EXISTING",
       "files": [
         {
           "path": "docs/media/hero.png",
           "scope": "DOCUMENTATION_CANDIDATE",
-          "sha256": "91dd5fa0695d4eab9c45cd3de4462e8710b22edf493663bc6f90096d3ce70da4"
+          "sha256": "374c924b47f71ac05cc44fe6d74d919d61094df8bec7a3fc4c32e7d38abae1c8"
         },
         {
           "path": "docs/media/social-preview.png",
           "scope": "DOCUMENTATION_CANDIDATE",
-          "sha256": "91dd5fa0695d4eab9c45cd3de4462e8710b22edf493663bc6f90096d3ce70da4"
+          "sha256": "374c924b47f71ac05cc44fe6d74d919d61094df8bec7a3fc4c32e7d38abae1c8"
         },
         {
           "path": null,
@@ -190,6 +190,11 @@
           "sourceReference": "private:brand-source/DAWLoop_splash_black_background.png",
           "scope": "PRIVATE_SOURCE_NOT_COPIED",
           "sha256": "51e457f4207c6361d8d22571976947233d81f61b45221f4e79f79d25d0d56cf1"
+        },
+        {
+          "path": "docs/media/hero-source.svg",
+          "scope": "DOCUMENTATION_CANDIDATE",
+          "sha256": "3d607967c5f9e5c3de9167c28bd6f286bfd0e3e24f75afbe81b931c0ef3fbd0b"
         }
       ],
       "creation": {
@@ -197,10 +202,11 @@
           "docs/media/provenance.json",
           "other-tree:apps/desktop/src/Splash.tsx",
           "other-tree:apps/desktop/public/startup.css",
-          "commit:66806b510556ec2c11c2eedfe8b1f8a6bf302c6a"
+          "commit:66806b510556ec2c11c2eedfe8b1f8a6bf302c6a",
+          "docs/media/hero-source.svg"
         ],
-        "process": "用户明确视觉要求 → AI辅助代码实施的同窗口CSS字标/动态版本 → 实际运行截图 → 等比缩放及黑色补边。旧v0.5.3仅参考，不是当前软件版本。",
-        "humanContribution": "用户确定黑底白字、构图、时长和版本要求；人类原创表达、字体及源参考授权需进一步确认。",
+        "process": "用户明确视觉要求 → AI辅助代码实施的同窗口CSS字标/动态版本 → 实际运行截图 → 等比缩放及黑色补边。旧v0.5.3仅参考，不是当前软件版本。 本轮按用户要求独立生成可编辑SVG品牌头图：去软件版本，灰色Copyright署名；这是品牌排版而非原始软件截图。",
+        "humanContribution": "用户确定黑底白字、构图、时长和版本要求；人类原创表达、字体及源参考授权需进一步确认。 用户明确批准本轮头图替换及公开维护者版权署名；不升级实际法定权属验证。",
         "aiAssistance": "CONFIRMED_FOR_CODE_IMPLEMENTATION_AND_CAPTURE_PIPELINE; ORIGINAL_REFERENCE_AUTHORSHIP_UNKNOWN",
         "author": {
           "confirmedAuthors": [],
@@ -240,7 +246,9 @@
       "publicSourceFilesApproved": false,
       "evidenceLabel": "KNOWN",
       "confidence": "HIGH",
-      "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。"
+      "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
+      "copyrightSignature": "Copyright (c) 2026 ryurikoneko",
+      "signatureMeaning": "按用户要求使用公开署名；不是法定身份、登记或完整权属认证。"
     },
     {
       "assetId": "showcase-ui-captures",

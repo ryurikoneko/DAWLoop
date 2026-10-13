@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/media/hero.png" alt="DAWLoop 黑底白字启动页头图，内部候选真实截图" width="100%"></p>
+<p align="center"><img src="docs/media/hero.png" alt="DAWLoop 黑底白字品牌头图，左下角为版权署名" width="100%"></p>
 
 <p align="center"><img src="docs/media/logo.png" alt="DAWLoop 圆环波形正式 Logo" width="64" height="64"></p>
 

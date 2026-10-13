@@ -1,18 +1,21 @@
 [
   {
     "asset": "hero.png",
-    "sourceBasename": "splash.png",
-    "sourceSha256": "5b3cd8080ef846270e1f08883cb32e402f0d75a35fd968255c3372e7d68ff39e",
-    "publishedSha256": "91dd5fa0695d4eab9c45cd3de4462e8710b22edf493663bc6f90096d3ce70da4",
+    "kind": "CODE_NATIVE_BRAND_BANNER_NOT_SOFTWARE_SCREENSHOT",
+    "version": "hero-copyright-20261014-1",
+    "source": "hero-source.svg",
+    "sourceSha256": "3d607967c5f9e5c3de9167c28bd6f286bfd0e3e24f75afbe81b931c0ef3fbd0b",
+    "publishedSha256": "374c924b47f71ac05cc44fe6d74d919d61094df8bec7a3fc4c32e7d38abae1c8",
     "size": [
       1280,
       640
     ],
-    "operation": "aspect-preserving resize of actual splash capture plus black letterbox; no invented UI",
-    "kind": "actual running Electron candidate screenshot",
-    "candidateVersion": "0.5.6-internal.1",
-    "sourceCommit": "66806b510556ec2c11c2eedfe8b1f8a6bf302c6a",
-    "privacyReview": "PASS: synthetic/owned fixture only; no local path, user name, credential or private music visible"
+    "operation": "SVG typography rendered to PNG; black background, white DAWLoop, gray copyright signature; no software version",
+    "copyrightSignature": "Copyright (c) 2026 ryurikoneko",
+    "previousAssetSha256": "91dd5fa0695d4eab9c45cd3de4462e8710b22edf493663bc6f90096d3ce70da4",
+    "previousAssetRecordCommit": "3d1dac0c08c40108e26cef2a4938bca324af890b",
+    "visualReference": "same black-and-white style as the approved software splash; the application itself is unchanged",
+    "privacyReview": "No legal name, machine path, credentials, registration number or software version included"
   },
   {
     "asset": "logo.png",
@@ -76,13 +79,20 @@
   },
   {
     "asset": "social-preview.png",
-    "source": "hero.png",
-    "operation": "aspect-preserving resize plus black letterbox; no invented UI",
+    "kind": "CODE_NATIVE_BRAND_BANNER_NOT_SOFTWARE_SCREENSHOT",
+    "version": "hero-copyright-20261014-1",
+    "source": "hero-source.svg",
+    "sourceSha256": "3d607967c5f9e5c3de9167c28bd6f286bfd0e3e24f75afbe81b931c0ef3fbd0b",
+    "publishedSha256": "374c924b47f71ac05cc44fe6d74d919d61094df8bec7a3fc4c32e7d38abae1c8",
     "size": [
       1280,
       640
     ],
-    "publishedSha256": "91dd5fa0695d4eab9c45cd3de4462e8710b22edf493663bc6f90096d3ce70da4",
-    "role": "repository social preview candidate, not application icon"
+    "operation": "SVG typography rendered to PNG; black background, white DAWLoop, gray copyright signature; no software version",
+    "copyrightSignature": "Copyright (c) 2026 ryurikoneko",
+    "previousAssetSha256": "91dd5fa0695d4eab9c45cd3de4462e8710b22edf493663bc6f90096d3ce70da4",
+    "previousAssetRecordCommit": "3d1dac0c08c40108e26cef2a4938bca324af890b",
+    "visualReference": "same black-and-white style as the approved software splash; the application itself is unchanged",
+    "privacyReview": "No legal name, machine path, credentials, registration number or software version included"
   }
 ]

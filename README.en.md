@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/media/hero.png" alt="DAWLoop black-and-white splash hero captured from the internal candidate" width="100%"></p>
+<p align="center"><img src="docs/media/hero.png" alt="DAWLoop black-and-white brand hero with a copyright signature" width="100%"></p>
 
 <p align="center"><img src="docs/media/logo.png" alt="Official DAWLoop circular waveform logo" width="64" height="64"></p>
 

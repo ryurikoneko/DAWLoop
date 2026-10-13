@@ -24,3 +24,8 @@ including any applicable prior software-tree grant for the same or derived image
 Independent future licenses require completed owner/provenance review.
 No rights are asserted in uncreated characters. No registration is claimed.
 See ../brand/HISTORICAL_LICENSE_REVIEW.md and ../brand/ASSET_REGISTRY.json.
+
+Hero source addendum (2026-10-14)
+Scope also includes docs/media/hero-source.svg, the editable brand-banner source.
+Its visible public signature is Copyright (c) 2026 ryurikoneko.
+The existing owner-review and prior-grant qualifications remain unchanged.

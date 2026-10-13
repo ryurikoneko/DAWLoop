@@ -2,6 +2,11 @@
 
 <a id="current"></a>
 
+## 项目头图版权署名：2026-10-14
+
+[KNOWN｜HIGH] 用户要求GitHub品牌头图不得显示软件版本。Hero与Social候选改为纯黑底白字SVG排版，左下灰字Copyright (c) 2026 ryurikoneko，明确为品牌图而非软件截图；应用内动态版本、正式圆环Logo及功能截图不改。权属待审核与既有许可边界不变，本地候选提交，不Push或改远端设置。
+
+
 ## 品牌与角色资产补充候选：2026-10-14
 
 [KNOWN｜HIGH] 用户确定拟定个人主体INDIVIDUAL、公开署名ryurikoneko，不填写法定姓名。新增[品牌清单](brand/README.md)、角色占位、历史许可审查与登记准备建议；作者/完整权属/既有授权未清统一PENDING_OWNER_REVIEW，未登记状态不附伪造编号或证书。
