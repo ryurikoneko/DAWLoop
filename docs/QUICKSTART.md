@@ -1,5 +1,11 @@
 # Quickstart
 
+## 选择入口 / Choose an entrypoint
+
+[KNOWN｜HIGH] 普通用户的 Desktop 与公开 Python Runtime 不是同一个安装入口。[Desktop 状态](DESKTOP.md)说明内部候选与首装限制；本页代码只属于公开 Runtime。开发者可先按 [学习教程](../learning/WORKFLOW.md)运行合成数据。FL 安装不是离线教程前置条件。
+
+[KNOWN | HIGH] Desktop and public Python Runtime are separate installation routes. See the Desktop guide; code below is public Runtime only.
+
 本指南展示当前 `dawloop` 命名空间下的离线核心用法。历史版本 `v0.1.0-alpha` 以当时的项目名 FLSkill 发布，仍是离线核心版本；它的 tag 和 Release 内容保持原样，不包含本次改名后的 `dawloop` 命名空间。
 
 ## 1. 运行测试

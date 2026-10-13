@@ -1,5 +1,11 @@
 # Architecture
 
+## Desktop 独立功能树 / Independent Desktop tree
+
+[KNOWN｜HIGH] 下文原架构属于公开 Runtime。内部 Desktop 采用 Renderer → 隔离 Preload → 受控 IPC → Adapter / 后台 Worker；模型不在 Renderer 执行，宿主受信来源与写权限独立门控。代码尚未合入公开 main；不能把未来 Publisher 接线画成已认证宿主链。[Desktop 范围](DESKTOP.md)。
+
+[KNOWN | HIGH] The original architecture below is public Runtime. Internal Desktop uses isolated Preload, controlled IPC and background Workers; it is not merged into public main and its proposed host publisher route is not live-certified.
+
 DAWLoop 分为音乐合同、学习接口、执行Runtime与证据层。个人数据在Git忽略的workspace/profile目录；Core不关心参考艺术家或资料来源标签。
 
 ```mermaid

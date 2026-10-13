@@ -1,0 +1,130 @@
+[
+  {
+    "asset": "hero.png",
+    "kind": "CODE_NATIVE_BRAND_BANNER_NOT_SOFTWARE_SCREENSHOT",
+    "version": "hero-copyright-20261014-1",
+    "source": "hero-source.svg",
+    "sourceSha256": "3d607967c5f9e5c3de9167c28bd6f286bfd0e3e24f75afbe81b931c0ef3fbd0b",
+    "publishedSha256": "374c924b47f71ac05cc44fe6d74d919d61094df8bec7a3fc4c32e7d38abae1c8",
+    "size": [
+      1280,
+      640
+    ],
+    "operation": "SVG typography rendered to PNG; black background, white DAWLoop, gray copyright signature; no software version",
+    "copyrightSignature": "Copyright (c) 2026 ryurikoneko",
+    "previousAssetSha256": "91dd5fa0695d4eab9c45cd3de4462e8710b22edf493663bc6f90096d3ce70da4",
+    "previousAssetRecordCommit": "3d1dac0c08c40108e26cef2a4938bca324af890b",
+    "visualReference": "same black-and-white style as the approved software splash; the application itself is unchanged",
+    "privacyReview": "No legal name, machine path, credentials, registration number or software version included"
+  },
+  {
+    "asset": "logo.png",
+    "sourceBasename": "DAWLoop_icon_transparent_1024.png",
+    "sourceSha256": "8be92927ebec22262d6633e02bca5ad379c46042bbcece4d1d7be7efcf30e8b6",
+    "publishedSha256": "e3170e7039358df55a3ea700e632b473697d27aef17db7a56e74285542c57c01",
+    "size": [
+      1024,
+      1024
+    ],
+    "operation": "lossless PNG recompression; pixel content unchanged",
+    "kind": "selected brand asset",
+    "candidateVersion": "0.5.6-internal.1",
+    "sourceCommit": "66806b510556ec2c11c2eedfe8b1f8a6bf302c6a",
+    "privacyReview": "PASS: synthetic/owned fixture only; no local path, user name, credential or private music visible"
+  },
+  {
+    "asset": "music-workspace.png",
+    "sourceBasename": "music-composer.png",
+    "sourceSha256": "2b4b298c986d6edf9cdfca82cbe9ef83d9fdefb7d0198b9f2bf9eb5ad0f56616",
+    "publishedSha256": "9a4909cd14fa806a85f48b267b41772ea8a32729318ef0df2dbbe9b96cd129bc",
+    "size": [
+      1504,
+      988
+    ],
+    "operation": "lossless PNG recompression; pixel content unchanged",
+    "kind": "actual running Electron candidate screenshot",
+    "candidateVersion": "0.5.6-internal.1",
+    "sourceCommit": "66806b510556ec2c11c2eedfe8b1f8a6bf302c6a",
+    "privacyReview": "PASS: synthetic/owned fixture only; no local path, user name, credential or private music visible"
+  },
+  {
+    "asset": "analysis-report.png",
+    "sourceBasename": "full-song-report-en.png",
+    "sourceSha256": "b2d0b9a5342e06946560076680085b10bc5d4cf632af3776e91e0bfb56e42d0b",
+    "publishedSha256": "fdf87354fbbd41de71fe3cfcd016fcc62c0782bea336ada5eb3e9951dd490e52",
+    "size": [
+      1504,
+      988
+    ],
+    "operation": "lossless PNG recompression; pixel content unchanged",
+    "kind": "actual running Electron candidate screenshot",
+    "candidateVersion": "0.5.6-internal.1",
+    "sourceCommit": "66806b510556ec2c11c2eedfe8b1f8a6bf302c6a",
+    "privacyReview": "PASS: synthetic/owned fixture only; no local path, user name, credential or private music visible"
+  },
+  {
+    "asset": "piano-roll.png",
+    "sourceBasename": "selected-note-and-row.png",
+    "sourceSha256": "48acc22802aa23ba8308546f003d81bc3ba6fc5768575b4dfeba2b604daaf442",
+    "publishedSha256": "e121af89ff6145d3e4c7a00771ae1adb84903429656d2ff589f8c7a648fc2fe5",
+    "size": [
+      1920,
+      1273
+    ],
+    "operation": "lossless PNG recompression; pixel content unchanged",
+    "kind": "actual running Electron candidate screenshot",
+    "candidateVersion": "0.5.6-internal.1",
+    "sourceCommit": "66806b510556ec2c11c2eedfe8b1f8a6bf302c6a",
+    "privacyReview": "PASS: synthetic/owned fixture only; no local path, user name, credential or private music visible"
+  },
+  {
+    "asset": "social-preview.png",
+    "kind": "CODE_NATIVE_BRAND_BANNER_NOT_SOFTWARE_SCREENSHOT",
+    "version": "hero-copyright-20261014-1",
+    "source": "hero-source.svg",
+    "sourceSha256": "3d607967c5f9e5c3de9167c28bd6f286bfd0e3e24f75afbe81b931c0ef3fbd0b",
+    "publishedSha256": "374c924b47f71ac05cc44fe6d74d919d61094df8bec7a3fc4c32e7d38abae1c8",
+    "size": [
+      1280,
+      640
+    ],
+    "operation": "SVG typography rendered to PNG; black background, white DAWLoop, gray copyright signature; no software version",
+    "copyrightSignature": "Copyright (c) 2026 ryurikoneko",
+    "previousAssetSha256": "91dd5fa0695d4eab9c45cd3de4462e8710b22edf493663bc6f90096d3ce70da4",
+    "previousAssetRecordCommit": "3d1dac0c08c40108e26cef2a4938bca324af890b",
+    "visualReference": "same black-and-white style as the approved software splash; the application itself is unchanged",
+    "privacyReview": "No legal name, machine path, credentials, registration number or software version included"
+  },
+  {
+    "asset": "music-home.png",
+    "kind": "actual running Electron candidate screenshot",
+    "sourceBasename": "music-home.png",
+    "sourceSha256": "aa07eee0e8239f1752f3be2fa484aa097406b9a1008aa520e20c10e5859e4fff",
+    "publishedSha256": "c9b7827ba8299dcd62b23c5e67d3924a4d61490f7f7a94da31ea46a4dff5b185",
+    "operation": "lossless PNG recompression, unchanged pixels",
+    "size": [
+      1504,
+      988
+    ],
+    "candidateVersion": "0.5.6-internal.1",
+    "sourceCommit": "8123ae3fb92f44e866eff77214503da62c2446a8",
+    "privacyReview": "Actual fresh-userdata internal candidate; no private audio, local path, username, credential or unrelated desktop content visible",
+    "scope": "Interface on existing development machine, not clean-Windows deployment proof"
+  },
+  {
+    "asset": "model-manager.png",
+    "kind": "actual running Electron candidate screenshot",
+    "sourceBasename": "model-manager.png",
+    "sourceSha256": "5a505dacfec0c65bdac472f8c41e9e6ac55f737acfcb17ad534b92d0a220b7f2",
+    "publishedSha256": "845722f29e30c98669b9de71828e9d90e4ba37e0b74b5947ec7e72e0bb97e400",
+    "operation": "lossless PNG recompression, unchanged pixels",
+    "size": [
+      1504,
+      988
+    ],
+    "candidateVersion": "0.5.6-internal.1",
+    "sourceCommit": "8123ae3fb92f44e866eff77214503da62c2446a8",
+    "privacyReview": "Actual fresh-userdata internal candidate; no private audio, local path, username, credential or unrelated desktop content visible",
+    "scope": "Interface on existing development machine, not clean-Windows deployment proof"
+  }
+]

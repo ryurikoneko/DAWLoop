@@ -15,3 +15,9 @@ Do not disclose vulnerability details in a public issue. If GitHub provides a pr
 - Agents and adapters must stop when the target project, Pattern, Channel, or operation state is ambiguous. Destructive or irreversible operations require explicit user confirmation.
 - A tool success response is not proof that the DAW reached the intended state. Use readback and verification before reporting success.
 - When reporting a live issue, remove usernames, absolute paths, project names, and unrelated event data from logs.
+
+## Showcase privacy and release boundaries
+
+[KNOWN | HIGH] Before publishing screenshots or recordings, inspect visible audio titles, usernames, absolute paths, diagnostics, tokens and unrelated windows. Store only small reviewed showcase assets in Git, with source hashes and an explicit privacy review. Do not upload model caches, userData, raw test bundles or private music.
+
+[KNOWN｜HIGH] 内部 Desktop 截图不意味着公开安装包已经通过供应链、干净系统或宿主认证。安全报告应注明 Runtime / Desktop、版本/提交和来源；不要在公开 Issue 贴原始敏感诊断。

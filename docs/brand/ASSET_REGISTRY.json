@@ -1,0 +1,607 @@
+{
+  "schemaVersion": 1,
+  "$schema": "./asset-registry.schema.json",
+  "reviewedAt": "2026-10-14",
+  "publicMaintainerSignature": "ryurikoneko",
+  "ownerPlan": {
+    "ownerType": "INDIVIDUAL",
+    "publicMaintainerSignature": "ryurikoneko",
+    "planStatus": "CONFIRMED_BY_USER",
+    "titleStatus": "PENDING_OWNER_REVIEW",
+    "identityStatus": "PENDING_OWNER_REVIEW",
+    "identityEvidence": "NOT_PUBLICLY_RECORDED",
+    "automaticTransferToCompany": false
+  },
+  "scope": "政策和证据索引；不办理登记，不补造权属证明。",
+  "assets": [
+    {
+      "assetId": "project-name-wordmark",
+      "name": "DAWLoop 项目名称与文字标识",
+      "category": "NAME_WORDMARK",
+      "version": "text-DAWLoop-1",
+      "versionBasis": "内部清单标识，不是法定登记版本。",
+      "existence": "EXISTING",
+      "files": [],
+      "creation": {
+        "sourceReferences": [
+          "README.md",
+          "README.en.md",
+          "LICENSE"
+        ],
+        "process": "项目已有名称；纯文字标识与软件代码分别登记，名称存在不等于取得排他商标权。",
+        "humanContribution": "用户确认名称与公开署名；原始命名过程及美术作者未独立核实。",
+        "aiAssistance": "UNKNOWN",
+        "author": {
+          "confirmedAuthors": [],
+          "status": "PENDING_OWNER_REVIEW"
+        }
+      },
+      "owner": {
+        "ownerType": "INDIVIDUAL",
+        "publicMaintainerSignature": "ryurikoneko",
+        "planStatus": "CONFIRMED_BY_USER",
+        "titleStatus": "PENDING_OWNER_REVIEW",
+        "identityStatus": "PENDING_OWNER_REVIEW",
+        "identityEvidence": "NOT_PUBLICLY_RECORDED",
+        "automaticTransferToCompany": false
+      },
+      "firstPublicAt": null,
+      "firstPublicEvidence": null,
+      "publicationStatus": "FIRST_PUBLICATION_NOT_ESTABLISHED",
+      "license": {
+        "status": "PENDING_OWNER_REVIEW",
+        "proposedPolicy": "INDEPENDENT_BRAND_POLICY",
+        "approvedIndependentLicense": null,
+        "effectiveFrom": null,
+        "priorGrantsPreserved": true,
+        "projectShowcaseAuthorization": "CONFIRMED_BY_USER",
+        "reuseAuthorization": "PENDING_OWNER_REVIEW",
+        "rightsEvidence": "PENDING_OWNER_REVIEW"
+      },
+      "registration": {
+        "copyrightRegistration": "NOT_REGISTERED",
+        "trademarkRegistration": "NOT_REGISTERED",
+        "copyrightCertificateNumber": null,
+        "trademarkRegistrationNumber": null,
+        "registrationDate": null,
+        "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
+      },
+      "publicSourceFilesApproved": false,
+      "evidenceLabel": "KNOWN",
+      "confidence": "HIGH",
+      "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
+      "textValue": "DAWLoop",
+      "textSha256": "a38b7d2dd35da74a9c831c203e1a59ff876f631dc12c877baf1f9854902db050",
+      "hashScope": "UTF8_TEXT_VALUE_ONLY_NOT_COPYRIGHT_PROOF"
+    },
+    {
+      "assetId": "selected-cyan-logo",
+      "name": "正式青色圆环波形 Logo",
+      "category": "BRAND_LOGO",
+      "version": "selected-1024-registry-1",
+      "versionBasis": "内部清单标识，不是法定登记版本。",
+      "existence": "EXISTING",
+      "files": [
+        {
+          "path": "docs/media/logo.png",
+          "scope": "DOCUMENTATION_CANDIDATE",
+          "sha256": "e3170e7039358df55a3ea700e632b473697d27aef17db7a56e74285542c57c01"
+        },
+        {
+          "path": null,
+          "sourceReference": "private:brand-source/DAWLoop_icon_transparent_1024.png",
+          "scope": "PRIVATE_SOURCE_NOT_COPIED",
+          "sha256": "8be92927ebec22262d6633e02bca5ad379c46042bbcece4d1d7be7efcf30e8b6"
+        },
+        {
+          "path": null,
+          "sourceReference": "private:brand-source/DAWLoop.ico",
+          "scope": "PRIVATE_SOURCE_NOT_COPIED",
+          "sha256": "c50aac5024b8854b842cedab6f14dd96dfdeffc3592544f7593899018abe88dd"
+        },
+        {
+          "path": null,
+          "sourceReference": "private:brand-source/DAWLoop_logo_highres_reference.png",
+          "scope": "PRIVATE_SOURCE_NOT_COPIED",
+          "sha256": "13ec366e9220fd0c912f8a700aa8ef842d9e98a83347c5968110afaff7364068"
+        },
+        {
+          "path": null,
+          "sourceReference": "private:brand-source/DAWLoop_original_user_reference.png",
+          "scope": "PRIVATE_SOURCE_NOT_COPIED",
+          "sha256": "37bdd490b5bdb58461d84d2fda5ad1fddb6343e359009b2e280f0b42005b4555"
+        }
+      ],
+      "creation": {
+        "sourceReferences": [
+          "docs/media/provenance.json",
+          "commit:b4de6e742c64fa6f6673a0cea54eac85a257283f",
+          "commit:e5e7e9f92ffc885199ce7c6032d42bdef7b90608"
+        ],
+        "process": "选定参考图 → 高清参考 → 透明PNG/多尺寸ICO；本地素材说明记录裁剪，Showcase仅无损PNG重压缩。该流程不证明原始作者或许可链。",
+        "humanContribution": "用户选定方案及批准项目集成可确认；实际绘制/裁剪人员和原创表达贡献待核。",
+        "aiAssistance": "UNKNOWN",
+        "author": {
+          "confirmedAuthors": [],
+          "status": "PENDING_OWNER_REVIEW"
+        }
+      },
+      "owner": {
+        "ownerType": "INDIVIDUAL",
+        "publicMaintainerSignature": "ryurikoneko",
+        "planStatus": "CONFIRMED_BY_USER",
+        "titleStatus": "PENDING_OWNER_REVIEW",
+        "identityStatus": "PENDING_OWNER_REVIEW",
+        "identityEvidence": "NOT_PUBLICLY_RECORDED",
+        "automaticTransferToCompany": false
+      },
+      "firstPublicAt": null,
+      "firstPublicEvidence": null,
+      "publicationStatus": "FIRST_PUBLICATION_NOT_ESTABLISHED",
+      "license": {
+        "status": "PENDING_OWNER_REVIEW",
+        "proposedPolicy": "INDEPENDENT_BRAND_POLICY",
+        "approvedIndependentLicense": null,
+        "effectiveFrom": null,
+        "priorGrantsPreserved": true,
+        "projectShowcaseAuthorization": "CONFIRMED_BY_USER",
+        "reuseAuthorization": "PENDING_OWNER_REVIEW",
+        "rightsEvidence": "PENDING_OWNER_REVIEW"
+      },
+      "registration": {
+        "copyrightRegistration": "NOT_REGISTERED",
+        "trademarkRegistration": "NOT_REGISTERED",
+        "copyrightCertificateNumber": null,
+        "trademarkRegistrationNumber": null,
+        "registrationDate": null,
+        "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
+      },
+      "publicSourceFilesApproved": false,
+      "evidenceLabel": "KNOWN",
+      "confidence": "HIGH",
+      "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。"
+    },
+    {
+      "assetId": "black-white-splash-hero",
+      "name": "黑底白字启动画面及Hero/Social衍生图",
+      "category": "SPLASH_HERO",
+      "version": "hero-copyright-20261014-1; application-splash-0.5.6-internal.1-reference",
+      "versionBasis": "内部清单标识，不是法定登记版本。",
+      "existence": "EXISTING",
+      "files": [
+        {
+          "path": "docs/media/hero.png",
+          "scope": "DOCUMENTATION_CANDIDATE",
+          "sha256": "374c924b47f71ac05cc44fe6d74d919d61094df8bec7a3fc4c32e7d38abae1c8"
+        },
+        {
+          "path": "docs/media/social-preview.png",
+          "scope": "DOCUMENTATION_CANDIDATE",
+          "sha256": "374c924b47f71ac05cc44fe6d74d919d61094df8bec7a3fc4c32e7d38abae1c8"
+        },
+        {
+          "path": null,
+          "sourceReference": "private:brand-source/DAWLoop_splash_visual_reference_v0.5.3.png",
+          "scope": "PRIVATE_SOURCE_NOT_COPIED",
+          "sha256": "0db1b0ffa563b7d83bdada0a9fd427aa4c2b336074fc1956275ece6b02175224"
+        },
+        {
+          "path": null,
+          "sourceReference": "private:brand-source/DAWLoop_splash_black_background.png",
+          "scope": "PRIVATE_SOURCE_NOT_COPIED",
+          "sha256": "51e457f4207c6361d8d22571976947233d81f61b45221f4e79f79d25d0d56cf1"
+        },
+        {
+          "path": "docs/media/hero-source.svg",
+          "scope": "DOCUMENTATION_CANDIDATE",
+          "sha256": "3d607967c5f9e5c3de9167c28bd6f286bfd0e3e24f75afbe81b931c0ef3fbd0b"
+        }
+      ],
+      "creation": {
+        "sourceReferences": [
+          "docs/media/provenance.json",
+          "other-tree:apps/desktop/src/Splash.tsx",
+          "other-tree:apps/desktop/public/startup.css",
+          "commit:66806b510556ec2c11c2eedfe8b1f8a6bf302c6a",
+          "docs/media/hero-source.svg"
+        ],
+        "process": "用户明确视觉要求 → AI辅助代码实施的同窗口CSS字标/动态版本 → 实际运行截图 → 等比缩放及黑色补边。旧v0.5.3仅参考，不是当前软件版本。 本轮按用户要求独立生成可编辑SVG品牌头图：去软件版本，灰色Copyright署名；这是品牌排版而非原始软件截图。",
+        "humanContribution": "用户确定黑底白字、构图、时长和版本要求；人类原创表达、字体及源参考授权需进一步确认。 用户明确批准本轮头图替换及公开维护者版权署名；不升级实际法定权属验证。",
+        "aiAssistance": "CONFIRMED_FOR_CODE_IMPLEMENTATION_AND_CAPTURE_PIPELINE; ORIGINAL_REFERENCE_AUTHORSHIP_UNKNOWN",
+        "author": {
+          "confirmedAuthors": [],
+          "status": "PENDING_OWNER_REVIEW"
+        }
+      },
+      "owner": {
+        "ownerType": "INDIVIDUAL",
+        "publicMaintainerSignature": "ryurikoneko",
+        "planStatus": "CONFIRMED_BY_USER",
+        "titleStatus": "PENDING_OWNER_REVIEW",
+        "identityStatus": "PENDING_OWNER_REVIEW",
+        "identityEvidence": "NOT_PUBLICLY_RECORDED",
+        "automaticTransferToCompany": false
+      },
+      "firstPublicAt": null,
+      "firstPublicEvidence": null,
+      "publicationStatus": "FIRST_PUBLICATION_NOT_ESTABLISHED",
+      "license": {
+        "status": "PENDING_OWNER_REVIEW",
+        "proposedPolicy": "INDEPENDENT_BRAND_POLICY",
+        "approvedIndependentLicense": null,
+        "effectiveFrom": null,
+        "priorGrantsPreserved": true,
+        "projectShowcaseAuthorization": "CONFIRMED_BY_USER",
+        "reuseAuthorization": "PENDING_OWNER_REVIEW",
+        "rightsEvidence": "PENDING_OWNER_REVIEW"
+      },
+      "registration": {
+        "copyrightRegistration": "NOT_REGISTERED",
+        "trademarkRegistration": "NOT_REGISTERED",
+        "copyrightCertificateNumber": null,
+        "trademarkRegistrationNumber": null,
+        "registrationDate": null,
+        "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
+      },
+      "publicSourceFilesApproved": false,
+      "evidenceLabel": "KNOWN",
+      "confidence": "HIGH",
+      "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
+      "copyrightSignature": "Copyright (c) 2026 ryurikoneko",
+      "signatureMeaning": "按用户要求使用公开署名；不是法定身份、登记或完整权属认证。"
+    },
+    {
+      "assetId": "showcase-ui-captures",
+      "name": "真实软件工作区/报告/Piano Roll截图",
+      "category": "SHOWCASE_CAPTURE",
+      "version": "0.5.6-internal.1-capture-1",
+      "versionBasis": "内部清单标识，不是法定登记版本。",
+      "existence": "EXISTING",
+      "files": [
+        {
+          "path": "docs/media/music-workspace.png",
+          "scope": "DOCUMENTATION_CANDIDATE",
+          "sha256": "9a4909cd14fa806a85f48b267b41772ea8a32729318ef0df2dbbe9b96cd129bc"
+        },
+        {
+          "path": "docs/media/analysis-report.png",
+          "scope": "DOCUMENTATION_CANDIDATE",
+          "sha256": "fdf87354fbbd41de71fe3cfcd016fcc62c0782bea336ada5eb3e9951dd490e52"
+        },
+        {
+          "path": "docs/media/piano-roll.png",
+          "scope": "DOCUMENTATION_CANDIDATE",
+          "sha256": "e121af89ff6145d3e4c7a00771ae1adb84903429656d2ff589f8c7a648fc2fe5"
+        },
+        {
+          "path": "docs/media/music-home.png",
+          "scope": "DOCUMENTATION_CANDIDATE",
+          "sha256": "c9b7827ba8299dcd62b23c5e67d3924a4d61490f7f7a94da31ea46a4dff5b185"
+        },
+        {
+          "path": "docs/media/model-manager.png",
+          "scope": "DOCUMENTATION_CANDIDATE",
+          "sha256": "845722f29e30c98669b9de71828e9d90e4ba37e0b74b5947ec7e72e0bb97e400"
+        }
+      ],
+      "creation": {
+        "sourceReferences": [
+          "docs/media/provenance.json"
+        ],
+        "process": "实际内部软件、自有合成测试素材、自动化截图；软件UI、字体、Logo及截图可能有不同来源，不把整图作者推定为维护者。",
+        "humanContribution": "用户批准此任务展示；软件原创贡献与截图权属记录待确认。",
+        "aiAssistance": "CONFIRMED_FOR_SOFTWARE_IMPLEMENTATION_AND_CAPTURE_PIPELINE",
+        "author": {
+          "confirmedAuthors": [],
+          "status": "PENDING_OWNER_REVIEW"
+        }
+      },
+      "owner": {
+        "ownerType": "INDIVIDUAL",
+        "publicMaintainerSignature": "ryurikoneko",
+        "planStatus": "CONFIRMED_BY_USER",
+        "titleStatus": "PENDING_OWNER_REVIEW",
+        "identityStatus": "PENDING_OWNER_REVIEW",
+        "identityEvidence": "NOT_PUBLICLY_RECORDED",
+        "automaticTransferToCompany": false
+      },
+      "firstPublicAt": null,
+      "firstPublicEvidence": null,
+      "publicationStatus": "FIRST_PUBLICATION_NOT_ESTABLISHED",
+      "license": {
+        "status": "PENDING_OWNER_REVIEW",
+        "proposedPolicy": "INDEPENDENT_BRAND_POLICY",
+        "approvedIndependentLicense": null,
+        "effectiveFrom": null,
+        "priorGrantsPreserved": true,
+        "projectShowcaseAuthorization": "CONFIRMED_BY_USER",
+        "reuseAuthorization": "PENDING_OWNER_REVIEW",
+        "rightsEvidence": "PENDING_OWNER_REVIEW"
+      },
+      "registration": {
+        "copyrightRegistration": "NOT_REGISTERED",
+        "trademarkRegistration": "NOT_REGISTERED",
+        "copyrightCertificateNumber": null,
+        "trademarkRegistrationNumber": null,
+        "registrationDate": null,
+        "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
+      },
+      "publicSourceFilesApproved": false,
+      "evidenceLabel": "KNOWN",
+      "confidence": "HIGH",
+      "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。"
+    },
+    {
+      "assetId": "future-original-character",
+      "name": "未来原创人物形象",
+      "category": "CHARACTER_ART",
+      "version": null,
+      "versionBasis": "内部清单标识，不是法定登记版本。",
+      "existence": "RESERVED_FOR_FUTURE_ASSET",
+      "files": [],
+      "creation": {
+        "sourceReferences": [],
+        "process": "作品尚未提供；仅预留管理条目。",
+        "humanContribution": "NOT_ESTABLISHED_FOR_UNCREATED_ASSET",
+        "aiAssistance": "NOT_ESTABLISHED_FOR_UNCREATED_ASSET",
+        "author": {
+          "confirmedAuthors": [],
+          "status": "NOT_CREATED"
+        }
+      },
+      "owner": {
+        "ownerType": "INDIVIDUAL",
+        "publicMaintainerSignature": "ryurikoneko",
+        "planStatus": "CONFIRMED_BY_USER",
+        "titleStatus": "PENDING_OWNER_REVIEW",
+        "identityStatus": "PENDING_OWNER_REVIEW",
+        "identityEvidence": "NOT_PUBLICLY_RECORDED",
+        "automaticTransferToCompany": false
+      },
+      "firstPublicAt": null,
+      "firstPublicEvidence": null,
+      "publicationStatus": "NOT_CREATED_NOT_PUBLISHED",
+      "license": {
+        "status": "RESERVED_FOR_FUTURE_ASSET",
+        "proposedPolicy": "INDEPENDENT_ART_POLICY",
+        "approvedIndependentLicense": null,
+        "effectiveFrom": null,
+        "priorGrantsPreserved": true,
+        "projectShowcaseAuthorization": "NOT_GRANTED_FOR_NONEXISTENT_WORK",
+        "reuseAuthorization": "PENDING_OWNER_REVIEW",
+        "rightsEvidence": "PENDING_OWNER_REVIEW"
+      },
+      "registration": {
+        "copyrightRegistration": "NOT_REGISTERED",
+        "trademarkRegistration": "NOT_REGISTERED",
+        "copyrightCertificateNumber": null,
+        "trademarkRegistrationNumber": null,
+        "registrationDate": null,
+        "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
+      },
+      "publicSourceFilesApproved": false,
+      "evidenceLabel": "KNOWN",
+      "confidence": "HIGH",
+      "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
+      "copyrightClaim": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
+    },
+    {
+      "assetId": "future-character-standing",
+      "name": "人物定稿立绘",
+      "category": "CHARACTER_ART",
+      "version": null,
+      "versionBasis": "内部清单标识，不是法定登记版本。",
+      "existence": "RESERVED_FOR_FUTURE_ASSET",
+      "files": [],
+      "creation": {
+        "sourceReferences": [],
+        "process": "作品尚未提供；仅预留管理条目。",
+        "humanContribution": "NOT_ESTABLISHED_FOR_UNCREATED_ASSET",
+        "aiAssistance": "NOT_ESTABLISHED_FOR_UNCREATED_ASSET",
+        "author": {
+          "confirmedAuthors": [],
+          "status": "NOT_CREATED"
+        }
+      },
+      "owner": {
+        "ownerType": "INDIVIDUAL",
+        "publicMaintainerSignature": "ryurikoneko",
+        "planStatus": "CONFIRMED_BY_USER",
+        "titleStatus": "PENDING_OWNER_REVIEW",
+        "identityStatus": "PENDING_OWNER_REVIEW",
+        "identityEvidence": "NOT_PUBLICLY_RECORDED",
+        "automaticTransferToCompany": false
+      },
+      "firstPublicAt": null,
+      "firstPublicEvidence": null,
+      "publicationStatus": "NOT_CREATED_NOT_PUBLISHED",
+      "license": {
+        "status": "RESERVED_FOR_FUTURE_ASSET",
+        "proposedPolicy": "INDEPENDENT_ART_POLICY",
+        "approvedIndependentLicense": null,
+        "effectiveFrom": null,
+        "priorGrantsPreserved": true,
+        "projectShowcaseAuthorization": "NOT_GRANTED_FOR_NONEXISTENT_WORK",
+        "reuseAuthorization": "PENDING_OWNER_REVIEW",
+        "rightsEvidence": "PENDING_OWNER_REVIEW"
+      },
+      "registration": {
+        "copyrightRegistration": "NOT_REGISTERED",
+        "trademarkRegistration": "NOT_REGISTERED",
+        "copyrightCertificateNumber": null,
+        "trademarkRegistrationNumber": null,
+        "registrationDate": null,
+        "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
+      },
+      "publicSourceFilesApproved": false,
+      "evidenceLabel": "KNOWN",
+      "confidence": "HIGH",
+      "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
+      "copyrightClaim": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
+    },
+    {
+      "assetId": "future-character-three-views",
+      "name": "人物三视图",
+      "category": "CHARACTER_ART",
+      "version": null,
+      "versionBasis": "内部清单标识，不是法定登记版本。",
+      "existence": "RESERVED_FOR_FUTURE_ASSET",
+      "files": [],
+      "creation": {
+        "sourceReferences": [],
+        "process": "作品尚未提供；仅预留管理条目。",
+        "humanContribution": "NOT_ESTABLISHED_FOR_UNCREATED_ASSET",
+        "aiAssistance": "NOT_ESTABLISHED_FOR_UNCREATED_ASSET",
+        "author": {
+          "confirmedAuthors": [],
+          "status": "NOT_CREATED"
+        }
+      },
+      "owner": {
+        "ownerType": "INDIVIDUAL",
+        "publicMaintainerSignature": "ryurikoneko",
+        "planStatus": "CONFIRMED_BY_USER",
+        "titleStatus": "PENDING_OWNER_REVIEW",
+        "identityStatus": "PENDING_OWNER_REVIEW",
+        "identityEvidence": "NOT_PUBLICLY_RECORDED",
+        "automaticTransferToCompany": false
+      },
+      "firstPublicAt": null,
+      "firstPublicEvidence": null,
+      "publicationStatus": "NOT_CREATED_NOT_PUBLISHED",
+      "license": {
+        "status": "RESERVED_FOR_FUTURE_ASSET",
+        "proposedPolicy": "INDEPENDENT_ART_POLICY",
+        "approvedIndependentLicense": null,
+        "effectiveFrom": null,
+        "priorGrantsPreserved": true,
+        "projectShowcaseAuthorization": "NOT_GRANTED_FOR_NONEXISTENT_WORK",
+        "reuseAuthorization": "PENDING_OWNER_REVIEW",
+        "rightsEvidence": "PENDING_OWNER_REVIEW"
+      },
+      "registration": {
+        "copyrightRegistration": "NOT_REGISTERED",
+        "trademarkRegistration": "NOT_REGISTERED",
+        "copyrightCertificateNumber": null,
+        "trademarkRegistrationNumber": null,
+        "registrationDate": null,
+        "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
+      },
+      "publicSourceFilesApproved": false,
+      "evidenceLabel": "KNOWN",
+      "confidence": "HIGH",
+      "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
+      "copyrightClaim": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
+    },
+    {
+      "assetId": "future-character-settings",
+      "name": "人物设定图与设定文本",
+      "category": "CHARACTER_ART",
+      "version": null,
+      "versionBasis": "内部清单标识，不是法定登记版本。",
+      "existence": "RESERVED_FOR_FUTURE_ASSET",
+      "files": [],
+      "creation": {
+        "sourceReferences": [],
+        "process": "作品尚未提供；仅预留管理条目。",
+        "humanContribution": "NOT_ESTABLISHED_FOR_UNCREATED_ASSET",
+        "aiAssistance": "NOT_ESTABLISHED_FOR_UNCREATED_ASSET",
+        "author": {
+          "confirmedAuthors": [],
+          "status": "NOT_CREATED"
+        }
+      },
+      "owner": {
+        "ownerType": "INDIVIDUAL",
+        "publicMaintainerSignature": "ryurikoneko",
+        "planStatus": "CONFIRMED_BY_USER",
+        "titleStatus": "PENDING_OWNER_REVIEW",
+        "identityStatus": "PENDING_OWNER_REVIEW",
+        "identityEvidence": "NOT_PUBLICLY_RECORDED",
+        "automaticTransferToCompany": false
+      },
+      "firstPublicAt": null,
+      "firstPublicEvidence": null,
+      "publicationStatus": "NOT_CREATED_NOT_PUBLISHED",
+      "license": {
+        "status": "RESERVED_FOR_FUTURE_ASSET",
+        "proposedPolicy": "INDEPENDENT_ART_POLICY",
+        "approvedIndependentLicense": null,
+        "effectiveFrom": null,
+        "priorGrantsPreserved": true,
+        "projectShowcaseAuthorization": "NOT_GRANTED_FOR_NONEXISTENT_WORK",
+        "reuseAuthorization": "PENDING_OWNER_REVIEW",
+        "rightsEvidence": "PENDING_OWNER_REVIEW"
+      },
+      "registration": {
+        "copyrightRegistration": "NOT_REGISTERED",
+        "trademarkRegistration": "NOT_REGISTERED",
+        "copyrightCertificateNumber": null,
+        "trademarkRegistrationNumber": null,
+        "registrationDate": null,
+        "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
+      },
+      "publicSourceFilesApproved": false,
+      "evidenceLabel": "KNOWN",
+      "confidence": "HIGH",
+      "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
+      "copyrightClaim": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
+    },
+    {
+      "assetId": "future-brand-illustration",
+      "name": "未来品牌宣传插画",
+      "category": "PROMOTIONAL_ART",
+      "version": null,
+      "versionBasis": "内部清单标识，不是法定登记版本。",
+      "existence": "RESERVED_FOR_FUTURE_ASSET",
+      "files": [],
+      "creation": {
+        "sourceReferences": [],
+        "process": "作品尚未提供；仅预留管理条目。",
+        "humanContribution": "NOT_ESTABLISHED_FOR_UNCREATED_ASSET",
+        "aiAssistance": "NOT_ESTABLISHED_FOR_UNCREATED_ASSET",
+        "author": {
+          "confirmedAuthors": [],
+          "status": "NOT_CREATED"
+        }
+      },
+      "owner": {
+        "ownerType": "INDIVIDUAL",
+        "publicMaintainerSignature": "ryurikoneko",
+        "planStatus": "CONFIRMED_BY_USER",
+        "titleStatus": "PENDING_OWNER_REVIEW",
+        "identityStatus": "PENDING_OWNER_REVIEW",
+        "identityEvidence": "NOT_PUBLICLY_RECORDED",
+        "automaticTransferToCompany": false
+      },
+      "firstPublicAt": null,
+      "firstPublicEvidence": null,
+      "publicationStatus": "NOT_CREATED_NOT_PUBLISHED",
+      "license": {
+        "status": "RESERVED_FOR_FUTURE_ASSET",
+        "proposedPolicy": "INDEPENDENT_ART_POLICY",
+        "approvedIndependentLicense": null,
+        "effectiveFrom": null,
+        "priorGrantsPreserved": true,
+        "projectShowcaseAuthorization": "NOT_GRANTED_FOR_NONEXISTENT_WORK",
+        "reuseAuthorization": "PENDING_OWNER_REVIEW",
+        "rightsEvidence": "PENDING_OWNER_REVIEW"
+      },
+      "registration": {
+        "copyrightRegistration": "NOT_REGISTERED",
+        "trademarkRegistration": "NOT_REGISTERED",
+        "copyrightCertificateNumber": null,
+        "trademarkRegistrationNumber": null,
+        "registrationDate": null,
+        "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
+      },
+      "publicSourceFilesApproved": false,
+      "evidenceLabel": "KNOWN",
+      "confidence": "HIGH",
+      "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
+      "copyrightClaim": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
+    }
+  ],
+  "historicalLicenseReview": "HISTORICAL_LICENSE_REVIEW.md",
+  "futureCompanyPolicy": "任何许可或转让须用户另行决定，无默认自动转移。"
+}

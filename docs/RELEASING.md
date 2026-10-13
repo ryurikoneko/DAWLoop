@@ -30,7 +30,7 @@ main 已启用 [质量规则](https://github.com/ryurikoneko/DAWLoop/rules/24603
 5. 在最新 main 上执行 `git tag -s v1.0.0-alpha.1 -m "DAWLoop v1.0.0-alpha.1 — Runtime V2 Architecture Preview"`；配置 `git config gpg.ssh.allowedSignersFile .github/release-signers.allowed`，先运行 `git verify-tag v1.0.0-alpha.1` 与 `python scripts/release_guard.py v1.0.0-alpha.1`，再 push 这个新 tag。
 6. Actions 重跑离线检查、验证 main/tag/version/signer，构建并 attest 产物。审核 draft 内容、下载产物并独立验证，再公开发布。
 
-版本元数据已准备为 `1.0.0a1`；可信公钥登记、维护者本机签名和正式 tag 验证完成前，不创建正式发布。私钥和口令只在维护者本机处理，不能以临时测试密钥代替发布身份。独立签名 `SHA256SUMS.txt` 的 maintainer detached signature 尚未接入；当前新流程将其作为 attestation subject，证明的是受信 GitHub 构建身份，不是维护者个人签名。独立签名以后应在安全签名环境完成，另附 `.sig` 与验证说明。
+[COMPUTED｜HIGH] 版本元数据为 `1.0.0a1`；本轮使用仓库公钥表对本地 `v1.0.0-alpha.1` tag 验签通过。公开 Release API 核验仍未显示该版本已发布，验签不等于 Publish。后续版本仍须公钥、tag、Actions和资产分别验证。私钥和口令只在维护者本机处理，不能以临时测试密钥代替发布身份。独立签名 `SHA256SUMS.txt` 的 maintainer detached signature 尚未接入；当前新流程将其作为 attestation subject，证明的是受信 GitHub 构建身份，不是维护者个人签名。独立签名以后应在安全签名环境完成，另附 `.sig` 与验证说明。
 
 ## 使用者验证
 

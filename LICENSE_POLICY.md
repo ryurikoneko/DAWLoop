@@ -29,7 +29,7 @@
 4. 更新此处的精确资产清单、发行元数据和 README，不能笼统宣称整仓库只有 MIT。
 5. 分别提供完整许可和商业授权入口；不发明未签署的协议或已存在的商标注册。
 
-当前单独许可资产清单：**空**。这一步待具体的新资产和权属清单确定后启用。
+当前 **CC BY-NC 资产清单仍为空**；本轮新增品牌图像的保留权利清单见下文，不是启用 CC BY-NC。
 
 ## 版本来源和签名
 
@@ -50,10 +50,26 @@ git verify-tag vX.Y.Z
 dawloop provenance --root . --release-tag vX.Y.Z --write-manifest ../dawloop-release-provenance.json
 ```
 
-[KNOWN｜HIGH] 以上是发布操作范式，`vX.Y.Z` 是占位符；本alpha预览不具备维护者身份签名；没有创建签名密钥或DOI。CLI 对 release 要求工作树干净、tag 指向 HEAD 且本地 `git verify-tag` 成功。它仍不认证最终安装包或公钥信任。GitHub 的签名提交验证与 artifact attestations 是不同层；正式 CI 策略、公钥和实际 artifact attestation 尚未建立。[签名验证](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification)、[构建证明](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations)。
+[KNOWN｜HIGH] 以上是发布操作范式，`vX.Y.Z` 是占位符；历史 `v0.2.0-alpha.1` 未签名；仓库已登记维护者签名公钥，本轮本地使用该信任表验证 `v1.0.0-alpha.1` tag 通过。tag 验签不等于 Release 已 Publish，也不独立证明维护者现实身份。未登记 DOI。CLI 对 release 要求工作树干净、tag 指向 HEAD 且本地 `git verify-tag` 成功。它仍不认证最终安装包或公钥信任。GitHub 的签名提交验证与 artifact attestations 是不同层；CI 策略与公钥表已入库，既有构建 attestation 记录见 [发布指南](docs/RELEASING.md)；本轮没有重新下载或认证 Release 资产。[签名验证](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification)、[构建证明](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations)。
 
 [KNOWN｜HIGH] CITATION.cff 当前只记录已确认的项目与维护者，没有虚构 DOI 或发布日期。未来通过维护者授权接入 Zenodo 并存档真实 release 后再填对应 DOI。[引用文件](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files)、[Zenodo 发布存档](https://help.zenodo.org/docs/github/)。
 
 ## 面对来源争议
 
 [INFERRED｜HIGH] 保留原始 Git 历史、签名/发布记录、内容清单、明确许可及涉嫌违规副本的证据；分别核对通知被移除、报告复制、虚假背书与合法商业 fork。不要把功能相似自动当侵权，也不要期待加密公开 MIT 源码能阻止重构建。投诉只引用真实、可核对的事实，不能仅凭内部水印推断权属。
+
+## 新增公开品牌与展示图像 / New public brand and showcase images
+
+[KNOWN｜HIGH] 根 MIT 正文、既有代码/文档许可与第三方原始声明不变。新增 `docs/media/` 下的 `logo.png`、`hero.png`、`social-preview.png`、`music-workspace.png`、`analysis-report.png`、`piano-roll.png` 是逐项声明的版权保留图像；用户授权本次项目展示，其他用途按 [图像声明](docs/media/LICENSE.txt)取得明确许可。Markdown、JSON 与工程代码仍为 MIT；不追溯撤回既有许可，不把许可例外扩张到目录外。
+
+[KNOWN | HIGH] The root MIT text, existing code/documentation grants and original third-party notices are unchanged. Only the six explicitly named PNGs have the new reserved image notice. Technical Markdown/JSON remain MIT. Prior grants are not revoked and the exception does not extend beyond the listed images.
+
+## 个人持有方案与独立资产政策启用
+
+[KNOWN｜HIGH] 用户明确拟定品牌Logo、视觉与未来角色由个人持有，ownerType为INDIVIDUAL；公开维护者署名仍为ryurikoneko，法定身份不进入公开仓库。作者、权属或历史授权未清时PENDING_OWNER_REVIEW，独立新许可尚不自动生效。未来公司许可/转让需用户另行决定。
+
+[KNOWN｜HIGH] 上一文档候选的六项图像保留声明继续作为历史记录，但不能据此断言早期根MIT下同源图像从未授出权利。本轮明确保留所有既有授权，禁止通过改路径、重压缩、新政策或角色保护限制已授出的软件权利。新资产的独立许可只在作者、权属、第三方许可及历史授权审查完成后配置。[历史审查](docs/brand/HISTORICAL_LICENSE_REVIEW.md)
+
+[KNOWN | HIGH] Code and previously licensed documents remain under their existing grants. New brand/art policies apply only after provenance, title and prior grants are reviewed. The confirmed individual-holder plan is not proof of legal identity or title. No automatic transfer to a future company is configured.
+
+[资产管理](docs/brand/README.md) · [角色政策](docs/brand/CHARACTER_POLICY.md) · [登记准备](docs/brand/REGISTRATION_READINESS.md)
