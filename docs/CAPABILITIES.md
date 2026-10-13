@@ -1,8 +1,8 @@
 # 能力与公开范围 / Capabilities and publication scope
 
-[COMPUTED｜HIGH] 核验日期：2026-10-13。公开 `main`：`1a99482aa9b47a61fdf37275583a7b432775ab8d`；独立 Desktop：`66806b510556ec2c11c2eedfe8b1f8a6bf302c6a`。本页是文档候选，不改变远端代码或发行物。
+[COMPUTED｜HIGH] 核验日期：2026-10-13。公开 `main`：`1a99482aa9b47a61fdf37275583a7b432775ab8d`；独立 Desktop：`66806b510556ec2c11c2eedfe8b1f8a6bf302c6a`。本次集成只公开文档与展示，不发布Desktop业务源码或二进制。
 
-[COMPUTED | HIGH] Audited 2026-10-13 against the public main and separate Desktop commits above. This documentation candidate does not publish the Desktop feature tree or installers.
+[COMPUTED | HIGH] Audited 2026-10-13 against the public main and separate Desktop commits above. This documentation integration does not publish the Desktop feature tree or installers.
 
 ## 状态词 / State vocabulary
 

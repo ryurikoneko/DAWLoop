@@ -17,13 +17,13 @@
 [KNOWN｜HIGH] DAWLoop 把音乐素材、结构化计划、编辑和受控宿主操作连接起来。公开仓库目前提供 Runtime / Agent 工程；单窗口 Desktop / Music Intelligence 正在独立功能树中开发。
 
 > **Alpha / Internal Preview，不是稳定发行版。**
-> [COMPUTED｜HIGH] 本页核验基准：公开 `main` 为 `1a99482`；Desktop 实测源码为 `66806b5`，候选为 `0.5.6-internal.1`。截至 2026-10-13，公开 Releases 只有 Python Alpha 包，没有该 Desktop 安装包。页面截图中的版本属于内部候选，不是 Python Runtime 版本。详见 [Desktop 状态](docs/DESKTOP.md)。
+> [COMPUTED｜HIGH] 2026-10-14核验：公开Runtime业务代码基线为 `1a99482`，本次首页更新不修改Runtime。Desktop功能基线为 `66806b5`，最新独立打包来源为 `8123ae3`，软件版本为 `0.5.6-internal.1`。**Desktop尚未公开下载**：干净Windows首装与可分发音频组件仍未通过。[发行门与组件](docs/DESKTOP.md)
 
 ## 看见正在开发的产品
 
 [COMPUTED｜HIGH] 以下是实际运行的内部候选，使用自有合成测试素材；不是设计稿，也不是公开版安装承诺。
 
-![Music Intelligence 真实工作区](docs/media/music-workspace.png)
+![Music Intelligence 真实工作区](docs/media/music-home.png)
 
 <details>
 <summary>查看真实音乐分析报告与 Piano Roll</summary>
@@ -32,11 +32,13 @@
 
 ![真实 Piano Roll：音符、力度、选中态与联动编辑](docs/media/piano-roll.png)
 
+![模型管理：缺组件时如实提示配置，不伪造已安装](docs/media/model-manager.png)
+
 </details>
 
 [截图来源与隐私审查](docs/media/README.md) · [两个独立演示场景](docs/DEMOS.md)
 
-## 核心功能
+## DAWLoop Desktop
 
 | 方向 | 可以了解或体验什么 | 当前交付范围 |
 | --- | --- | --- |
@@ -46,6 +48,10 @@
 | MIDI 编辑 | Piano Roll、力度、撤销、试听与 MIDI 读回 | 内部候选实测 |
 | Runtime / Agent | 音乐计划、离线验证、目标门控、人工接受与观察 | 公开 main；受限 FAST 有历史现场证据 |
 | 模型管理 | 独立 Worker、安装状态、版本和失败原因 | 内部候选；不保证干净 Windows 首装完成 |
+
+## DAWLoop Runtime / FL Studio Integration
+
+[KNOWN｜HIGH] 公开Runtime提供结构化音乐计划、离线验证与受限FAST研究工作流。真实宿主研究保留人工Preview/Accept、目标检查、单次派发和结果观察。新Desktop Host/Mixer接线尚未认证，不把两个演示拼成完整自动控制。
 
 ## 当前能力与验证范围
 
@@ -79,6 +85,16 @@ python -m venv .venv
 ### FL Studio 研究集成
 
 [KNOWN｜HIGH] 按 [部署合同](docs/DEPLOYMENT.md) 配置独立测试工程、Controller 与真实观察入口。公开包安装成功不等于当前工程可写；必须保留目标、代次、来源、预算和人工接受门。上游 Community adapter 与 Native FAST 分别验证。
+
+## 下载与系统要求
+
+| 入口 | 当前状态 | 系统与组件 |
+| --- | --- | --- |
+| Windows Desktop | **尚未公开下载**；内部候选0.5.6-internal.1 | Windows x64；完整程序目录；分析/转录需要另行就绪的受管组件 |
+| [公开Runtime Alpha](https://github.com/ryurikoneko/DAWLoop/releases) | 实际Python发行物，不是Desktop安装包 | Python3.11+与所选可选依赖；真实FL研究只在明确Windows场景验收 |
+| [源码与离线教程](docs/QUICKSTART.md) | 公开main可运行的工程入口 | 无需FL Studio；Desktop源码不在main，不提供虚构npm启动命令 |
+
+[KNOWN｜HIGH] 便携候选内置Electron/Node，运行界面不要求Codex；Basic DSP、Basic Pitch和OMAR权重并未随软件提供。缺组件时界面仍可进入并提示配置；开发机已有环境不等于新用户已安装。不会自动删除历史分析或模型。详见 [Desktop使用与发行范围](docs/DESKTOP.md)。
 
 ## 架构与主要组件
 

@@ -36,3 +36,5 @@
 [KNOWN | HIGH] The original public signature is retained. Individual ownership is a plan, not verified legal title. Authorship and prior grants remain pending review. Prior permissions are preserved; future character placeholders neither assert rights nor publish source art.
 
 [KNOWN｜HIGH] [可编辑头图源文件](hero-source.svg)仅包含黑底、白字DAWLoop和左下灰字Copyright (c) 2026 ryurikoneko。该署名是用户要求的公开品牌标记，不证明登记、法定身份或完整权属；相关PENDING_OWNER_REVIEW状态保持。软件内Splash实际版本显示不变。
+
+[COMPUTED｜HIGH] 新增 [音乐主页](music-home.png) 与 [模型管理](model-manager.png) 来自打包提交8123ae3的实际内部候选、隔离空userData；界面正确显示缺组件原因。这是开发机上的真实程序截图，不是干净Windows安装证明。

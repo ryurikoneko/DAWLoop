@@ -17,13 +17,13 @@
 [KNOWN | HIGH] DAWLoop connects music assets, structured plans, editing and controlled host operations. The public repository currently delivers Runtime / Agent engineering; the single-window Desktop / Music Intelligence product is developed in a separate feature tree.
 
 > **Alpha / Internal Preview, not a stable release.**
-> [COMPUTED | HIGH] Audit baseline: public `main` at `1a99482`; Desktop tested source at `66806b5`, candidate `0.5.6-internal.1`. As of 2026-10-13, public Releases contain Python Alpha packages, not this Desktop installer. Screenshot versions belong to the internal candidate, not the Python Runtime. See [Desktop status](docs/DESKTOP.md).
+> [COMPUTED | HIGH] Audited 2026-10-14: public Runtime code baseline `1a99482` is unchanged by this showcase. Desktop feature baseline is `66806b5`; latest separate packaging source is `8123ae3`, version `0.5.6-internal.1`. **Desktop is not publicly downloadable yet**: clean-Windows first installation and distributable audio components remain blocked. [Release gates and components](docs/DESKTOP.md)
 
 ## See the product in development
 
 [COMPUTED | HIGH] These are actual running internal-candidate screenshots with original synthetic test material, not mockups or a promise of public installation availability.
 
-![Actual Music Intelligence workspace](docs/media/music-workspace.png)
+![Actual Music Intelligence workspace](docs/media/music-home.png)
 
 <details>
 <summary>See the real analysis report and Piano Roll</summary>
@@ -32,11 +32,13 @@
 
 ![Actual Piano Roll with notes, velocity and linked selection](docs/media/piano-roll.png)
 
+![Model Manager honestly explains missing components](docs/media/model-manager.png)
+
 </details>
 
 [Screenshot provenance & privacy](docs/media/README.md) · [Two separate demo scenarios](docs/DEMOS.md)
 
-## Core features
+## DAWLoop Desktop
 
 | Area | What to explore | Current delivery scope |
 | --- | --- | --- |
@@ -46,6 +48,10 @@
 | MIDI editing | Piano Roll, velocity, undo, audition and MIDI readback | Internal candidate tests |
 | Runtime / Agent | Music plans, offline verification, target guards, human acceptance and observation | Public main; historical constrained FAST live evidence |
 | Model management | Isolated Workers, installation state, versions and failure reasons | Internal candidate; clean-Windows first installation is not proven |
+
+## DAWLoop Runtime / FL Studio Integration
+
+[KNOWN | HIGH] Public Runtime provides structured plans, offline verification and constrained FAST research. Live work retains target checks, one-shot dispatch, human Preview/Accept and observation. New Desktop Host/Mixer wiring is uncertified; the two demos are not presented as seamless autonomous control.
 
 ## Capabilities and verification scope
 
@@ -80,6 +86,16 @@ python -m venv .venv
 ### FL Studio research integration
 
 [KNOWN | HIGH] Follow the [deployment contract](docs/DEPLOYMENT.md) for a dedicated test project, Controller and real observation entrypoint. Package installation does not authorize writes to a current work. Preserve target, generation, source, budget and human-acceptance gates. Community adapters and Native FAST are verified separately.
+
+## Downloads and system requirements
+
+| Entry | Current state | System and components |
+| --- | --- | --- |
+| Windows Desktop | **No public download yet**; internal candidate 0.5.6-internal.1 | Windows x64; complete program folder; managed components required for analysis/transcription |
+| [Public Runtime Alpha](https://github.com/ryurikoneko/DAWLoop/releases) | Actual Python releases, not Desktop installers | Python3.11+ and selected extras; live FL research has a stated Windows scope |
+| [Source and offline tutorial](docs/QUICKSTART.md) | Public-main engineering entrypoint | FL not required; Desktop source is not in main and no fictitious npm command is offered |
+
+[KNOWN | HIGH] The portable interface includes Electron/Node and requires no Codex. Basic DSP, Basic Pitch and OMAR weights are not bundled. The UI remains accessible when components are missing and explains configuration. A development-machine environment is not a first-user installation. Historical analyses and models are not automatically deleted. [Desktop scope](docs/DESKTOP.md)
 
 ## Architecture and components
 

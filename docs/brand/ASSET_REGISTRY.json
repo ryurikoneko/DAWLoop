@@ -272,6 +272,16 @@
           "path": "docs/media/piano-roll.png",
           "scope": "DOCUMENTATION_CANDIDATE",
           "sha256": "e121af89ff6145d3e4c7a00771ae1adb84903429656d2ff589f8c7a648fc2fe5"
+        },
+        {
+          "path": "docs/media/music-home.png",
+          "scope": "DOCUMENTATION_CANDIDATE",
+          "sha256": "c9b7827ba8299dcd62b23c5e67d3924a4d61490f7f7a94da31ea46a4dff5b185"
+        },
+        {
+          "path": "docs/media/model-manager.png",
+          "scope": "DOCUMENTATION_CANDIDATE",
+          "sha256": "845722f29e30c98669b9de71828e9d90e4ba37e0b74b5947ec7e72e0bb97e400"
         }
       ],
       "creation": {

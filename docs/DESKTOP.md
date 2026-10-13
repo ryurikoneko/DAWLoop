@@ -2,9 +2,9 @@
 
 ## 当前可公开内容 / Current public scope
 
-[COMPUTED｜HIGH] 公开 main `1a99482` 不包含 `apps/desktop`。独立 `feature/music-intelligence` 功能树 `66806b5` 的内部候选为 `0.5.6-internal.1`。本 docs 分支仅增加展示与文档，不合入 Desktop 业务代码，不发布 EXE。
+[COMPUTED｜HIGH] 公开 main `1a99482` 不包含 `apps/desktop`。独立 `feature/music-intelligence` 功能树 `66806b5` 的内部候选为 `0.5.6-internal.1`。本次main集成仅增加展示与文档，不合入Desktop业务代码，不发布EXE。
 
-[COMPUTED | HIGH] Public main does not include `apps/desktop`. Separate feature-tree source `66806b5` produced internal candidate `0.5.6-internal.1`. This docs branch does not merge Desktop code or distribute an EXE.
+[COMPUTED | HIGH] Public main does not include `apps/desktop`. Separate feature-tree source `66806b5` produced internal candidate `0.5.6-internal.1`. This documentation integration does not merge Desktop code or distribute an EXE.
 
 [KNOWN｜HIGH] 普通访问者目前不能从公开 Release 安装该 Desktop，也不能从 main 运行不存在的 npm 启动脚本。请等待明确的源码集成或发行许可。已经获准使用内部候选的测试者按候选说明操作；不要复制别人未校验的模型或 Python 目录。
 
@@ -39,3 +39,13 @@
 [COMPUTED | HIGH] Candidate `66806b5` exercised bilingual branding/motion/restart, 24 Piano Roll interactions, DSP / Basic Pitch / rule composition, persistence and large-file streaming. Numerical algorithm evidence belongs to preceding stage `3aeb675`; branding regression does not extend it. A human three-minute flow, private user audio, clean Windows deployment and actual taskbar/Alt+Tab rendering are not passed claims here.
 
 [Capabilities](CAPABILITIES.md) · [Two demos](DEMOS.md) · [Media provenance](media/README.md)
+
+## 2026-10-14 统一候选 / Integrated candidate
+
+[COMPUTED｜HIGH] 软件功能基线66806b5，新打包来源8123ae3，版本0.5.6-internal.1，分发名DAWLoop+0.5.6-internal.1。新增随包中英文使用指南、MIT及组件通知，不改算法或宿主。代码仍在独立本地release功能树，公开main不包含该构建源码；本轮未公开安装包。
+
+[KNOWN｜HIGH] 本机没有取得可用干净Windows VM验收；现有基础Python venv依赖开发机绝对路径，不能复制冒充可分发组件。干净Windows与完整可信离线音频组件门均BLOCKED，禁止标为开箱即用。Node/npm/Codex不是界面运行要求，独立Python及权重不随包提供。
+
+[COMPUTED | HIGH] Feature baseline66806b5, packaging source8123ae3, version0.5.6-internal.1, distribution nameDAWLoop+0.5.6-internal.1. Packaging adds bilingual guides and notices without algorithm/host changes. Source remains in a separate local release tree, not public main; no Desktop installer is published.
+
+[KNOWN | HIGH] No usable clean-Windows VM was available for acceptance. The existing Python venv relies on the development machine's absolute base path and is not a distributable runtime. Clean-system and trusted offline-component gates remain BLOCKED; no ready-out-of-the-box claim is made.

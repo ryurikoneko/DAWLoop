@@ -2,6 +2,13 @@
 
 <a id="current"></a>
 
+## 公开展示与Desktop分发独立门：2026-10-14
+
+[KNOWN｜HIGH] 用户本轮已授权推送文档分支、PR、保护规则合并及通过独立门的预览发布；此前禁止Push不沿用为本轮阻塞。公开Runtime业务基线1a99482保持，品牌/README候选从最新origin/main独立集成。Hero左下灰色版权署名，选定Logo和实际产品截图保留，个人权属PENDING_OWNER_REVIEW、不声称登记。
+
+[COMPUTED｜HIGH] Desktop功能源66806b5与独立打包提交8123ae3，统一分发名DAWLoop+0.5.6-internal.1。完整Windows目录内置Electron/Node和中英文指南；不携带模型权重，不借开发机Python冒充首装。未取得干净Windows VM/可信离线音频组件，公开Desktop发行BLOCKED；首页与Desktop发行各自验收，不用其中一项代替另一项。
+
+
 ## 项目头图版权署名：2026-10-14
 
 [KNOWN｜HIGH] 用户要求GitHub品牌头图不得显示软件版本。Hero与Social候选改为纯黑底白字SVG排版，左下灰字Copyright (c) 2026 ryurikoneko，明确为品牌图而非软件截图；应用内动态版本、正式圆环Logo及功能截图不改。权属待审核与既有许可边界不变，本地候选提交，不Push或改远端设置。

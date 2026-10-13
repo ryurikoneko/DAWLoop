@@ -29,3 +29,8 @@ Hero source addendum (2026-10-14)
 Scope also includes docs/media/hero-source.svg, the editable brand-banner source.
 Its visible public signature is Copyright (c) 2026 ryurikoneko.
 The existing owner-review and prior-grant qualifications remain unchanged.
+
+Showcase scope addendum (2026-10-14)
+The same pending-owner-review and prior-grant qualifications also apply to
+docs/media/music-home.png and docs/media/model-manager.png, newly authorized
+for this official project presentation.
