@@ -14,3 +14,13 @@ or replace third-party rights. Factual discussion and other rights provided
 by applicable law are not purportedly removed by this notice.
 
 The adjacent technical Markdown documents and provenance JSON remain MIT.
+
+Owner-review clarification (2026-10-14)
+The existing copyright line is the public maintainer signature, not a verified
+legal identity or complete title determination. The user proposes an INDIVIDUAL
+holder; authorship, prior asset grants and legal title remain PENDING_OWNER_REVIEW.
+The reserved notice above does not narrow any license previously granted,
+including any applicable prior software-tree grant for the same or derived image.
+Independent future licenses require completed owner/provenance review.
+No rights are asserted in uncreated characters. No registration is claimed.
+See ../brand/HISTORICAL_LICENSE_REVIEW.md and ../brand/ASSET_REGISTRY.json.

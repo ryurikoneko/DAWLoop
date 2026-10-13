@@ -2,6 +2,13 @@
 
 <a id="current"></a>
 
+## 品牌与角色资产补充候选：2026-10-14
+
+[KNOWN｜HIGH] 用户确定拟定个人主体INDIVIDUAL、公开署名ryurikoneko，不填写法定姓名。新增[品牌清单](brand/README.md)、角色占位、历史许可审查与登记准备建议；作者/完整权属/既有授权未清统一PENDING_OWNER_REVIEW，未登记状态不附伪造编号或证书。
+
+[KNOWN｜HIGH] 根MIT、第三方正文、旧候选与历史资产不改。记录同源Logo曾置于根MIT功能树这一许可不确定性，后续声明不撤回旧权利。未来公司不默认受让，角色私有分层与未发表设定不公开；本轮只独立docs候选本地提交，不申请、Push、Merge或发布。
+
+
 ## GitHub Showcase 2.0 文档候选：2026-10-13
 
 [COMPUTED｜HIGH] 本 docs 分支基于公开 main `1a99482`，与内部 Desktop `66806b5` 分开。双语首页使用实际候选截图和选定 Logo，保留历史 Runtime 工程说明与 FAST 脱敏证据；能力、发行、实验和计划按 [CAPABILITIES](CAPABILITIES.md)分别标记。不存在公开 Desktop 安装包的事实明确保留。

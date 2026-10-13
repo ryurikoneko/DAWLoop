@@ -102,7 +102,7 @@ Future host integration   Trusted source → session & target binding → Publis
 
 ## Contribution, licensing and acknowledgements
 
-[KNOWN | HIGH] Project-owned code and public technical documentation retain [MIT](LICENSE). **The official Logo and Splash / Hero images are copyright-protected brand assets with separately reserved rights**, scoped by an exact asset list. Code licensing does not authorize impersonating the official brand. [Brand policy](TRADEMARKS.md) · [License scope](LICENSE_POLICY.md) · [Media notice](docs/media/README.md)
+[KNOWN | HIGH] **DAWLoop software code is released under the MIT License. Brand marks and character artwork are subject to separate asset policies where applicable.** Prior grants are preserved. Individual ownership is the confirmed plan; authorship and legal title remain pending review, and future characters are not yet created. [Brand policy](TRADEMARKS.md) · [License scope](LICENSE_POLICY.md) · [Asset registry](docs/brand/README.md) · [Media notice](docs/media/README.md)
 
 [KNOWN | HIGH] The pinned MIT snapshot of [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) retains its original notices. Bilibili creator [坏影子不坏](https://space.bilibili.com/599132499), the [DSH workflow demonstration](https://www.bilibili.com/video/BV1PTht6cENP/) and `whale-music-pipeline` provide practical inspiration and code provenance for the Production Pipeline. Inspiration, code licensing and private-material rights are recorded separately.
 

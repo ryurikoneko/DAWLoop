@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "ownerPlan": {
+    "ownerType": "INDIVIDUAL",
+    "publicMaintainerSignature": "ryurikoneko",
+    "planStatus": "CONFIRMED_BY_USER",
+    "titleStatus": "PENDING_OWNER_REVIEW",
+    "identityStatus": "PENDING_OWNER_REVIEW",
+    "identityEvidence": "NOT_PUBLICLY_RECORDED",
+    "automaticTransferToCompany": false
+  },
+  "characterStatus": "RESERVED_FOR_FUTURE_ASSET",
+  "officialCharacterName": null,
+  "officialNameStatus": "NOT_DEFINED",
+  "approvedPublicVersion": null,
+  "approvedPublicVersionEvidence": null,
+  "finalStandingArt": null,
+  "threeViews": null,
+  "characterSettings": null,
+  "designIterationRecords": [],
+  "copyrightAndAuthorizationSources": [],
+  "privateSourceFiles": [],
+  "privateStorage": "CONTROLLED_PRIVATE_DIRECTORY_NOT_IN_THIS_REPOSITORY; LOCATION_OMITTED",
+  "registration": {
+    "copyrightRegistration": "NOT_REGISTERED",
+    "trademarkRegistration": "NOT_REGISTERED",
+    "copyrightCertificateNumber": null,
+    "trademarkRegistrationNumber": null,
+    "registrationDate": null,
+    "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
+  },
+  "publicationAuthorizationRequired": true,
+  "sourceFileDisclosureDefault": "DENY_UNLESS_EXPLICITLY_APPROVED",
+  "reuseLicenseDefault": "PENDING_OWNER_REVIEW",
+  "assetIds": [
+    "future-original-character",
+    "future-character-standing",
+    "future-character-three-views",
+    "future-character-settings"
+  ],
+  "copyrightClaim": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
+}

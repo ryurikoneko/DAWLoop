@@ -63,3 +63,13 @@ dawloop provenance --root . --release-tag vX.Y.Z --write-manifest ../dawloop-rel
 [KNOWN｜HIGH] 根 MIT 正文、既有代码/文档许可与第三方原始声明不变。新增 `docs/media/` 下的 `logo.png`、`hero.png`、`social-preview.png`、`music-workspace.png`、`analysis-report.png`、`piano-roll.png` 是逐项声明的版权保留图像；用户授权本次项目展示，其他用途按 [图像声明](docs/media/LICENSE.txt)取得明确许可。Markdown、JSON 与工程代码仍为 MIT；不追溯撤回既有许可，不把许可例外扩张到目录外。
 
 [KNOWN | HIGH] The root MIT text, existing code/documentation grants and original third-party notices are unchanged. Only the six explicitly named PNGs have the new reserved image notice. Technical Markdown/JSON remain MIT. Prior grants are not revoked and the exception does not extend beyond the listed images.
+
+## 个人持有方案与独立资产政策启用
+
+[KNOWN｜HIGH] 用户明确拟定品牌Logo、视觉与未来角色由个人持有，ownerType为INDIVIDUAL；公开维护者署名仍为ryurikoneko，法定身份不进入公开仓库。作者、权属或历史授权未清时PENDING_OWNER_REVIEW，独立新许可尚不自动生效。未来公司许可/转让需用户另行决定。
+
+[KNOWN｜HIGH] 上一文档候选的六项图像保留声明继续作为历史记录，但不能据此断言早期根MIT下同源图像从未授出权利。本轮明确保留所有既有授权，禁止通过改路径、重压缩、新政策或角色保护限制已授出的软件权利。新资产的独立许可只在作者、权属、第三方许可及历史授权审查完成后配置。[历史审查](docs/brand/HISTORICAL_LICENSE_REVIEW.md)
+
+[KNOWN | HIGH] Code and previously licensed documents remain under their existing grants. New brand/art policies apply only after provenance, title and prior grants are reviewed. The confirmed individual-holder plan is not proof of legal identity or title. No automatic transfer to a future company is configured.
+
+[资产管理](docs/brand/README.md) · [角色政策](docs/brand/CHARACTER_POLICY.md) · [登记准备](docs/brand/REGISTRATION_READINESS.md)

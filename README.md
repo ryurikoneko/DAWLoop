@@ -101,7 +101,7 @@ python -m venv .venv
 
 ## 贡献、许可与致谢
 
-[KNOWN｜HIGH] 自有代码与公共技术文档继续使用 [MIT](LICENSE)。**正式 Logo 与 Splash / Hero 图片受版权保护，并按精确资产清单单独保留品牌权利**；代码 MIT 不代表可冒充官方品牌。[品牌政策](TRADEMARKS.md) · [许可范围](LICENSE_POLICY.md) · [媒体声明](docs/media/README.md)
+[KNOWN｜HIGH] **DAWLoop 软件代码采用 MIT 许可证。品牌标识及人物美术资产在适用情况下遵循独立资产授权政策。** 既有许可不追溯撤销；个人持有方案已确认，作者与完整权属待核，未来角色尚未创作。[品牌政策](TRADEMARKS.md) · [许可范围](LICENSE_POLICY.md) · [资产清单](docs/brand/README.md) · [媒体声明](docs/media/README.md)
 
 [KNOWN｜HIGH] 保留 [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) 的固定 MIT 快照与原作者通知；Bilibili 创作者 [坏影子不坏](https://space.bilibili.com/599132499) 的 [DSH 工作流展示](https://www.bilibili.com/video/BV1PTht6cENP/)及 `whale-music-pipeline` 是 Production Pipeline 的实践与代码来源。灵感、代码许可和私人素材权利分别登记。
 

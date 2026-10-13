@@ -28,3 +28,9 @@
 [KNOWN｜HIGH] 已准备1280×640、低于1MB、实心黑底 PNG。符合 [GitHub 官方尺寸建议](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview)。本轮只准备候选，未上传到 Settings，未改变远端 Social Preview。
 
 [KNOWN | HIGH] A solid-black 1280×640 PNG below 1MB is prepared per GitHub guidance. It has not been uploaded to repository Settings. The screenshot's version is an internal Desktop capture, not a Runtime release version.
+
+## 个人拟定主体与权属复核 / Individual-holder review
+
+[KNOWN｜HIGH] 原署名ryurikoneko保留；用户拟定个人持有，不填写法定姓名。Logo、启动页和同源图像的实际作者/完整权属/历史授权未核清，PENDING_OWNER_REVIEW。既有声明不撤回早期可能已授出的许可；未来角色只占位、不公开私人源文件。[品牌清单](../brand/README.md)
+
+[KNOWN | HIGH] The original public signature is retained. Individual ownership is a plan, not verified legal title. Authorship and prior grants remain pending review. Prior permissions are preserved; future character placeholders neither assert rights nor publish source art.

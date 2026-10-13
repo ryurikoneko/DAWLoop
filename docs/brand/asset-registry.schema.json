@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DAWLoop品牌资产管理清单",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "ownerPlan",
+    "assets"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "ownerPlan": {
+      "$ref": "#/$defs/owner"
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "assetId",
+          "name",
+          "category",
+          "version",
+          "existence",
+          "files",
+          "creation",
+          "owner",
+          "firstPublicAt",
+          "license",
+          "registration"
+        ],
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "existence": {
+            "enum": [
+              "EXISTING",
+              "RESERVED_FOR_FUTURE_ASSET"
+            ]
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "path",
+                "scope",
+                "sha256"
+              ],
+              "properties": {
+                "path": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                }
+              }
+            }
+          },
+          "owner": {
+            "$ref": "#/$defs/owner"
+          },
+          "firstPublicAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "registration": {
+            "$ref": "#/$defs/registration"
+          },
+          "license": {
+            "type": "object",
+            "required": [
+              "status",
+              "approvedIndependentLicense",
+              "priorGrantsPreserved"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "PENDING_OWNER_REVIEW",
+                  "RESERVED_FOR_FUTURE_ASSET"
+                ]
+              },
+              "approvedIndependentLicense": {
+                "type": "null"
+              },
+              "priorGrantsPreserved": {
+                "const": true
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "existence": {
+                  "const": "RESERVED_FOR_FUTURE_ASSET"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "copyrightClaim"
+              ],
+              "properties": {
+                "files": {
+                  "maxItems": 0
+                },
+                "version": {
+                  "type": "null"
+                },
+                "copyrightClaim": {
+                  "const": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
+                },
+                "license": {
+                  "properties": {
+                    "status": {
+                      "const": "RESERVED_FOR_FUTURE_ASSET"
+                    }
+                  }
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "license": {
+                  "properties": {
+                    "status": {
+                      "const": "PENDING_OWNER_REVIEW"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "owner": {
+      "type": "object",
+      "required": [
+        "ownerType",
+        "publicMaintainerSignature",
+        "planStatus",
+        "titleStatus",
+        "identityStatus",
+        "automaticTransferToCompany"
+      ],
+      "properties": {
+        "ownerType": {
+          "const": "INDIVIDUAL"
+        },
+        "publicMaintainerSignature": {
+          "const": "ryurikoneko"
+        },
+        "planStatus": {
+          "const": "CONFIRMED_BY_USER"
+        },
+        "titleStatus": {
+          "const": "PENDING_OWNER_REVIEW"
+        },
+        "identityStatus": {
+          "const": "PENDING_OWNER_REVIEW"
+        },
+        "automaticTransferToCompany": {
+          "const": false
+        }
+      }
+    },
+    "registration": {
+      "type": "object",
+      "required": [
+        "copyrightRegistration",
+        "trademarkRegistration",
+        "copyrightCertificateNumber",
+        "trademarkRegistrationNumber",
+        "registrationDate"
+      ],
+      "properties": {
+        "copyrightRegistration": {
+          "const": "NOT_REGISTERED"
+        },
+        "trademarkRegistration": {
+          "const": "NOT_REGISTERED"
+        },
+        "copyrightCertificateNumber": {
+          "type": "null"
+        },
+        "trademarkRegistrationNumber": {
+          "type": "null"
+        },
+        "registrationDate": {
+          "type": "null"
+        }
+      }
+    }
+  }
+}
