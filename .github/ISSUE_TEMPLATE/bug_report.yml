@@ -9,13 +9,24 @@ body:
     id: version
     attributes:
       label: DAWLoop version or commit
-      placeholder: "v0.2.0-alpha or commit SHA"
+      placeholder: "Public Runtime release / internal Desktop version + commit SHA"
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component and distribution scope
+      options:
+        - Public Runtime / Agent
+        - Internal Desktop / Music Intelligence
+        - Documentation / showcase
+        - Unsure
     validations:
       required: true
   - type: input
     id: environment
     attributes:
-      label: Operating system and Python version
+      label: Operating system and component runtime (if known)
     validations:
       required: true
   - type: textarea

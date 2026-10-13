@@ -146,3 +146,7 @@ DAWLoop 的 VERIFIED 契约使用下列闭环；Native FAST 使用观察与人�
 [KNOWN｜HIGH] evidence/public只含脱敏摘要；完整私有会话、FLP、截图、Memos、凭据与development-manifest不发布。历史模板NPZ仅含受审窗口标题/按钮条裁剪，不含私人桌面；Auto Accept仍延期且默认关闭。合成JPEG仅作返回格式回归。
 
 [KNOWN｜HIGH] 发布清理只参数化维护者安装路径、迁移回归输入、保留关闭标记并使缺失状态拒绝。未重新进行现场实验，已认证范围没有扩张；重整的公开源码摘要与原实验源码冻结记录属于不同版本证据。
+
+## GitHub Showcase 2.0 documentation candidate
+
+[COMPUTED | HIGH] Documentation is based on public main `1a99482aa9b47a61fdf37275583a7b432775ab8d`; actual Desktop screenshots originate from independently developed source `66806b510556ec2c11c2eedfe8b1f8a6bf302c6a`, internal candidate `0.5.6-internal.1`. Original technical homepage content is retained in the Runtime guides. [Media hashes and transformations](docs/media/provenance.json) identify the exact assets. This change does not integrate Runtime or Desktop implementation code.

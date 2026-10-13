@@ -31,3 +31,10 @@ Results:
 - [ ] I did not include credentials, private projects, commercial samples, or plugin binaries.
 - [ ] I updated `PROVENANCE.md` for new files and source changes.
 - [ ] I preserved third-party notices and pinned-source boundaries.
+
+## Distribution scope
+
+- Baseline / commit:
+- Public Runtime / internal Desktop / documentation:
+- [ ] Screenshots are actual software, sanitized, with permission to publish.
+- [ ] Internal evidence is not presented as a public installer or live host certification.

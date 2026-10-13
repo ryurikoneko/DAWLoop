@@ -2,6 +2,13 @@
 
 <a id="current"></a>
 
+## GitHub Showcase 2.0 文档候选：2026-10-13
+
+[COMPUTED｜HIGH] 本 docs 分支基于公开 main `1a99482`，与内部 Desktop `66806b5` 分开。双语首页使用实际候选截图和选定 Logo，保留历史 Runtime 工程说明与 FAST 脱敏证据；能力、发行、实验和计划按 [CAPABILITIES](CAPABILITIES.md)分别标记。不存在公开 Desktop 安装包的事实明确保留。
+
+[KNOWN｜HIGH] 本轮仅文档、媒体和模板，不修改算法、Host、Controller或写权限，不运行FL，不发布安装包，不Push/Merge。品牌PNG按精确清单声明，既有MIT与第三方许可保留。详细本地验收记录独立存放；公开来源与隐私说明见 [媒体索引](media/README.md)，后续等待用户审阅。
+
+
 ## 更新提醒工程：2026-10-07
 
 [KNOWN｜HIGH] `doctor` 增加公开 GitHub Release 查询和 24 小时成功/失败缓存，支持禁用、手动刷新和 stable/prerelease 通道。发布状态、安装来源、Controller 磁盘 build 与新鲜运行时协议分别报告；网络不可用不改变本地诊断退出码。只输出明确更新建议，不自动升级、不安装脚本、不 Reload、不发送 MIDI/RPC；MCP 和 Native VERIFIED 冻结范围不变。使用说明见 [FL Studio setup](FL_STUDIO_SETUP.md#release-and-controller-update-awareness)。
@@ -14,7 +21,7 @@
 
 [KNOWN｜HIGH] 致谢文档同步区分离线 Exact-Set 算法和 Native FAST `COMPLETED_UNVERIFIED`，不扩大 producer readback 或 MCP 现场认证。本次只修改公开文档，不改 Runtime、协议、预算、期限或版本。
 
-[KNOWN｜HIGH] `v1.0.0-alpha.1` 已由维护者密钥签名并通过本机与 GitHub 验签；[tag 发布构建](https://github.com/ryurikoneko/DAWLoop/actions/runs/37576241940)成功，六份资产摘要及 252 个来源文件已核验。[新版发布草稿](https://github.com/ryurikoneko/DAWLoop/releases/tag/untagged-5df5e66f6571db5b9fc0)尚未 Publish，来源提交固定为 `732c3357e4475bd34e0a3a74904e2a5bd8f0a088`。本次主页更新独立于该历史快照，不移动标签、不替换资产；下方发布准备章节保留当时状态。
+[KNOWN｜HIGH] `v1.0.0-alpha.1` 已由维护者密钥签名并通过本机与 GitHub 验签；[tag 发布构建](https://github.com/ryurikoneko/DAWLoop/actions/runs/37576241940)成功，六份资产摘要及 252 个来源文件已核验。历史新版发布草稿尚未 Publish（该草稿地址不公开；实际发行物请查看 [Releases](https://github.com/ryurikoneko/DAWLoop/releases)），来源提交固定为 `732c3357e4475bd34e0a3a74904e2a5bd8f0a088`。本次主页更新独立于该历史快照，不移动标签、不替换资产；下方发布准备章节保留当时状态。
 
 ## 当前状态：2026-10-07 research-preview
 

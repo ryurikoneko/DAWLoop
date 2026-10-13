@@ -53,3 +53,9 @@ Describe the change, its scope, and the exact checks you ran. State whether evid
 提交者应确认自己有权按该文件许可提供贡献，说明复制/改编来源及适用许可；这是来源审查要求，不是自动签署CLA或转移版权。将来单独许可的新研究报告先列具体资产与权属，现有MIT授权不回收。
 
 私人参考、profile、音频、工程、网页全文与授权不明图片不进入公开贡献。学习示例只用合成或可证明获准发布的材料；用户数据许可不会因为进入Schema自动变成MIT。详见learning/WORKFLOW.md与LICENSE_POLICY.md。
+
+## Desktop 与展示贡献 / Desktop and showcase contributions
+
+[KNOWN｜HIGH] 公开 main 没有内部 Desktop 代码；贡献前注明基线、分支、公开/内部范围，不让文档 PR 隐式携带 Runtime 修改或安装包。品牌 PNG 的范围与使用授权见 [媒体声明](docs/media/README.md)；不要把这些图像当作 MIT 软件图标随意重许可。
+
+[KNOWN | HIGH] State the baseline, branch and public/internal scope. A docs PR must not silently introduce Runtime changes or installers. Brand media has a precise separate notice. Screenshots must be actual software, with only owned/synthetic public material and no local paths or credentials.

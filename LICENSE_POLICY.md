@@ -29,7 +29,7 @@
 4. 更新此处的精确资产清单、发行元数据和 README，不能笼统宣称整仓库只有 MIT。
 5. 分别提供完整许可和商业授权入口；不发明未签署的协议或已存在的商标注册。
 
-当前单独许可资产清单：**空**。这一步待具体的新资产和权属清单确定后启用。
+当前 **CC BY-NC 资产清单仍为空**；本轮新增品牌图像的保留权利清单见下文，不是启用 CC BY-NC。
 
 ## 版本来源和签名
 
@@ -57,3 +57,9 @@ dawloop provenance --root . --release-tag vX.Y.Z --write-manifest ../dawloop-rel
 ## 面对来源争议
 
 [INFERRED｜HIGH] 保留原始 Git 历史、签名/发布记录、内容清单、明确许可及涉嫌违规副本的证据；分别核对通知被移除、报告复制、虚假背书与合法商业 fork。不要把功能相似自动当侵权，也不要期待加密公开 MIT 源码能阻止重构建。投诉只引用真实、可核对的事实，不能仅凭内部水印推断权属。
+
+## 新增公开品牌与展示图像 / New public brand and showcase images
+
+[KNOWN｜HIGH] 根 MIT 正文、既有代码/文档许可与第三方原始声明不变。新增 `docs/media/` 下的 `logo.png`、`hero.png`、`social-preview.png`、`music-workspace.png`、`analysis-report.png`、`piano-roll.png` 是逐项声明的版权保留图像；用户授权本次项目展示，其他用途按 [图像声明](docs/media/LICENSE.txt)取得明确许可。Markdown、JSON 与工程代码仍为 MIT；不追溯撤回既有许可，不把许可例外扩张到目录外。
+
+[KNOWN | HIGH] The root MIT text, existing code/documentation grants and original third-party notices are unchanged. Only the six explicitly named PNGs have the new reserved image notice. Technical Markdown/JSON remain MIT. Prior grants are not revoked and the exception does not extend beyond the listed images.

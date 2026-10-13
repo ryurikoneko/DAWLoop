@@ -1,0 +1,88 @@
+[
+  {
+    "asset": "hero.png",
+    "sourceBasename": "splash.png",
+    "sourceSha256": "5b3cd8080ef846270e1f08883cb32e402f0d75a35fd968255c3372e7d68ff39e",
+    "publishedSha256": "91dd5fa0695d4eab9c45cd3de4462e8710b22edf493663bc6f90096d3ce70da4",
+    "size": [
+      1280,
+      640
+    ],
+    "operation": "aspect-preserving resize of actual splash capture plus black letterbox; no invented UI",
+    "kind": "actual running Electron candidate screenshot",
+    "candidateVersion": "0.5.6-internal.1",
+    "sourceCommit": "66806b510556ec2c11c2eedfe8b1f8a6bf302c6a",
+    "privacyReview": "PASS: synthetic/owned fixture only; no local path, user name, credential or private music visible"
+  },
+  {
+    "asset": "logo.png",
+    "sourceBasename": "DAWLoop_icon_transparent_1024.png",
+    "sourceSha256": "8be92927ebec22262d6633e02bca5ad379c46042bbcece4d1d7be7efcf30e8b6",
+    "publishedSha256": "e3170e7039358df55a3ea700e632b473697d27aef17db7a56e74285542c57c01",
+    "size": [
+      1024,
+      1024
+    ],
+    "operation": "lossless PNG recompression; pixel content unchanged",
+    "kind": "selected brand asset",
+    "candidateVersion": "0.5.6-internal.1",
+    "sourceCommit": "66806b510556ec2c11c2eedfe8b1f8a6bf302c6a",
+    "privacyReview": "PASS: synthetic/owned fixture only; no local path, user name, credential or private music visible"
+  },
+  {
+    "asset": "music-workspace.png",
+    "sourceBasename": "music-composer.png",
+    "sourceSha256": "2b4b298c986d6edf9cdfca82cbe9ef83d9fdefb7d0198b9f2bf9eb5ad0f56616",
+    "publishedSha256": "9a4909cd14fa806a85f48b267b41772ea8a32729318ef0df2dbbe9b96cd129bc",
+    "size": [
+      1504,
+      988
+    ],
+    "operation": "lossless PNG recompression; pixel content unchanged",
+    "kind": "actual running Electron candidate screenshot",
+    "candidateVersion": "0.5.6-internal.1",
+    "sourceCommit": "66806b510556ec2c11c2eedfe8b1f8a6bf302c6a",
+    "privacyReview": "PASS: synthetic/owned fixture only; no local path, user name, credential or private music visible"
+  },
+  {
+    "asset": "analysis-report.png",
+    "sourceBasename": "full-song-report-en.png",
+    "sourceSha256": "b2d0b9a5342e06946560076680085b10bc5d4cf632af3776e91e0bfb56e42d0b",
+    "publishedSha256": "fdf87354fbbd41de71fe3cfcd016fcc62c0782bea336ada5eb3e9951dd490e52",
+    "size": [
+      1504,
+      988
+    ],
+    "operation": "lossless PNG recompression; pixel content unchanged",
+    "kind": "actual running Electron candidate screenshot",
+    "candidateVersion": "0.5.6-internal.1",
+    "sourceCommit": "66806b510556ec2c11c2eedfe8b1f8a6bf302c6a",
+    "privacyReview": "PASS: synthetic/owned fixture only; no local path, user name, credential or private music visible"
+  },
+  {
+    "asset": "piano-roll.png",
+    "sourceBasename": "selected-note-and-row.png",
+    "sourceSha256": "48acc22802aa23ba8308546f003d81bc3ba6fc5768575b4dfeba2b604daaf442",
+    "publishedSha256": "e121af89ff6145d3e4c7a00771ae1adb84903429656d2ff589f8c7a648fc2fe5",
+    "size": [
+      1920,
+      1273
+    ],
+    "operation": "lossless PNG recompression; pixel content unchanged",
+    "kind": "actual running Electron candidate screenshot",
+    "candidateVersion": "0.5.6-internal.1",
+    "sourceCommit": "66806b510556ec2c11c2eedfe8b1f8a6bf302c6a",
+    "privacyReview": "PASS: synthetic/owned fixture only; no local path, user name, credential or private music visible"
+  },
+  {
+    "asset": "social-preview.png",
+    "source": "hero.png",
+    "operation": "aspect-preserving resize plus black letterbox; no invented UI",
+    "size": [
+      1280,
+      640
+    ],
+    "publishedSha256": "91dd5fa0695d4eab9c45cd3de4462e8710b22edf493663bc6f90096d3ce70da4",
+    "role": "repository social preview candidate, not application icon"
+  }
+]

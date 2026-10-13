@@ -1,5 +1,11 @@
 # 部署与操作合同
 
+## 公开部署范围 / Distribution scope
+
+[COMPUTED｜HIGH] 截至2026-10-13，公开 main `1a99482` 和 Python Alpha Release 不包含内部 Desktop `0.5.6-internal.1`。不要从本页推导 Desktop 便携版已包含 Python、模型或 Controller。[Desktop](DESKTOP.md) · [能力表](CAPABILITIES.md)。
+
+[COMPUTED | HIGH] Public main and Python Alpha assets do not deliver the internal Desktop or its managed model environment. Installation and live certification remain separate.
+
 本版提供可安装的 Python 包与离线学习框架，以及有受限现场证据的 Native FAST 实现。MCP live 路径暂停，普通作品工程持续写入尚未认证。包安装成功不表示可以立即写当前作品。
 
 ## A. 离线部署：无需 FL Studio

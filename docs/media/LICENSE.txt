@@ -1,0 +1,16 @@
+DAWLoop showcase and brand image notice
+Copyright (c) 2026 ryurikoneko
+
+Scope: docs/media/logo.png, hero.png, social-preview.png,
+music-workspace.png, analysis-report.png, piano-roll.png.
+
+These newly introduced image assets are reserved, copyright-protected
+brand/showcase material. They are not licensed under the root MIT grant.
+The maintainer authorizes their presentation in DAWLoop project documentation.
+Other redistribution, modification or brand use requires explicit permission.
+This notice does not revoke prior grants, change the software license,
+restrict independently created source code, claim a registered trademark,
+or replace third-party rights. Factual discussion and other rights provided
+by applicable law are not purportedly removed by this notice.
+
+The adjacent technical Markdown documents and provenance JSON remain MIT.
