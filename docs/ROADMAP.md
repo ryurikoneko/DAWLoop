@@ -68,4 +68,4 @@ OBSERVER_REQUEST_COMPLETION = NOT_PROVEN
 
 ## 来源与发行待办
 
-MIT/NOTICE/AUTHORS/CFF/品牌说明与公开内容hash已有。main 候选构建 attestation 已通过真实验收；可信 signed-tag 发布流程已实现，维护者专用签名公钥现已登记；正式签名发布仍需本机签名与 Actions 验证。目标版本 `v1.0.0-alpha.1`（Runtime V2 Architecture Preview）尚待正式发布，checksum detached signature 尚未接入。版本准备为 `1.0.0a1`，继续保持 Alpha 范围；历史 `v0.2.0-alpha.1` 保留。具体顺序与验证方法见[发布指南](RELEASING.md)。可选真实 DOI 与第三方复现继续列为后续事项。CC BY-NC 只保存许可文本，未启用非商业报告许可；新增品牌图像按 [精确资产清单](../LICENSE_POLICY.md)保留版权，历史 MIT 授权保持。
+MIT/NOTICE/AUTHORS/CFF/品牌说明与公开内容hash已有。main 候选构建 attestation 已通过真实验收；可信 signed-tag 发布流程已实现，维护者专用签名公钥现已登记；`v1.0.0-alpha.1` 的本地tag验签已通过，历史构建记录保留；公开 Release 发布及最终资产验证仍是独立步骤。目标版本 `v1.0.0-alpha.1`（Runtime V2 Architecture Preview）尚待正式发布，checksum detached signature 尚未接入。版本准备为 `1.0.0a1`，继续保持 Alpha 范围；历史 `v0.2.0-alpha.1` 保留。具体顺序与验证方法见[发布指南](RELEASING.md)。可选真实 DOI 与第三方复现继续列为后续事项。CC BY-NC 只保存许可文本，未启用非商业报告许可；新增品牌图像按 [精确资产清单](../LICENSE_POLICY.md)保留版权，历史 MIT 授权保持。

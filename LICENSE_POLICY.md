@@ -50,7 +50,7 @@ git verify-tag vX.Y.Z
 dawloop provenance --root . --release-tag vX.Y.Z --write-manifest ../dawloop-release-provenance.json
 ```
 
-[KNOWN｜HIGH] 以上是发布操作范式，`vX.Y.Z` 是占位符；本alpha预览不具备维护者身份签名；没有创建签名密钥或DOI。CLI 对 release 要求工作树干净、tag 指向 HEAD 且本地 `git verify-tag` 成功。它仍不认证最终安装包或公钥信任。GitHub 的签名提交验证与 artifact attestations 是不同层；正式 CI 策略、公钥和实际 artifact attestation 尚未建立。[签名验证](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification)、[构建证明](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations)。
+[KNOWN｜HIGH] 以上是发布操作范式，`vX.Y.Z` 是占位符；历史 `v0.2.0-alpha.1` 未签名；仓库已登记维护者签名公钥，本轮本地使用该信任表验证 `v1.0.0-alpha.1` tag 通过。tag 验签不等于 Release 已 Publish，也不独立证明维护者现实身份。未登记 DOI。CLI 对 release 要求工作树干净、tag 指向 HEAD 且本地 `git verify-tag` 成功。它仍不认证最终安装包或公钥信任。GitHub 的签名提交验证与 artifact attestations 是不同层；CI 策略与公钥表已入库，既有构建 attestation 记录见 [发布指南](docs/RELEASING.md)；本轮没有重新下载或认证 Release 资产。[签名验证](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification)、[构建证明](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations)。
 
 [KNOWN｜HIGH] CITATION.cff 当前只记录已确认的项目与维护者，没有虚构 DOI 或发布日期。未来通过维护者授权接入 Zenodo 并存档真实 release 后再填对应 DOI。[引用文件](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files)、[Zenodo 发布存档](https://help.zenodo.org/docs/github/)。
 
