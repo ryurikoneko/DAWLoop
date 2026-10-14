@@ -75,7 +75,10 @@ export async function installBasicComponent({home,componentRoot,job,signal,log,c
     if(signal.aborted)throw Error('MI_CANCELLED');
     const python=path.join(target,'python.exe');
     await fs.writeFile(path.join(staging,'runtime.json'),JSON.stringify({schemaVersion:1,python,pythonSha256:await fileDigest(path.join(staging,'python.exe')),componentId:BASIC_COMPONENT.componentId,componentVersion:BASIC_COMPONENT.version}),{encoding:'utf8',flag:'wx'});
-    await fs.rename(staging,target);await log({event:'COMPONENT_VERIFIED',version:BASIC_COMPONENT.version,sha256:BASIC_COMPONENT.sha256});
+    await fs.rename(staging,target);
+    // 转录环境已原子提交后，取消不能再把成功安装伪装成已回滚。
+    if(BASIC_COMPONENT.componentId==='basic-pitch')job.activationCommitted=true;
+    await log({event:'COMPONENT_VERIFIED',version:BASIC_COMPONENT.version,sha256:BASIC_COMPONENT.sha256});
     return {environment:target,reused:false};
   } finally {
     if(path.dirname(owner)!==environments||await fs.realpath(owner)!==owner)throw Error('MI_COMPONENT_CLEANUP_REJECTED');

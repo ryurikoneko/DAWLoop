@@ -25,3 +25,8 @@ test('转录组件与基础分析组件版本独立，公开分发仍需独立�
  assert.equal(PITCH_COMPONENT.componentId,'basic-pitch');assert.equal(PITCH_COMPONENT.publicRedistributionReview,'INTERNAL_CANDIDATE_ONLY_NATIVE_LICENSE_REVIEW_PENDING');assert.ok(PITCH_COMPONENT.archiveBytes<160*1024**2);assert.equal(PITCH_COMPONENT.downloadUrl,null);
  const recipe=JSON.parse(await fs.readFile(new URL('../../packages/music-intelligence/pitch-component-sources.lock',import.meta.url),'utf8'));assert.equal(recipe.length,9);assert.ok(recipe.every(r=>r.url.startsWith('https://files.pythonhosted.org/')&&/^[a-f0-9]{64}$/.test(r.sha256)));assert.equal(recipe.some(r=>/tensorflow|setuptools|torch/.test(r.name)),false);
 });
+test('模型已载入或其他任务执行时拒绝并发安装',async()=>{
+ const service=new MusicIntelligenceService({home:os.tmpdir(),allowLegacyPitchInstall:false});service.pitchProcess={};
+ await assert.rejects(service.install('basic-pitch','Apache-2.0'),/MI_RESOURCE_BUSY/);service.pitchProcess=null;
+ service.jobs.set('other',{id:'other',method:'analyze',state:'RUNNING'});await assert.rejects(service.install('basic-pitch','Apache-2.0'),/MI_RESOURCE_BUSY/);assert.equal(service.jobs.size,1);
+});
