@@ -15,7 +15,7 @@ Music tools for creators. An extensible automation framework for developers.
 [![MIT code](https://img.shields.io/badge/code-MIT-blue)](LICENSE)
 [![Alpha](https://img.shields.io/badge/status-Alpha-orange)](docs/DESKTOP.md)
 
-[Download Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1) · [Explore Developer Runtime](docs/QUICKSTART.md) · [Demos](docs/DEMOS.md) · [Capabilities](docs/CAPABILITIES.md) · [Contribute](CONTRIBUTING.md)
+[Download Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [Explore Developer Runtime](docs/QUICKSTART.md) · [Demos](docs/DEMOS.md) · [Capabilities](docs/CAPABILITIES.md) · [Contribute](CONTRIBUTING.md)
 
 ## Explore DAWLoop
 
@@ -41,7 +41,7 @@ Music Intelligence brings listening, analysis, melody creation and editing into 
 | Understand musical material | Import and audition audio; explore loudness, rhythmic changes, key candidates and analysis reports |
 | Create melodies | Generate rule-assisted melodies with harmony, rhythm, density and seed constraints |
 | Edit MIDI | Review notes in the Desktop Piano Roll, change pitch and velocity, undo, audition and export MIDI |
-| Transcribe notes | Turn audio into editable notes using an already configured Basic Pitch model environment |
+| Transcribe notes | Turn audio into editable notes after one-click Basic Pitch installation in Component Manager |
 | Work inside a real DAW | Use the Runtime's FL Studio backends for operations with an explicit target |
 | Build a music agent | Connect structured plans, target constraints, observation and verification to your own agent |
 
@@ -79,11 +79,11 @@ A tool reporting success provides execution information. DAWLoop's verification 
 
 ### Download Desktop Alpha
 
-[Windows x64 Portable ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.1/DAWLoop%2B0.5.6-alpha.1-Windows-x64-Portable.zip) · [Release notes and checksums](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1)
+[Windows x64 Portable ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.2/DAWLoop%2B0.5.6-alpha.2-Windows-x64-Portable.zip) · [Release notes and checksums](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2)
 
 1. Extract the complete program folder and run `DAWLoop.exe`.
 2. In Music Intelligence's Component Manager, review the licenses and confirm installation of basic components.
-3. Import a WAV to listen and analyze, or create a melody and open the Piano Roll.
+3. Import a WAV to listen and analyze; install Basic Pitch to transcribe notes, edit them in the Piano Roll and export MIDI.
 
 Codex, Node and system Python are unnecessary. The application is unsigned: verify its official source and checksums when Windows shows an unknown-publisher warning, and keep system security protections enabled. [First-run guide](docs/DESKTOP.md)
 
@@ -113,11 +113,12 @@ Improve installation and component management, expand verifiable FL Studio workf
 
 ## Current Release Notes
 
-- Desktop **0.5.6-alpha.1** is a public Windows x64 Pre-release. It has run in the maintainer's Windows environment; independent clean-Windows compatibility still awaits validation.
-- Bundled basic components support WAV analysis. Basic Pitch transcription uses existing verified model environments; first-time model installation is unavailable in this release, and weights are configured separately.
+- Desktop **0.5.6-alpha.2** is a public Windows x64 Pre-release. It has run in the maintainer's Windows environment; independent clean-Windows compatibility still awaits validation.
+- Bundled basic components support WAV analysis. Basic Pitch now offers in-app one-click installation after license review, real note transcription, Piano Roll editing and MIDI export, without system Python.
 - The Desktop Piano Roll edits local MIDI. Real FL control uses a separate Runtime integration. General AutoMix, arbitrary-project autonomous control and full style learning remain research directions.
 - Live FL research and offline verification have specific scopes, recorded separately from backend tool availability in [Capabilities](docs/CAPABILITIES.md). Public update notifications are disabled; updates remain user-initiated.
-- Screenshots show an earlier development build. Desktop source is at the [release tag](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.1); Python Runtime is on main. [Detailed release and installation scope](docs/DESKTOP.md)
+- [Alpha.1 remains available](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1); its original assets are unchanged.
+- Screenshots show an earlier development build. Desktop source is at the [release tag](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.2); Python Runtime is on main. [Detailed release and installation scope](docs/DESKTOP.md)
 
 ## Open source & credits
 
