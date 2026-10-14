@@ -3,6 +3,10 @@ import sys,json,time,contextlib,io,hashlib,math,importlib.util,os
 from pathlib import Path
 os.environ['NUMBA_CACHE_DIR']=str(Path(os.environ['TEMP'])/'numba-pitch')
 os.environ['TF_CPP_MIN_LOG_LEVEL']='3'
+if sys.platform=='win32':
+    # 可选解码器探测不能启动开发机PATH中的未登记FFmpeg或其他工具。
+    windows=Path(os.environ.get('SystemRoot','C:/Windows'))
+    os.environ['PATH']=os.pathsep.join([str(windows/'System32'),str(windows)])
 
 def emit(data):
     print(json.dumps(dict(schemaVersion=1,kind='result',data=data),allow_nan=False),flush=True)

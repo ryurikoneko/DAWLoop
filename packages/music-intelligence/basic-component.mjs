@@ -41,7 +41,8 @@ function run(executable,args,{job,signal,log,home}){
   return new Promise((resolve,reject)=>{
     if(signal.aborted)return reject(Error('MI_CANCELLED'));
     const temp=path.join(home,'temp');
-    const child=spawn(executable,args,{windowsHide:true,shell:false,stdio:['ignore','pipe','pipe'],env:{...process.env,PYTHONPATH:'',PYTHONHOME:'',PYTHONNOUSERSITE:'1',TEMP:temp,TMP:temp,NUMBA_CACHE_DIR:temp,OMP_NUM_THREADS:'2',NUMBA_NUM_THREADS:'2'}});
+    const windows=process.env.SystemRoot??'C:/Windows';
+    const child=spawn(executable,args,{windowsHide:true,shell:false,stdio:['ignore','pipe','pipe'],env:{...process.env,PATH:process.platform==='win32'?path.join(windows,'System32')+path.delimiter+windows:process.env.PATH,PYTHONPATH:'',PYTHONHOME:'',PYTHONNOUSERSITE:'1',TEMP:temp,TMP:temp,NUMBA_CACHE_DIR:temp,OMP_NUM_THREADS:'2',NUMBA_NUM_THREADS:'2'}});
     job.child=child;let bytes=0,errorCode=null,writing=Promise.resolve();
     const kill=code=>{errorCode=code;terminateOwnedProcess(child);};
     const timer=setTimeout(()=>kill('MI_COMPONENT_TIMEOUT'),180000);const abort=()=>kill('MI_CANCELLED');signal.addEventListener('abort',abort,{once:true});
