@@ -13,8 +13,21 @@
 
 **得到：**分析报告、可编辑的旋律与 MIDI 文件。 / **Result:** an analysis report, editable notes and a MIDI file.
 
+### 看见制作流程 / See the workflow
+
+**选择入口：**在 Music Intelligence 工作区选择音频分析、旋律创作或音符编辑。 / **Choose a starting point:** open analysis, melody creation or note editing from Music Intelligence.
+
+![Music Intelligence workspace](media/music-home.png)
+
+**理解素材：**查看音频测量与分析结果，为下一步创作提供参考。 / **Understand the material:** review measurements and analysis before choosing the next creative action.
+
 ![Music Analysis](media/analysis-report.png)
+
+**编辑与带走：**在本地 Piano Roll 调整音符、试听并导出 MIDI。 / **Edit and take it with you:** adjust notes in the local Piano Roll, audition and export MIDI.
+
 ![Piano Roll Editing](media/piano-roll.png)
+
+这些图片展示已有开发版本的操作界面，分别说明三个步骤，并非同一素材的一次连续录屏。 / These existing development-build screenshots illustrate the three steps separately; they are not a continuous recording of one source file.
 
 [Desktop 操作指南](DESKTOP.md)
 
