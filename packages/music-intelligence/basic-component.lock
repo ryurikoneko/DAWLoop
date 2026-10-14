@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "componentId": "basic-audio",
+  "version": "1.1.0-alpha.1",
+  "platform": "win32",
+  "arch": "x64",
+  "fileName": "basic-audio-1.1.0-alpha.1-win-x64.zip",
+  "sha256": "03f83f3bdf433dba538bc6ceffbf8a2a9e2b7842947ebdb8883a09347d658673",
+  "manifestSha256": "110ea3c8fe6ce17e8cfbdc2d196c55a7ab220a392181fbfea324cd5c379d9980",
+  "archiveBytes": 119886419,
+  "installedBytes": 355102553,
+  "fileCount": 5152,
+  "minimumFreeBytes": 805306368,
+  "licenseAcknowledgement": "PSF/BSD/ISC/MIT/Apache-2.0/MPL-2.0/LGPL-2.1-or-later/Microsoft-Visual-C++-Runtime",
+  "downloadUrl": null,
+  "publicRedistributionReview": "NOTICE_AND_SOURCE_OBLIGATIONS_REVIEWED",
+  "sourceKind": "VERIFIED_OFFICIAL_WHEELS"
+}

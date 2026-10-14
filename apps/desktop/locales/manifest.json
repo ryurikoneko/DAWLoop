@@ -1,0 +1,16 @@
+{
+  "languages": [
+    "zh-CN",
+    "en-US"
+  ],
+  "namespaces": [
+    "common",
+    "home",
+    "settings",
+    "profiles",
+    "verification",
+    "mixer",
+    "diagnostics",
+    "logs"
+  ]
+}

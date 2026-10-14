@@ -1,0 +1,258 @@
+{
+  "nav": {
+    "music": "音乐智能",
+    "home": "首页",
+    "profiles": "配置方案",
+    "verification": "验证",
+    "mixer": "混音台",
+    "diagnostics": "诊断",
+    "logs": "日志",
+    "settings": "设置"
+  },
+  "brand": {
+    "stage": "桌面版 / Alpha",
+    "workspace": "工作区",
+    "surface": "DAWLoop 控制面板",
+    "subtitle": "配置与观察控制面板"
+  },
+  "status": {
+    "connected": "已连接",
+    "disconnected": "未连接",
+    "degraded": "降级",
+    "unknown": "未知",
+    "running": "运行中",
+    "stopped": "已停止",
+    "starting": "启动中",
+    "stopping": "停止中",
+    "faulted": "故障",
+    "checking": "检查中",
+    "error": "错误",
+    "available": "可用",
+    "partial": "部分可用",
+    "experimental": "实验性",
+    "unavailable": "尚未就绪"
+  },
+  "actions": {
+    "retry": "重试观察",
+    "refresh": "刷新",
+    "startRuntime": "启动 Runtime",
+    "stopRuntime": "停止 Runtime",
+    "switch": "切换",
+    "save": "保存设置"
+  },
+  "backend": {
+    "real": "真实后端 · 只读观察",
+    "realOption": "真实后端 · 只读",
+    "mock": "DEVELOPMENT MOCK"
+  },
+  "bridgeNames": {
+    "controller": {
+      "not-probed": "Controller 未探测；需后续受控安装与验证。",
+      "not-found": "配置或默认设置位置未找到完整 Controller 文件；不会自动安装。",
+      "unavailable": "Controller 安装位置不可读或配置无效；当前身份无法确认。",
+      "present-unverified": "Controller 文件存在；未证明已加载、来源受信或会话连接。"
+    },
+    "gopher": "Gopher",
+    "mcp": "MCP",
+    "sysex": "SysEx"
+  },
+  "loading": "正在读取状态…",
+  "waiting": "等待状态",
+  "footer": {
+    "processing": "处理中…",
+    "observed": "最近观察 {{time}}",
+    "fl": "FL",
+    "runtime": "Runtime",
+    "bridge": "桥接"
+  },
+  "versions": {
+    "label": "版本",
+    "schema": "配置版本 {{version}}"
+  },
+  "languageNames": {
+    "zh-CN": "简体中文",
+    "en-US": "English"
+  },
+  "scenarios": {
+    "connected": "已连接",
+    "disconnected": "未连接",
+    "degraded": "桥接降级",
+    "faulted": "Runtime 故障",
+    "offline": "后端离线",
+    "timeout": "后端超时",
+    "backend-error": "后端错误"
+  },
+  "logLevels": {
+    "ALL": "全部",
+    "INFO": "信息",
+    "WARN": "警告",
+    "ERROR": "错误",
+    "DEBUG": "调试"
+  },
+  "sources": {
+    "ALL": "全部来源",
+    "Runtime": "Runtime",
+    "Mixer": "混音台",
+    "Verifier": "验证器",
+    "Gopher": "Gopher",
+    "MCP": "MCP",
+    "SysEx": "SysEx",
+    "Desktop": "桌面"
+  },
+  "reasonCodes": {
+    "CONTROLLER_RUNTIME_BUILD_MISMATCH": "控制器与 Runtime 构建版本不匹配",
+    "CONTROLLER_RUNTIME_READY": "控制器心跳新鲜；不证明 RPC 已连接",
+    "CONTROLLER_RUNTIME_STALE": "控制器心跳已过期",
+    "CONTROLLER_RUNTIME_STATUS_MISSING": "尚未观察到控制器状态",
+    "CONTROLLER_RUNTIME_STATUS_MALFORMED": "控制器状态格式无效",
+    "CONTROLLER_RUNTIME_NOT_READY": "控制器尚未就绪",
+    "CORE_LIFECYCLE_API_UNAVAILABLE": "Core 尚无安全的全局启停接口",
+    "CORE_OBSERVER_UNAVAILABLE": "状态观察器不可用",
+    "PROCESS_OBSERVATION_ONLY": "仅观察进程；未认证通信连接",
+    "DETECTION_DISABLED": "已关闭宿主自动检测",
+    "NOT_PROBED": "尚未探测连接",
+    "NOT_OBSERVED": "尚未观察到状态",
+    "NOT_READY": "尚未就绪",
+    "NOT_INSTALLED": "未检测到控制器安装",
+    "DEVELOPMENT_MOCK": "开发模拟状态",
+    "MOCK": "开发模拟状态",
+    "LOCAL_OBSERVATION_ONLY": "仅本机观察；不认证 DAW 操作",
+    "CAPABILITY_CERTIFICATION_UNAVAILABLE": "尚无当前能力认证快照",
+    "HOST_PATH_REQUIRED": "请选择 FL64.exe 的绝对路径",
+    "HOST_PATH_EXISTS_ONLY": "仅验证文件存在，不启动宿主",
+    "HOST_PATH_INACCESSIBLE": "文件不存在或不可访问"
+  },
+  "errorCodes": {
+    "DIAGNOSTIC_EXPORT_FAILED": "报告导出失败，可重试或选择其他位置",
+    "DIAGNOSTIC_REPORT_REQUIRED": "请先生成诊断报告",
+    "INVALID_LANGUAGE": "语言设置无效",
+    "INVALID_CONFIG": "配置无效；原文件已保留",
+    "INVALID_JSON": "配置文件损坏；原文件已保留",
+    "UNSUPPORTED_SCHEMA": "配置版本不受支持；原文件已保留",
+    "CONFIG_UNAVAILABLE": "配置不可用；原文件已保留",
+    "CONFIG_UNREADABLE": "无法读取配置",
+    "STATUS_UNAVAILABLE": "状态不可用，请查看诊断",
+    "INTERNAL_ERROR": "本机操作失败，请查看诊断",
+    "IPC_REJECTED": "桌面请求无效",
+    "METHOD_UNAVAILABLE": "此接口不可用",
+    "BACKEND_TIMEOUT": "状态读取超时",
+    "BACKEND_OFFLINE": "找不到可用的 Python 状态观察器",
+    "BACKEND_ERROR": "后端发生错误",
+    "INVALID_BACKEND_RESPONSE": "后端响应无效",
+    "RESPONSE_TOO_LARGE": "后端响应超过限制",
+    "MOCK_RUNTIME_FAILURE": "开发模拟：Runtime 启动失败",
+    "RUNTIME_CONTROL_UNAVAILABLE": "Core 尚无可复用的安全启停接口",
+    "INVALID_PROFILE": "配置方案名称或结构无效",
+    "INVALID_PROFILE_ID": "配置方案标识无效",
+    "PROFILE_NOT_FOUND": "配置方案不存在",
+    "PROFILE_ID_MISMATCH": "配置方案文件标识不一致",
+    "INVALID_FIELD": "配置字段无效",
+    "INVALID_CONFIG_PATCH": "请通过配置方案页面切换方案",
+    "INVALID_PATH": "路径必须是字符串",
+    "INVALID_BACKEND": "后端选项无效",
+    "INVALID_SCENARIO": "模拟场景无效",
+    "MOCK_ONLY": "此操作仅适用于模拟模式",
+    "STATUS_OBSERVATION_FAILED": "本机状态读取失败"
+  },
+  "logEvents": {
+    "DESKTOP_STARTED": "桌面控制面板已启动",
+    "CONFIG_SAVED": "配置已保存",
+    "PROFILE_CREATED": "配置方案已创建",
+    "PROFILE_SWITCHED": "配置方案已切换",
+    "DIAGNOSTICS_GENERATED": "脱敏诊断报告已生成",
+    "MOCK_ENABLED": "已启用开发模拟",
+    "REAL_OBSERVER_SELECTED": "已切换至真实只读观察",
+    "MOCK_RUNTIME_RUNNING": "开发模拟：Runtime 运行中",
+    "MOCK_RUNTIME_STOPPED": "开发模拟：Runtime 已停止"
+  },
+  "fallback": {
+    "reason": "未识别的状态说明",
+    "error": "操作失败，请查看诊断",
+    "codeTooltip": "技术代码：{{code}}",
+    "event": "事件：{{code}}"
+  },
+  "setup": {
+    "title": "首次启动检查",
+    "internal": "实验性 Alpha：已在维护者 Windows 环境测试，尚未独立验证全新 Windows 兼容性。",
+    "language": "首次启动语言",
+    "path": "FL Studio 可执行文件",
+    "pathNote": "选择已有 FL64.exe，仅检查文件存在。不会启动 FL、安装 Controller 或执行扫描。",
+    "browse": "选择文件",
+    "check": "检查路径",
+    "pathValid": "路径文件存在；宿主连接和版本尚未验证。",
+    "pathMissing": "尚未配置有效路径。可以仅使用 Desktop 功能。",
+    "python": {
+      "not-bundled": "本候选未提供 Python 观察器；不会借用系统 PATH 或开发机环境。",
+      "development-external": "开发模式使用外部 Python。"
+    },
+    "core": "当前提供 Desktop 服务；真实 Core 会话未接通，Mixer 数据保持不可用。",
+    "controller": "Controller 未探测、未随包提供；需后续受控安装与独立验证。",
+    "continue": "保存路径并继续",
+    "desktopOnly": "开始使用音乐功能",
+    "version": "软件 {{version}} · Electron {{electron}} · Node {{node}}",
+    "dependenciesUnavailable": "Python / FL / Controller 尚未完成受信接入，真实宿主状态保持 Unknown。",
+    "controllerStates": {
+      "not-probed": "Controller 未探测、未随包提供；需后续受控安装与独立验证。",
+      "not-found": "Controller 未探测、未随包提供；需后续受控安装与独立验证。",
+      "unavailable": "Controller 未探测、未随包提供；需后续受控安装与独立验证。",
+      "present-unverified": "Controller 未探测、未随包提供；需后续受控安装与独立验证。"
+    }
+  },
+  "native": {
+    "exportTitle": "导出脱敏诊断报告",
+    "show": "显示 DAWLoop",
+    "quit": "退出",
+    "browseTitle": "选择 FL64.exe",
+    "startupError": "用户日志目录不可写，桌面程序无法初始化。"
+  },
+  "notices": {
+    "exportCancelled": "已取消导出，未写入文件",
+    "reportExported": "诊断报告已导出",
+    "configSaved": "配置已保存",
+    "profileCreated": "配置方案已创建",
+    "profileSwitched": "配置方案已切换",
+    "verificationSaved": "验证偏好已保存，尚未应用到 Core",
+    "diagnosticsSaved": "诊断报告已生成并保存",
+    "reportCopied": "报告已复制",
+    "logsCopied": "当前日志已复制",
+    "pathMissing": "未检测到可用路径，可手动选择",
+    "languageSaved": "语言设置已保存",
+    "modeSaved": "显示模式已保存"
+  },
+  "ux": {
+    "welcome": "从音乐开始",
+    "welcomeNote": "导入自己的音乐，分析、转成 MIDI，或创作新的旋律。无需先配置 FL Studio。",
+    "importMusic": "导入音乐",
+    "openLibrary": "打开我的音乐库",
+    "analyzeMusic": "开始音乐分析",
+    "audioToMidi": "音频转 MIDI",
+    "recentMusic": "最近导入的音乐",
+    "noRecentMusic": "还没有音乐。导入一段音频即可开始。",
+    "libraryUnavailable": "音乐库暂不可用，请进入音乐智能查看错误详情。",
+    "rerunSetup": "重新运行配置检查",
+    "localWorkspace": "本地音乐工作区",
+    "flOptional": "FL 联动（可选）",
+    "flUnavailable": "FL 联动暂不可用。独立音乐分析、音频转 MIDI 和旋律创作仍可使用。",
+    "configureLater": "查看联动设置",
+    "startupPreferences": "启动与日志偏好",
+    "advancedSettings": "高级设置",
+    "developerMode": "开发者模式",
+    "modeNote": "只改变信息显示，不授予额外操作权限。",
+    "about": "关于 DAWLoop",
+    "appVersion": "软件版本 {{version}}",
+    "reportReady": "诊断报告已生成，可复制或导出；技术字段可在开发者模式查看。",
+    "startMusicNote": "可以直接开始使用音乐功能。FL 路径检查属于可选联动配置。"
+  },
+  "bridgeLabels": {
+    "controller": "Controller",
+    "gopher": "Gopher",
+    "mcp": "MCP",
+    "sysex": "SysEx"
+  },
+  "brandMotion": {
+    "starting": "正在启动 DAWLoop",
+    "loading": "正在准备工作区",
+    "versionPending": "正在读取版本",
+    "reduced": "减少动态效果"
+  }
+}

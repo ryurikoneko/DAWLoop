@@ -1,0 +1,22 @@
+[
+  {
+    "name": "mpdecimal-COPYRIGHT.txt",
+    "url": "https://raw.githubusercontent.com/python/cpython-source-deps/mpdecimal-4.0.0/COPYRIGHT.txt",
+    "sha256": "2713324211652ce4a60e6e21e54f9dc3004299e591b0933a352f1a89c5fb53c2"
+  },
+  {
+    "name": "hacl-star-LICENSE",
+    "url": "https://raw.githubusercontent.com/hacl-star/hacl-star/8ba599b2f6c9701b3dc961db895b0856a2210f76/LICENSE",
+    "sha256": "c5accbbd8546e94c34aed24afe689a617627d18eed5a6c48277e48db57c23851"
+  },
+  {
+    "name": "libtommath-LICENSE",
+    "url": "https://raw.githubusercontent.com/python/cpython-source-deps/tcl-9.0.4.0/libtommath/LICENSE",
+    "sha256": "2fa64b163659f41965c9815882a8296d3d03ff546b76153e11445f9bdecf955a"
+  },
+  {
+    "name": "expat-COPYING",
+    "url": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_8_5/expat/COPYING",
+    "sha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87"
+  }
+]

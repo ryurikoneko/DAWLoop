@@ -1,0 +1,31 @@
+import React from 'react';
+import { afterEach,expect,it,vi } from 'vitest';
+import { cleanup,render,screen,fireEvent,waitFor } from '@testing-library/react';
+import { I18nextProvider } from 'react-i18next';
+import { createDesktopI18n } from './i18n';
+import { FirstRun } from './FirstRun';
+import type { Config,DesktopBridge,DesktopEnvironment } from '../../../packages/shared-types/contracts';
+afterEach(cleanup);
+const config={schemaVersion:1,activeProfileId:'default',general:{launchAtLogin:false,detectHostOnStartup:true,autoStartRuntime:false,logLevel:'Normal'},host:{executablePath:''},features:{experimentalMixerWrite:false,pluginParameterEditing:false,nativeGopherTransport:false},ui:{}} as Config;
+const environment={packaged:true,dependencies:{python:'not-bundled',controller:'not-probed',core:'desktop-only',host:'user-installed'}} as DesktopEnvironment;
+it('首次检查路径不启动宿主，语言保存失败保持原文，允许仅Desktop',async()=>{
+  const call=vi.fn(async(method:string)=>method==='testHostPath'?{apiVersion:1,ok:true,data:{valid:false,reason:'HOST_PATH_REQUIRED'}}:{apiVersion:1,ok:false,error:{code:'CONFIG_UNAVAILABLE'}});
+  window.dawloop={call} as unknown as DesktopBridge;const saved=vi.fn();const i18n=createDesktopI18n('en-US');
+  render(<I18nextProvider i18n={i18n}><FirstRun config={config} environment={environment} onSaved={saved}/></I18nextProvider>);
+  await screen.findByText('No valid path configured. Desktop-only features remain available.');
+  expect(screen.getByText('Save path and continue').hasAttribute('disabled')).toBe(true);
+  fireEvent.change(screen.getByLabelText('First launch language'),{target:{value:'zh-CN'}});
+  await screen.findByRole('alert');expect(i18n.language).toBe('en-US');
+  expect(call.mock.calls.every(([method])=>['testHostPath','updateConfig'].includes(method))).toBe(true);
+});
+it('有效路径保存偏好，编辑后撤销旧有效状态',async()=>{
+  const call=vi.fn(async(method:string)=>({apiVersion:1,ok:true,data:method==='testHostPath'?{valid:true,reason:'HOST_PATH_EXISTS_ONLY'}:{...config,ui:{onboardingCompleted:true}}}));
+  window.dawloop={call} as unknown as DesktopBridge;const saved=vi.fn();
+  render(<I18nextProvider i18n={createDesktopI18n('zh-CN')}><FirstRun config={config} environment={environment} onSaved={saved}/></I18nextProvider>);
+  await screen.findByText('路径文件存在；宿主连接和版本尚未验证。');
+  fireEvent.change(screen.getByLabelText('FL Studio 可执行文件'),{target:{value:'missing.exe'}});
+  expect(screen.getByText('保存路径并继续').hasAttribute('disabled')).toBe(true);
+  fireEvent.click(screen.getByText('开始使用音乐功能'));
+  await waitFor(()=>expect(saved).toHaveBeenCalled());
+  expect(call).toHaveBeenCalledWith('updateConfig',{ui:{onboardingCompleted:true}});
+});

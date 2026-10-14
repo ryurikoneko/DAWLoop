@@ -1,0 +1,11 @@
+{
+  "title": "事件日志",
+  "description": "仅清空当前视图，磁盘历史记录继续保留。",
+  "levelFilter": "日志级别筛选",
+  "sourceFilter": "日志来源筛选",
+  "copy": "复制日志",
+  "clear": "清空视图",
+  "empty": "当前视图没有日志。",
+  "search": "搜索消息或机器码",
+  "count": "当前显示 {{count}} 条"
+}

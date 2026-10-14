@@ -1,0 +1,23 @@
+{
+  "overview": "Session overview",
+  "description": "View Runtime, host, and connection status.",
+  "runtime": "DAWLoop Runtime",
+  "host": "FL Studio",
+  "mockControl": "Development mock control",
+  "controlUnavailable": "Real lifecycle controls are not connected",
+  "installation": "Installation detection",
+  "detected": "Detected",
+  "notDetected": "Not detected",
+  "processNote": "Process presence and connection are observed separately",
+  "activeProfile": "Active profile",
+  "manageProfiles": "Manage profiles →",
+  "preferencesNote": "Verification preferences are saved, not applied to Core",
+  "connections": "Connection observation",
+  "diagnosticsLink": "Diagnostics →",
+  "developmentBackend": "Development backend",
+  "mockNote": "Mock uses independent simulated states, not actual host or bridge capabilities.",
+  "backendLabel": "Backend",
+  "scenarioLabel": "Mock scenario",
+  "connectionPending": "Connection has not been verified",
+  "recoveryNote": "Retry the read-only observation or open diagnostics. No host is launched and no reconnect operation is sent."
+}

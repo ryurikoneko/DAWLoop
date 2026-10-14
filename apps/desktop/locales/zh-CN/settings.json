@@ -1,0 +1,29 @@
+{
+  "title": "软件设置",
+  "description": "设置保存在用户目录。",
+  "general": "通用",
+  "language": "语言",
+  "languageNote": "立即生效，自动保存；用户选择优先于系统语言。",
+  "launchAtLogin": "开机启动（仅保存偏好）",
+  "detectHostOnStartup": "启动时自动检测 FL",
+  "autoStartRuntime": "Runtime 自动启动（仅保存偏好）",
+  "logLevel": "日志级别",
+  "logOptions": {
+    "Normal": "常规",
+    "Detailed": "详细",
+    "Debug": "调试"
+  },
+  "hostPath": "FL Studio 路径",
+  "detect": "检测",
+  "browse": "浏览",
+  "test": "测试路径",
+  "pathPass": "路径有效",
+  "pathFail": "路径无效",
+  "experiments": "实验功能偏好 · 默认关闭",
+  "featureLabels": {
+    "experimentalMixerWrite": "实验性混音台写入",
+    "pluginParameterEditing": "插件参数编辑",
+    "nativeGopherTransport": "原生 Gopher 传输"
+  },
+  "experimentsNote": "实验开关仅保存偏好，当前没有写入入口。"
+}

@@ -32,3 +32,5 @@ evidence/live_fl/**
 *.db
 *.log
 provenance/development-manifest.json
+node_modules/
+apps/desktop/test-results/

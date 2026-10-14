@@ -1,0 +1,29 @@
+{
+  "title": "Application settings",
+  "description": "Settings are stored in your user directory.",
+  "general": "General",
+  "language": "Language",
+  "languageNote": "Applies immediately and saves automatically. Your choice overrides system language.",
+  "launchAtLogin": "Launch at login (preference only)",
+  "detectHostOnStartup": "Detect FL at startup",
+  "autoStartRuntime": "Start Runtime automatically (preference only)",
+  "logLevel": "Log level",
+  "logOptions": {
+    "Normal": "Normal",
+    "Detailed": "Detailed",
+    "Debug": "Debug"
+  },
+  "hostPath": "FL Studio path",
+  "detect": "Detect",
+  "browse": "Browse",
+  "test": "Test path",
+  "pathPass": "Valid path",
+  "pathFail": "Invalid path",
+  "experiments": "Experimental preferences · disabled by default",
+  "featureLabels": {
+    "experimentalMixerWrite": "Experimental Mixer writes",
+    "pluginParameterEditing": "Plugin parameter editing",
+    "nativeGopherTransport": "Native Gopher transport"
+  },
+  "experimentsNote": "Experimental switches save preferences only. No write controls are exposed."
+}

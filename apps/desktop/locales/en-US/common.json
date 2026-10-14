@@ -1,0 +1,258 @@
+{
+  "nav": {
+    "music": "Music Intelligence",
+    "home": "Home",
+    "profiles": "Profiles",
+    "verification": "Verification",
+    "mixer": "Mixer",
+    "diagnostics": "Diagnostics",
+    "logs": "Logs",
+    "settings": "Settings"
+  },
+  "brand": {
+    "stage": "DESKTOP / ALPHA",
+    "workspace": "WORKSPACE",
+    "surface": "DAWLoop control surface",
+    "subtitle": "Configuration and observation"
+  },
+  "status": {
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "degraded": "Degraded",
+    "unknown": "Unknown",
+    "running": "Running",
+    "stopped": "Stopped",
+    "starting": "Starting",
+    "stopping": "Stopping",
+    "faulted": "Faulted",
+    "checking": "Checking",
+    "error": "Error",
+    "available": "Available",
+    "partial": "Partial",
+    "experimental": "Experimental",
+    "unavailable": "Not ready"
+  },
+  "actions": {
+    "retry": "Retry observation",
+    "refresh": "Refresh",
+    "startRuntime": "Start Runtime",
+    "stopRuntime": "Stop Runtime",
+    "switch": "Switch",
+    "save": "Save settings"
+  },
+  "backend": {
+    "real": "Real backend · read-only observer",
+    "realOption": "Real backend · read-only",
+    "mock": "DEVELOPMENT MOCK"
+  },
+  "bridgeNames": {
+    "controller": {
+      "not-probed": "Controller has not been probed. Controlled installation and verification are required later.",
+      "not-found": "Complete Controller files were not found in the configured or default settings location. Nothing is installed automatically.",
+      "unavailable": "Controller location is unreadable or configuration is invalid. Identity is unconfirmed.",
+      "present-unverified": "Controller files exist. Loading, trusted provenance and session connection remain unproven."
+    },
+    "gopher": "Gopher",
+    "mcp": "MCP",
+    "sysex": "SysEx"
+  },
+  "loading": "Reading status…",
+  "waiting": "Waiting for status",
+  "footer": {
+    "processing": "Working…",
+    "observed": "Last observed {{time}}",
+    "fl": "FL",
+    "runtime": "Runtime",
+    "bridge": "Bridge"
+  },
+  "versions": {
+    "label": "Version",
+    "schema": "Schema version {{version}}"
+  },
+  "languageNames": {
+    "zh-CN": "简体中文",
+    "en-US": "English"
+  },
+  "scenarios": {
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "degraded": "Bridge degraded",
+    "faulted": "Runtime faulted",
+    "offline": "Backend offline",
+    "timeout": "Backend timeout",
+    "backend-error": "Backend error"
+  },
+  "logLevels": {
+    "ALL": "All",
+    "INFO": "Info",
+    "WARN": "Warning",
+    "ERROR": "Error",
+    "DEBUG": "Debug"
+  },
+  "sources": {
+    "ALL": "All sources",
+    "Runtime": "Runtime",
+    "Mixer": "Mixer",
+    "Verifier": "Verifier",
+    "Gopher": "Gopher",
+    "MCP": "MCP",
+    "SysEx": "SysEx",
+    "Desktop": "Desktop"
+  },
+  "reasonCodes": {
+    "CONTROLLER_RUNTIME_BUILD_MISMATCH": "Controller and Runtime build mismatch",
+    "CONTROLLER_RUNTIME_READY": "Fresh Controller heartbeat; RPC connection unproven",
+    "CONTROLLER_RUNTIME_STALE": "Controller heartbeat is stale",
+    "CONTROLLER_RUNTIME_STATUS_MISSING": "Controller status has not been observed",
+    "CONTROLLER_RUNTIME_STATUS_MALFORMED": "Invalid Controller status format",
+    "CONTROLLER_RUNTIME_NOT_READY": "Controller is not ready",
+    "CORE_LIFECYCLE_API_UNAVAILABLE": "Core has no safe global lifecycle API",
+    "CORE_OBSERVER_UNAVAILABLE": "Status observer unavailable",
+    "PROCESS_OBSERVATION_ONLY": "Process observation only; connection unverified",
+    "DETECTION_DISABLED": "Automatic host detection is disabled",
+    "NOT_PROBED": "Connection not probed",
+    "NOT_OBSERVED": "Status not observed",
+    "NOT_READY": "Not ready",
+    "NOT_INSTALLED": "Controller installation not detected",
+    "DEVELOPMENT_MOCK": "Development simulation",
+    "MOCK": "Development simulation",
+    "LOCAL_OBSERVATION_ONLY": "Local observation only; DAW operations unverified",
+    "CAPABILITY_CERTIFICATION_UNAVAILABLE": "Current capability certification snapshot unavailable",
+    "HOST_PATH_REQUIRED": "Select an absolute path to FL64.exe",
+    "HOST_PATH_EXISTS_ONLY": "Checks file existence only; does not launch the host",
+    "HOST_PATH_INACCESSIBLE": "File does not exist or is inaccessible"
+  },
+  "errorCodes": {
+    "DIAGNOSTIC_EXPORT_FAILED": "Report export failed; retry or choose another location",
+    "DIAGNOSTIC_REPORT_REQUIRED": "Generate a diagnostic report first",
+    "INVALID_LANGUAGE": "Invalid language preference",
+    "INVALID_CONFIG": "Invalid configuration; original file preserved",
+    "INVALID_JSON": "Configuration is damaged; original file preserved",
+    "UNSUPPORTED_SCHEMA": "Unsupported configuration version; original file preserved",
+    "CONFIG_UNAVAILABLE": "Configuration unavailable; original file preserved",
+    "CONFIG_UNREADABLE": "Configuration cannot be read",
+    "STATUS_UNAVAILABLE": "Status unavailable; check diagnostics",
+    "INTERNAL_ERROR": "Local operation failed; check diagnostics",
+    "IPC_REJECTED": "Invalid desktop request",
+    "METHOD_UNAVAILABLE": "This interface is unavailable",
+    "BACKEND_TIMEOUT": "Status observation timed out",
+    "BACKEND_OFFLINE": "No available Python status observer",
+    "BACKEND_ERROR": "Backend error",
+    "INVALID_BACKEND_RESPONSE": "Invalid backend response",
+    "RESPONSE_TOO_LARGE": "Backend response exceeds the size limit",
+    "MOCK_RUNTIME_FAILURE": "Development simulation: Runtime failed to start",
+    "RUNTIME_CONTROL_UNAVAILABLE": "Core has no reusable safe lifecycle API",
+    "INVALID_PROFILE": "Invalid profile name or structure",
+    "INVALID_PROFILE_ID": "Invalid profile ID",
+    "PROFILE_NOT_FOUND": "Profile not found",
+    "PROFILE_ID_MISMATCH": "Profile file ID mismatch",
+    "INVALID_FIELD": "Invalid configuration field",
+    "INVALID_CONFIG_PATCH": "Switch profiles on the Profiles page",
+    "INVALID_PATH": "Path must be a string",
+    "INVALID_BACKEND": "Invalid backend option",
+    "INVALID_SCENARIO": "Invalid mock scenario",
+    "MOCK_ONLY": "This action is available only in mock mode",
+    "STATUS_OBSERVATION_FAILED": "Local status observation failed"
+  },
+  "logEvents": {
+    "DESKTOP_STARTED": "Desktop control surface started",
+    "CONFIG_SAVED": "Configuration saved",
+    "PROFILE_CREATED": "Profile created",
+    "PROFILE_SWITCHED": "Profile switched",
+    "DIAGNOSTICS_GENERATED": "Redacted diagnostics generated",
+    "MOCK_ENABLED": "Development mock enabled",
+    "REAL_OBSERVER_SELECTED": "Real read-only observer selected",
+    "MOCK_RUNTIME_RUNNING": "Development mock: Runtime running",
+    "MOCK_RUNTIME_STOPPED": "Development mock: Runtime stopped"
+  },
+  "fallback": {
+    "reason": "Unrecognized status reason",
+    "error": "Operation failed; check diagnostics",
+    "codeTooltip": "Technical code: {{code}}",
+    "event": "Event: {{code}}"
+  },
+  "setup": {
+    "title": "First launch checks",
+    "internal": "Experimental Alpha: tested on the maintainer’s Windows environment; clean Windows compatibility has not been independently verified.",
+    "language": "First launch language",
+    "path": "FL Studio executable",
+    "pathNote": "Select an existing FL64.exe. This only checks file existence; it does not launch FL, install a Controller, or scan.",
+    "browse": "Select file",
+    "check": "Check path",
+    "pathValid": "File exists; host connection and version remain unverified.",
+    "pathMissing": "No valid path configured. Desktop-only features remain available.",
+    "python": {
+      "not-bundled": "No Python observer is bundled. System PATH and developer overrides are not used.",
+      "development-external": "Development mode uses external Python."
+    },
+    "core": "Desktop services are included. A real Core session is not connected; Mixer data remains unavailable.",
+    "controller": "Controller is not probed or bundled. Controlled installation and independent verification are required later.",
+    "continue": "Save path and continue",
+    "desktopOnly": "Start using music features",
+    "version": "App {{version}} · Electron {{electron}} · Node {{node}}",
+    "dependenciesUnavailable": "Python / FL / Controller integration is not ready. Real host status remains Unknown.",
+    "controllerStates": {
+      "not-probed": "Controller is not probed or bundled. Controlled installation and independent verification are required later.",
+      "not-found": "Controller is not probed or bundled. Controlled installation and independent verification are required later.",
+      "unavailable": "Controller is not probed or bundled. Controlled installation and independent verification are required later.",
+      "present-unverified": "Controller is not probed or bundled. Controlled installation and independent verification are required later."
+    }
+  },
+  "native": {
+    "exportTitle": "Export redacted diagnostics",
+    "show": "Show DAWLoop",
+    "quit": "Quit",
+    "browseTitle": "Select FL64.exe",
+    "startupError": "The user log directory is not writable. Desktop initialization failed."
+  },
+  "notices": {
+    "exportCancelled": "Export cancelled; no file written",
+    "reportExported": "Diagnostic report exported",
+    "configSaved": "Configuration saved",
+    "profileCreated": "Profile created",
+    "profileSwitched": "Profile switched",
+    "verificationSaved": "Verification preferences saved; not applied to Core",
+    "diagnosticsSaved": "Diagnostic report generated and saved",
+    "reportCopied": "Report copied",
+    "logsCopied": "Visible logs copied",
+    "pathMissing": "No usable path detected; select it manually",
+    "languageSaved": "Language preference saved",
+    "modeSaved": "Display mode saved"
+  },
+  "ux": {
+    "welcome": "Start with your music",
+    "welcomeNote": "Import your music, analyze it, turn it into MIDI, or create a melody. FL Studio setup is optional.",
+    "importMusic": "Import music",
+    "openLibrary": "Open my music library",
+    "analyzeMusic": "Start music analysis",
+    "audioToMidi": "Audio to MIDI",
+    "recentMusic": "Recently imported music",
+    "noRecentMusic": "No music yet. Import an audio file to start.",
+    "libraryUnavailable": "The library is unavailable. Open Music Intelligence for error details.",
+    "rerunSetup": "Run setup checks again",
+    "localWorkspace": "Local music workspace",
+    "flOptional": "FL integration (optional)",
+    "flUnavailable": "FL integration is not ready. Standalone music analysis, audio to MIDI and melody creation remain available.",
+    "configureLater": "View integration settings",
+    "startupPreferences": "Startup and logging preferences",
+    "advancedSettings": "Advanced settings",
+    "developerMode": "Developer mode",
+    "modeNote": "Changes displayed information only. No additional permissions are granted.",
+    "about": "About DAWLoop",
+    "appVersion": "Application version {{version}}",
+    "reportReady": "The diagnostic report is ready to copy or export. Developer mode shows technical fields.",
+    "startMusicNote": "You can start using music features now. FL path checks are optional integration setup."
+  },
+  "bridgeLabels": {
+    "controller": "Controller",
+    "gopher": "Gopher",
+    "mcp": "MCP",
+    "sysex": "SysEx"
+  },
+  "brandMotion": {
+    "starting": "Starting DAWLoop",
+    "loading": "Preparing your workspace",
+    "versionPending": "Reading version",
+    "reduced": "Reduce motion"
+  }
+}

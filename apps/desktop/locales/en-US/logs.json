@@ -1,0 +1,11 @@
+{
+  "title": "Event logs",
+  "description": "Clear only the visible entries; disk history is preserved.",
+  "levelFilter": "Log level filter",
+  "sourceFilter": "Log source filter",
+  "copy": "Copy logs",
+  "clear": "Clear view",
+  "empty": "No logs in the current view.",
+  "search": "Search messages or codes",
+  "count": "{{count}} visible entries"
+}

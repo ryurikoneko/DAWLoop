@@ -1,0 +1,14 @@
+{
+  "schema_version": 2,
+  "product": "dawloop-desktop",
+  "channel": "stable",
+  "version": null,
+  "release_id": null,
+  "notification_enabled": false,
+  "approved_by_owner": false,
+  "approved_owner": null,
+  "approval_command": null,
+  "active_approval_id": null,
+  "approvals": [],
+  "revocations": []
+}
