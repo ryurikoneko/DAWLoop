@@ -68,14 +68,15 @@ npm.cmd run test:launch
 
 [KNOWN｜HIGH] 普通/打包模式拒绝 DAWLOOP_CORE_WORLD_SNAPSHOT 文件声明进入真实链；仅显式 --dev 可读取开发样例，世界标为 Development Mock。真实链仅接受 Core 内部注册来源的验证器通过、当前绑定一致且属于同一 Publisher 代次的不可伪造进程内发布凭据；复制 JSON 不继承归属。该凭据不是宿主认证或跨进程签名。合同与来源责任见 packages/core-snapshot/README.md、packages/shared-types/contracts.ts；15秒时效、逐级晋级和只读白名单共同决定数据可见性，写入永不晋级。
 
-## Windows 内部便携候选
+## Windows 便携构建
+
+[KNOWN｜HIGH] 当前公开 Alpha 的基础组件、许可、来源与首次运行范围见 [Desktop Alpha 指南](../../docs/DESKTOP_ALPHA_BUILD.md)。下方早期内部候选说明保留其历史上下文，不能代替当前发行清单。
 
 [COMPUTED｜HIGH] 按锁文件准备本工作树的开发依赖后，在 Windows x64 执行以下命令。输出必须是工作树外尚不存在的绝对目录；不覆盖历史产物。打包脚本先检查 TypeScript、构建 renderer，再组装 Electron、main/preload、资源、Desktop 服务与 i18next 主进程依赖，生成逐文件 SHA-256 清单和 build-record.json。采用 [Electron 官方手工分发布局](https://www.electronjs.org/docs/latest/tutorial/application-distribution)，没有新引入打包框架。
 
 ```powershell
-npm.cmd run pack:portable -- E:/codex/outputs/DAWLoop-internal-new
-node ../../tools/verify-portable.mjs E:/codex/outputs/DAWLoop-internal-new
-node ../../tests/desktop/portable-smoke.mjs E:/codex/outputs/DAWLoop-internal-new
+npm.cmd run pack:portable -- D:/DAWLoop-build/new-candidate D:/DAWLoop-build/basic-audio-1.1.0-alpha.1-win-x64.zip
+node ../../tools/verify-portable.mjs D:/DAWLoop-build/new-candidate
 ```
 
 [COMPUTED｜HIGH] 首次启动提供中文/英文选择、本地 FL 可执行文件存在检查及仅使用桌面功能的跳过入口。文件存在不等于版本、授权、连接或会话身份通过。Controller 仅检查配置/default Settings 中两项文件是否存在，状态为 present-unverified / not-found / unavailable，不声称 Controller 已加载。没有扫描、安装脚本、修改宿主或自动调用后续现场操作。
