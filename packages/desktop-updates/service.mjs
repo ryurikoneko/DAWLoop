@@ -136,7 +136,7 @@ export class DesktopUpdates {
     // 先落盘再展示；即使关闭事件未送达或程序崩溃，下次启动也不会重复弹窗。
     this.state.seen.push(key);this.state.seen=this.state.seen.slice(-100);try{this.persist();}catch{return false;}
     const chinese=this.language()==='zh-CN';
-    try{return await this.notify({title:chinese?'DAWLoop 更新可用':'DAWLoop update available',body:`DAWLoop ${r.version}\n${r.notes.slice(0,180)}\n${chinese?'查看更新':'View release'}`,
+    try{return await this.notify({title:chinese?'DAWLoop 有新版本':'A new DAWLoop version is available',body:`DAWLoop ${r.version}${r.channel==='preview'?' · Alpha / Preview':''}\n${chinese?'有空时来看看新变化。点击查看更新与下载。':'Explore what is new when you have time. Click to view the update and download.'}`,
       onClick:()=>this.openRelease(),onClose:()=>{},id:'dawloop-update',groupId:'dawloop-updates'});}catch{return false;}
   }
   snooze() {this.state.snoozeUntil=this.now()+7*DAY;this.persist();return this.get();}

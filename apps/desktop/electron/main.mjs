@@ -28,7 +28,7 @@ if (override) {
   fs.mkdirSync(browserData, { recursive:true });
   app.setPath('userData', browserData);
 }
-let music;let desktopInitialization;let updates;
+let music;let desktopInitialization;let updates;let updateTimer;
 const brandIcon=path.resolve(directory,'../dist/brand/DAWLoop.ico');
 let window, core, tray, translations, sessionWorker, sessionStartup, sessionInvalidation, sessionUnsubscribe; let quitting = false;
 let lastDiagnosticText, exporting = false;
@@ -138,6 +138,8 @@ else {
     await window.loadFile(path.resolve(directory, '../dist/index.html'));
     // 更新检查与音乐工作区初始化解耦，网络不可用不会阻止窗口打开。
     void updates.check().catch(()=>{});
+    updateTimer=setInterval(()=>void updates.check().catch(()=>{}),30*60*1000);
+    updateTimer.unref();
     if (!process.argv.includes('--smoke')) { window.show(); window.focus(); }
     if (process.env.DAWLOOP_DEV_LAUNCH_CHECK === '1') console.log('DESKTOP_RENDERER_READY', JSON.stringify({ visible:window.isVisible(), language:translations.language, systemLocale }));
     await desktopInitialization;
@@ -151,6 +153,7 @@ else {
   }).catch(error => { console.error('DESKTOP_STARTUP_FAILED', /^[A-Z0-9_]{1,120}$/.test(error?.message) ? error.message : 'STARTUP_UNAVAILABLE'); if(!quitting)app.exit(1); });
   app.on('window-all-closed', () => app.quit());
   app.on('before-quit', event => {
+    clearInterval(updateTimer);
     if (quitting || !core) return;
     event.preventDefault(); quitting = true;
     Promise.resolve(desktopInitialization).catch(()=>{}).then(()=>music?.close()).then(()=>core.close()).then(()=>sessionStartup?.catch(()=>undefined)).then(()=>sessionWorker?.close()).finally(() => { tray?.destroy(); app.quit(); });
