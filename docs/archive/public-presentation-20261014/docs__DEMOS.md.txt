@@ -2,20 +2,20 @@
 
 ## Demo A — Music Intelligence
 
-[COMPUTED｜HIGH] 内部候选 `0.5.6-internal.1`，源码 `66806b5`，单主窗口与自有合成素材。导入 → 基础分析 → 查看结果 → Basic Pitch 转录或 RULE_BASED 创作 → Piano Roll 编辑 → 导出 MIDI。模型必须实际就绪；RULE_BASED 不伪装成 AI 推理。[真实截图](media/README.md)
+内部候选 `0.5.6-internal.1`，源码 `66806b5`，单主窗口与自有合成素材。导入 → 基础分析 → 查看结果 → Basic Pitch 转录或 RULE_BASED 创作 → Piano Roll 编辑 → 导出 MIDI。模型必须实际就绪；RULE_BASED 不伪装成 AI 推理。[真实截图](media/README.md)
 
-[COMPUTED | HIGH] Internal candidate, owned synthetic material and a single window: import → basic analysis → results → ready Basic Pitch or RULE_BASED composition → Piano Roll → MIDI export. The model must be ready; rule generation is not AI inference.
+Internal candidate, owned synthetic material and a single window: import → basic analysis → results → ready Basic Pitch or RULE_BASED composition → Piano Roll → MIDI export. The model must be ready; rule generation is not AI inference.
 
-[KNOWN｜HIGH] 本演示不连接 FL Studio，不证明 Desktop Host / Mixer 接通。完整本地操作录屏不进入 Git；文档只发布审查过的 PNG。公共短视频链接尚未发布，不提供失效或虚构的视频 URL。
+本演示不连接 FL Studio，不证明 Desktop Host / Mixer 接通。完整本地操作录屏不进入 Git；文档只发布审查过的 PNG。公共短视频链接尚未发布，不提供失效或虚构的视频 URL。
 
-[KNOWN | HIGH] This demo does not connect FL or prove Desktop Host / Mixer integration. Raw local recordings stay out of Git. Only reviewed PNGs are included; no public short-video URL has been published.
+This demo does not connect FL or prove Desktop Host / Mixer integration. Raw local recordings stay out of Git. Only reviewed PNGs are included; no public short-video URL has been published.
 
 ## Demo B — FL Runtime Research
 
-[KNOWN｜HIGH] 展示既有受限 FAST 工作流：固定 Pattern/Channel 目标 → 身份与新鲜 UI 审阅 → 一次 Native 派发 → 用户 Preview / Accept → HumanReport / 应用观察 / 宿主完成 → `COMPLETED_UNVERIFIED`。历史证据为固定16-note、一次派发、零重试与fallback，不保存退出。[脱敏现场摘要](../evidence/public/fast_session_7.json)
+展示既有受限 FAST 工作流：固定 Pattern/Channel 目标 → 身份与新鲜 UI 审阅 → 一次 Native 派发 → 用户 Preview / Accept → HumanReport / 应用观察 / 宿主完成 → `COMPLETED_UNVERIFIED`。历史证据为固定16-note、一次派发、零重试与fallback，不保存退出。[脱敏现场摘要](../evidence/public/fast_session_7.json)
 
-[KNOWN | HIGH] Existing constrained FAST: fixed target → identity and fresh UI review → one Native dispatch → human Preview / Accept → reports, observation and completion → `COMPLETED_UNVERIFIED`. Historical scope is 16 notes, one dispatch, no retry/fallback, no-save exit.
+Existing constrained FAST: fixed target → identity and fresh UI review → one Native dispatch → human Preview / Accept → reports, observation and completion → `COMPLETED_UNVERIFIED`. Historical scope is 16 notes, one dispatch, no retry/fallback, no-save exit.
 
-[KNOWN｜HIGH] 不在本轮重放宿主，不将该研究路径拼接成 Desktop 无缝控制演示。producer完整读回、Native Exact Set、任意工程写入与完整自动混音未获认证。[验证合同](VERIFICATION.md)
+不在本轮重放宿主，不将该研究路径拼接成 Desktop 无缝控制演示。producer完整读回、Native Exact Set、任意工程写入与完整自动混音未获认证。[验证合同](VERIFICATION.md)
 
-[KNOWN | HIGH] No host replay is run for this showcase, and the research path is not presented as seamless Desktop control. Complete producer readback, Native Exact Set, arbitrary-project writes and full AutoMix are not certified.
+No host replay is run for this showcase, and the research path is not presented as seamless Desktop control. Complete producer readback, Native Exact Set, arbitrary-project writes and full AutoMix are not certified.

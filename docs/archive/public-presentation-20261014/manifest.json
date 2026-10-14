@@ -3,42 +3,56 @@
     "source": "docs/DESKTOP.md",
     "snapshot": "docs__DESKTOP.md.txt",
     "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
-    "sha256": "59f3011928d5ea41fa7e8834fd60abfb63ee7d74282a77eae0aefe2152dcb6c6"
+    "source_sha256": "59f3011928d5ea41fa7e8834fd60abfb63ee7d74282a77eae0aefe2152dcb6c6",
+    "sha256": "ce6fa52085616cff9524c923e04c1f9b4b6042a278a03e94665790bb21086a9c",
+    "transformation": "public_annotation_cleanup"
   },
   {
     "source": "docs/DEMOS.md",
     "snapshot": "docs__DEMOS.md.txt",
     "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
-    "sha256": "7c6d8d1cf49ab07d9226f3fe65f1b5007d2db8bc18f34d1ca778eabdff3ba3f3"
+    "source_sha256": "7c6d8d1cf49ab07d9226f3fe65f1b5007d2db8bc18f34d1ca778eabdff3ba3f3",
+    "sha256": "3722788111cbc244a2f9f686a85f5f9e7b22d02a565e0f2b6d50cd4f062edf6e",
+    "transformation": "public_annotation_cleanup"
   },
   {
     "source": "docs/CAPABILITIES.md",
     "snapshot": "docs__CAPABILITIES.md.txt",
     "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
-    "sha256": "c3b4ff0d24a2672c3a375f70a80fee96acfc1d83eefd0c9fa2a02aa546908a81"
+    "source_sha256": "c3b4ff0d24a2672c3a375f70a80fee96acfc1d83eefd0c9fa2a02aa546908a81",
+    "sha256": "db530335aaa3d324c561ac74e1334ed23e6de5a27dda2d954e7b0f1ba1d6bc38",
+    "transformation": "public_annotation_cleanup"
   },
   {
     "source": "docs/ARCHITECTURE.md",
     "snapshot": "docs__ARCHITECTURE.md.txt",
     "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
-    "sha256": "7f509e34c39a443c3eff88373d866db8c9240b50564c5cc59fcf553e6a296d15"
+    "source_sha256": "7f509e34c39a443c3eff88373d866db8c9240b50564c5cc59fcf553e6a296d15",
+    "sha256": "6f58f3a0be42634488989bb88731bc0408612b8b9ca3a5c0edc71886925504c5",
+    "transformation": "public_annotation_cleanup"
   },
   {
     "source": "docs/ROADMAP.md",
     "snapshot": "docs__ROADMAP.md.txt",
     "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
-    "sha256": "090a092356b5a8c53238fa4e8cfb4a96a943b9698606337a7cf7d150903d8134"
+    "source_sha256": "090a092356b5a8c53238fa4e8cfb4a96a943b9698606337a7cf7d150903d8134",
+    "sha256": "6b879f78e681e35928dc08a3f93c2bac2e6f78a2f15b4cdecc4694f0b41b76d8",
+    "transformation": "public_annotation_cleanup"
   },
   {
     "source": "docs/GITHUB_SHOWCASE.md",
     "snapshot": "docs__GITHUB_SHOWCASE.md.txt",
     "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
-    "sha256": "368879a4ae94d1e03496f012e3486d36b0f2e0050bc22e592816c8bde5f2f076"
+    "source_sha256": "368879a4ae94d1e03496f012e3486d36b0f2e0050bc22e592816c8bde5f2f076",
+    "sha256": "a000011324a3dbfcc36afa082f181dba26c22f11b993b9edea8046cbce3bee16",
+    "transformation": "public_annotation_cleanup"
   },
   {
     "source": "docs/media/README.md",
     "snapshot": "docs__media__README.md.txt",
     "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
-    "sha256": "36258f41230c92a7c7a6502c361d47d82a2b700c08698327a50adb35ce23295b"
+    "source_sha256": "36258f41230c92a7c7a6502c361d47d82a2b700c08698327a50adb35ce23295b",
+    "sha256": "c1d89ce126128d33035d60fcec14404669031cb646400d2c37474e047dbcf7dd",
+    "transformation": "public_annotation_cleanup"
   }
 ]

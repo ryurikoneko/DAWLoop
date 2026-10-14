@@ -1,4 +1,4 @@
-> [KNOWN｜HIGH] 这是公开 Runtime 工程说明，保留原首页的技术内容。Desktop 内部预览与公开发行状态以 [能力表](CAPABILITIES.md) 为准。
+> 这是公开 Runtime 工程说明，保留原首页的技术内容。Desktop 内部预览与公开发行状态以 [能力表](CAPABILITIES.md) 为准。
 
 # DAWLoop
 
@@ -259,4 +259,4 @@ DAWLoop 在这些工作之上连接音乐计划、宿主执行、观察结果和
 [NOTICE](../NOTICE)、[AUTHORS](../AUTHORS)、[CITATION.cff](../CITATION.cff) 和 provenance 记录项目来源与引用方式。个人 Profile、workspace、Memos、凭据、FLP 和原始现场材料不发布；官方手册 HTML / 图片未收录。
 
 
-[KNOWN | HIGH] This retained engineering guide is not the Desktop distribution guide. Newly introduced showcase PNG rights are listed separately in [media notice](media/README.md); previous grants and third-party notices remain intact.
+This retained engineering guide is not the Desktop distribution guide. Newly introduced showcase PNG rights are listed separately in [media notice](media/README.md); previous grants and third-party notices remain intact.

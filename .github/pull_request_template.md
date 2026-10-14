@@ -40,3 +40,4 @@ Results:
 - [ ] Internal evidence is not presented as a public installer or live host certification.
 
 - [ ] Product copy follows `docs/PUBLIC_CONTENT_STYLE.md` and preserves user safety requirements.
+- [ ] Public documents, templates and text archives use plain language without internal reasoning or confidence labels.

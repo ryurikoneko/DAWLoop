@@ -32,8 +32,8 @@ The existing ZIP and packaged guides remain intact. After PR #21, the maintainer
 
 ## 保护范围 / Preserved material
 
-MIT、第三方许可、品牌权属文档、原始PROVENANCE、媒体provenance及全部不可变证据保持原字节。产品页旧技术段落在 [历史档案](archive/public-presentation-20261014/README.md) 逐字节保存。Runtime/Desktop业务代码、运行时权限、版本/tag和公共通知开关不改。
+MIT 正文、第三方许可、媒体provenance及不可变机器证据保持原字节。来源、品牌和工程文档清理内部判断标签，事实、署名、权属状态与验证结果保持。产品页旧技术内容在 [历史档案](archive/public-presentation-20261014/README.md) 保留，原始与清理后摘要分别登记。Runtime/Desktop业务代码、运行时权限、版本/tag和公共通知开关不改。
 
-Legal/source records and immutable evidence retain their bytes. Historical page snapshots are archived, with no code or permission changes.
+License texts and immutable machine evidence retain their bytes. Source, brand and engineering documents use plain language without changing factual records, ownership status or verification results. Historical archives retain separate original and cleaned-text hashes, with no code or permission changes.
 
 [内容审计](PUBLIC_CONTENT_AUDIT.md) · [写作规范](PUBLIC_CONTENT_STYLE.md) · [定位研究](POSITIONING_RESEARCH.md)

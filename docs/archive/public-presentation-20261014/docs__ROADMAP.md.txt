@@ -2,7 +2,7 @@
 
 ## 双线交付计划 / Parallel delivery roadmap
 
-[KNOWN｜HIGH] 公开 Runtime 与内部 Desktop 分开交付、回归和宿主授权；[能力表](CAPABILITIES.md)是当前状态入口。以下待办不代表已实现产品承诺。
+公开 Runtime 与内部 Desktop 分开交付、回归和宿主授权；[能力表](CAPABILITIES.md)是当前状态入口。以下待办不代表已实现产品承诺。
 
 | 优先级 / Priority | Desktop / Music Intelligence | Runtime / Host |
 | --- | --- | --- |
@@ -10,7 +10,7 @@
 | P1 | 独立源码集成/发行审查、模型与资源生命周期 / Source/distribution review and asset lifecycle | 逐级只读 Mixer/Identity 证据 / Graded read-only Mixer and identity evidence |
 | P2 | OMAR参考检索、学习与生成模型独立研究 / Separate retrieval, learning and generation research | 通用Plan Adapter、独立验证与受控权限 / Generic Plan Adapter and controlled permission |
 
-[KNOWN | HIGH] The two lines integrate through versioned contracts and independent acceptance. No automated writes, arbitrary projects or model availability are promised by this roadmap. Historical milestones below remain intact.
+The two lines integrate through versioned contracts and independent acceptance. No automated writes, arbitrary projects or model availability are promised by this roadmap. Historical milestones below remain intact.
 
 本版是 Runtime V2 research-preview；旧 `v0.1.0-alpha` 保留。路线图区分已实现、现场认证与未来计划，不用上游支持或离线测试替代现场证据。
 
