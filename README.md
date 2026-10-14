@@ -15,7 +15,7 @@ DAWLoop 连接音乐分析、MIDI 创作与真实 DAW 操作。在桌面工作�
 [![MIT code](https://img.shields.io/badge/code-MIT-blue)](LICENSE)
 [![Alpha](https://img.shields.io/badge/status-Alpha-orange)](docs/DESKTOP.md)
 
-[下载 Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1) · [试用开发者 Runtime](docs/QUICKSTART.md) · [演示](docs/DEMOS.md) · [功能](docs/CAPABILITIES.md) · [参与贡献](CONTRIBUTING.md)
+[下载 Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [试用开发者 Runtime](docs/QUICKSTART.md) · [演示](docs/DEMOS.md) · [功能](docs/CAPABILITIES.md) · [参与贡献](CONTRIBUTING.md)
 
 ## 探索 DAWLoop
 
@@ -41,7 +41,7 @@ Music Intelligence 将试听、分析、旋律创作与编辑放在一个工作�
 | 理解音乐素材 | 导入与试听音频，查看响度、节奏变化、调性候选和分析报告 |
 | 创作旋律 | 根据和声、节奏、密度与 Seed 约束生成规则辅助旋律 |
 | 编辑 MIDI | 在 Desktop Piano Roll 审阅音符、调整音高与力度、撤销、试听并导出 MIDI |
-| 转录音符 | 使用已配置的 Basic Pitch 模型环境，把音频转为可编辑音符 |
+| 转录音符 | 在组件管理中一键安装 Basic Pitch，把音频转为可编辑音符 |
 | 操作真实 DAW | 通过 Runtime 的 FL Studio 执行后端进行目标明确的宿主交互 |
 | 构建音乐 Agent | 将结构化计划、目标约束、状态观察与结果验证接入自己的 Agent |
 
@@ -79,11 +79,11 @@ FL Studio MCP 是执行路径之一，提供 transport、Channel、Piano Roll、
 
 ### 下载 Desktop Alpha
 
-[Windows x64 便携版 ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.1/DAWLoop%2B0.5.6-alpha.1-Windows-x64-Portable.zip) · [发行说明与校验和](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1)
+[Windows x64 便携版 ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.2/DAWLoop%2B0.5.6-alpha.2-Windows-x64-Portable.zip) · [发行说明与校验和](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2)
 
 1. 解压完整程序目录，运行 `DAWLoop.exe`。
 2. 在 Music Intelligence 的组件管理中阅读许可并确认安装基础组件。
-3. 导入 WAV，试听并分析，或直接创建旋律并进入 Piano Roll。
+3. 导入 WAV，试听并分析；安装 Basic Pitch 后可转录为音符，在 Piano Roll 编辑并导出 MIDI。
 
 无需 Codex、Node 或系统 Python。软件未签名；遇到未知发布者提示时先核对官方来源与校验和，保留系统安全保护。[首次运行指南](docs/DESKTOP.md)
 
@@ -113,11 +113,12 @@ Linux/macOS 使用 `python3 -m venv .venv` 和 `.venv/bin/python`。输出目录
 
 ## 当前版本说明
 
-- Desktop **0.5.6-alpha.1** 已公开为 Windows x64 Pre-release；维护者 Windows 环境已运行，独立干净 Windows 兼容性尚待验证。
-- 随包基础组件支持 WAV 分析。Basic Pitch 转录使用已有核验模型环境；此版暂不提供新用户的首次模型安装，权重另行配置。
+- Desktop **0.5.6-alpha.2** 已公开为 Windows x64 Pre-release；维护者 Windows 环境已运行，独立干净 Windows 兼容性尚待验证。
+- 随包基础组件支持 WAV 分析；Basic Pitch 支持阅读许可后应用内一键安装、真实音符转录、Piano Roll 编辑和 MIDI 导出。无需安装系统 Python。
 - Desktop 内置 Piano Roll 用于本地 MIDI 编辑；真实 FL 控制通过独立 Runtime 集成。通用自动混音、任意工程自主控制及完整风格学习属于后续研究。
 - 已有 FL 现场研究和离线验证各有明确范围；后端工具能力与宿主验证记录分别列在 [能力页](docs/CAPABILITIES.md)。公开更新通知关闭，更新由用户主动完成。
-- 展示截图来自此前开发版本。Desktop 源码在 [发行标签](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.1)，Python Runtime 在 main。[详细版本与安装说明](docs/DESKTOP.md)
+- [Alpha.1 历史发行](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1) 保留，旧附件不替换。
+- 展示截图来自此前开发版本。Desktop 源码在 [发行标签](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.2)，Python Runtime 在 main。[详细版本与安装说明](docs/DESKTOP.md)
 
 ## 开源、贡献与致谢
 
