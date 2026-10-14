@@ -4,11 +4,11 @@
 
 # DAWLoop
 
-**Intelligent tools for music creation, and an open framework for more accountable AI-driven DAW automation.**
+**An open framework connecting music creation with real DAW actions.**
 
-DAWLoop explores how music analysis, MIDI composition and DAW automation can work together—from preparing material and planning edits to executing supported operations and observing the outcome. Its guiding idea is simple: an AI agent should not only issue commands; where supported, it should also be able to check what happened.
+From analyzing musical material and planning MIDI edits to operating real FL Studio through execution backends, DAWLoop gives music creators and AI-agent developers a way to connect creative decisions with observable actions. In supported workflows, an agent can check the result before deciding to continue or re-plan.
 
-The project currently has two distinct entry points: **a public Python Runtime / Agent toolkit** and **a Desktop music workspace still in internal preview**. They have different availability and verification scopes and are not yet one fully integrated product.
+You can try the **open-source Python Runtime / Agent toolkit** today or explore the **Desktop music workspace in internal preview**. These are separate development lines, not yet a complete desktop DAW-control product.
 
 [中文](README.md) | [English](README.en.md)
 
@@ -16,22 +16,22 @@ The project currently has two distinct entry points: **a public Python Runtime /
 [![MIT code](https://img.shields.io/badge/code-MIT-blue)](LICENSE)
 [![Alpha](https://img.shields.io/badge/status-Alpha-orange)](docs/CAPABILITIES.md)
 
-[Quick start](#quick-start) · [Desktop preview](docs/DESKTOP.md) · [Capabilities & evidence](docs/CAPABILITIES.md) · [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md)
+[Try the Runtime](#quick-start) · [Explore Desktop](docs/DESKTOP.md) · [Documentation](docs/QUICKSTART.md) · [Capabilities](docs/CAPABILITIES.md) · [Contribute](CONTRIBUTING.md) · [Releases](https://github.com/ryurikoneko/DAWLoop/releases)
 
 ## Meet DAWLoop Desktop
 
-These images show a running internal Desktop candidate using original synthetic test material. **They are not mockups, and they do not imply that a public Desktop download is available.**
+Screenshots are taken from an internal development build and show the Music Intelligence workspace. The Desktop application is not yet publicly available.
 
 ![DAWLoop Music Intelligence workspace](docs/media/music-home.png)
 
 <details>
 <summary>More views: audio analysis, Piano Roll and model management</summary>
 
-![Audio analysis report with measurements and uncertain estimates](docs/media/analysis-report.png)
+![Music Analysis](docs/media/analysis-report.png)
 
-![In-app Piano Roll note and velocity editing](docs/media/piano-roll.png)
+![Piano Roll Editing](docs/media/piano-roll.png)
 
-![Model and component management](docs/media/model-manager.png)
+![Model Management](docs/media/model-manager.png)
 
 </details>
 
@@ -39,33 +39,42 @@ These images show a running internal Desktop candidate using original synthetic 
 
 ## What can DAWLoop do?
 
-| Area | What it explores | Availability today |
+| Area | What you can do | Availability today |
 | --- | --- | --- |
-| Music analysis | Audio loudness, changes over time, and tempo/key candidates | Internal Desktop preview; estimates are not guaranteed conclusions |
+| Music analysis | Explore loudness, rhythmic changes and key candidates to understand musical material | Internal Desktop preview; some results are estimates |
 | Audio to MIDI | Basic Pitch transcription, note review, editing and export | Internal Desktop preview; not full source separation for complex mixes |
-| MIDI creation & editing | Rule-assisted melody creation, Piano Roll, velocity, undo and audition | Internal Desktop preview; melody generation is rule-based |
+| MIDI composition | Generate melodies with harmony, rhythm, density and seed constraints | Internal Desktop preview; currently rule-based |
+| Piano Roll editing | Review notes, edit velocity, undo, audition and export MIDI | Internal Desktop preview; in-app editor |
 | Music planning & verification | Describe notes, timing and targets, then compare planned and observed events | Public Python Runtime; core verification is offline-tested |
-| FL Studio automation research | Connect control, human review and observation in defined test scenarios | Experimental integration; no general arbitrary-project write guarantee |
+| DAW control | Operate a running DAW and retrieve state through backends such as FL Studio MCP | Experimental Runtime integration; live evidence varies by operation |
 
 The Desktop's in-app Piano Roll editor should not be confused with verified note writing inside FL Studio.
 
+**DAWLoop has a real execution path into FL Studio.** The public Runtime bundles a pinned community FL Studio MCP backend, covering transport, Channels, Piano Roll operations, Mixer state and parameters on loaded plugins. It can access existing Patterns; the upstream backend cannot create Patterns programmatically or load new plugins. Individual operations still require integration setup, target confirmation and result review. A backend capability does not mean DAWLoop has independently live-verified that operation.
+
 [Full capabilities and evidence](docs/CAPABILITIES.md)
 
-## Beyond execution: checking the result
+## Why DAWLoop?
 
-DAWLoop is designed around a repeatable process:
+DAWLoop organizes the workflow into three complementary layers:
+
+| Layer | Responsibility |
+| --- | --- |
+| Brain — DAWLoop Core | Musical timing, structured plans, target constraints and result verification |
+| Hands — DAW execution backends | Supported actions and state retrieval inside a real DAW; FL Studio is the primary integration target |
+| Ears — Production Pipeline | MIDI and orchestration analysis, audio measurement and production-planning assistance |
+
+These layers provide interfaces for an agent to understand, act and use feedback. Fully autonomous production remains a research direction. The intended loop is:
 
 ~~~text
-Understand music and goals → Plan → Execute supported actions
-                                       ↓
-                             Observe → Compare results
-                                       ↓
-                          Human or agent decides what follows
+Understand → Plan → Execute → Observe → Verify → Iterate
+                                     PASS / STOP
+                              Human review / Agent decision
 ~~~
 
-For example, after writing MIDI events, a successful tool response alone does not establish that the planned notes are present. DAWLoop's verification modules compare expected and observed events and report whether they match.
+A MIDI tool can produce a file for manual import. DAWLoop also provides a real DAW execution path and rules for checking the result. A tool reporting success is not proof that the plan was realized: where trustworthy readback is available, the verifier compares planned and actual events and returns **PASS / STOP** to inform the agent's next action.
 
-**Scope matters:** planning and comparison are implemented in the public Runtime and have offline test coverage. Real FL Studio writing, readback and complete closed loops require separate live verification; offline success is not a general live-control claim.
+Planning and comparison modules are public and offline-tested; limited FL Studio research workflows also have live execution records. Having run in a real DAW, archiving evidence and meeting verification rules are distinct evidence scopes. See the [capability matrix](docs/CAPABILITIES.md).
 
 [Architecture](docs/ARCHITECTURE.md) · [Verification approach](docs/VERIFICATION.md) · [Public live-evidence records](evidence/public/README.md)
 
@@ -89,7 +98,15 @@ python -m venv .venv
 .\.venv\Scripts\python.exe learning/examples/generic_learning/run.py --output workspace/personal/demo-v1
 ~~~
 
-On Linux or macOS, replace both Python executable paths with .venv/bin/python. Use a new output directory for each run.
+On Linux or macOS, after cloning and entering the repository:
+
+~~~sh
+python3 -m venv .venv
+.venv/bin/python -m pip install -e ".[learning]"
+.venv/bin/python learning/examples/generic_learning/run.py --output workspace/personal/demo-v1
+~~~
+
+The example writes analysis, profile and music-plan JSON into the chosen directory. That directory must not already exist; choose a fresh path when running it again.
 
 [Quickstart guide](docs/QUICKSTART.md) · [Deployment & dependencies](docs/DEPLOYMENT.md) · [Runtime developer guide](docs/RUNTIME_GUIDE.en.md)
 
@@ -103,12 +120,19 @@ Start with the [deployment guide](docs/DEPLOYMENT.md) and [FL Studio setup instr
 
 **DAWLoop Desktop:** Internal builds have demonstrated audio analysis, transcription and MIDI editing. Independent clean-Windows installation and distribution of required audio components are not yet accepted, so the new Desktop is not publicly downloadable.
 
-Next priorities include the Desktop installation experience, expanding verifiable FL Studio integration, and continuing research into music analysis and generation. See the [roadmap](docs/ROADMAP.md) and [capability matrix](docs/CAPABILITIES.md) for detailed scope and progress.
+Future directions:
+
+- Improve Desktop first installation and component management.
+- Expand and verify FL Studio integration.
+- Refine agent music planning and result verification.
+- Research music retrieval, analysis and generation.
+
+See the [roadmap](docs/ROADMAP.md) and [capability matrix](docs/CAPABILITIES.md) for detailed scope and progress.
 
 ## Open source, contribution and acknowledgements
 
 DAWLoop-authored software code is available under the [MIT License](LICENSE). Third-party code retains its original licenses and attribution. The project name, logo and certain showcase images have separate use notices: see the [brand guidelines](TRADEMARKS.md), [license scope](LICENSE_POLICY.md) and [media notice](docs/media/README.md).
 
-Thanks to the community [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) project and to Bilibili creator [坏影子不坏](https://space.bilibili.com/599132499), whose [DSH workflow demonstration](https://www.bilibili.com/video/BV1PTht6cENP/) and related whale-music-pipeline work informed parts of the production workflow. Detailed source, copyright and license attributions are in [Third-party notices](THIRD_PARTY_NOTICES.md) and [Acknowledgements](docs/ACKNOWLEDGEMENTS.md).
+Thanks to the community [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) project and Bilibili creator [坏影子不坏](https://space.bilibili.com/599132499) (UID 599132499), whose [DSH workflow demonstration](https://www.bilibili.com/video/BV1PTht6cENP/) influenced the Production Pipeline design and production practices. Some generalized analysis code is adapted from their supplied MIT-licensed `whale-music-pipeline`, with original attribution retained. Detailed source, copyright and license attributions are in [Third-party notices](THIRD_PARTY_NOTICES.md) and [Acknowledgements](docs/ACKNOWLEDGEMENTS.md).
 
 [Open an issue](https://github.com/ryurikoneko/DAWLoop/issues) or see the [contribution guide](CONTRIBUTING.md) to get involved. [Security reporting](SECURITY.md) · [Provenance](PROVENANCE.md) · [Citation](CITATION.cff)
