@@ -10,7 +10,7 @@ test('公开候选不借用旧 Python 安装链，许可不能改变安全门',a
   t.after(()=>fs.rm(home,{recursive:true,force:true}));
   let downloads=0;
   const service=new MusicIntelligenceService({home,allowLegacyPitchInstall:false,fetcher:async()=>{downloads++;throw Error('UNEXPECTED_DOWNLOAD');}});
-  await assert.rejects(service.install('basic-pitch','Apache-2.0'),/MI_LEGACY_PITCH_INSTALL_DISABLED/);
+  await assert.rejects(service.install('basic-pitch','Apache-2.0'),/MI_COMPONENT_PACKAGE_MISSING/);
   assert.equal(downloads,0);assert.equal(service.jobs.size,0);
 });
 test('公开发行不会签发更新通知批准',async()=>{

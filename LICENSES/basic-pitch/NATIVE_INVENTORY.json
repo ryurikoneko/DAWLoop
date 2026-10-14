@@ -1,0 +1,22 @@
+{
+  "newNativeFiles": [
+    {
+      "package": "onnxruntime",
+      "path": "onnxruntime/capi/onnxruntime.dll",
+      "sha256": "90497e3d406c09f4d59d364c696a2f93dc02f6ef13741b3b89eec95bdb4a3806"
+    },
+    {
+      "package": "onnxruntime",
+      "path": "onnxruntime/capi/onnxruntime_providers_shared.dll",
+      "sha256": "a4d7ae5309da67ae6894977e6c1a6aecc002ad63b13f1123ae582b75ba2f8b30"
+    },
+    {
+      "package": "onnxruntime",
+      "path": "onnxruntime/capi/onnxruntime_pybind11_state.pyd",
+      "sha256": "79e2eaa9c4a8ba3d0ad2ded05448ddb7bc1c9168c52d1991ece3a9b80894b04b"
+    }
+  ],
+  "reviewStatus": "PENDING_NATIVE_DEPENDENCY_AND_VULNERABILITY_REVIEW",
+  "baseNativeNotices": "../desktop-runtime",
+  "publicDistributionAuthorized": false
+}

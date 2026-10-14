@@ -9,8 +9,11 @@ const desktop=path.join(root,'apps/desktop');
 const sha=raw=>createHash('sha256').update(raw).digest('hex');
 const output=process.argv[2];
 const componentPack=process.argv[3];
-if(process.argv.length>4)throw Error('UNSUPPORTED_BUILD_ARGUMENT');
+const pitchPack=process.argv[4];
+if(process.argv.length>5)throw Error('UNSUPPORTED_BUILD_ARGUMENT');
 const componentLock=JSON.parse(await fs.readFile(path.join(root,'packages/music-intelligence/basic-component.lock'),'utf8'));
+const pitchLock=JSON.parse(await fs.readFile(path.join(root,'packages/music-intelligence/pitch-component.lock'),'utf8'));
+if(pitchPack&&(!path.isAbsolute(pitchPack)||sha(await fs.readFile(pitchPack))!==pitchLock.sha256))throw Error('COMPONENT_PACKAGE_HASH_REJECTED');
 if(componentPack&&(!path.isAbsolute(componentPack)||sha(await fs.readFile(componentPack))!==componentLock.sha256))throw Error('COMPONENT_PACKAGE_HASH_REJECTED');
 if(process.platform!=='win32' || process.arch!=='x64')throw Error('WINDOWS_X64_BUILD_REQUIRED');
 if(!output || !path.isAbsolute(output))throw Error('NEW_ABSOLUTE_OUTPUT_REQUIRED');
@@ -31,7 +34,8 @@ if(run.status!==0)throw Error('TYPECHECK_FAILED');
 const vite=spawnSync(process.execPath,[path.join(desktop,'node_modules/vite/bin/vite.js'),'build'],{cwd:desktop,encoding:'utf8',windowsHide:true});
 if(vite.status!==0)throw Error('RENDERER_BUILD_FAILED');
 const manifest=JSON.parse(await fs.readFile(path.join(desktop,'package.json'),'utf8'));
-const publicAlpha=manifest.dawloopReleaseChannel==='preview' && /^\d+\.\d+\.\d+-alpha\.\d+$/.test(manifest.version);
+const publicAlpha=manifest.dawloopInternalCandidate!==true && manifest.dawloopReleaseChannel==='preview' && /^\d+\.\d+\.\d+-alpha\.\d+$/.test(manifest.version);
+if(pitchPack&&publicAlpha)throw Error('PITCH_PUBLIC_DISTRIBUTION_NOT_APPROVED');
 const releaseChannel=publicAlpha?'preview':'internal';
 const notificationGate=JSON.parse(await fs.readFile(path.join(root,'release_notification.json'),'utf8'));
 if(publicAlpha && (notificationGate.notification_enabled!==false||notificationGate.approved_by_owner!==false||notificationGate.active_approval_id!==null||notificationGate.approvals.length))throw Error('PUBLIC_NOTIFICATION_GATE_MUST_BE_DISABLED');
@@ -68,6 +72,7 @@ if(iconRun.status!==0)throw Error('ICON_RESOURCE_UPDATE_FAILED: '+iconRun.stderr
 const iconRecord=JSON.parse(iconRun.stdout);
 const app='resources/app';
 if(componentPack)await copy(componentPack,path.join('resources/components',componentLock.fileName),false);
+if(pitchPack)await copy(pitchPack,path.join('resources/components',pitchLock.fileName),false);
 await copy(path.join(root,'release_notification.json'),path.join(app,'release_notification.json'));
 for(const sub of ['electron','locales','dist'])for(const file of await files(path.join(desktop,sub)))await copy(file,path.join(app,'apps/desktop',sub,path.relative(path.join(desktop,sub),file)));
 for(const file of await files(path.join(root,'packages')))if(/\.(mjs|cjs)$/.test(file)||path.relative(root,file).replaceAll('\\','/').startsWith('packages/music-intelligence/')&&/\.(py|ps1|lock)$/.test(file))await copy(file,path.join(app,'packages',path.relative(path.join(root,'packages'),file)));
@@ -97,6 +102,7 @@ const version=publicAlpha?manifest.version:manifest.version+'-internal.1';
 const distributionName='DAWLoop+'+version;
 for(const [source,relative] of [['LICENSE','licenses/DAWLoop-MIT.txt'],['NOTICE','licenses/DAWLoop-NOTICE.txt'],['THIRD_PARTY_NOTICES.md','licenses/DAWLoop-THIRD-PARTY-NOTICES.md'],[publicAlpha?'docs/DESKTOP_ALPHA_BUILD.md':'docs/DESKTOP_DISTRIBUTION.zh.md','USER_GUIDE.zh.md'],[publicAlpha?'docs/DESKTOP_ALPHA_BUILD.md':'docs/DESKTOP_DISTRIBUTION.en.md','USER_GUIDE.en.md']])await copy(path.join(root,source),relative);
 for(const file of await files(path.join(root,'LICENSES/desktop-runtime')))await copy(file,path.join('licenses/desktop-runtime',path.relative(path.join(root,'LICENSES/desktop-runtime'),file)));
+if(pitchPack)for(const file of await files(path.join(root,'LICENSES/basic-pitch')))await copy(file,path.join('licenses/basic-pitch',path.relative(path.join(root,'LICENSES/basic-pitch'),file)));
 await copy(path.join(root,'docs/DESKTOP_ALPHA_BUILD.md'),'FIRST_RUN_AND_SOURCE.md');
 await fs.writeFile(path.join(target,app,'package.json'),JSON.stringify({name:'dawloop-desktop',version,productName:distributionName,dawloopReleaseChannel:releaseChannel,type:'module',main:'apps/desktop/electron/main.mjs'},null,2)+'\n',{encoding:'utf8',flag:'wx'});
 for(const relative of ['tools/build-portable.mjs','tools/windows-brand-icon.py',...(await files(path.join(desktop,'public'))).map(f=>path.relative(root,f)),'apps/desktop/package.json','apps/desktop/package-lock.json','apps/desktop/index.html','apps/desktop/vite.config.ts','apps/desktop/tsconfig.json',... (await files(path.join(desktop,'src'))).map(f=>path.relative(root,f)),...(await files(path.join(root,'packages'))).filter(f=>f.endsWith('.ts')).map(f=>path.relative(root,f))])recipeInputs[relative.replaceAll('\\','/')]=sha(await fs.readFile(path.join(root,relative)));
@@ -104,6 +110,7 @@ if(publicAlpha && sourceStatus.stdout.trim())throw Error('CLEAN_PUBLIC_SOURCE_RE
 const record={schemaVersion:1,distributionName,releaseReadiness:publicAlpha?'EXPERIMENTAL_ALPHA_MAINTAINER_RISK_ACCEPTED':'INTERNAL_ONLY',cleanWindowsE2E:'NOT_TESTED',cleanWindowsRiskAcceptedByMaintainer:publicAlpha,publicNotificationGate:'DISABLED',branding:iconRecord,builtAt:new Date().toISOString(),releaseChannel,officialRelease:publicAlpha,platform:'win32',arch:'x64',appVersion:version,electronVersion,
   sourceCommit:sourceHead.stdout.trim(),sourceDirty:sourceStatus.stdout.trim().length>0,buildTools,recipeInputs,lockfileSha256:recipeInputs['apps/desktop/package-lock.json'],licenses,
   componentPack:componentPack?{id:componentLock.componentId,version:componentLock.version,sha256:componentLock.sha256,licenseReview:componentLock.publicRedistributionReview}:null,
+  optionalComponentPacks:pitchPack?[{id:pitchLock.componentId,version:pitchLock.version,sha256:pitchLock.sha256,licenseReview:pitchLock.publicRedistributionReview}]:[],
   dependencies:{node:'included-in-electron',python:componentPack?'offline-basic-component-pack':'not-bundled',core:'desktop-only',controller:'user-installed-not-bundled',flStudio:'user-installed-not-bundled'},
   reproducibility:'逐文件内容摘要可重建；不承诺ZIP字节或完整环境一致',signed:false};
 for(const [relative,expected] of Object.entries(recipeInputs))if(sha(await fs.readFile(path.join(root,relative)))!==expected)throw Error('PACKAGING_SOURCE_CHANGED');

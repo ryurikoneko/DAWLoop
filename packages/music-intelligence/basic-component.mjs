@@ -10,8 +10,9 @@ import {extractComponent} from './component-extract.mjs';
 
 const directory=path.dirname(fileURLToPath(import.meta.url));
 export const BASIC_COMPONENT=JSON.parse(await fs.readFile(path.join(directory,'basic-component.lock'),'utf8'));
+const DEFAULT_COMPONENT=BASIC_COMPONENT;
 const cache=new Map();
-export async function basicComponentSource(root){
+export async function basicComponentSource(root,BASIC_COMPONENT=DEFAULT_COMPONENT){
   if(process.platform!==BASIC_COMPONENT.platform||process.arch!==BASIC_COMPONENT.arch)return {available:false,reasonCode:'MI_COMPONENT_PLATFORM_UNSUPPORTED'};
   if(!root)return {available:false,reasonCode:'MI_COMPONENT_PACKAGE_MISSING'};
   const file=path.resolve(root,BASIC_COMPONENT.fileName);
@@ -23,7 +24,7 @@ export async function basicComponentSource(root){
     return {available:true,file,reasonCode:null};
   }catch(error){return {available:false,reasonCode:error.code==='ENOENT'?'MI_COMPONENT_PACKAGE_MISSING':/^[A-Z0-9_]+$/.test(error.message)?error.message:'MI_COMPONENT_SOURCE_REJECTED'};}
 }
-export async function verifyBasicEnvironment(root){
+export async function verifyBasicEnvironment(root,BASIC_COMPONENT=DEFAULT_COMPONENT){
   const bytes=await fs.readFile(path.join(root,'component.json'));
   if(createHash('sha256').update(bytes).digest('hex')!==BASIC_COMPONENT.manifestSha256)throw Error('MI_COMPONENT_HASH_REJECTED');
   const manifest=JSON.parse(bytes);
@@ -51,13 +52,14 @@ function run(executable,args,{job,signal,log,home}){
     child.once('close',async code=>{cleanup();try{await writing;if(errorCode||signal.aborted)throw Error(errorCode??'MI_CANCELLED');if(code!==0)throw Error('MI_COMPONENT_INSTALL_FAILED');resolve();}catch(error){reject(error);}});
   });
 }
-export async function installBasicComponent({home,componentRoot,job,signal,log}){
-  const source=await basicComponentSource(componentRoot);if(!source.available)throw Error(source.reasonCode);
+export async function installBasicComponent({home,componentRoot,job,signal,log,component:BASIC_COMPONENT=DEFAULT_COMPONENT,healthScript='component-health.py'}){
+  if(!['component-health.py','pitch-component-health.py'].includes(healthScript))throw Error('MI_COMPONENT_SOURCE_REJECTED');
+  const source=await basicComponentSource(componentRoot,BASIC_COMPONENT);if(!source.available)throw Error(source.reasonCode);
   if(await fs.realpath(home)!==path.resolve(home))throw Error('MI_COMPONENT_SOURCE_REJECTED');
   const environments=path.join(home,'environments');await fs.mkdir(environments,{recursive:true});
   if(await fs.realpath(environments)!==environments)throw Error('MI_COMPONENT_SOURCE_REJECTED');
-  const target=path.join(environments,'basic-audio-'+BASIC_COMPONENT.version);
-  try{await fs.access(target);await verifyBasicEnvironment(target);return {environment:target,reused:true};}catch(error){if(error.code!=='ENOENT')throw error;}
+  const target=path.join(environments,BASIC_COMPONENT.componentId+'-'+BASIC_COMPONENT.version);
+  try{await fs.access(target);await verifyBasicEnvironment(target,BASIC_COMPONENT);return {environment:target,reused:true};}catch(error){if(error.code!=='ENOENT')throw error;}
   const disk=await fs.statfs(home);if(disk.bavail*disk.bsize<BASIC_COMPONENT.minimumFreeBytes)throw Error('MI_DISK_SPACE_REQUIRED');
   // 嵌入式依赖的深层模块可能受Windows路径上限影响，暂存名保持短且唯一。
   const owner=path.join(environments,'.b-'+randomUUID());await fs.mkdir(owner);
@@ -68,8 +70,8 @@ export async function installBasicComponent({home,componentRoot,job,signal,log})
     if(signal.aborted)throw Error('MI_CANCELLED');if(await fileDigest(archive)!==BASIC_COMPONENT.sha256)throw Error('MI_COMPONENT_HASH_REJECTED');
     job.state='INSTALLING';job.totalBytes=BASIC_COMPONENT.installedBytes;job.progress=0;
     await extractComponent({archive,target:staging,signal,job,maxBytes:BASIC_COMPONENT.installedBytes+4*1024*1024,fileCount:BASIC_COMPONENT.fileCount+1});
-    job.state='VERIFYING';await verifyBasicEnvironment(staging);if(signal.aborted)throw Error('MI_CANCELLED');
-    await run(path.join(staging,'python.exe'),['-I','-B',path.join(directory,'component-health.py')],{job,signal,log,home});
+    job.state='VERIFYING';await verifyBasicEnvironment(staging,BASIC_COMPONENT);if(signal.aborted)throw Error('MI_CANCELLED');
+    await run(path.join(staging,'python.exe'),['-I','-B',path.join(directory,healthScript)],{job,signal,log,home});
     if(signal.aborted)throw Error('MI_CANCELLED');
     const python=path.join(target,'python.exe');
     await fs.writeFile(path.join(staging,'runtime.json'),JSON.stringify({schemaVersion:1,python,pythonSha256:await fileDigest(path.join(staging,'python.exe')),componentId:BASIC_COMPONENT.componentId,componentVersion:BASIC_COMPONENT.version}),{encoding:'utf8',flag:'wx'});
