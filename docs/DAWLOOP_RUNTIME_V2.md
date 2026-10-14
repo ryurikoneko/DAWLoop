@@ -4,6 +4,13 @@
 
 ## Basic Pitch 可选组件与 Alpha.1 通知：2026-10-14
 
+
+最终内部候选来源提交 2cb462b004749b84951e473123873d6fe6e3b8b1，D:/1DAWLoop/Desktop/DAWLoop+0.5.6-alpha.2-internal.1-final。精确最终候选使用全新隔离用户/组件目录完成真实 GUI 许可确认、40.459 秒转录组件安装、自有 3 秒 WAV 基础分析（126 能量点）、13.521 秒 ONNX 转录（1 音符/255 bends）、Piano Roll 音高编辑、829 bytes MIDI 导出读回、重启恢复及模型再载入。中文组件页与英文 Piano Roll 的实际截图已保存。未独立测试干净 Windows。
+
+187 Node / 62 UI、TypeScript、Vite、298 文件包核验、取消清理/重试/重复安装/损坏包/额外 .pth 拒绝通过。内部 ZIP 415905282 bytes，SHA-256 123e374b00f674e8c203d438dd74f7963e1da6eb763b73dbc5af8df7f61ec9cc。仅本地提交；公开分发原生依赖审核及新补丁发行授权未完成。完整报告与失败记录保留 D:/1DAWLoop/acceptance/dual-track-alpha-20261014/REPORT.md。
+
+Alpha.1 通知批准候选提交 45d0bc9；15 项离线通知合同检查通过，实际 Windows show/close 已记录，但可视、点击、勿扰及系统关闭通知验收未完成。维护者目前无暇确认，远端开关仍关闭，未推送或创建启用 PR；Alpha.1 的 7 个公开资产和固定源码标签复核一致。
+
 公开 v0.5.6-alpha.1 标签、ZIP 和摘要保持不变。Basic Pitch 修复以该公开源码为基础创建独立补丁分支，采用官方 Python 3.14.8 及固定 ONNX wheel，复用原组件安装器的摘要、隔离、取消和原子部署边界；现有 Basic DSP 与历史模型环境保持独立。
 
 独立环境已完成自有 WAV 真实 ONNX 推理。内部可选包附原件清单、兼容补丁、第三方通知及 SBOM。新增原生依赖的公开分发审核未完成，不发布补丁 Release，也不继承 Alpha.1 通知授权。
