@@ -125,7 +125,7 @@
   "confirmScore": "I have reviewed and approve this score for recomposition",
   "exportModelDiagnostics": "Export model diagnostics",
   "scoreSource": "Score source",
-  "functions": {"basic-pitch": "Turn audio into editable MIDI notes on this computer. Complex mixes may be inaccurate.","basic": "Basic music analysis and MIDI processing on this computer.", "omar-rq": "Extract model features from music, without claiming automatic style recognition. At least 16 GiB RAM is recommended; up to 30 seconds per request.", "sheetsage2": "Experimental audio-to-MIDI: 16-bit PCM WAV only, up to 30 seconds, with a 180-second timeout. Note end-time accuracy has not passed testing and needs manual correction. Original scores are retained; the editor uses model-generated MIDI.", "yue2": "Experimental score planning. This computer has insufficient GPU memory; running on its CPU has not been verified."},
+  "functions": {"basic-pitch": "Real audio transcription · isolated ONNX CPU Worker","basic": "Basic audio analysis and MIDI processing · CPU", "omar-rq": "Audio Embedding · CPU path: at least 16 GiB RAM recommended, ≤30 seconds per request", "sheetsage2": "Real melody transcription · isolated CPU Worker, 16-bit PCM WAV ≤30 seconds, 180-second request timeout; original advanced ABC is retained, Piano Roll uses model MIDI. End-time accuracy failed on this round’s monophonic fixture; manual correction is required.", "yue2": "Symbolic planning: full BF16 main model; current GPU budget is insufficient, CPU path is unverified."},
   "supportStates": {"SUPPORTED": "Supported on the verified path", "CONDITIONAL": "Additional runtime verification required", "UNSUPPORTED": "Reviewed runtime requirements not met", "UNKNOWN": "Unknown"},
   "composerEngine": "Composition engine",
   "transcriptionEngine": "Transcription engine",
@@ -221,8 +221,8 @@
   },
   "technicalDetails": "Technical evidence and raw scores",
   "userFunctions": {
-    "basic": "Volume, tempo candidates and spectrum analysis without an additional model.",
-    "basic-pitch": "Turn audio into editable notes, best on one instrument. Complex mixes can be inaccurate.",
+    "basic": "View sound levels, estimated tempo and frequency distribution without an extra model.",
+    "basic-pitch": "Turn audio into editable MIDI notes, best on one instrument. Complex mixes may be inaccurate.",
     "omar-rq": "Extract audio features; verified style or emotion recognition is not available.",
     "sheetsage2": "Experimental note transcription. Note endings can be inaccurate and require correction.",
     "yue2": "Real generation is unverified on this device and remains unavailable."

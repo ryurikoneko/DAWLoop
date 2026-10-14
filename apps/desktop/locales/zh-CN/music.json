@@ -125,7 +125,7 @@
   "confirmScore": "我已审阅并确认此乐谱可用于改编",
   "exportModelDiagnostics": "导出模型诊断",
   "scoreSource": "乐谱来源",
-  "functions": {"basic-pitch": "把音频转换成可编辑的 MIDI 音符，在本机运行。复杂混音可能不准确。","basic": "基础音乐分析与 MIDI 处理，在本机运行。", "omar-rq": "提取音乐的模型特征，不等于自动识别曲风。建议至少 16 GiB 内存，每次最多 30 秒。", "sheetsage2": "实验性音频转 MIDI：仅接受 16 位 PCM WAV，最长 30 秒，每次最多等待 180 秒。音符结束时间测试尚未通过，需要人工修正。原始乐谱保留，编辑器使用模型生成的 MIDI。", "yue2": "实验性乐谱规划。本机显存不足，使用处理器运行的方案尚未验证。"},
+  "functions": {"basic-pitch": "真实音频转音符 · 独立 ONNX CPU Worker","basic": "基础音频分析与 MIDI 处理 · CPU", "omar-rq": "音频 Embedding · CPU 路径建议至少 16 GiB 内存，单次 ≤30 秒", "sheetsage2": "真实旋律转录 · 独立 CPU Worker，16-bit PCM WAV ≤30 秒，单次 180 秒超时；高级 ABC 原文保留，Piano Roll 使用模型 MIDI。 本轮单乐器测试的结束时间准确性未通过，须人工修正。", "yue2": "符号规划：完整 BF16 主模型；本机 GPU 显存不足，CPU 路径尚未验证。"},
   "supportStates": {"SUPPORTED": "支持当前已验收路径", "CONDITIONAL": "需要额外环境验证", "UNSUPPORTED": "不满足已审阅运行路径", "UNKNOWN": "未知"},
   "composerEngine": "作曲引擎",
   "transcriptionEngine": "转录引擎",
@@ -221,8 +221,8 @@
   },
   "technicalDetails": "技术证据与原始评分",
   "userFunctions": {
-    "basic": "无需额外模型的音量、节奏候选与频谱分析。",
-    "basic-pitch": "将音乐转为可编辑的音符，适合单个乐器。复杂混音可能不准确。",
+    "basic": "查看歌曲的声音强弱、估计速度和频率分布，无须安装额外模型。",
+    "basic-pitch": "把音频转成可编辑的 MIDI 音符，适合单个乐器。复杂混音可能不准确。",
     "omar-rq": "提取音频特征；尚不能据此确认风格或情绪。",
     "sheetsage2": "实验性音符转录，结束时间可能不准确，需要人工修正。",
     "yue2": "本机真实生成尚未验证，保持不可用。"
