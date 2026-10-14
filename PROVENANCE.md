@@ -111,9 +111,9 @@ supplied archive 未包含 `track-scan.py` 引用的 `spectrum-peak` 模块。�
 
 ### 运行时第二版第一轮
 
-[KNOWN｜HIGH] `src/dawloop/runtime/`、`src/dawloop/adapters/gopher_native/` 及对应测试和文档为本项目独立实现，分类为 `CONFIRMED_PROJECT_GENERATED`。原生协议研究参考 [宿主桥接协议说明](https://github.com/sadoway7/flaik/blob/main/gopher_override/FL_BRIDGE_PROTOCOL.md)和其公开工具参数定义；没有复制参考项目源码、界面、知识库或手册资源。原生依赖通过可选安装项提供。
+`src/dawloop/runtime/`、`src/dawloop/adapters/gopher_native/` 及对应测试和文档为本项目独立实现，分类为 `CONFIRMED_PROJECT_GENERATED`。原生协议研究参考 [宿主桥接协议说明](https://github.com/sadoway7/flaik/blob/main/gopher_override/FL_BRIDGE_PROTOCOL.md)和其公开工具参数定义；没有复制参考项目源码、界面、知识库或手册资源。原生依赖通过可选安装项提供。
 
-[KNOWN｜HIGH] 新运行时将执行确认与结果验证分开，旧音符适配器保持下述闭环契约。当前Native FAST固定16-note流程已有受限现场证据；producer绑定/Exact Set未认证。模拟基准不构成真实宿主性能证据。
+新运行时将执行确认与结果验证分开，旧音符适配器保持下述闭环契约。当前Native FAST固定16-note流程已有受限现场证据；producer绑定/Exact Set未认证。模拟基准不构成真实宿主性能证据。
 
 某段代码来源合法、许可证清楚，并不等于其行为已经在 FL Studio 中现场验证。同样，某个 third-party backend 支持一项能力，也不自动等于 DAWLoop 对该能力宣称 `Verified`。
 
@@ -135,18 +135,22 @@ DAWLoop 的 VERIFIED 契约使用下列闭环；Native FAST 使用观察与人�
 
 ## Learning Framework 与来源清单（2026-10-07）
 
-[KNOWN｜HIGH] src/dawloop/learning、learning/prompts、合成generic_learning例子、src/dawloop/provenance.py及对应测试为本项目新增实现，继续MIT。Schema源只有随包安装的一份；没有引入艺术家样本或官方手册全文。NOTICE/AUTHORS/CITATION.cff记录来源，不增加MIT之外的引用义务。
+src/dawloop/learning、learning/prompts、合成generic_learning例子、src/dawloop/provenance.py及对应测试为本项目新增实现，继续MIT。Schema源只有随包安装的一份；没有引入艺术家样本或官方手册全文。NOTICE/AUTHORS/CITATION.cff记录来源，不增加MIT之外的引用义务。
 
-[KNOWN｜HIGH] dawloop provenance的默认清单是开发快照，记录当前HEAD、dirty状态与实际允许列表字节hash；并不把未提交实现归为HEAD既有内容，也不证明签名、作者或研究优先权。LICENSE_POLICY.md明确未来新研究资产的逐项许可与发布准备；本轮不改变既有资料许可。
+dawloop provenance的默认清单是开发快照，记录当前HEAD、dirty状态与实际允许列表字节hash；并不把未提交实现归为HEAD既有内容，也不证明签名、作者或研究优先权。LICENSE_POLICY.md明确未来新研究资产的逐项许可与发布准备；本轮不改变既有资料许可。
 
 ## Runtime V2 research-preview 发布范围
 
-[KNOWN｜HIGH] 新增 runtime、Native adapter、Controller导航、FAST/MCP胶水、MusicalPlan、learning合同及对应研究/测试为本项目自有实现；继续MIT。third_party固定快照与Production改编的既有版权保持。公开catalog是现场工具参数事实记录；固定回归source是本项目生成。
+新增 runtime、Native adapter、Controller导航、FAST/MCP胶水、MusicalPlan、learning合同及对应研究/测试为本项目自有实现；继续MIT。third_party固定快照与Production改编的既有版权保持。公开catalog是现场工具参数事实记录；固定回归source是本项目生成。
 
-[KNOWN｜HIGH] evidence/public只含脱敏摘要；完整私有会话、FLP、截图、Memos、凭据与development-manifest不发布。历史模板NPZ仅含受审窗口标题/按钮条裁剪，不含私人桌面；Auto Accept仍延期且默认关闭。合成JPEG仅作返回格式回归。
+evidence/public只含脱敏摘要；完整私有会话、FLP、截图、Memos、凭据与development-manifest不发布。历史模板NPZ仅含受审窗口标题/按钮条裁剪，不含私人桌面；Auto Accept仍延期且默认关闭。合成JPEG仅作返回格式回归。
 
-[KNOWN｜HIGH] 发布清理只参数化维护者安装路径、迁移回归输入、保留关闭标记并使缺失状态拒绝。未重新进行现场实验，已认证范围没有扩张；重整的公开源码摘要与原实验源码冻结记录属于不同版本证据。
+发布清理只参数化维护者安装路径、迁移回归输入、保留关闭标记并使缺失状态拒绝。未重新进行现场实验，已认证范围没有扩张；重整的公开源码摘要与原实验源码冻结记录属于不同版本证据。
 
 ## GitHub Showcase 2.0 documentation candidate
 
-[COMPUTED | HIGH] Documentation is based on public main `1a99482aa9b47a61fdf37275583a7b432775ab8d`; actual Desktop screenshots originate from independently developed source `66806b510556ec2c11c2eedfe8b1f8a6bf302c6a`, internal candidate `0.5.6-internal.1`. Original technical homepage content is retained in the Runtime guides. [Media hashes and transformations](docs/media/provenance.json) identify the exact assets. This change does not integrate Runtime or Desktop implementation code.
+Documentation is based on public main `1a99482aa9b47a61fdf37275583a7b432775ab8d`; actual Desktop screenshots originate from independently developed source `66806b510556ec2c11c2eedfe8b1f8a6bf302c6a`, internal candidate `0.5.6-internal.1`. Original technical homepage content is retained in the Runtime guides. [Media hashes and transformations](docs/media/provenance.json) identify the exact assets. This change does not integrate Runtime or Desktop implementation code.
+
+## Public documentation annotation cleanup
+
+公开文档、模板与文本归档清理内部判断标签，建议和未确认事项改为自然语言表达；这些编辑属于 `CONFIRMED_PROJECT_GENERATED`。原文的日期、计数、验证结果、作者署名和来源分类保持。历史文本归档分别记录原始文档摘要与清理后摘要，原始版本保留在 Git 历史中。品牌资产清单移除内部置信度注记，不改变权属或许可字段；第三方源码和许可证正文不改。

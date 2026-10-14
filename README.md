@@ -49,6 +49,14 @@ FL Studio MCP 是执行路径之一，提供 transport、Channel、Piano Roll、
 
 ## 为什么选择 DAWLoop？
 
+### 把音乐意图带进制作流程
+
+- **从计划到操作：**用 Note Plan 和目标约束表达音乐意图，再通过执行适配器交给真实 DAW 的受支持操作。Agent 开发者可以复用这条路径，把自己的规划接入宿主。
+- **从操作到核验：**记录操作目标，独立读取实际状态，再比较计划与结果。`PASS / STOP` 帮助 Agent 决定下一步；执行成功回执本身不是结果证明。[验证范围](docs/CAPABILITIES.md)
+- **从分析到编辑：**在独立 Desktop 工作区试听、分析、创作并编辑 MIDI，同时通过开放 Runtime 扩展 Agent 工作流。两者提供不同使用入口；真实 DAW 集成单独配置。
+
+[查看素材分析与 MIDI 编辑流程](docs/DEMOS.md) · [查看真实 FL Studio 研究记录](evidence/public/fast_session_7.json)
+
 ### Brain / Hands / Ears
 
 | 层次 | 为制作工作带来什么 |

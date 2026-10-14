@@ -49,6 +49,14 @@ FL Studio MCP is one execution path, exposing transport, Channels, Piano Roll, M
 
 ## Why DAWLoop?
 
+### Bring musical intent into the production workflow
+
+- **From plans to actions:** express musical intent with Note Plans and target constraints, then hand supported operations to a real DAW through execution adapters. Agent developers can connect their own planning to this path.
+- **From actions to checked results:** identify the target, independently read its actual state, and compare the result with the plan. `PASS / STOP` helps an agent choose its next step; an execution acknowledgement alone is not proof. [Verification scope](docs/CAPABILITIES.md)
+- **From analysis to editing:** listen, analyze, create and edit MIDI in the standalone Desktop workspace, while extending agent workflows through the open Runtime. They offer separate entry points; real DAW integration is configured separately.
+
+[Explore the analysis-to-MIDI workflow](docs/DEMOS.md) · [Read the real FL Studio research record](evidence/public/fast_session_7.json)
+
 ### Brain / Hands / Ears
 
 | Layer | What it brings to production |

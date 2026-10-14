@@ -1,8 +1,8 @@
 # 能力与公开范围 / Capabilities and publication scope
 
-[COMPUTED｜HIGH] 核验日期2026-10-14：Desktop 0.5.6-alpha.1 已公开，源码 `b5967ef` 位于发行标签；Runtime main 仍独立。以下真实宿主证据等级不因发布而升级。
+核验日期2026-10-14：Desktop 0.5.6-alpha.1 已公开，源码 `b5967ef` 位于发行标签；Runtime main 仍独立。以下真实宿主证据等级不因发布而升级。
 
-[COMPUTED | HIGH] Desktop Alpha source and binaries are public at the release tag, separately from Runtime main. Publication does not upgrade host-verification evidence.
+Desktop Alpha source and binaries are public at the release tag, separately from Runtime main. Publication does not upgrade host-verification evidence.
 
 ## 状态词 / State vocabulary
 
@@ -43,12 +43,12 @@
 | Generic MusicalPlan → FAST Adapter | Public roadmap | PLANNED | 单位、目标和字段转换须独立验证 / Unit, target and field conversion needs independent verification |
 | Auto Accept / arbitrary writes / full AutoMix | Future research | NOT_PROVEN | 不提供通用认证或默认写权限 / No general certification or default write permission |
 
-[KNOWN｜HIGH] 公开 Release `v0.2.0-alpha.1` 包含 Python wheel、sdist 和来源/摘要文件；不是 Desktop。源码中的 `1.0.0a1` 是候选版本准备，不代表同名版本已公开发行。历史 `v0.1.0-alpha` 保留。[实际 Releases](https://github.com/ryurikoneko/DAWLoop/releases)
+公开 Release `v0.2.0-alpha.1` 包含 Python wheel、sdist 和来源/摘要文件；不是 Desktop。源码中的 `1.0.0a1` 是候选版本准备，不代表同名版本已公开发行。历史 `v0.1.0-alpha` 保留。[实际 Releases](https://github.com/ryurikoneko/DAWLoop/releases)
 
-[KNOWN | HIGH] Public `v0.2.0-alpha.1` assets are Python packages and provenance/checksum files, not Desktop. Source version `1.0.0a1` is a candidate preparation, not proof of publication. Historical Releases remain intact.
+Public `v0.2.0-alpha.1` assets are Python packages and provenance/checksum files, not Desktop. Source version `1.0.0a1` is a candidate preparation, not proof of publication. Historical Releases remain intact.
 
-[KNOWN｜HIGH] Desktop 汇总来自内部运行记录，公开的是脱敏截图、源码提交号和限定测试说明；完整本机运行日志与私人环境不公开；安装包通过独立 Alpha Release 分发。内部测试不等于第三方独立复现。
+Desktop 汇总来自内部运行记录，公开的是脱敏截图、源码提交号和限定测试说明；完整本机运行日志与私人环境不公开；安装包通过独立 Alpha Release 分发。内部测试不等于第三方独立复现。
 
-[KNOWN | HIGH] Desktop summaries come from internal execution records. This candidate includes sanitized screenshots, commit identities and scoped descriptions, not raw local logs or private environments. The Alpha installer is separately distributed through its Release. Internal acceptance is not independent third-party reproduction.
+Desktop summaries come from internal execution records. This candidate includes sanitized screenshots, commit identities and scoped descriptions, not raw local logs or private environments. The Alpha installer is separately distributed through its Release. Internal acceptance is not independent third-party reproduction.
 
 [Desktop guide](DESKTOP.md) · [Verification](VERIFICATION.md) · [Roadmap](ROADMAP.md) · [Home 中文](../README.md) · [Home English](../README.en.md)

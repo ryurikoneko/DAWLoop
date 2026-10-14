@@ -1,4 +1,4 @@
-> [KNOWN | HIGH] Runtime engineering guide retained from the previous homepage. See the [capability matrix](CAPABILITIES.md) for Desktop preview and public distribution status.
+> Runtime engineering guide retained from the previous homepage. See the [capability matrix](CAPABILITIES.md) for Desktop preview and public distribution status.
 
 # DAWLoop
 
@@ -259,4 +259,4 @@ Project-owned code, learning protocols, examples and public documentation use [M
 [NOTICE](../NOTICE), [AUTHORS](../AUTHORS), [CITATION.cff](../CITATION.cff) and provenance document origin and citation. Private profiles, workspaces, Memos, credentials, FLPs and raw live material are excluded. Official manual HTML/images are not bundled.
 
 
-[KNOWN | HIGH] This retained engineering guide is not the Desktop distribution guide. Newly introduced showcase PNG rights are listed separately in [media notice](media/README.md); previous grants and third-party notices remain intact.
+This retained engineering guide is not the Desktop distribution guide. Newly introduced showcase PNG rights are listed separately in [media notice](media/README.md); previous grants and third-party notices remain intact.

@@ -8,7 +8,7 @@ Reviewed 55 public documents against the main baseline. The inventory separates 
 
 | 问题 / Finding | 处理 / Treatment |
 | --- | --- |
-| 产品功能旁反复放置验收标签、SHA与失败状态 | 产品页改写，原字节技术摘要归档 |
+| 产品功能旁反复放置验收标签、SHA与失败状态 | 产品页改写，技术摘要归档并清理内部标记 |
 | 新公开Desktop与旧内部候选叙述混在一起 | 以v0.5.6-alpha.1真实发行与tag源码为当前范围 |
 | Quickstart以测试套件开场 | 改为安装和合成示例，回归入口保留 |
 | About/模板仍包含内部预览或偏工程口吻 | 准备About建议，模板明确Desktop Alpha来源 |
@@ -25,9 +25,9 @@ Technical source: [Capabilities](CAPABILITIES.md), [Desktop](DESKTOP.md), [Archi
 
 ## 来源与保护 / Provenance and preservation
 
-本PR新写的产品页、写作规范、研究摘要和审阅文档属于CONFIRMED_PROJECT_GENERATED；竞争资料使用自行总结及原项目链接，不复制实现。历史快照是原项目文档的逐字节备份，来源路径/commit/hash见archive manifest。第三方源码仍THIRD_PARTY，Production改编仍ADAPTED_FROM_THIRD_PARTY；原PROVENANCE、许可证、媒体manifest和法律文档不改。
+产品页、写作规范、研究摘要和审阅文档属于CONFIRMED_PROJECT_GENERATED；竞争资料使用自行总结及原项目链接，不复制实现。历史文本归档已清理内部判断标签，原始文档与清理后文本的摘要分别记录在archive manifest。第三方源码仍THIRD_PARTY，Production改编仍ADAPTED_FROM_THIRD_PARTY；许可证正文、媒体来源与法律授权范围不变。来源与品牌文档只清理表述，不改变署名、权属状态或验证结果。
 
-Existing source classifications and licenses remain unchanged. This presentation work adds project-authored summaries and byte-identical document snapshots, not third-party implementation code.
+Existing source classifications and licenses remain unchanged. Historical text archives have separate source and cleaned-text hashes. Removing internal annotations does not change attribution, ownership status or verification results.
 
 ## 完整目录 / Inventory
 

@@ -1,14 +1,14 @@
-# v0.5.6-alpha.1 Release 文案修订稿 / Release copy proposal
+# v0.5.6-alpha.1 Release 文案 / Release copy
 
-仅供维护者审阅。此PR不修改已发布Release正文、名称、tag、状态、二进制资产或压缩包指南。
+维护者已批准采用下列标题与正文。已发布 Release 的 tag、状态、二进制资产和校验和保持不变；文末包内指南调整用于后续正常版本。
 
-For review only. Published release metadata, assets and packaged guides remain unchanged.
+The maintainer approved the title and body below. Published tags, release status, binaries and checksums remain unchanged. Packaged-guide improvements at the end apply to a future normal release.
 
-## 建议标题 / Proposed title
+## 当前标题 / Title
 
 DAWLoop v0.5.6-alpha.1 — Music Intelligence Desktop Alpha
 
-## 中文修订稿
+## 中文文案
 
 把音乐试听、分析、旋律创作和MIDI编辑放在一个Windows工作区中。
 
@@ -19,9 +19,23 @@ DAWLoop v0.5.6-alpha.1 — Music Intelligence Desktop Alpha
 - 在Piano Roll编辑音符与力度、试听并导出MIDI。
 - 中英文界面、基础组件管理及独立用户数据。
 
-### 下载与安装
+### 产品预览
 
-[Windows x64 Portable ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.1/DAWLoop%2B0.5.6-alpha.1-Windows-x64-Portable.zip)。解压完整目录，运行DAWLoop.exe；在Music Intelligence → Component Manager阅读许可并确认安装基础组件，再导入WAV。无需Codex、Node或系统Python。
+![Music Intelligence 工作区](https://raw.githubusercontent.com/ryurikoneko/DAWLoop/f07642af73355576f15cd62fba20344e7f9a8dff/docs/media/music-home.png)
+
+在一个工作区中探索素材、查看分析并进入旋律编辑。[分析到 MIDI 的操作流程](https://github.com/ryurikoneko/DAWLoop/blob/f07642af73355576f15cd62fba20344e7f9a8dff/docs/DEMOS.md)。图片来自此前开发版本。
+
+### 下载
+
+[Windows x64 Portable ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.1/DAWLoop%2B0.5.6-alpha.1-Windows-x64-Portable.zip) · [SHA256SUMS.txt](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.1/SHA256SUMS.txt)
+
+### 三步开始
+
+1. 解压完整目录，运行 `DAWLoop.exe`。
+2. 在 Music Intelligence → Component Manager 阅读许可，确认安装基础组件。
+3. 导入 WAV 试听与分析，或创建规则辅助旋律，进入 Piano Roll 编辑并导出 MIDI。
+
+无需 Codex、Node 或系统 Python。
 
 软件未签名：先核对官方来源和SHA256SUMS.txt，保留系统安全保护。源音频与保存结果独立于程序目录；升级前备份用户数据。
 
@@ -31,9 +45,11 @@ DAWLoop v0.5.6-alpha.1 — Music Intelligence Desktop Alpha
 
 ### 源码与许可
 
-[Desktop源代码](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.1)。BUILD_SOURCE.json记录构建输入；SHA256SUMS.txt记录摘要；对应源码及第三方通知见同一Release资产。项目代码MIT，品牌图片按独立声明。历史Runtime版本保持原样。
+[Desktop源代码](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.1) 对应提交 `b5967ef50fca9d54590559559441ad7f964ec12e`，main 上的 Runtime 不是此 Desktop 二进制的源码。`BUILD_SOURCE.json` 记录构建输入，`SHA256SUMS.txt` 记录摘要；原始通知、逐文件 SBOM 和组件许可随包提供，LGPL 对应源码与构建资料作为同一 Release 的独立资产提供。
 
-## English draft
+DAWLoop 自有代码采用 MIT，第三方组件保留各自许可；品牌和部分图片按独立声明，既有来源审阅状态不因文案修改而改变。历史 Runtime 版本保持原样。此发布不授权用户通知、自动下载/安装或后台服务。
+
+## English copy
 
 Bring listening, analysis, melody creation and MIDI editing into one Windows workspace.
 
@@ -44,9 +60,23 @@ Bring listening, analysis, melody creation and MIDI editing into one Windows wor
 - Edit notes and velocity in the Piano Roll, audition and export MIDI.
 - Chinese/English UI, basic-component management and separate user data.
 
-### Download and start
+### Product preview
 
-[Windows x64 Portable ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.1/DAWLoop%2B0.5.6-alpha.1-Windows-x64-Portable.zip). Extract the complete folder and run DAWLoop.exe. Review licenses and install basic components in Music Intelligence → Component Manager, then import a WAV. Codex, Node and system Python are unnecessary.
+![Music Intelligence workspace](https://raw.githubusercontent.com/ryurikoneko/DAWLoop/f07642af73355576f15cd62fba20344e7f9a8dff/docs/media/music-home.png)
+
+Explore material, review analysis and move into melody editing in one workspace. [Analysis-to-MIDI workflow](https://github.com/ryurikoneko/DAWLoop/blob/f07642af73355576f15cd62fba20344e7f9a8dff/docs/DEMOS.md). The screenshot is from an earlier development build.
+
+### Download
+
+[Windows x64 Portable ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.1/DAWLoop%2B0.5.6-alpha.1-Windows-x64-Portable.zip) · [SHA256SUMS.txt](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.1/SHA256SUMS.txt)
+
+### Start in three steps
+
+1. Extract the complete folder and run `DAWLoop.exe`.
+2. In Music Intelligence → Component Manager, review the licenses and confirm installation of basic components.
+3. Import a WAV to listen and analyze, or create a rule-assisted melody, edit it in the Piano Roll and export MIDI.
+
+Codex, Node and system Python are unnecessary.
 
 The binary is unsigned: verify the official source and SHA256SUMS.txt and keep system security enabled. Back up user data before updating.
 
@@ -56,7 +86,9 @@ This Pre-release has run in the maintainer's Windows environment; independent cl
 
 ### Source and terms
 
-[Desktop source](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.1), BUILD_SOURCE.json, SHA256SUMS.txt, corresponding source and third-party notices are supplied through the release. Project code remains MIT; branding has separate notices. Historical Runtime releases are preserved.
+[Desktop source](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.1) corresponds to commit `b5967ef50fca9d54590559559441ad7f964ec12e`; the Runtime on main is not the source for this Desktop binary. `BUILD_SOURCE.json` records build inputs and `SHA256SUMS.txt` provides integrity checks. Original notices, a per-file SBOM and component terms are included; LGPL corresponding source and build materials are separate assets in this release.
+
+DAWLoop-authored code remains MIT; third-party components retain their own terms. Branding and certain images have separate notices, and existing provenance-review status is unchanged by this copy revision. Historical Runtime releases are preserved. This release authorizes no user notifications, automatic downloads/installations or background services.
 
 ## 包内指南：后续正常版本 / Packaged guides for a future release
 

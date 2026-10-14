@@ -21,6 +21,10 @@ The public Desktop Alpha brings listening, WAV analysis, rule-based melodies and
 | Agent 音乐规划 / Agent planning | 连接约束、音乐计划与执行适配 / Connect constraints and plans to execution |
 | 音乐理解与创作 / Music understanding and creation | 研究检索、分析、反馈和生成方法 / Research retrieval, analysis, feedback and generation |
 
+下一个正常发行版本将整理独立的中英文用户指南，优先呈现实际使用步骤，将构建与来源说明放在相应资料中。现有发布包及校验和保持不变。
+
+For the next normal release, separate Chinese and English user guides will foreground everyday workflows, with build and source details in their own documentation. Existing published packages and checksums remain unchanged.
+
 ## 研究路线 / Research tracks
 
 Mixer控制验证与音频结果验证分开演进；多次尝试保留各自记录。检索、风格学习与生成模型分别评估素材权利、实际推理、质量和环境。普通工程、多通道、多Pattern持续操作按单独目标合同推进。

@@ -4,13 +4,13 @@
 
 Present DAWLoop to creators and developers through useful workflows, with technical evidence one link away.
 
-## About 推荐文本 / Proposed About text
+## About
 
 > AI-assisted music creation and verifiable DAW automation. Windows Desktop Alpha and an open Python Runtime.
 
-Website 留空；下载入口指向官方 Releases。上述文本为本PR建议，不自动修改仓库设置。
+仓库 About 使用上述定位；Website 留空，下载入口指向官方 Releases。
 
-This is a proposal for maintainer review. Keep Website empty and use the official Releases page for downloads.
+The repository About uses this positioning. Website remains empty; downloads use official Releases.
 
 ## Topics
 
@@ -33,6 +33,6 @@ Actual settings verification is recorded in the review document. Uploading remai
 - 首屏：项目价值、语言切换、真实CI/MIT/Alpha、Desktop下载和Runtime入口。
 - 产品截图：Music Intelligence主页在前，其余折叠展示；来源链接集中。
 - 当前版本说明：每个产品页一个简短章节，准确描述公开Alpha与可选模型。
-- Release公开说明修订先供维护者确认：[修订稿](RELEASE_COPY_PROPOSAL.md)。已发布资产和包内指南保持不变。
+- Release 采用已批准的产品介绍顺序：[当前文案与后续指南计划](RELEASE_COPY_PROPOSAL.md)。已发布资产和包内指南保持不变。
 
 [公开写作规范](PUBLIC_CONTENT_STYLE.md) · [改造清单](PUBLIC_CONTENT_AUDIT.md) · [历史配置记录](archive/public-presentation-20261014/docs__GITHUB_SHOWCASE.md.txt)

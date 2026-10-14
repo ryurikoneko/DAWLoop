@@ -1,6 +1,6 @@
 # 登记准备清单 / Registration readiness checklist
 
-[KNOWN｜HIGH] 本轮只准备清单，不提交商标或著作权申请，不创建官方账户、不付款、不联系代理、不上传私人身份或作品源文件。清单各项未完成不伪装成已申请或已获准。
+本轮只准备清单，不提交商标或著作权申请，不创建官方账户、不付款、不联系代理、不上传私人身份或作品源文件。清单各项未完成不伪装成已申请或已获准。
 
 | 准备项 | 当前状态 | 后续所需事实或用户决定 |
 | --- | --- | --- |
@@ -19,10 +19,10 @@
 | 版权登记与商标注册 | NOT_REGISTERED | 无证据、编号、日期；本轮没有独立登记簿检索 |
 | 未来公司许可/转让 | NOT_DECIDED | 保持个人计划，不自动转移 |
 
-[KNOWN｜HIGH] `NOT_REGISTERED` 是本清单的未登记管理状态，依据未提供登记证据和本轮不申请；不是全球登记簿检索报告。若将来获得真实回执，只登记回执证明的阶段：提交、受理、审查和核准分别记录，不把申请号当核准号。
+`NOT_REGISTERED` 是本清单的未登记管理状态，依据未提供登记证据和本轮不申请；不是全球登记簿检索报告。若将来获得真实回执，只登记回执证明的阶段：提交、受理、审查和核准分别记录，不把申请号当核准号。
 
-[KNOWN | HIGH] The checklist does not file applications or certify eligibility. Current registration fields contain no numbers or dates. Later applications, receipts and grants must remain distinct and use actual evidence. Jurisdiction, human authorship, title and prior licenses need review before any filing.
+The checklist does not file applications or certify eligibility. Current registration fields contain no numbers or dates. Later applications, receipts and grants must remain distinct and use actual evidence. Jurisdiction, human authorship, title and prior licenses need review before any filing.
 
-[INFERRED｜HIGH] 当前实际登记准备为 **BLOCKED_PENDING_OWNER_REVIEW**；政策与清单准备可以完成，但不能把“材料索引完成”报成“登记就绪”。
+当前实际登记准备为 **BLOCKED_PENDING_OWNER_REVIEW**；政策与清单准备可以完成，但不能把“材料索引完成”报成“登记就绪”。
 
 [资产清单](ASSET_REGISTRY.json) · [角色政策](CHARACTER_POLICY.md) · [历史许可](HISTORICAL_LICENSE_REVIEW.md)
