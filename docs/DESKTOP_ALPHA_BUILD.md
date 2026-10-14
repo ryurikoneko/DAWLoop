@@ -1,4 +1,33 @@
-# DAWLoop Desktop 0.5.6-alpha.1
+# DAWLoop Desktop 0.5.6-alpha.2 - Internal candidate
+
+
+这是尚未公开发布的补丁候选；现有公开 v0.5.6-alpha.1 ZIP、标签及摘要不变。
+
+This is an unpublished patch candidate. The existing public v0.5.6-alpha.1 ZIP, tag and checksums are unchanged.
+
+## 本候选的 Basic Pitch 首次安装 / First Basic Pitch installation
+
+1. 打开音乐智能 → 组件管理，先确认许可并安装基础组件。
+2. 找到 Basic Pitch，展开安装选项，查看 132.6 MiB 组件及至少 1 GiB 可用空间要求，确认许可后点击安装／重试。
+3. 安装器离线核验固定包、解压独立 Python 3.14.8／ONNX 环境、执行真实模型健康检查。取消只清理本次暂存目录；已有环境不被覆盖。
+4. 导入 WAV，进入音频转 MIDI 与音符编辑，加载转录模型，点击开始音频转 MIDI。审阅和修改音符，再导出 MIDI。
+
+1. In Music Intelligence → Component Manager, review licenses and install basic components first.
+2. Expand Basic Pitch installation options, review the 132.6 MiB pack and minimum 1 GiB free-space requirement, confirm the license and choose Install / retry.
+3. The offline installer verifies the fixed archive, installs isolated Python 3.14.8 / ONNX and runs real model inference as its health check. Cancellation removes only owned staging files; existing environments are preserved.
+4. Import a WAV, open Audio to MIDI & note editor, load the transcription model and start audio-to-MIDI. Review/edit notes, then export MIDI.
+
+仅承诺本轮自有 WAV 的本机隔离用户目录验收；复杂混音不等于完整多轨分离。新增原生依赖公开分发审核仍待完成。许可原文、来源、SBOM 和兼容补丁说明见 licenses/basic-pitch 与组件的 component.json。不得把本候选当作获准公开发行的新版本。
+
+Validation covers an owned WAV in isolated application/component directories on the maintainer's machine, not independent clean Windows. Complex mixes are not complete multitrack separation. Public redistribution review of new native dependencies is pending. Licenses, sources, SBOM and compatibility-patch details are in licenses/basic-pitch and component.json. This candidate is not approved for public release.
+
+本候选通知渠道为 internal，公共通知关闭，不继承维护者对 Alpha.1 Preview 的单版本批准。新的发行与通知需要分别批准。
+
+This candidate uses the internal channel with public notifications disabled. It does not inherit the one-version Alpha.1 Preview approval. A new release and its notifications require separate approval.
+
+以下保留 Alpha.1 使用与构建来源说明作为历史参照，转录首装限制不适用于本次已包含可选转录组件的内部候选。
+
+The Alpha.1 usage/build notes below are retained as historical reference. Their first-transcription-install limitation does not apply to this internal candidate with the optional transcription component.
 
 Experimental Alpha — Tested on maintainer's Windows environment. Clean Windows compatibility has not been independently verified.
 

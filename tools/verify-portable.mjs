@@ -29,6 +29,12 @@ export async function verifyPortable(directory) {
     if(build.dependencies.python!=='offline-basic-component-pack'||build.componentPack.id!==lock.componentId||build.componentPack.version!==lock.version||build.componentPack.sha256!==lock.sha256||!expected.has('resources/components/'+lock.fileName))throw Error('PORTABLE_COMPONENT_SCOPE_REJECTED');
     if(sha(await fs.readFile(path.join(root,'resources/components',lock.fileName)))!==lock.sha256)throw Error('PORTABLE_COMPONENT_SCOPE_REJECTED');
   }else if(build.dependencies.python!=='not-bundled')throw Error('PORTABLE_SCOPE_REJECTED');
+  if(build.optionalComponentPacks?.length){
+    if(alpha||build.optionalComponentPacks.length!==1)throw Error('PORTABLE_COMPONENT_SCOPE_REJECTED');
+    const lock=JSON.parse(await fs.readFile(new URL('../packages/music-intelligence/pitch-component.lock',import.meta.url),'utf8'));
+    const pack=build.optionalComponentPacks[0];
+    if(pack.id!==lock.componentId||pack.version!==lock.version||pack.sha256!==lock.sha256||!expected.has('resources/components/'+lock.fileName)||sha(await fs.readFile(path.join(root,'resources/components',lock.fileName)))!==lock.sha256)throw Error('PORTABLE_COMPONENT_SCOPE_REJECTED');
+  }
   return {result:'PASS',files:manifest.files.length,appVersion:build.appVersion,manifestSha256:sha(await fs.readFile(path.join(root,'portable-manifest.json'))),sourceCommit:build.sourceCommit};
 }
 if(process.argv[1] && import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href)console.log(JSON.stringify(await verifyPortable(process.argv[2])));
