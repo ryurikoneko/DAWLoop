@@ -35,7 +35,11 @@ const vite=spawnSync(process.execPath,[path.join(desktop,'node_modules/vite/bin/
 if(vite.status!==0)throw Error('RENDERER_BUILD_FAILED');
 const manifest=JSON.parse(await fs.readFile(path.join(desktop,'package.json'),'utf8'));
 const publicAlpha=manifest.dawloopInternalCandidate!==true && manifest.dawloopReleaseChannel==='preview' && /^\d+\.\d+\.\d+-alpha\.\d+$/.test(manifest.version);
-if(pitchPack&&publicAlpha)throw Error('PITCH_PUBLIC_DISTRIBUTION_NOT_APPROVED');
+if(pitchPack&&publicAlpha){
+  const review=JSON.parse(await fs.readFile(path.join(root,'LICENSES/basic-pitch/NATIVE_INVENTORY.json'),'utf8'));
+  if(pitchLock.publicRedistributionReview!=='NATIVE_NOTICE_SOURCE_AND_REDIST_REVIEWED'||review.reviewStatus!=='NOTICE_SOURCE_AND_REDIST_OBLIGATIONS_REVIEWED'||review.publicDistributionAuthorized!==true)throw Error('PITCH_PUBLIC_DISTRIBUTION_NOT_APPROVED');
+}
+const draft=manifest.dawloopDraftCandidate===true;
 const releaseChannel=publicAlpha?'preview':'internal';
 const notificationGate=JSON.parse(await fs.readFile(path.join(root,'release_notification.json'),'utf8'));
 if(publicAlpha && (notificationGate.notification_enabled!==false||notificationGate.approved_by_owner!==false||notificationGate.active_approval_id!==null||notificationGate.approvals.length))throw Error('PUBLIC_NOTIFICATION_GATE_MUST_BE_DISABLED');
@@ -107,7 +111,7 @@ await copy(path.join(root,'docs/DESKTOP_ALPHA_BUILD.md'),'FIRST_RUN_AND_SOURCE.m
 await fs.writeFile(path.join(target,app,'package.json'),JSON.stringify({name:'dawloop-desktop',version,productName:distributionName,dawloopReleaseChannel:releaseChannel,type:'module',main:'apps/desktop/electron/main.mjs'},null,2)+'\n',{encoding:'utf8',flag:'wx'});
 for(const relative of ['tools/build-portable.mjs','tools/windows-brand-icon.py',...(await files(path.join(desktop,'public'))).map(f=>path.relative(root,f)),'apps/desktop/package.json','apps/desktop/package-lock.json','apps/desktop/index.html','apps/desktop/vite.config.ts','apps/desktop/tsconfig.json',... (await files(path.join(desktop,'src'))).map(f=>path.relative(root,f)),...(await files(path.join(root,'packages'))).filter(f=>f.endsWith('.ts')).map(f=>path.relative(root,f))])recipeInputs[relative.replaceAll('\\','/')]=sha(await fs.readFile(path.join(root,relative)));
 if(publicAlpha && sourceStatus.stdout.trim())throw Error('CLEAN_PUBLIC_SOURCE_REQUIRED');
-const record={schemaVersion:1,distributionName,releaseReadiness:publicAlpha?'EXPERIMENTAL_ALPHA_MAINTAINER_RISK_ACCEPTED':'INTERNAL_ONLY',cleanWindowsE2E:'NOT_TESTED',cleanWindowsRiskAcceptedByMaintainer:publicAlpha,publicNotificationGate:'DISABLED',branding:iconRecord,builtAt:new Date().toISOString(),releaseChannel,officialRelease:publicAlpha,platform:'win32',arch:'x64',appVersion:version,electronVersion,
+const record={schemaVersion:1,distributionName,releaseReadiness:draft?'PRE_RELEASE_DRAFT_PENDING_OWNER_CONFIRMATION':publicAlpha?'EXPERIMENTAL_ALPHA_MAINTAINER_RISK_ACCEPTED':'INTERNAL_ONLY',cleanWindowsE2E:'NOT_TESTED',cleanWindowsRiskAcceptedByMaintainer:publicAlpha&&!draft,publicNotificationGate:'DISABLED',branding:iconRecord,builtAt:new Date().toISOString(),releaseChannel,officialRelease:publicAlpha&&!draft,platform:'win32',arch:'x64',appVersion:version,electronVersion,
   sourceCommit:sourceHead.stdout.trim(),sourceDirty:sourceStatus.stdout.trim().length>0,buildTools,recipeInputs,lockfileSha256:recipeInputs['apps/desktop/package-lock.json'],licenses,
   componentPack:componentPack?{id:componentLock.componentId,version:componentLock.version,sha256:componentLock.sha256,licenseReview:componentLock.publicRedistributionReview}:null,
   optionalComponentPacks:pitchPack?[{id:pitchLock.componentId,version:pitchLock.version,sha256:pitchLock.sha256,licenseReview:pitchLock.publicRedistributionReview}]:[],

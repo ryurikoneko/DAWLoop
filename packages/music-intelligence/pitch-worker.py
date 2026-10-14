@@ -3,6 +3,7 @@ import sys,json,time,contextlib,io,hashlib,math,importlib.util,os
 from pathlib import Path
 os.environ['NUMBA_CACHE_DIR']=str(Path(os.environ['TEMP'])/'numba-pitch')
 os.environ['TF_CPP_MIN_LOG_LEVEL']='3'
+os.environ['ORT_DISABLE_TELEMETRY']='1'
 if sys.platform=='win32':
     # 可选解码器探测不能启动开发机PATH中的未登记FFmpeg或其他工具。
     windows=Path(os.environ.get('SystemRoot','C:/Windows'))
@@ -20,6 +21,8 @@ def main():
         r=json.loads(raw);assert r.get('schemaVersion')==1,'MI_SCHEMA_REJECTED';p=r['params'];started=time.monotonic()
         if r['method']=='load':
             with contextlib.redirect_stdout(io.StringIO()):
+                import onnxruntime
+                onnxruntime.disable_telemetry_events()
                 import basic_pitch
                 from basic_pitch.inference import Model,predict
                 candidates=list((Path(basic_pitch.__file__).parent/'saved_models').rglob('*.onnx'))

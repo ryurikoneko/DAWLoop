@@ -22,7 +22,8 @@ test('新运行环境存在但不完整时拒绝，不回退到历史环境',asy
  await assert.rejects(currentPitchEnvironment(home),/MI_COMPONENT_HASH_REJECTED/);await assert.rejects(pitchManifest(home),/MI_COMPONENT_HASH_REJECTED/);
 });
 test('转录组件与基础分析组件版本独立，公开分发仍需独立审查',async()=>{
- assert.equal(PITCH_COMPONENT.componentId,'basic-pitch');assert.equal(PITCH_COMPONENT.publicRedistributionReview,'INTERNAL_CANDIDATE_ONLY_NATIVE_LICENSE_REVIEW_PENDING');assert.ok(PITCH_COMPONENT.archiveBytes<160*1024**2);assert.equal(PITCH_COMPONENT.downloadUrl,null);
+ assert.equal(PITCH_COMPONENT.componentId,'basic-pitch');assert.equal(PITCH_COMPONENT.publicRedistributionReview,'NATIVE_NOTICE_SOURCE_AND_REDIST_REVIEWED');assert.ok(PITCH_COMPONENT.archiveBytes<160*1024**2);assert.equal(PITCH_COMPONENT.downloadUrl,null);
+ const review=JSON.parse(await fs.readFile(new URL('../../LICENSES/basic-pitch/NATIVE_INVENTORY.json',import.meta.url),'utf8'));assert.equal(review.reviewStatus,'NOTICE_SOURCE_AND_REDIST_OBLIGATIONS_REVIEWED');assert.equal(review.authorizationScope,'PRE_RELEASE_DRAFT_ONLY_PENDING_MAINTAINER_FINAL_PUBLICATION');assert.equal(review.newNativeFiles.length,3);
  const recipe=JSON.parse(await fs.readFile(new URL('../../packages/music-intelligence/pitch-component-sources.lock',import.meta.url),'utf8'));assert.equal(recipe.length,9);assert.ok(recipe.every(r=>r.url.startsWith('https://files.pythonhosted.org/')&&/^[a-f0-9]{64}$/.test(r.sha256)));assert.equal(recipe.some(r=>/tensorflow|setuptools|torch/.test(r.name)),false);
 });
 test('模型已载入或其他任务执行时拒绝并发安装',async()=>{

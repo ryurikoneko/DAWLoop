@@ -1,8 +1,11 @@
 """安装晋级要求真实ONNX推理，不以导入成功代替模型健康检查。"""
-import hashlib,json,tempfile
+import hashlib,json,tempfile,os
+os.environ['ORT_DISABLE_TELEMETRY']='1'
 from pathlib import Path
 import numpy as np
 import soundfile as sf
+import onnxruntime
+onnxruntime.disable_telemetry_events()
 import basic_pitch
 from basic_pitch.inference import Model,predict
 files=list((Path(basic_pitch.__file__).parent/'saved_models').rglob('*.onnx'))

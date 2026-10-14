@@ -27,7 +27,7 @@
         },
         {
           "name": "dawloop:scope",
-          "value": "ONNX-only internal candidate"
+          "value": "ONNX-only audited Alpha.2 candidate"
         }
       ]
     },
@@ -55,7 +55,7 @@
         },
         {
           "name": "dawloop:scope",
-          "value": "ONNX-only internal candidate"
+          "value": "ONNX-only audited Alpha.2 candidate"
         }
       ]
     },
@@ -83,7 +83,7 @@
         },
         {
           "name": "dawloop:scope",
-          "value": "ONNX-only internal candidate"
+          "value": "ONNX-only audited Alpha.2 candidate"
         }
       ]
     },
@@ -111,7 +111,7 @@
         },
         {
           "name": "dawloop:scope",
-          "value": "ONNX-only internal candidate"
+          "value": "ONNX-only audited Alpha.2 candidate"
         }
       ]
     },
@@ -139,7 +139,7 @@
         },
         {
           "name": "dawloop:scope",
-          "value": "ONNX-only internal candidate"
+          "value": "ONNX-only audited Alpha.2 candidate"
         }
       ]
     },
@@ -167,7 +167,7 @@
         },
         {
           "name": "dawloop:scope",
-          "value": "ONNX-only internal candidate"
+          "value": "ONNX-only audited Alpha.2 candidate"
         }
       ]
     },
@@ -195,7 +195,7 @@
         },
         {
           "name": "dawloop:scope",
-          "value": "ONNX-only internal candidate"
+          "value": "ONNX-only audited Alpha.2 candidate"
         }
       ]
     },
@@ -223,7 +223,7 @@
         },
         {
           "name": "dawloop:scope",
-          "value": "ONNX-only internal candidate"
+          "value": "ONNX-only audited Alpha.2 candidate"
         }
       ]
     },
@@ -251,7 +251,7 @@
         },
         {
           "name": "dawloop:scope",
-          "value": "ONNX-only internal candidate"
+          "value": "ONNX-only audited Alpha.2 candidate"
         }
       ]
     },
@@ -745,6 +745,126 @@
         {
           "type": "distribution",
           "url": "https://files.pythonhosted.org/packages/92/9d/c4e665119135114480843e7ab388fa94d8480650450e6f8e26b70d323a4c/urllib3-2.8.0-py3-none-any.whl"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Eigen",
+      "version": "1d8b82b0740839c0de7f1242a3585e3390ff5f33",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6a60d76351f97132669daeeb721d6bf14b008101883ad2d687a3201c5c461eb0"
+        }
+      ],
+      "properties": [
+        {
+          "name": "dawloop:scope",
+          "value": "UPSTREAM_DECLARED_COVERED_SOURCE_WITH_ARCHIVE_NOT_PER_OBJECT_BUILD_PROOF"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "name": "msvcp140.dll",
+      "version": "14.51.36247.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7c26614e1d733892c2deac7e245ce115504b1d80592dd0a01b08e3e5a55f89ca"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Microsoft Visual C++ V14 Runtime 2026"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "dawloop:source",
+          "value": "VC/Redist/MSVC/14.51.36231/x64/Microsoft.VC145.CRT/msvcp140.dll"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "name": "msvcp140_1.dll",
+      "version": "14.51.36247.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "206c931bf90fdad8816de3b5e2ef80b2bcaa9406c89ecc05fe6fddffe251e982"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Microsoft Visual C++ V14 Runtime 2026"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "dawloop:source",
+          "value": "VC/Redist/MSVC/14.51.36231/x64/Microsoft.VC145.CRT/msvcp140_1.dll"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "name": "vcruntime140.dll",
+      "version": "14.51.36247.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d1f4225df2cd877dbf130d5668a021dce3f94118455ff5ec952061c30afc9ce7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Microsoft Visual C++ V14 Runtime 2026"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "dawloop:source",
+          "value": "VC/Redist/MSVC/14.51.36231/x64/Microsoft.VC145.CRT/vcruntime140.dll"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "name": "vcruntime140_1.dll",
+      "version": "14.51.36247.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a7146c08f89fe5b04541ab507cdb59ff7b44534d4ba3c668a426c6450a03434e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Microsoft Visual C++ V14 Runtime 2026"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "dawloop:source",
+          "value": "VC/Redist/MSVC/14.51.36231/x64/Microsoft.VC145.CRT/vcruntime140_1.dll"
         }
       ]
     }

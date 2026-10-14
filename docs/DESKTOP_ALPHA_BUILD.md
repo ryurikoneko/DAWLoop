@@ -1,9 +1,16 @@
-# DAWLoop Desktop 0.5.6-alpha.2 - Internal candidate
+# DAWLoop Desktop 0.5.6-alpha.2 — Pre-release draft candidate
 
+当前为等待维护者最终确认的预发行草稿；v0.5.6-alpha.1 的文件、标签及摘要保持不变。
 
-这是尚未公开发布的补丁候选；现有公开 v0.5.6-alpha.1 ZIP、标签及摘要不变。
+音乐智能 → 组件管理：先阅读许可并安装基础组件，再展开 Basic Pitch 的安装选项确认安装。Basic Pitch 可选组件约136.5 MiB，安装至少需要1 GiB可用空间。独立Python3.14.8、ONNX1.31.0与本地Visual C++运行库随组件配置，无需系统Python或管理员安装。导入WAV，载入转录模型，生成音符后试听、编辑、保存并导出MIDI。
 
-This is an unpublished patch candidate. The existing public v0.5.6-alpha.1 ZIP, tag and checksums are unchanged.
+This is a pre-release draft awaiting final maintainer publication confirmation. Alpha.1 files, tag and checksums are unchanged. Install basic components in Component Manager, then review the Basic Pitch and third-party terms and install its included ~136.5 MiB pack (at least 1 GiB free). Isolated Python 3.14.8, ONNX 1.31.0 and app-local Microsoft runtimes are configured without system Python or administrator installation.
+
+原生文件逐项审核、SBOM、官方版权通知、Microsoft条款与Eigen对应源码见licenses/basic-pitch。其他基础音频组件通知及对应源码获取方式见licenses/desktop-runtime。微软条款仅适用于微软组件，DAWLoop源码MIT不变。没有修改ONNX二进制或模型权重；模型Worker与安装健康检查导入前关闭ORT遥测。
+
+See licenses/basic-pitch for per-file native review, SBOM, original notices, Microsoft terms and Eigen covered source. Basic runtime notices and corresponding source instructions are in licenses/desktop-runtime. Microsoft terms apply separately to Microsoft components; DAWLoop code remains MIT. ORT telemetry is disabled before import and before model initialization. Native binaries and model weights are unchanged.
+
+Experimental Alpha — Tested on maintainer's Windows environment. Clean Windows compatibility has not been independently verified. Basic Pitch is intended for instrument transcription; complex mixes are not complete multitrack separation. Windows system APIs remain OS prerequisites. Public notifications are DISABLED; system notification permissions and Do Not Disturb native acceptance remain NOT_TESTED. No automatic downloading, installing or background service for updates.
 
 ## 本候选的 Basic Pitch 首次安装 / First Basic Pitch installation
 
