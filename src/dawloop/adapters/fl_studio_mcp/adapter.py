@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Awaitable, Callable
 
+from dawloop.mix_plan import decode_plugin_scan
 from dawloop.note_plan import NotePlan
 from dawloop.verification import compare_events
 
@@ -129,27 +130,26 @@ class FLStudioMCPAdapter:
                     "index": index,
                     "slot_index": slot_index,
                 }
-            name = await _call(client, "fl_get_plugin_name", {
+            scan = await _call(client, "fl_get_plugin_params", {
                 "index": index,
                 "slot_index": slot_index,
+                "max_params": None,
+                "include_metadata": True,
             })
-            if not isinstance(name, str) or name.startswith("Error:"):
-                return {"status": "STOP", "reason": str(name)}
-            parameters = await _call(client, "fl_get_plugin_params", {
-                "index": index,
-                "slot_index": slot_index,
-            })
-            if not isinstance(parameters, list) or any(
-                isinstance(item, dict) and "error" in item for item in parameters
-            ):
-                return {"status": "STOP", "reason": f"插件参数读取失败：{parameters!r}"}
+            try:
+                fingerprint, _ = decode_plugin_scan(scan)
+            except ValueError as error:
+                return {"status": "STOP", "reason": str(error), "scan": scan,
+                        "index": index, "slot_index": slot_index}
             return {
                 "status": "READBACK_RECEIVED",
                 "evidence_scope": "live_fl_studio_plugin_read",
-                "index": index,
-                "slot_index": slot_index,
-                "plugin_name": name,
-                "parameters": parameters,
+                "index": index, "slot_index": slot_index,
+                "plugin_name": fingerprint.plugin_name,
+                "plugin_user_name": scan.get("plugin_user_name"),
+                "parameters": scan["params"], "scan": scan,
+                "fingerprint": asdict(fingerprint), "layout_hash": fingerprint.layout_hash,
+                "producer_instance_binding": "NOT_VERIFIED",
             }
 
     async def execute(

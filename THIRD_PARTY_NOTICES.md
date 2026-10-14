@@ -15,6 +15,15 @@ DAWLoop does not claim authorship of the bundled FL Studio MCP implementation. T
 
 The vendored snapshot contains only the upstream files needed to run its MCP server and install its FL Studio scripts. The demo video and upstream installer scripts are not bundled.
 
+DAWLoop maintains local patches against the bundled commit above in
+`fl_controller/device_FLStudioMCP.py` and `src/fl_studio_mcp/tools/plugins.py`.
+These patches correct plugin name/color/global-index and parameter pickup argument
+positions, and add complete parameter-scan metadata with explicit failures and
+optional display-text diagnostics. The existing tool retains its list interface
+and offers metadata on request. These are DAWLoop integration changes, not claims
+that the original upstream commit already contained them. The upstream MIT notice
+and license remain intact.
+
 ## whale-music-pipeline
 
 - Original project: `whale-music-pipeline`
