@@ -66,3 +66,35 @@ test('撤销检查五分钟内失效，离线不复用旧批准',async t=>{
   const f=setup(t);await f.service.check();f.tick(300001);assert.equal(f.service.get().publicPush,'DISABLED');
   f.service.fetcher=async()=>{throw Error('offline');};await f.service.check();assert.equal(f.service.get().publicPush,'DISABLED');assert.equal(f.notices.length,1);
 });
+test('关闭自动检查时仍可手动查询公开版本，不写入主动提醒状态',async t=>{
+  const f=setup(t,{remoteGate:{notification_enabled:false}});f.service.configure({enabled:false});
+  const r=await f.service.call('check',{manual:true});assert.equal(r.release.version,'v0.6.0');assert.equal(r.status,'UPDATE_AVAILABLE');assert.equal(r.publicPush,'DISABLED');
+  assert.equal(f.service.get().status,'CHECK_DISABLED');assert.equal(f.service.get().release,null);assert.equal(f.notices.length,0);assert.deepEqual(f.requests.map(x=>x.url),[RELEASES]);
+  await f.service.call('open',{manual:true});assert.deepEqual(f.opened,[release().html_url]);await assert.rejects(f.service.openRelease());
+});
+test('手动查询不使用自动24小时缓存，也不显示其他频道或非官方链接',async t=>{
+  const f=setup(t,{items:[release('v0.7.0-alpha.1'),release()]});await f.service.check();const count=f.notices.length;
+  f.service.fetcher=async()=>new Response(JSON.stringify([release('v0.8.0',{html_url:'https://evil.invalid'}),release('v0.7.0-alpha.1'),release('v0.6.1')]));
+  const r=await f.service.checkManual();assert.equal(r.release.version,'v0.6.1');assert.equal(f.notices.length,count);assert.equal(f.service.get().release.version,'v0.6.0');
+});
+test('手动查询同版本可读说明，过期或切换频道后禁止打开旧查询',async t=>{
+  const f=setup(t,{version:'0.6.0'});assert.equal((await f.service.checkManual()).status,'UP_TO_DATE');await f.service.openManualRelease();
+  f.advance();await assert.rejects(f.service.openManualRelease());await f.service.checkManual();f.service.configure({channel:'preview'});await assert.rejects(f.service.openManualRelease());
+});
+test('失败手动查询撤销旧结果且不静默启用检查或通知',async t=>{
+  const f=setup(t);await f.service.checkManual();f.service.fetcher=async()=>{throw Error('offline');};assert.equal((await f.service.checkManual()).status,'CHECK_FAILED');await assert.rejects(f.service.openManualRelease());assert.equal(f.notices.length,0);
+});
+test('手动入口拒绝URL和权限字段注入',async t=>{
+  const f=setup(t);for(const params of [{manual:true,url:release().html_url},{manual:true,approved:true},{manual:false},{manual:'true'}]){await assert.rejects(f.service.call('check',params));await assert.rejects(f.service.call('open',params));}assert.equal(f.requests.length,0);
+});
+test('Toast失败或系统不支持不会退化为额外窗口或重复重试',async t=>{
+  const f=setup(t);let attempted=0;f.service.notify=()=>{attempted++;throw Error('OS_NOTIFICATION_UNAVAILABLE');};await f.service.check();await f.service.check();await new DesktopUpdates({...f.options,notify:f.service.notify}).check();assert.equal(attempted,1);assert.equal(f.opened.length,0);
+});
+test('通知点击时重新核验批准，撤销后不能打开旧通知',async t=>{
+  const f=setup(t);await f.service.check();f.service.state.remoteGate.revocations=[{approval_id:'test-only'}];await assert.rejects(f.notices[0].onClick());assert.equal(f.opened.length,0);
+});
+test('通知载荷保持静音，不增加绕过勿扰或系统权限的参数',()=>{
+  class Fake extends EventEmitter {static isSupported(){return true;}constructor(options){super();Fake.options=options;}show(){}}
+  windowsNotifier(Fake,'official.ico','win32')({title:'test fixture',body:'test fixture',onClick:()=>{},onClose:()=>{}});
+  assert.equal(Fake.options.silent,true);for(const field of ['priority','urgent','suppressPopup','force'])assert.equal(Object.hasOwn(Fake.options,field),false);
+});

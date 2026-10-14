@@ -58,6 +58,7 @@ export async function fetchJson(url,fetcher) {
 export class DesktopUpdates {
   constructor({file,version,buildChannel='internal',fetcher=fetch,notify=()=>false,open=()=>{},now=Date.now,language=()=> 'en-US'}) {
     this.file=file;this.version=version;this.buildChannel=buildChannel;this.fetcher=fetcher;this.notify=notify;this.open=open;this.now=now;this.language=language;
+    this.manualObservation=null;
     const state=readState(file);
     this.state={schema:1,preferences:{enabled:true,channel:'stable',notifications:false},checkedAt:null,gateCheckedAt:null,checkStatus:'UNKNOWN',release:null,remoteGate:null,seen:[],snoozeUntil:0};
     if(state) {
@@ -100,7 +101,7 @@ export class DesktopUpdates {
     if(!options||Object.keys(options).some(k=>!['enabled','channel','notifications'].includes(k))||
       options.enabled!==undefined&&typeof options.enabled!=='boolean'||options.notifications!==undefined&&typeof options.notifications!=='boolean'||
       options.channel!==undefined&&!['stable','preview'].includes(options.channel))throw Error('UPDATE_PREFERENCES_INVALID');
-    if(options.channel&&options.channel!==this.state.preferences.channel){this.state.release=null;this.state.checkStatus='UNKNOWN';this.state.remoteGate=null;}
+    if(options.channel&&options.channel!==this.state.preferences.channel){this.state.release=null;this.state.checkStatus='UNKNOWN';this.state.remoteGate=null;this.manualObservation=null;}
     if(options.notifications!==undefined)this.state.notificationConsent=options.notifications?'USER_OPT_IN':null;
     Object.assign(this.state.preferences,options);this.persist();return this.get();
   }
@@ -108,6 +109,22 @@ export class DesktopUpdates {
     if(!this.state.preferences.enabled)return this.get();
     if(this.pending)return this.pending;
     this.pending=this.checkOnce().finally(()=>{this.pending=null;});return this.pending;
+  }
+  async checkManual() {
+    if(this.manualPending)return this.manualPending;
+    this.manualObservation=null;
+    this.manualPending=(async()=>{
+      try {
+        const channel=this.state.preferences.channel;
+        const release=selectRelease(await fetchJson(RELEASES,this.fetcher),channel);
+        if(channel!==this.state.preferences.channel)throw Error('UPDATE_CHANNEL_CHANGED');
+        const checkedAt=this.now(),comparison=release?compare(this.version,release.version):null;
+        this.manualObservation={release,checkedAt,channel};
+        // 手动查询结果不进入自动提醒缓存，也不授予通知资格。
+        return {...this.get(),checkedAt,release,publicPush:'DISABLED',status:comparison===null?'UNKNOWN':comparison<0?'UPDATE_AVAILABLE':'UP_TO_DATE'};
+      }catch{return {...this.get(),checkedAt:this.now(),release:null,publicPush:'DISABLED',status:'CHECK_FAILED'};}
+    })().finally(()=>{this.manualPending=null;});
+    return this.manualPending;
   }
   async checkOnce() {
     if(this.state.checkedAt!==null&&this.now()-this.state.checkedAt<DAY){
@@ -141,12 +158,19 @@ export class DesktopUpdates {
   }
   snooze() {this.state.snoozeUntil=this.now()+7*DAY;this.persist();return this.get();}
   async openRelease() {if(!this.allowed()||!releaseUrl(this.state.release?.url))throw Error('PUBLIC_UPDATE_NOT_APPROVED');await this.open(this.state.release.url);return true;}
+  async openManualRelease() {
+    const observation=this.manualObservation;
+    if(!observation||observation.channel!==this.state.preferences.channel||this.now()-observation.checkedAt>=DAY||!releaseUrl(observation.release?.url))throw Error('PUBLIC_RELEASE_NOT_VERIFIED');
+    await this.open(observation.release.url);return true;
+  }
   async call(method,params) {
     if(method==='get'&&params===undefined)return this.get();
     if(method==='check'&&params===undefined)return this.check();
+    if(method==='check'&&params&&Object.keys(params).length===1&&params.manual===true)return this.checkManual();
     if(method==='configure')return this.configure(params);
     if(method==='snooze'&&params===undefined)return this.snooze();
     if(method==='open'&&params===undefined)return this.openRelease();
+    if(method==='open'&&params&&Object.keys(params).length===1&&params.manual===true)return this.openManualRelease();
     throw Error('UPDATE_METHOD_REJECTED');
   }
 }
