@@ -8,7 +8,7 @@
 
 从分析音乐素材、规划与编辑 MIDI，到通过执行后端操作真实 FL Studio，DAWLoop 为音乐创作者和 AI Agent 开发者提供一条可观察的制作路线。它让 Agent 在受支持的工作流中核对操作结果，再决定继续还是重新规划。
 
-现在可以试用**开源 Python Runtime / Agent 工具**，或了解**内部预览中的 Desktop 音乐工作区**。两者独立开发，尚未形成完整的桌面 DAW 控制产品。
+现在可以试用**开源 Python Runtime / Agent 工具**，或下载 **Desktop 实验性 Alpha 音乐工作区**。两者独立开发，尚未形成完整的桌面 DAW 控制产品。
 
 [中文](README.md) | [English](README.en.md)
 
@@ -20,7 +20,7 @@
 
 ## 看看 DAWLoop Desktop
 
-截图来自内部开发版本，展示 Music Intelligence 工作区。Desktop 应用尚未公开下载。
+截图来自此前内部开发版本，展示 Music Intelligence 工作区。当前 [Desktop 0.5.6 Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1) 已公开；实际发行范围与限制见下文。
 
 ![DAWLoop Music Intelligence 工作区](docs/media/music-home.png)
 
@@ -82,7 +82,9 @@ DAWLoop 将制作工作分成三个相互配合的层次：
 
 ### 想使用音乐创作界面？
 
-先浏览 [Desktop 预览与安装状态](docs/DESKTOP.md)。目前**没有公开提供的新版 Desktop 安装包**；[Releases](https://github.com/ryurikoneko/DAWLoop/releases) 中的 Python 包不是 Desktop 安装程序。
+下载 [DAWLoop v0.5.6-alpha.1 Windows x64 便携版](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.1/DAWLoop%2B0.5.6-alpha.1-Windows-x64-Portable.zip)（约 266 MiB），或查看 [发行说明与 SHA-256 校验](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1)。解压后运行 `DAWLoop.exe`，在组件管理中确认安装随包基础音乐分析组件，再导入 WAV。无需 Codex、Node 或系统 Python。
+
+**实验性 Alpha：已在维护者 Windows 环境测试，未独立验证全新 Windows 兼容性。** Basic Pitch 权重不随包提供，旧运行环境的首次安装暂时禁用；已有核验环境仍可转录。规则创作、Piano Roll 与 MIDI 导出可独立使用。[首次运行与限制](docs/DESKTOP.md) · [实际 Desktop 源码](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.1)。历史 Python Runtime 发行包不是 Desktop 安装程序。
 
 ### 想试用开源 Runtime？
 
@@ -118,7 +120,7 @@ python3 -m venv .venv
 
 **Python Runtime：**源码及 Alpha 发行物已公开，可以从 [GitHub Releases](https://github.com/ryurikoneko/DAWLoop/releases) 获取。
 
-**DAWLoop Desktop：**音乐分析、转录和 MIDI 编辑已有内部运行候选，但独立干净 Windows 安装与所需音频组件的分发验收尚未完成，因此暂不开放公开下载。
+**DAWLoop Desktop：**[0.5.6-alpha.1](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1) 已作为 Pre-release 公开。随包基础分析组件已在本机完成首次安装、真实 WAV 分析和重启恢复；Piano Roll 编辑及 MIDI 导出／读回通过。独立干净 Windows 仍为 NOT_TESTED，维护者接受此版兼容性风险；不标为 Stable 或开箱即用。公开更新通知保持关闭，不自动下载或安装。
 
 后续方向：
 

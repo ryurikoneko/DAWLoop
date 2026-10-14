@@ -1,14 +1,22 @@
-# Desktop / Music Intelligence — 内部预览 / Internal preview
+# Desktop / Music Intelligence — Experimental Alpha
 
 ## 当前可公开内容 / Current public scope
 
-[COMPUTED｜HIGH] 公开 main `1a99482` 不包含 `apps/desktop`。独立 `feature/music-intelligence` 功能树 `66806b5` 的内部候选为 `0.5.6-internal.1`。本次main集成仅增加展示与文档，不合入Desktop业务代码，不发布EXE。
+[COMPUTED｜HIGH] [DAWLoop v0.5.6-alpha.1](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1) 已公开 Windows x64 Portable ZIP、校验和、构建记录、第三方通知和对应源码。Desktop 源码提交为 `b5967ef50fca9d54590559559441ad7f964ec12e`，位于 [公开发行标签](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.1)；Runtime main 与旧 Python Release 仍独立，不能将其当成 Desktop 构建来源。
 
-[COMPUTED | HIGH] Public main does not include `apps/desktop`. Separate feature-tree source `66806b5` produced internal candidate `0.5.6-internal.1`. This documentation integration does not merge Desktop code or distribute an EXE.
+[COMPUTED | HIGH] The Desktop Pre-release provides a Windows portable ZIP, checksums, build provenance, notices and corresponding source. Desktop source is published at the release tag above, separately from Runtime main and historical Python Releases.
 
-[KNOWN｜HIGH] 普通访问者目前不能从公开 Release 安装该 Desktop，也不能从 main 运行不存在的 npm 启动脚本。请等待明确的源码集成或发行许可。已经获准使用内部候选的测试者按候选说明操作；不要复制别人未校验的模型或 Python 目录。
+[KNOWN｜HIGH] 解压运行 `DAWLoop.exe`，在音乐智能 → 组件管理中确认许可并安装随包基础组件，再导入 WAV 分析。无需系统 Python、Node、Codex 或寻找 runtime.json。模型权重不随包提供；Basic Pitch 的旧 Python 首次安装链暂时禁用，现有核验环境仍可用。规则创作、Piano Roll 与 MIDI 导出不受其影响。
 
-[KNOWN | HIGH] Visitors cannot currently install this Desktop from public Releases or run a nonexistent npm entrypoint from main. Await an explicit source integration or distribution. Authorized internal testers follow their candidate instructions; do not copy unaudited model or Python directories.
+[KNOWN | HIGH] Extract and run DAWLoop.exe; review licenses and install bundled basic components in Music Intelligence → Component Manager, then analyze WAV. System Python, Node and Codex are unnecessary. Model weights are not bundled. First installation of the legacy Basic Pitch runtime is disabled; existing verified environments remain usable. Rule composition, Piano Roll and MIDI export remain available.
+
+**Experimental Alpha — Tested on maintainer's Windows environment. Clean Windows compatibility has not been independently verified.**
+
+[KNOWN｜HIGH] `CLEAN_WINDOWS_E2E = NOT_TESTED / RISK_ACCEPTED_BY_MAINTAINER`。此次维护者明确取消其强制发行门，未把未测试状态改为 PASS。不声称开箱即用。`PUBLIC_NOTIFICATION_GATE = DISABLED`：公开发行不批准 Windows 用户通知或自动下载安装。
+
+[KNOWN | HIGH] Clean Windows remains untested; the maintainer accepted this Alpha's uncertainty. Public notifications remain disabled; publication does not grant notification or automatic installation consent.
+
+[首次运行、源码构建与许可 / First run, source build and licensing](https://github.com/ryurikoneko/DAWLoop/blob/v0.5.6-alpha.1/docs/DESKTOP_ALPHA_BUILD.md)
 
 ## 独立音乐工作流 / Independent music workflow
 
@@ -24,13 +32,13 @@
 
 ## 安装与限制 / Installation and limits
 
-- [KNOWN｜HIGH] Python、模型依赖与权重不是全部随便携候选提供。Basic DSP 未就绪时在创建任务前拦截；普通用户不应寻找 `runtime.json`。可信离线首装资源仍是交付阻塞。
+- [KNOWN｜HIGH] Python、模型依赖与权重不是全部随便携候选提供。Basic DSP 未就绪时在创建任务前拦截；普通用户不应寻找 `runtime.json`。可信离线基础组件现已随 Alpha 提供；安装须确认许可，分析编解码范围以发行说明为准。
 - [KNOWN｜HIGH] 基础分析与第三方模型分开；模型未安装时不应阻止进入主界面。模型操作保留许可确认、硬件限制与真实错误。
 - [KNOWN｜HIGH] Basic Pitch 不等于复杂混音分轨；OMAR 单段 Embedding 不等于学习风格。SheetSage2 offset 和 YuE2 环境限制保留。
 - [KNOWN｜HIGH] FL 配置不是独立音乐功能的首启门槛；Desktop 不获得额外宿主控制权限。
 - [KNOWN｜HIGH] 普通/开发者模式只是展示差异，中英文与减少动态效果均已在内部候选操作；不是权限升级机制。
 
-[KNOWN | HIGH] Runtime components and model weights are not all bundled. Missing Basic DSP is detected before job submission; trusted offline first installation remains blocked. Model absence does not block the workspace. License confirmation, hardware constraints, uncertainty and real errors remain visible. Basic Pitch is not source separation; OMAR is not style learning. FL configuration is optional for independent music tasks. User/developer modes and reduced motion do not raise permissions.
+[KNOWN | HIGH] Runtime components and model weights are not all bundled. Missing Basic DSP is detected before job submission; the trusted basic component is now bundled with the Alpha and requires license confirmation. Model absence does not block the workspace. License confirmation, hardware constraints, uncertainty and real errors remain visible. Basic Pitch is not source separation; OMAR is not style learning. FL configuration is optional for independent music tasks. User/developer modes and reduced motion do not raise permissions.
 
 ## 内部验收摘要 / Internal acceptance summary
 
@@ -40,7 +48,7 @@
 
 [Capabilities](CAPABILITIES.md) · [Two demos](DEMOS.md) · [Media provenance](media/README.md)
 
-## 2026-10-14 统一候选 / Integrated candidate
+## 历史内部候选记录 / Historical internal candidate (superseded by the Alpha scope above)
 
 [COMPUTED｜HIGH] 软件功能基线66806b5，新打包来源8123ae3，版本0.5.6-internal.1，分发名DAWLoop+0.5.6-internal.1。新增随包中英文使用指南、MIT及组件通知，不改算法或宿主。代码仍在独立本地release功能树，公开main不包含该构建源码；本轮未公开安装包。
 
