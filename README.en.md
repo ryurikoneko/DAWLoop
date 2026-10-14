@@ -8,7 +8,7 @@
 
 From analyzing musical material and planning MIDI edits to operating real FL Studio through execution backends, DAWLoop gives music creators and AI-agent developers a way to connect creative decisions with observable actions. In supported workflows, an agent can check the result before deciding to continue or re-plan.
 
-You can try the **open-source Python Runtime / Agent toolkit** today or explore the **Desktop music workspace in internal preview**. These are separate development lines, not yet a complete desktop DAW-control product.
+You can try the **open-source Python Runtime / Agent toolkit** today or download the **Desktop music workspace as an Experimental Alpha**. These are separate development lines, not yet a complete desktop DAW-control product.
 
 [中文](README.md) | [English](README.en.md)
 
@@ -20,7 +20,7 @@ You can try the **open-source Python Runtime / Agent toolkit** today or explore 
 
 ## Meet DAWLoop Desktop
 
-Screenshots are taken from an internal development build and show the Music Intelligence workspace. The Desktop application is not yet publicly available.
+Screenshots are from the preceding internal development build and show the Music Intelligence workspace. [Desktop 0.5.6 Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1) is now public; its actual distribution scope and limitations are described below.
 
 ![DAWLoop Music Intelligence workspace](docs/media/music-home.png)
 
@@ -41,10 +41,10 @@ Screenshots are taken from an internal development build and show the Music Inte
 
 | Area | What you can do | Availability today |
 | --- | --- | --- |
-| Music analysis | Explore loudness, rhythmic changes and key candidates to understand musical material | Internal Desktop preview; some results are estimates |
-| Audio to MIDI | Basic Pitch transcription, note review, editing and export | Internal Desktop preview; not full source separation for complex mixes |
-| MIDI composition | Generate melodies with harmony, rhythm, density and seed constraints | Internal Desktop preview; currently rule-based |
-| Piano Roll editing | Review notes, edit velocity, undo, audition and export MIDI | Internal Desktop preview; in-app editor |
+| Music analysis | Explore loudness, rhythmic changes and key candidates to understand musical material | Desktop Experimental Alpha; some results are estimates |
+| Audio to MIDI | Basic Pitch transcription, note review, editing and export | Existing verified environment; new installation disabled, not full source separation |
+| MIDI composition | Generate melodies with harmony, rhythm, density and seed constraints | Desktop Experimental Alpha; currently rule-based |
+| Piano Roll editing | Review notes, edit velocity, undo, audition and export MIDI | Desktop Experimental Alpha; in-app editor |
 | Music planning & verification | Describe notes, timing and targets, then compare planned and observed events | Public Python Runtime; core verification is offline-tested |
 | DAW control | Operate a running DAW and retrieve state through backends such as FL Studio MCP | Experimental Runtime integration; live evidence varies by operation |
 
@@ -82,7 +82,9 @@ Planning and comparison modules are public and offline-tested; limited FL Studio
 
 ### Looking for the music workspace?
 
-See the [Desktop preview and installation status](docs/DESKTOP.md). **There is no public download of the new Desktop yet.** Python packages on the [Releases page](https://github.com/ryurikoneko/DAWLoop/releases) are not Desktop installers.
+Download [DAWLoop v0.5.6-alpha.1 Windows x64 Portable](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.1/DAWLoop%2B0.5.6-alpha.1-Windows-x64-Portable.zip) (about 266 MiB), or see [release notes and SHA-256 checksums](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1). Extract, run `DAWLoop.exe`, confirm installation of the bundled basic music analysis components in Component Manager, then import WAV. Codex, Node and system Python are not required.
+
+**Experimental Alpha — Tested on maintainer's Windows environment. Clean Windows compatibility has not been independently verified.** Basic Pitch weights are not bundled; first installation of its legacy runtime is disabled, while existing verified environments remain usable. Rule composition, Piano Roll and MIDI export work independently. [First run and limits](docs/DESKTOP.md) · [Actual Desktop source](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.1). Historical Python Runtime assets are not Desktop installers.
 
 ### Trying the open-source Runtime?
 
@@ -118,7 +120,7 @@ Start with the [deployment guide](docs/DEPLOYMENT.md) and [FL Studio setup instr
 
 **Python Runtime:** Public source and Alpha release artifacts are available from [GitHub Releases](https://github.com/ryurikoneko/DAWLoop/releases).
 
-**DAWLoop Desktop:** Internal builds have demonstrated audio analysis, transcription and MIDI editing. Independent clean-Windows installation and distribution of required audio components are not yet accepted, so the new Desktop is not publicly downloadable.
+**DAWLoop Desktop:** [0.5.6-alpha.1](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1) is publicly available as a Pre-release. Local first installation of bundled basic components, real WAV analysis, restart recovery, Piano Roll editing and MIDI export/readback passed. Independent clean Windows remains NOT_TESTED, with uncertainty accepted by the maintainer; this is not Stable or independently ready out of the box. Public update notifications remain disabled; no automatic downloading or installation occurs.
 
 Future directions:
 
