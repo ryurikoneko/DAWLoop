@@ -1,6 +1,10 @@
-# FL Studio MIDI setup
+# FL Studio setup — Install, configure, verify
 
 DAWLoop installs one user-facing controller: **DAWLoop Controller**. It combines the bundled Community FL Studio MCP execution script with DAWLoop's read-only target identity query, using the same MIDI trigger and JSON request/response files. A separate Target Identity controller is not required.
+
+[Desktop music workspace](DESKTOP.md) · [Runtime deployment](DEPLOYMENT.md) · [Capabilities](CAPABILITIES.md)
+
+Set up the Runtime's FL integration once, then use read-only diagnostics to check the environment. Use a disposable project for host tests; preserve target confirmation and human review.
 
 ## Install
 

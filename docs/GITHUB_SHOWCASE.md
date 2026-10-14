@@ -1,23 +1,38 @@
-# GitHub 页面配置候选 / Repository metadata proposal
+# GitHub 产品展示 / GitHub presentation
 
-[COMPUTED｜HIGH] 核验基准 public main `1a99482`，2026-10-13。当前 Description 聚焦实验性 FL Agent Runtime；Topics 包含 ai-agent / ai-agents / ai-music / automation / daw / mcp / midi / music-production / python。CI 基准最近一次运行通过。已有 Bug、Feature 和 Live Report 模板保留并小改，没有建立重复表单。
+面向音乐创作者和开发者，让读者先理解工具能帮助完成什么，再进入技术与验证资料。
 
-## Description
+Present DAWLoop to creators and developers through useful workflows, with technical evidence one link away.
 
-[INFERRED｜HIGH] 建议在本 docs 候选经审阅后使用：
+## About 推荐文本 / Proposed About text
 
-> Evidence-aware music production and DAW automation research; MIDI tools and an internal Music Intelligence desktop preview.
+> AI-assisted music creation and verifiable DAW automation. Windows Desktop Alpha and an open Python Runtime.
 
-[INFERRED | HIGH] This distinguishes publicly shipped Runtime engineering from the unpublished Desktop. Do not say a stable all-in-one desktop is available. A broader AI-assisted description can follow actual source integration and release review.
+Website 留空；下载入口指向官方 Releases。上述文本为本PR建议，不自动修改仓库设置。
+
+This is a proposal for maintainer review. Keep Website empty and use the official Releases page for downloads.
 
 ## Topics
 
-[INFERRED｜HIGH] 保留现有 DAW、MIDI、music-production、python、automation、mcp、ai-agent；可增加 music-analysis、audio-to-midi、experimental。暂不使用 stable、autonomous、certified 等误导性标签。electron 仅在独立功能树公开集成后再评估。
+保留现有有效topics：ai-agent、ai-agents、ai-music、audio-to-midi、automation、daw、experimental、mcp、midi、music-analysis、music-production、python。可增加 `fl-studio`、`electron`、`music-creation`；Desktop源码已公开在发行标签。避免autonomous/certified等未经依据的状态词。
 
-## Social Preview 与徽章
+Retain current valid topics; consider fl-studio, electron and music-creation now that Desktop source is public at its release tag. Topic recommendations do not change repository settings.
 
-[COMPUTED｜HIGH] [social-preview.png](media/social-preview.png) 已准备1280×640、低于1MB，黑底白字沿用 Splash 风格，由SVG排版生成版权头图，不冒充软件截图；不会替代正式圆环 Logo。尺寸依据 [GitHub官方说明](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview)。本轮未改 Settings，候选审核和推送仍需后续授权。
+## Social Preview
 
-[KNOWN｜HIGH] README 只保留真实 main CI、MIT code 与 Alpha 标识。CI 徽章表示公开 main 的离线检查，不认证内部 Desktop 或 FL 现场；没有下载量、用户数或稳定版徽章。图像另有品牌版权条款。
+[现有品牌卡片](media/social-preview.png)为1280×640极简黑底白字，与正式Logo及Hero视觉一致。保留现有图像；未来文字版可采用“Music Intelligence · MIDI Creation · Verifiable DAW Automation”。
 
-[KNOWN | HIGH] This task changes no remote description, topics, social preview, branch protection, Release or main. A future authorized docs PR must use the audited main baseline and preserve independent feature branches.
+The existing minimal brand card matches the selected visual identity. A future text variant may use the tagline above.
+
+实际上传状态与页面核验结果见本PR的 [展示审阅记录](PUBLIC_PRESENTATION_REVIEW.md)。维护者可在 Settings → General → Social preview 上传已有图片；仓库存在PNG与设置已生效分别核对。
+
+Actual settings verification is recorded in the review document. Uploading remains a separate maintainer action.
+
+## 页面与发行
+
+- 首屏：项目价值、语言切换、真实CI/MIT/Alpha、Desktop下载和Runtime入口。
+- 产品截图：Music Intelligence主页在前，其余折叠展示；来源链接集中。
+- 当前版本说明：每个产品页一个简短章节，准确描述公开Alpha与可选模型。
+- Release公开说明修订先供维护者确认：[修订稿](RELEASE_COPY_PROPOSAL.md)。已发布资产和包内指南保持不变。
+
+[公开写作规范](PUBLIC_CONTENT_STYLE.md) · [改造清单](PUBLIC_CONTENT_AUDIT.md) · [历史配置记录](archive/public-presentation-20261014/docs__GITHUB_SHOWCASE.md.txt)

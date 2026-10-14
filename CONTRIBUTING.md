@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping improve DAWLoop. The project is experimental; clear scope and honest verification status matter more than broad claims.
+Help improve music workflows, editing, analysis or DAW integration. Start with the [Runtime Quickstart](docs/QUICKSTART.md), [Desktop source tag](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.1) and [public writing guide](docs/PUBLIC_CONTENT_STYLE.md). Document the behavior and verification scope of your contribution.
 
 ## Development setup
 
@@ -54,8 +54,8 @@ Describe the change, its scope, and the exact checks you ran. State whether evid
 
 私人参考、profile、音频、工程、网页全文与授权不明图片不进入公开贡献。学习示例只用合成或可证明获准发布的材料；用户数据许可不会因为进入Schema自动变成MIT。详见learning/WORKFLOW.md与LICENSE_POLICY.md。
 
-## Desktop 与展示贡献 / Desktop and showcase contributions
+## Desktop 与展示贡献 / Desktop and presentation
 
-[KNOWN｜HIGH] 公开 main 没有内部 Desktop 代码；贡献前注明基线、分支、公开/内部范围，不让文档 PR 隐式携带 Runtime 修改或安装包。品牌 PNG 的范围与使用授权见 [媒体声明](docs/media/README.md)；不要把这些图像当作 MIT 软件图标随意重许可。
+Desktop Alpha源代码在公开发行标签，Runtime与文档位于main。注明贡献对象及基线；Desktop功能变更单独审阅，文档PR不携带安装包或隐式业务改动。截图使用获准公开的自有或合成素材，删除私人路径、凭据及工程信息。品牌素材遵循 [媒体声明](docs/media/README.md)，原许可保持。
 
-[KNOWN | HIGH] State the baseline, branch and public/internal scope. A docs PR must not silently introduce Runtime changes or installers. Brand media has a precise separate notice. Screenshots must be actual software, with only owned/synthetic public material and no local paths or credentials.
+Desktop Alpha source is public at its release tag; Runtime and documentation are on main. State the target and baseline, keep product code changes separate from docs PRs, and sanitize screenshots. Follow existing media terms and the [content review guide](docs/PUBLIC_CONTENT_STYLE.md).

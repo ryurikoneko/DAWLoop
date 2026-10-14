@@ -1,12 +1,17 @@
-# 部署与操作合同
+# 部署与宿主操作 / Deployment and host operations
 
-## 公开部署范围 / Distribution scope
+选择一条适合任务的路径：音乐工作区用 [Desktop Alpha](DESKTOP.md)，音乐合同与Agent开发用Python Runtime，真实FL研究从目标与Controller设置开始。
 
-[COMPUTED｜HIGH] Desktop Windows x64 Alpha 已独立公开：[下载、校验及许可](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1)。源码位于 `v0.5.6-alpha.1`；历史 Runtime Python 包不是桌面安装器。随包 Basic DSP 组件可确认许可后安装，模型及 Controller 不随包提供，独立干净 Windows 未验证。[Desktop](DESKTOP.md) · [能力表](CAPABILITIES.md)。
+Choose Desktop for the music workspace, Python Runtime for planning/agents, and the host setup below for FL research.
 
-[COMPUTED | HIGH] The Desktop Alpha is separately published with an offline basic component, notices and source tag. Model weights and Controller are not bundled. Independent clean Windows compatibility remains unverified; historical Runtime assets are not Desktop installers.
+- [Desktop发行、组件与源码](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1)
+- [Runtime Quickstart](QUICKSTART.md)
+- [FL一次性设置](FL_STUDIO_SETUP.md)
+- [能力与验证](CAPABILITIES.md)
 
-本版提供可安装的 Python 包与离线学习框架，以及有受限现场证据的 Native FAST 实现。MCP live 路径暂停，普通作品工程持续写入尚未认证。包安装成功不表示可以立即写当前作品。
+宿主操作前使用独立测试工程、备份数据并确认目标；安装软件不授予当前工程写权限。下面保留精确的预算、身份、人工接受、观察和故障处理合同。
+
+Use a disposable project, back up data and confirm the target before host actions. Installation grants no project-write permission. The contracts below retain identity, budgets, human acceptance, observation and failure handling.
 
 ## A. 离线部署：无需 FL Studio
 

@@ -1,6 +1,10 @@
-# Production Pipeline
+# Production Pipeline — Ears for the workflow
 
-DAWLoop's optional Production Pipeline contains reusable tools for inspecting MIDI, analyzing rendered audio, planning orchestration and mixer changes, capturing Windows loopback audio, and reading SoundFont data. The package is separate from DAWLoop Core and does not itself modify FL Studio or verify a DAW operation.
+Inspect musical material, measure rendered audio and turn the results into a next production plan. The optional Python tools cover MIDI sections, orchestration, active-frame RMS, fader calibration and SoundFont audition.
+
+制作分析层帮助Agent理解素材、选择下一步操作。安装和API见下文；真实宿主执行与验证通过独立adapter合同完成。
+
+[Quickstart](QUICKSTART.md) · [Architecture](ARCHITECTURE.md) · [Capabilities](CAPABILITIES.md)
 
 ## Capabilities
 
