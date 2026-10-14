@@ -1,59 +1,49 @@
-# Architecture
+# Brain / Hands / Ears — DAWLoop Architecture
 
-## Desktop 独立功能树 / Independent Desktop tree
+DAWLoop 将音乐意图、执行和反馈分层，让创作者与 Agent 开发者可以分别改进规划、宿主连接和分析方法。
 
-[KNOWN｜HIGH] 下文原架构属于公开 Runtime。内部 Desktop 采用 Renderer → 隔离 Preload → 受控 IPC → Adapter / 后台 Worker；模型不在 Renderer 执行，宿主受信来源与写权限独立门控。代码尚未合入公开 main；不能把未来 Publisher 接线画成已认证宿主链。[Desktop 范围](DESKTOP.md)。
+DAWLoop separates musical intent, execution and feedback so creators and agent developers can evolve planning, host connections and analysis independently.
 
-[KNOWN | HIGH] The original architecture below is public Runtime. Internal Desktop uses isolated Preload, controlled IPC and background Workers; it is not merged into public main and its proposed host publisher route is not live-certified.
+| 层 / Layer | 核心职责 / Responsibility | 公开模块 / Modules |
+| --- | --- | --- |
+| Brain — Music Planning & Agent Rules | 音乐网格、NotePlan、MusicalPlan、约束与验证 / Timing, plans, constraints and verification | dawloop.time, note_plan, music_plan, learning, verification |
+| Hands — DAW Execution & Control | 目标识别、已有Pattern导航、执行适配与状态获取 / Target identity, existing-Pattern navigation, execution and observation | DAWLoop Controller, adapters, Runtime; bundled FL Studio MCP |
+| Ears — Production Intelligence | SMF、编排、RMS、推子规划、SoundFont辅助 / MIDI, orchestration, RMS, fader plans and SoundFont utilities | dawloop.production |
 
-DAWLoop 分为音乐合同、学习接口、执行Runtime与证据层。个人数据在Git忽略的workspace/profile目录；Core不关心参考艺术家或资料来源标签。
+## 工作循环 / The workflow loop
 
 ```mermaid
 flowchart TD
-    A[用户自己的 Agent / 分析器] --> L[Learning Protocol]
-    L --> P[通用 ProfileRevision / StyleConstraints]
-    B[Section + Harmony + Voice + Variation] --> M[MusicalPlan]
-    P --> M
-    M --> V[离线确定性 validator]
-    V -. 尚待独立接线的单位转换 .-> F[FAST Runtime]
-    C[MCP 三工具 / RunManager] -. 现场未认证 .-> F
-    F --> N[Controller 目标导航]
-    N --> O[identity / UI / identity]
-    O --> R[deterministic renderer + source guards]
-    R --> G[Gopher one-shot dispatch]
-    G --> H[Human Preview / Accept]
-    H --> E[报告领取 + application observation + callback]
-    E --> U[COMPLETED_UNVERIFIED]
+    A[Agent and human intent] --> B[Brain: structured plan]
+    E[Ears: analysis and measurement] --> B
+    B --> H[Hands: execution adapter]
+    H --> D[Running DAW]
+    D --> O[Observation and readback]
+    O --> V[Verification]
+    V --> R[PASS or STOP]
+    R --> A
 ```
+
+图表示职责与反馈方向。每条实际执行路径有独立能力合同；Agent 根据可用观察决定下一步，需要确认的操作保留人工审阅。
+
+The diagram expresses responsibilities and feedback. Each execution path has its own capability contract, with human review where required.
+
+## Desktop 与 Runtime / Desktop and Runtime
+
+Desktop Music Intelligence 提供音频、编辑器、组件与音乐库界面；模型任务在后台 Worker 执行，经隔离 Preload 与受控 IPC 连接。公开 Desktop 源码在 [v0.5.6-alpha.1](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.1)。Python Runtime 位于 main，用于音乐合同、Agent 集成与宿主研究。
+
+Desktop offers audio, editors, components and library UI with background Workers, isolated Preload and controlled IPC. Its release source is separate from the Python Runtime on main.
 
 ## 音乐合同与学习
 
-`src/dawloop/music_plan.py` 保存Section Brief/Harmony/Voice/Variation与乐句、动机解释结构；参考生成器当前单声部、4/4、最多8小节、受限16-note离线计划。`src/dawloop/learning/` 保存唯一四份Schema与来源/统计/profile版本合同；用户自己的Agent或外部分析器负责实际提取，Core不提供内置艺术家学习库。
+MusicalPlan组织段落、和声、声部与变化约束；Learning Protocol接受用户自己的分析器或Agent提供的特征和反馈，形成版本化profile与计划。Core提供合同与校验，实际提取方法由所接入的分析器决定。
 
-`src/dawloop/production/` 提供SMF、orchestration、RMS、loopback、SF2辅助。算法中的音域/源覆盖等通用逻辑与第三方来源分别登记，分析建议不产生DAW写入认证。
+MusicalPlan organizes sections, harmony, voices and variation constraints. The Learning Protocol accepts features and feedback from a user's analyzer or agent, producing versioned profiles and plans. Core supplies contracts and validation; the connected analyzer supplies extraction.
 
-## Runtime FAST
+## 扩展与安全 / Extension and safety
 
-`FastMusicRuntime`组合既有Native write backend，不接受任意source。完整输入先校验，再Controller导航与观察确认，deterministic renderer输出source，source/AST/hash/target/generation/one-shot journal守卫控制派发。人工接受、应用观察、回调彼此独立。
+新增 adapter 应明确定义目标、操作预算、执行、实际观察与 STOP 条件。分析结果用于下一份计划；可用完整读回的路径再进行事件集合比较。Runtime 已有受限 Native FAST 现场记录和离线验证器；通用计划到 FAST 的转换、新 MCP 现场路径与 Desktop 宿主接线按 [能力合同](CAPABILITIES.md) 逐项推进。
 
-当前导航固定三个primitive，全局channel index从入口到独占选择/回读/定向event id一致。一次事务允许这些有限动作，UNKNOWN仍消耗预算；不得重试或替换方法修复。Piano Roll标题与Controller选择可能不同，所以`showWindow`不承担定向绑定。
+Adapters define target identity, operation budgets, execution, actual observation and STOP conditions. Analysis informs the next plan; complete readback enables event-set comparison. Existing constrained Native FAST evidence and offline validators are recorded separately from the remaining integrations.
 
-Controller build、session、project generation与Gopher page target、host generation、bridge epoch各自承担不同代次约束。project_title描述可空，不参与唯一身份；运行时build由Controller报告，不从磁盘注入。
-
-## 观察和报告
-
-observer绑定原始图像payload/hash、真实capture调用区间、request/operation/generation，并在identity夹读内提交新鲜证据。自动采样不等于内容确认；Agent视觉回执必须来自实际图像，不从expected填目标。
-
-HumanReport使用唯一run/session/report。先persist再claim；REALTIME必须有实际领取，LATE只追加证据，不改immutable terminal。应用观察同样分produced/persisted/claimed/confirmed；跨clock domain不直接减monotonic时间。取消、迟到隔离与有界teardown保留。
-
-## MCP候选入口
-
-`fast_mcp_server.py`只公开三工具；RunManager持有后台事务。operation_id是调用幂等身份，run_id是执行实例，session_id是证据会话。MCP和observer采用真实factory组合现有FAST，不另造执行器。缺少Controller/Gopher/observer/预算时NOT_READY。
-
-stdio常驻不等于桥接复用；当前bridge每run关闭。MCP现场路径暂停于外部browser page identity，不能用连接端口替代真实UI身份。连接复用、normal project与连续预算是之后独立阶段。
-
-## VERIFIED与Community边界
-
-离线`verification/`按多重集合比较事件，保留重复计数。Community backend固定快照位于`third_party/fl-studio-mcp/`，DAWLoop adapter独立；上游缓存及能力不自动构成本项目fresh producer readback认证。
-
-Native FAST返回COMPLETED_UNVERIFIED；当前无可认证producer notes[]，Native VERIFIED冻结。未来add-only验证必须比较baseline+planned additions而非只比较plan，且锁定PPQ/request/实际读取对象。参见[验证规则](VERIFICATION.md)、[来源](../PROVENANCE.md)、[第三方通知](../THIRD_PARTY_NOTICES.md)。
+[部署操作合同](DEPLOYMENT.md) · [验证规则](VERIFICATION.md) · [Runtime 指南](RUNTIME_GUIDE.en.md) · [原始技术架构](archive/public-presentation-20261014/docs__ARCHITECTURE.md.txt)

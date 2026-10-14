@@ -1,12 +1,12 @@
-# Community FL Studio MCP 集成
+# FL Studio MCP — 执行后端 / Execution backend
 
-本页记录Community backend与adapter合同；异步FAST三工具MCP是另一层入口，现场认证仍暂停。先阅读[DEPLOYMENT](DEPLOYMENT.md)与[当前认证状态](DAWLOOP_RUNTIME_V2.md#current)，不要把上游能力当作Native VERIFIED或MCP FAST现场成功。
+通过随仓库固定的Community FL Studio MCP，为Agent提供真实FL Studio的transport、Channel、Piano Roll、Mixer和已加载插件接口。DAWLoop adapter连接NotePlan、目标检查和结果报告；自有Controller提供身份与已有目标导航。
 
-## 当前状态
+The bundled Community backend exposes real FL Studio tools. DAWLoop adapters connect plans, target checks and reports; its Controller adds identity and existing-target navigation.
 
-当前发布为 `v0.2.0-alpha.1` research-preview。固定 commit 的 Community FL Studio MCP 源码随仓库放在 `third_party/fl-studio-mcp/`；DAWLoop 的 optional Python extra 与适配器已建立。维护者报告已完成真实 FL Studio 接入流程；该路径可能仍不稳定，欢迎用户实测并反馈环境兼容性问题。仓库没有归档该次运行的目标身份与实际 note readback 证据，因此不标记为可复现的 `Live Exact-Set Verified`。
+[先选部署路径](DEPLOYMENT.md) · [一次性设置](FL_STUDIO_SETUP.md) · [能力与现场证据](CAPABILITIES.md)
 
-上游快照：`karl-andres/fl-studio-mcp`，commit `f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0`，MIT。其依赖范围取自该 commit 的 `pyproject.toml`：FastMCP `>=2.0`、Mido `>=1.3.0`、python-rtmidi `>=1.5.0`、pynput `>=1.7`。DAWLoop 将 FastMCP 限定在 `<3`，以匹配本适配器使用的 v2 Client API。
+固定来源为karl-andres/fl-studio-mcp commit f89f66f8ca00d1f1fc27ed18ae4a9611551f98d0，MIT。依赖范围来自该快照：FastMCP >=2.0、Mido >=1.3.0、python-rtmidi >=1.5.0、pynput >=1.7；项目将FastMCP限定<3以匹配v2 Client API。
 
 ## 安装
 

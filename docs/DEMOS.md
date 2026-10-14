@@ -1,21 +1,45 @@
-# 两个独立演示 / Two independent demos
+# DAWLoop 使用场景 / DAWLoop in practice
 
-## Demo A — Music Intelligence
+## 从音乐素材到可编辑旋律 / From musical material to editable notes
 
-[COMPUTED｜HIGH] 内部候选 `0.5.6-internal.1`，源码 `66806b5`，单主窗口与自有合成素材。导入 → 基础分析 → 查看结果 → Basic Pitch 转录或 RULE_BASED 创作 → Piano Roll 编辑 → 导出 MIDI。模型必须实际就绪；RULE_BASED 不伪装成 AI 推理。[真实截图](media/README.md)
+**目标：**理解一段素材，创作或整理旋律，并带回自己的制作工程。
 
-[COMPUTED | HIGH] Internal candidate, owned synthetic material and a single window: import → basic analysis → results → ready Basic Pitch or RULE_BASED composition → Piano Roll → MIDI export. The model must be ready; rule generation is not AI inference.
+**Goal:** understand material, create or refine a melody, and take it into your production project.
 
-[KNOWN｜HIGH] 本演示不连接 FL Studio，不证明 Desktop Host / Mixer 接通。完整本地操作录屏不进入 Git；文档只发布审查过的 PNG。公共短视频链接尚未发布，不提供失效或虚构的视频 URL。
+1. 在 Desktop 导入 WAV，试听并定位想研究的片段。 / Import a WAV, listen and locate a section.
+2. 查看音乐分析报告，主动保存有用的结果。 / Review the analysis report and save useful results.
+3. 使用规则约束生成旋律，或在已配置 Basic Pitch 环境中转录。 / Generate a constrained melody, or transcribe with a configured Basic Pitch environment.
+4. 进入 Piano Roll，编辑音符、力度和时值，试听并导出 MIDI。 / Edit notes, velocity and timing, audition and export MIDI.
 
-[KNOWN | HIGH] This demo does not connect FL or prove Desktop Host / Mixer integration. Raw local recordings stay out of Git. Only reviewed PNGs are included; no public short-video URL has been published.
+**得到：**分析报告、可编辑的旋律与 MIDI 文件。 / **Result:** an analysis report, editable notes and a MIDI file.
 
-## Demo B — FL Runtime Research
+![Music Analysis](media/analysis-report.png)
+![Piano Roll Editing](media/piano-roll.png)
 
-[KNOWN｜HIGH] 展示既有受限 FAST 工作流：固定 Pattern/Channel 目标 → 身份与新鲜 UI 审阅 → 一次 Native 派发 → 用户 Preview / Accept → HumanReport / 应用观察 / 宿主完成 → `COMPLETED_UNVERIFIED`。历史证据为固定16-note、一次派发、零重试与fallback，不保存退出。[脱敏现场摘要](../evidence/public/fast_session_7.json)
+[Desktop 操作指南](DESKTOP.md)
 
-[KNOWN | HIGH] Existing constrained FAST: fixed target → identity and fresh UI review → one Native dispatch → human Preview / Accept → reports, observation and completion → `COMPLETED_UNVERIFIED`. Historical scope is 16 notes, one dispatch, no retry/fallback, no-save exit.
+## 让 Agent 在 FL Studio 中执行受控操作 / An agent working inside FL Studio
 
-[KNOWN｜HIGH] 不在本轮重放宿主，不将该研究路径拼接成 Desktop 无缝控制演示。producer完整读回、Native Exact Set、任意工程写入与完整自动混音未获认证。[验证合同](VERIFICATION.md)
+**目标：**把明确的音乐计划交给真实 DAW 执行，并观察操作结果。
 
-[KNOWN | HIGH] No host replay is run for this showcase, and the research path is not presented as seamless Desktop control. Complete producer readback, Native Exact Set, arbitrary-project writes and full AutoMix are not certified.
+**Goal:** execute a specific musical plan inside the running DAW and inspect what happened.
+
+研究流程使用独立测试工程：确认已有 Pattern 与 Channel → 审阅计划 → 一次受控执行 → 用户确认 → 观察结果并记录。开发者可复用目标约束、人工接受及结果报告接口。
+
+The research workflow uses a disposable project: identify an existing Pattern and Channel → review the plan → dispatch once → human confirmation → observe and record. Developers can reuse target constraints, human acceptance and result-reporting interfaces.
+
+**得到：**受限测试目标中的真实宿主操作记录。查看 [公开现场摘要](../evidence/public/fast_session_7.json) 与 [验证规则](VERIFICATION.md)，了解实际记录的范围。
+
+**Result:** a record of real host actions within a constrained test scope. See the [public record](../evidence/public/fast_session_7.json) and [verification model](VERIFICATION.md).
+
+宿主测试前备份工程，使用专用测试目标；人工接受及目标检查按 [部署指南](DEPLOYMENT.md) 保留。
+
+Back up projects and use a dedicated test target; follow the [deployment guide](DEPLOYMENT.md) for target checks and human confirmation.
+
+## 当前版本说明 / Current Release Notes
+
+Desktop Alpha 已公开；第一场景为独立音乐工作区，第二场景为 Runtime 宿主研究，分别展示。Basic Pitch 需要已有核验环境，首次模型安装在此版暂不可用。历史宿主记录包含固定16-note操作及人工接受，终态为 `COMPLETED_UNVERIFIED`；完整宿主 Exact-Set 认证另有前置条件。截图来自此前开发版本，公开短视频尚未提供。
+
+The Desktop Alpha is public. The music workspace and Runtime host-research scenarios are separate demonstrations. Basic Pitch needs an existing verified environment. The historical host record covers 16 notes and human acceptance, ending in `COMPLETED_UNVERIFIED`; full host Exact-Set verification has separate prerequisites. Screenshots are from an earlier build; no public video is linked yet.
+
+[能力页](CAPABILITIES.md) · [图片来源](media/README.md) · [历史场景记录](archive/public-presentation-20261014/README.md)

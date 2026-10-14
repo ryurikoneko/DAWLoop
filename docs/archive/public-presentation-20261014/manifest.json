@@ -1,0 +1,44 @@
+[
+  {
+    "source": "docs/DESKTOP.md",
+    "snapshot": "docs__DESKTOP.md.txt",
+    "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
+    "sha256": "59f3011928d5ea41fa7e8834fd60abfb63ee7d74282a77eae0aefe2152dcb6c6"
+  },
+  {
+    "source": "docs/DEMOS.md",
+    "snapshot": "docs__DEMOS.md.txt",
+    "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
+    "sha256": "7c6d8d1cf49ab07d9226f3fe65f1b5007d2db8bc18f34d1ca778eabdff3ba3f3"
+  },
+  {
+    "source": "docs/CAPABILITIES.md",
+    "snapshot": "docs__CAPABILITIES.md.txt",
+    "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
+    "sha256": "c3b4ff0d24a2672c3a375f70a80fee96acfc1d83eefd0c9fa2a02aa546908a81"
+  },
+  {
+    "source": "docs/ARCHITECTURE.md",
+    "snapshot": "docs__ARCHITECTURE.md.txt",
+    "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
+    "sha256": "7f509e34c39a443c3eff88373d866db8c9240b50564c5cc59fcf553e6a296d15"
+  },
+  {
+    "source": "docs/ROADMAP.md",
+    "snapshot": "docs__ROADMAP.md.txt",
+    "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
+    "sha256": "090a092356b5a8c53238fa4e8cfb4a96a943b9698606337a7cf7d150903d8134"
+  },
+  {
+    "source": "docs/GITHUB_SHOWCASE.md",
+    "snapshot": "docs__GITHUB_SHOWCASE.md.txt",
+    "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
+    "sha256": "368879a4ae94d1e03496f012e3486d36b0f2e0050bc22e592816c8bde5f2f076"
+  },
+  {
+    "source": "docs/media/README.md",
+    "snapshot": "docs__media__README.md.txt",
+    "commit": "345e6d43d39031a53541b73b5bed728f8be966dd",
+    "sha256": "36258f41230c92a7c7a6502c361d47d82a2b700c08698327a50adb35ce23295b"
+  }
+]

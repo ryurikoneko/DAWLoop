@@ -1,71 +1,32 @@
-# Roadmap
+# DAWLoop 产品方向 / Product roadmap
 
-## 双线交付计划 / Parallel delivery roadmap
+从可编辑的音乐素材到可观察的 DAW 操作，逐步连接创作工具和 Agent 工作流。
 
-[KNOWN｜HIGH] 公开 Runtime 与内部 Desktop 分开交付、回归和宿主授权；[能力表](CAPABILITIES.md)是当前状态入口。以下待办不代表已实现产品承诺。
+Grow from editable musical material to observable DAW actions, connecting creator tools with agent workflows.
 
-| 优先级 / Priority | Desktop / Music Intelligence | Runtime / Host |
-| --- | --- | --- |
-| P0 | 用户体验验收、可信离线首装、干净Windows / UX acceptance, trusted offline install, clean Windows | 当前来源、租约与 Host / Session 真实证明 / Source, lease and live session proof |
-| P1 | 独立源码集成/发行审查、模型与资源生命周期 / Source/distribution review and asset lifecycle | 逐级只读 Mixer/Identity 证据 / Graded read-only Mixer and identity evidence |
-| P2 | OMAR参考检索、学习与生成模型独立研究 / Separate retrieval, learning and generation research | 通用Plan Adapter、独立验证与受控权限 / Generic Plan Adapter and controlled permission |
+## 现在 / Available now
 
-[KNOWN | HIGH] The two lines integrate through versioned contracts and independent acceptance. No automated writes, arbitrary projects or model availability are promised by this roadmap. Historical milestones below remain intact.
+- Windows Desktop 0.5.6-alpha.1：试听、WAV分析、规则旋律、Piano Roll、MIDI导出、基础组件管理和中英文界面。
+- Public Python Runtime：音乐时间与计划、Production分析、Agent合同、执行适配与离线验证。
+- 有限 FL Studio 研究工作流、已有 Pattern/Channel 识别及导航。
 
-本版是 Runtime V2 research-preview；旧 `v0.1.0-alpha` 保留。路线图区分已实现、现场认证与未来计划，不用上游支持或离线测试替代现场证据。
+The public Desktop Alpha brings listening, WAV analysis, rule-based melodies and MIDI editing. Python Runtime provides plans, analysis, agent contracts and verification, alongside constrained FL Studio research workflows.
 
-## 已完成
+## 接下来 / Next directions
 
-- 离线 MusicalGrid、NotePlan、保留重复次数的 Exact-Set 比较器。
-- Community 固定快照、安装/诊断与通用 Production 分析工具，保留第三方来源。
-- Controller build/session/project 身份；已有 Kick ↔ Clap 自动导航与观察性确认。
-- 固定16-note Native FAST 高层入口、单次派发、人工接受、应用观察和完成回调的受限现场闭环。
-- HumanReport 独立持久化/领取/晚到关联，原终态不可改写。
-- MusicalPlan、通用约束、动机/乐句解释、Learning Protocol/Schema/Prompt/版本化profile的离线实现。
-- 三工具 stdio MCP、后台 RunManager、real factory、truthful readiness 与 observer 接线的离线实现。
-- Ubuntu 3.11/3.12、Windows 3.12 离线 CI、构建与隔离安装、Node 合成观察和学习/provenance 回归。
-- main PR/CI 保护、双语项目首页，以及经实际 Actions 验收的 main 候选构建 attestation。
+| 方向 / Direction | 用户价值 / Value |
+| --- | --- |
+| 安装与组件体验 / Installation and components | 更清楚的首次运行、兼容性和模型配置 / Clearer onboarding, compatibility and model setup |
+| FL Studio 集成 / FL Studio integration | 更多目标明确、可观察和可验证的制作操作 / More targeted, observable and verifiable host operations |
+| Agent 音乐规划 / Agent planning | 连接约束、音乐计划与执行适配 / Connect constraints and plans to execution |
+| 音乐理解与创作 / Music understanding and creation | 研究检索、分析、反馈和生成方法 / Research retrieval, analysis, feedback and generation |
 
-## P0：音乐计划与用户自己的学习
+## 研究路线 / Research tracks
 
-用户 Agent 用自有素材跑分析 → 同类统计 → 显式映射 → 计划验证 → 用户反馈 → 新profile版本。公共项目提供框架，不内置艺术家偏好或宣称学习泛化已认证。下一项接线是学习MusicalPlan到FAST的单位/字段转换与独立验收，不直接开放任意源码或扩张现场note预算。
+Mixer控制验证与音频结果验证分开演进；多次尝试保留各自记录。检索、风格学习与生成模型分别评估素材权利、实际推理、质量和环境。普通工程、多通道、多Pattern持续操作按单独目标合同推进。
 
-## 暂停候选路线：ZERO-AGENT-COMPUTER-USE FAST
+Mixer control and audio outcomes evolve as separate verification layers; attempts keep independent histories. Retrieval, style learning and generation are evaluated for rights, actual inference, quality and environment. Multi-target production needs explicit target contracts.
 
-```text
-MCP_FAST_PATH = NOT_LIVE_CERTIFIED
-ZERO_AGENT_COMPUTER_USE_FAST_PATH = NOT_LIVE_CERTIFIED
-BROWSER_PAGE_IDENTITY_TRANSPORT = UNAVAILABLE
-OBSERVER_UI_BINDING = BLOCKED
-OBSERVER_REQUEST_COMPLETION = NOT_PROVEN
-```
+具体工程前置条件与历史失败记录保存在 [技术路线档案](archive/public-presentation-20261014/docs__ROADMAP.md.txt) 和 [验证规则](VERIFICATION.md)。产品方向不承诺发布日期；实际交付以 [Releases](https://github.com/ryurikoneko/DAWLoop/releases) 和 [能力页](CAPABILITIES.md) 为准。
 
-已有实验FAST路径仍有受限证据；新MCP候选路径没有完成现场run。不得重复同一个fetch失败、猜URL、用窗口标题/焦点/坐标替代页面身份或为了发布而降级READY。
-
-### GitHub待办：复验与分支展示
-
-1. 浏览器连接端修复后，先稳定取得真实URL/page identity。
-2. 不开FL，在两个不同process/session generation下各完成一次observer UI binding + request completion，并正常shutdown无残留。
-3. 两次都过才开一个独立MCP现场会话：固定16 notes、一次派发、人工Accept、REALTIME报告/应用领取、宿主回调、试听、不保存恢复。MCP调用与zero-agent-CU分别认证。
-4. 若目标用户仍无法使用该依赖，建立单独候选分支与兼容性说明，展示MCP路径作为可选路线，同时指向已通过的受限FAST/既有观察工作流。不得把未通过的候选路线宣传成更可靠默认方案。
-
-本次只是将复验条件列为公开待办，未进行新浏览器/FL实验，也未创建一个虚构“已验证替代observer”分支。候选分支只在有实际兼容方案和证据后建立。
-
-## 之后的独立阶段
-
-| 顺序 | 阶段 | 必须保留的边界 |
-| --- | --- | --- |
-| MCP现场通过后 | 只读bridge/session reuse | status/read/reconnect先行，generation与ledger不拆 |
-| 然后 | normal-project / multi-operation | 工程身份、checkpoint、dirty/save策略、operation预算及失效守卫 |
-| 然后 | 语音输入 | 只是输入层，不重新开启自动commit |
-| 独立评估 | Human telemetry完善 / Auto Accept | Auto Accept默认关闭，无新增像素识别框架 |
-
-## 冻结：Native VERIFIED
-
-`NATIVE_VERIFIED_RESEARCH = FROZEN_BLOCKED`，原因是缺少可认证producer-side完整音符读回。现有normal return没有数据传播证据，error channel unresolved，file routes closed，缓存/视觉不足以Exact Set。只有新的可信完整读取接口才解冻，不再重包装旧payload/文件/日志路线。
-
-解冻后的顺序仍是 notes[] → 请求freshness与producer实际目标证据 → baseline+additions multiset/PPQ比较。不能从截图或callback直接跳到VERIFIED。普通工程持续写入与 `v1.0 stable` 的完成条件尚未达成。
-
-## 来源与发行待办
-
-MIT/NOTICE/AUTHORS/CFF/品牌说明与公开内容hash已有。main 候选构建 attestation 已通过真实验收；可信 signed-tag 发布流程已实现，维护者专用签名公钥现已登记；`v1.0.0-alpha.1` 的本地tag验签已通过，历史构建记录保留；公开 Release 发布及最终资产验证仍是独立步骤。目标版本 `v1.0.0-alpha.1`（Runtime V2 Architecture Preview）尚待正式发布，checksum detached signature 尚未接入。版本准备为 `1.0.0a1`，继续保持 Alpha 范围；历史 `v0.2.0-alpha.1` 保留。具体顺序与验证方法见[发布指南](RELEASING.md)。可选真实 DOI 与第三方复现继续列为后续事项。CC BY-NC 只保存许可文本，未启用非商业报告许可；新增品牌图像按 [精确资产清单](../LICENSE_POLICY.md)保留版权，历史 MIT 授权保持。
+Engineering prerequisites and historical failures remain in the linked archive. Directions have no promised release dates; Releases and Capabilities define delivery.

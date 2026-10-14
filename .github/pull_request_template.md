@@ -35,6 +35,8 @@ Results:
 ## Distribution scope
 
 - Baseline / commit:
-- Public Runtime / internal Desktop / documentation:
+- Public Runtime / Desktop release source / documentation:
 - [ ] Screenshots are actual software, sanitized, with permission to publish.
 - [ ] Internal evidence is not presented as a public installer or live host certification.
+
+- [ ] Product copy follows `docs/PUBLIC_CONTENT_STYLE.md` and preserves user safety requirements.

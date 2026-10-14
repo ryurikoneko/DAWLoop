@@ -9,7 +9,7 @@ body:
     id: version
     attributes:
       label: DAWLoop version or commit
-      placeholder: "Public Runtime release / internal Desktop version + commit SHA"
+      placeholder: "Desktop Alpha version / Runtime release or commit"
     validations:
       required: true
   - type: dropdown
@@ -18,7 +18,7 @@ body:
       label: Component and distribution scope
       options:
         - Public Runtime / Agent
-        - Internal Desktop / Music Intelligence
+        - Desktop Alpha / Music Intelligence
         - Documentation / showcase
         - Unsure
     validations:

@@ -1,23 +1,32 @@
-# Quickstart
+# Quickstart — Runtime 开发入口 / Developer Runtime
 
-## 选择入口 / Choose an entrypoint
+从合成素材开始，体验音乐特征、profile与计划的连接。音乐创作者可先 [下载Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1)；本页用于Python开发者，不启动FL Studio。
 
-[KNOWN｜HIGH] 普通用户的 Desktop 与公开 Python Runtime 不是同一个安装入口。[Desktop 状态](DESKTOP.md)说明内部候选与首装限制；本页代码只属于公开 Runtime。开发者可先按 [学习教程](../learning/WORKFLOW.md)运行合成数据。FL 安装不是离线教程前置条件。
+Start with synthetic material to explore features, profiles and musical plans. For the creator workspace, use the Desktop Alpha; this page is the Python developer route.
 
-[KNOWN | HIGH] Desktop and public Python Runtime are separate installation routes. See the Desktop guide; code below is public Runtime only.
+## 1. 安装并运行一个例子 / Install and run
 
-本指南展示当前 `dawloop` 命名空间下的离线核心用法。历史版本 `v0.1.0-alpha` 以当时的项目名 FLSkill 发布，仍是离线核心版本；它的 tag 和 Release 内容保持原样，不包含本次改名后的 `dawloop` 命名空间。
-
-## 1. 运行测试
-
-需要 Python 3.11 或更新版本。
+Python3.11+，Windows PowerShell：
 
 ```powershell
-$env:PYTHONPATH = "$PWD\src"
-python -m unittest discover -s tests -v
+git clone https://github.com/ryurikoneko/DAWLoop.git
+cd DAWLoop
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -e ".[learning]"
+.\.venv\Scripts\python.exe learning/examples/generic_learning/run.py --output workspace/personal/demo-v1
 ```
 
-完整部署和测试依赖见 [DEPLOYMENT](DEPLOYMENT.md)；测试数量以本次发布记录为准。
+Linux/macOS在clone并进入目录后：
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install -e ".[learning]"
+.venv/bin/python learning/examples/generic_learning/run.py --output workspace/personal/demo-v1
+```
+
+例子生成分析、报告、profile和16-note音乐计划JSON。输出目录必须尚不存在；重复运行用新的目录，避免覆盖已有资料。 / The example produces analysis, reports, profiles and a 16-note plan. Use a fresh output directory on each run.
+
+[学习流程](../learning/WORKFLOW.md) · [部署与依赖](DEPLOYMENT.md) · [FL设置](FL_STUDIO_SETUP.md)
 
 ## 2. 解析音乐位置
 
@@ -88,3 +97,7 @@ PASS / STOP
 - [`examples/verification_result.example.json`](../examples/verification_result.example.json)：一个 `duration` 不一致导致 `STOP` 的诊断示例。
 
 > `Offline Algorithm Verified` 不等于 `FL Studio Verified`。Native FAST 的固定16-note人工接受流程已有受限现场证据；Native producer-side读回与Exact Set未认证，MCP live仍暂停。安装步骤见 [`FL_STUDIO_MCP.md`](FL_STUDIO_MCP.md)。
+
+## 开发回归 / Developer regression
+
+测试依赖与源码完整检查见 [部署指南](DEPLOYMENT.md) 和 [贡献指南](../CONTRIBUTING.md)。历史v0.1.0-alpha使用当时名称FLSkill，标签与发行保持原样。
