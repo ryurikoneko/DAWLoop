@@ -173,7 +173,7 @@
   },
   "setup": {
     "title": "首次启动检查",
-    "internal": "实验性 Alpha：已在维护者 Windows 环境测试，尚未独立验证全新 Windows 兼容性。",
+    "internal": "DAWLoop Alpha · 产品预览版",
     "language": "首次启动语言",
     "path": "FL Studio 可执行文件",
     "pathNote": "选择已有 FL64.exe，仅检查文件存在。不会启动 FL、安装 Controller 或执行扫描。",

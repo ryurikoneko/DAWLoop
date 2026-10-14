@@ -1,6 +1,6 @@
 {
   "title": "Music Intelligence Studio",
-  "localOnly": "Audio analysis and score editing run on this computer. Connecting to FL Studio requires separate permission checks.",
+  "localOnly": "Analyze audio and edit scores on this computer. Import music to get started.",
   "library": "My music library",
   "analysis": "Music Analysis",
   "profile": "Music analysis results",

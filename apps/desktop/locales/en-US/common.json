@@ -173,7 +173,7 @@
   },
   "setup": {
     "title": "First launch checks",
-    "internal": "Experimental Alpha: tested on the maintainer’s Windows environment; clean Windows compatibility has not been independently verified.",
+    "internal": "DAWLoop Alpha · Product preview",
     "language": "First launch language",
     "path": "FL Studio executable",
     "pathNote": "Select an existing FL64.exe. This only checks file existence; it does not launch FL, install a Controller, or scan.",
