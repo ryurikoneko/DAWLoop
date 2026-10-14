@@ -82,7 +82,7 @@
     "NOT_INSTALLED": "未安装",
     "BLOCKED": "受阻"
   },
-  "pitchComponentDetails": "内置转录组件：{size} MiB；安装需要至少 1 GiB 可用空间。包含独立 Python 和 ONNX，不下载 TensorFlow。第三方许可与来源详见组件清单。",
+  "pitchComponentDetails": "内置转录组件：{{size}} MiB；安装需要至少 1 GiB 可用空间。包含独立 Python 和 ONNX，不下载 TensorFlow。第三方许可与来源详见组件清单。",
   "errors": {
     "MI_COMPONENT_PACKAGE_MISSING": "未找到转录组件包。请使用包含 Basic Pitch 可选组件的新候选；不需要安装系统 Python。", "MI_COMPONENT_HASH_REJECTED": "组件文件校验失败。原环境未被覆盖，请重新取得完整的官方组件包。",
     "MI_LEGACY_PITCH_INSTALL_DISABLED": "本 Alpha 暂停安装旧版转录运行环境；已核验的现有 Basic Pitch 环境仍可使用。需要安全更新后才能开放首次安装。","MI_SCORE_EDITOR_REJECTED": "乐谱数值无效，已保留当前版本。请检查音高、时间、长度、力度和速度。", "MIDI_NOTE_BELOW_TICK_RESOLUTION": "有音符短于当前 MIDI 文件的时间分辨率，请增大长度后重新导出。", "MI_SCORE_SAVE_LIMIT": "已达到100份内部乐谱的保存上限，可先导出 MIDI 保留当前作品。", "MI_SCORE_INTEGRITY_REJECTED": "已保存乐谱的完整性校验失败，原件未被修改，请查看诊断。","MI_SHEET_AUDIO_BUDGET": "SheetSage2 当前只接受不超过 30 秒的 16-bit PCM WAV。","MI_SHEET_PREPARED_ENVIRONMENT_REQUIRED": "需要本机已审阅的固定 SheetSage2 环境和模型包；安装按钮核验并登记已有候选，不自动更换依赖或模型版本。",
