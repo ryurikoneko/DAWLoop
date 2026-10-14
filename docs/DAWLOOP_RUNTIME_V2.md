@@ -2,6 +2,16 @@
 
 <a id="current"></a>
 
+## Basic Pitch 可选组件与 Alpha.1 通知：2026-10-14
+
+公开 v0.5.6-alpha.1 标签、ZIP 和摘要保持不变。Basic Pitch 修复以该公开源码为基础创建独立补丁分支，采用官方 Python 3.14.8 及固定 ONNX wheel，复用原组件安装器的摘要、隔离、取消和原子部署边界；现有 Basic DSP 与历史模型环境保持独立。
+
+独立环境已完成自有 WAV 真实 ONNX 推理。内部可选包附原件清单、兼容补丁、第三方通知及 SBOM。新增原生依赖的公开分发审核未完成，不发布补丁 Release，也不继承 Alpha.1 通知授权。
+
+维护者只批准 Alpha.1 Preview 通知。隔离测试收到 Windows show/close 事件，名称图标、点击和勿扰验收尚未完成；维护者暂时没有时间参与确认。公共 manifest 保持关闭，不能用模拟通知或 API show 事件代替生产送达证明。原 Internal 客户端不具备通知资格；同版本 Alpha.1、Stable 用户及未主动允许通知者不会收到升级弹窗。
+
+本轮不启动 FL，不修改 Controller、AutoMix、已有工程或现有公开发行文件。
+
 ## 公开展示与Desktop分发独立门：2026-10-14
 
 [KNOWN｜HIGH] 用户本轮已授权推送文档分支、PR、保护规则合并及通过独立门的预览发布；此前禁止Push不沿用为本轮阻塞。公开Runtime业务基线1a99482保持，品牌/README候选从最新origin/main独立集成。Hero左下灰色版权署名，选定Logo和实际产品截图保留，个人权属PENDING_OWNER_REVIEW、不声称登记。

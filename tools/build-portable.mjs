@@ -100,7 +100,7 @@ const sourceStatus=spawnSync('git',['status','--porcelain'],{cwd:root,encoding:'
 if(sourceStatus.status!==0)throw Error('SOURCE_STATUS_REQUIRED');
 const version=publicAlpha?manifest.version:manifest.version+'-internal.1';
 const distributionName='DAWLoop+'+version;
-for(const [source,relative] of [['LICENSE','licenses/DAWLoop-MIT.txt'],['NOTICE','licenses/DAWLoop-NOTICE.txt'],['THIRD_PARTY_NOTICES.md','licenses/DAWLoop-THIRD-PARTY-NOTICES.md'],[publicAlpha?'docs/DESKTOP_ALPHA_BUILD.md':'docs/DESKTOP_DISTRIBUTION.zh.md','USER_GUIDE.zh.md'],[publicAlpha?'docs/DESKTOP_ALPHA_BUILD.md':'docs/DESKTOP_DISTRIBUTION.en.md','USER_GUIDE.en.md']])await copy(path.join(root,source),relative);
+for(const [source,relative] of [['LICENSE','licenses/DAWLoop-MIT.txt'],['NOTICE','licenses/DAWLoop-NOTICE.txt'],['THIRD_PARTY_NOTICES.md','licenses/DAWLoop-THIRD-PARTY-NOTICES.md'],[manifest.dawloopReleaseChannel==='preview'?'docs/DESKTOP_ALPHA_BUILD.md':'docs/DESKTOP_DISTRIBUTION.zh.md','USER_GUIDE.zh.md'],[manifest.dawloopReleaseChannel==='preview'?'docs/DESKTOP_ALPHA_BUILD.md':'docs/DESKTOP_DISTRIBUTION.en.md','USER_GUIDE.en.md']])await copy(path.join(root,source),relative);
 for(const file of await files(path.join(root,'LICENSES/desktop-runtime')))await copy(file,path.join('licenses/desktop-runtime',path.relative(path.join(root,'LICENSES/desktop-runtime'),file)));
 if(pitchPack)for(const file of await files(path.join(root,'LICENSES/basic-pitch')))await copy(file,path.join('licenses/basic-pitch',path.relative(path.join(root,'LICENSES/basic-pitch'),file)));
 await copy(path.join(root,'docs/DESKTOP_ALPHA_BUILD.md'),'FIRST_RUN_AND_SOURCE.md');
