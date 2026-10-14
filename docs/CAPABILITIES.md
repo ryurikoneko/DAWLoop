@@ -11,6 +11,7 @@
 | 已实现并离线测试 | OFFLINE_TESTED | 没有真实宿主认证 / No live host certification |
 | 特定场景真实验收 | SCENARIO_LIVE_TESTED | 只在明确素材、目标和环境范围 / Limited to stated data, target and environment |
 | 内部候选 | INTERNAL_PREVIEW | 本地候选，不表示公开 Release / Local candidate, not a public Release |
+| 公开实验性 Alpha | EXPERIMENTAL_ALPHA | 已公开预览；发布状态不代替现场认证 / Public preview; publication is not host certification |
 | 实验性 | EXPERIMENTAL | 限制和误差必须保留 / Retain limitations and uncertainty |
 | 尚未验证 | NOT_PROVEN | 代码存在或缓存存在不能升级 / Code or cache existence is insufficient |
 | 计划中 | PLANNED | 不当作现有功能 / Not an available capability |

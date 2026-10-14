@@ -41,10 +41,10 @@ Screenshots are from the preceding internal development build and show the Music
 
 | Area | What you can do | Availability today |
 | --- | --- | --- |
-| Music analysis | Explore loudness, rhythmic changes and key candidates to understand musical material | Internal Desktop preview; some results are estimates |
-| Audio to MIDI | Basic Pitch transcription, note review, editing and export | Internal Desktop preview; not full source separation for complex mixes |
-| MIDI composition | Generate melodies with harmony, rhythm, density and seed constraints | Internal Desktop preview; currently rule-based |
-| Piano Roll editing | Review notes, edit velocity, undo, audition and export MIDI | Internal Desktop preview; in-app editor |
+| Music analysis | Explore loudness, rhythmic changes and key candidates to understand musical material | Desktop Experimental Alpha; some results are estimates |
+| Audio to MIDI | Basic Pitch transcription, note review, editing and export | Existing verified environment; new installation disabled, not full source separation |
+| MIDI composition | Generate melodies with harmony, rhythm, density and seed constraints | Desktop Experimental Alpha; currently rule-based |
+| Piano Roll editing | Review notes, edit velocity, undo, audition and export MIDI | Desktop Experimental Alpha; in-app editor |
 | Music planning & verification | Describe notes, timing and targets, then compare planned and observed events | Public Python Runtime; core verification is offline-tested |
 | DAW control | Operate a running DAW and retrieve state through backends such as FL Studio MCP | Experimental Runtime integration; live evidence varies by operation |
 
