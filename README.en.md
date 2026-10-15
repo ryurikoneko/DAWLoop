@@ -1,12 +1,10 @@
-<p align="center"><img src="docs/media/logo.png" alt="DAWLoop logo" width="64" height="64"></p>
+<img src="docs/media/logo.png" alt="DAWLoop" align="right" width="64" height="64">
 
 # DAWLoop
 
-**Turn musical intent into a production workflow you can inspect and build on.**
+**AI-assisted music creation, connected to real DAW workflows.**
 
-DAWLoop is an open framework for AI-assisted music creation and verifiable DAW automation. Music creators can listen, analyze, compose and edit MIDI in a standalone Desktop workspace. Developers can use the Python Runtime to connect musical plans, real FL Studio operations and observations into an agent workflow.
-
-Start with a WAV you want to explore, or a musical part you want to work on in the DAW. One route produces editable notes and MIDI; the other organizes host actions around explicit targets, permission and a record of what happened.
+Analyze music, shape melodies and edit MIDI in one workspace. Build AI agents that act inside real FL Studio, observe results and verify the next step.
 
 [中文](README.md) | [English](README.en.md)
 

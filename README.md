@@ -1,12 +1,10 @@
-<p align="center"><img src="docs/media/logo.png" alt="DAWLoop 标志" width="64" height="64"></p>
+<img src="docs/media/logo.png" alt="DAWLoop" align="right" width="64" height="64">
 
 # DAWLoop
 
-**让音乐想法进入可观察、可继续的制作流程。**
+**AI 辅助音乐创作，与真实 DAW 的执行闭环。**
 
-DAWLoop 是面向 AI 辅助音乐创作与可验证 DAW 自动化的开放框架。音乐创作者可以在独立 Desktop 工作区试听素材、分析音乐、创建旋律和编辑 MIDI；开发者可以通过 Python Runtime，把音乐计划、真实 FL Studio 操作与结果观察组织成 Agent 工作流。
-
-你可以从一个 WAV 素材开始，也可以从正在制作的乐器声部开始。前者通向可编辑的音符与 MIDI，后者通向目标明确、需要确认、能够留下操作记录的宿主交互。
+DAWLoop 把音乐分析、旋律创作和 MIDI 编辑放进一个工作区，并为 AI Agent 提供真实 FL Studio 执行、观察与核验工具。
 
 [中文](README.md) | [English](README.en.md)
 
