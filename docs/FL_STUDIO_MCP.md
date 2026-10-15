@@ -35,6 +35,8 @@ DAWLoop也提供自己的 [MCP stdio工具服务](../src/dawloop/fast_mcp_server
 
 DAWLoop also provides its own MCP stdio tool server for FAST tasks, status and human reports. Sharing the protocol does not make it the same backend: that entry point can serve the Native path without passing through Community FL Studio MCP.
 
+<img src="media/fl-agent-workflow.zh.svg" alt="音乐计划到FL Studio执行与反馈的流程示意" width="680">
+
 ## 为什么要读 Pattern 和 Channel / Know the musical destination
 
 Pattern 是当前编辑的音乐片段；Channel 指向该片段中的乐器。请求里应同时表达编号/索引与预期名称，并核对工程上下文。Controller 还能提供 PPQ，让整数 tick 具有明确音乐含义。

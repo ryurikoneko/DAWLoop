@@ -1,0 +1,56 @@
+[
+  {
+    "asset": "fl-agent-workflow.zh.svg",
+    "kind": "PROJECT_AUTHORED_WORKFLOW_ILLUSTRATION",
+    "classification": "CONFIRMED_PROJECT_GENERATED",
+    "license": "MIT",
+    "copyright": "2026 ryurikoneko",
+    "not_a_host_screenshot": true,
+    "source_files": [
+      "src/dawloop/adapters/fl_target_preparation.py",
+      "src/dawloop/runtime/fast_music.py",
+      "src/dawloop/adapters/fl_studio_mcp/adapter.py"
+    ],
+    "sha256": "55c85c7aedeaddb4e32da17e19c42448e827263f5a6faeb8bc661eaa6b518689"
+  },
+  {
+    "asset": "fl-agent-workflow.en.svg",
+    "kind": "PROJECT_AUTHORED_WORKFLOW_ILLUSTRATION",
+    "classification": "CONFIRMED_PROJECT_GENERATED",
+    "license": "MIT",
+    "copyright": "2026 ryurikoneko",
+    "not_a_host_screenshot": true,
+    "source_files": [
+      "src/dawloop/adapters/fl_target_preparation.py",
+      "src/dawloop/runtime/fast_music.py",
+      "src/dawloop/adapters/fl_studio_mcp/adapter.py"
+    ],
+    "sha256": "281299d907a97e4dd6b5bf0281a0b8eb61379f7481c0ee99e8c8db9035ac877d"
+  },
+  {
+    "asset": "fl-write-case.zh.svg",
+    "kind": "PROJECT_AUTHORED_WORKFLOW_ILLUSTRATION",
+    "classification": "CONFIRMED_PROJECT_GENERATED",
+    "license": "MIT",
+    "copyright": "2026 ryurikoneko",
+    "not_a_host_screenshot": true,
+    "source_files": [
+      "evidence/public/fast_session_7.json",
+      "tests/native_fixtures/practical_16_note/rendered_source.py"
+    ],
+    "sha256": "fb3f5158e59f56b9342012e903ec5fc1810f30ef22fcb3e2e04a13cb76273ced"
+  },
+  {
+    "asset": "fl-write-case.en.svg",
+    "kind": "PROJECT_AUTHORED_WORKFLOW_ILLUSTRATION",
+    "classification": "CONFIRMED_PROJECT_GENERATED",
+    "license": "MIT",
+    "copyright": "2026 ryurikoneko",
+    "not_a_host_screenshot": true,
+    "source_files": [
+      "evidence/public/fast_session_7.json",
+      "tests/native_fixtures/practical_16_note/rendered_source.py"
+    ],
+    "sha256": "d1365c153a59cb909a48a880622bdfc25b969569f9a1e65c20f740c2d39f3286"
+  }
+]

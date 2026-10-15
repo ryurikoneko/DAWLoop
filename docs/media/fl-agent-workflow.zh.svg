@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="1100" viewBox="0 0 680 1100" role="img" aria-labelledby="title desc">
+<!-- SPDX-License-Identifier: MIT -->
+<!-- SPDX-FileCopyrightText: 2026 ryurikoneko -->
+<title id="title">AI 怎样参与真实 FL Studio？</title><desc id="desc">流程示意，不是FL Studio截图。</desc>
+<rect width="680" height="1100" rx="20" fill="#101923"/>
+<g font-family="Segoe UI,Microsoft YaHei,sans-serif">
+<text x="30" y="53" fill="#e7edf5" font-size="32" font-weight="650">AI 怎样参与真实 FL Studio？</text>
+<text x="30" y="90" fill="#9db1c6" font-size="23" font-weight="400">工作流程示意 · DAWLoop Runtime</text>
+<rect x="28" y="122" width="624" height="120" rx="13" fill="#192938" stroke="#324c62"/>
+<circle cx="63" cy="159" r="19" fill="#244d58"/>
+<text x="56" y="168" fill="#9af0e9" font-size="25" font-weight="650">1</text>
+<text x="97" y="168" fill="#e7edf5" font-size="28" font-weight="600">表达音乐目标</text>
+<text x="48" y="211" fill="#c3d1df" font-size="25" font-weight="400">选择乐器、片段与想改变的内容</text>
+<path d="M340 246v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
+<rect x="28" y="273" width="624" height="120" rx="13" fill="#192938" stroke="#324c62"/>
+<circle cx="63" cy="310" r="19" fill="#244d58"/>
+<text x="56" y="319" fill="#9af0e9" font-size="25" font-weight="650">2</text>
+<text x="97" y="319" fill="#e7edf5" font-size="28" font-weight="600">组织结构化计划</text>
+<text x="48" y="362" fill="#c3d1df" font-size="25" font-weight="400">确定音高、节奏、时值与允许范围</text>
+<path d="M340 397v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
+<rect x="28" y="424" width="624" height="120" rx="13" fill="#192938" stroke="#324c62"/>
+<circle cx="63" cy="461" r="19" fill="#244d58"/>
+<text x="56" y="470" fill="#9af0e9" font-size="25" font-weight="650">3</text>
+<text x="97" y="470" fill="#e7edf5" font-size="28" font-weight="600">识别操作对象</text>
+<text x="48" y="513" fill="#c3d1df" font-size="25" font-weight="400">核对 Pattern、Channel 与当前上下文</text>
+<path d="M340 548v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
+<rect x="28" y="575" width="624" height="120" rx="13" fill="#192938" stroke="#324c62"/>
+<circle cx="63" cy="612" r="19" fill="#244d58"/>
+<text x="56" y="621" fill="#9af0e9" font-size="25" font-weight="650">4</text>
+<text x="97" y="621" fill="#e7edf5" font-size="28" font-weight="600">进入真实 FL Studio</text>
+<text x="48" y="664" fill="#c3d1df" font-size="25" font-weight="400">由所选执行后端派发获准操作</text>
+<path d="M340 699v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
+<rect x="28" y="726" width="624" height="120" rx="13" fill="#192938" stroke="#324c62"/>
+<circle cx="63" cy="763" r="19" fill="#244d58"/>
+<text x="56" y="772" fill="#9af0e9" font-size="25" font-weight="650">5</text>
+<text x="97" y="772" fill="#e7edf5" font-size="28" font-weight="600">取得操作后的反馈</text>
+<text x="48" y="815" fill="#c3d1df" font-size="25" font-weight="400">观察实际状态，获取适用的读回</text>
+<path d="M340 850v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
+<rect x="28" y="877" width="624" height="120" rx="13" fill="#192938" stroke="#324c62"/>
+<circle cx="63" cy="914" r="19" fill="#244d58"/>
+<text x="56" y="923" fill="#9af0e9" font-size="25" font-weight="650">6</text>
+<text x="97" y="923" fill="#e7edf5" font-size="28" font-weight="600">判断下一步</text>
+<text x="48" y="966" fill="#c3d1df" font-size="25" font-weight="400">按证据继续、修改计划或停止</text>
+<text x="30" y="1073" fill="#9db1c6" font-size="24" font-weight="400">计划 → 执行 → 观察 → 核验 → 决策</text>
+</g></svg>

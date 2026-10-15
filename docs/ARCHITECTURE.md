@@ -64,6 +64,8 @@ Learning Protocol 接收用户自己的分析器/Agent 提供的特征与反馈�
 
 Learning Protocol accepts features and feedback from a user's analyzer/agent, producing versioned profiles and plans. Reference material, extracted results, inference and unknowns remain separate so a suggestion can be reviewed.
 
+<img src="media/fl-agent-workflow.zh.svg" alt="音乐计划到FL Studio执行与反馈的流程示意" width="680">
+
 ## 执行后端与 Controller / Backend responsibilities
 
 Runtime 的操作调用与目标准备并行分工。Controller 用 FL MIDI Scripting 读取身份、选择已有对象；Community 后端的普通工具调用由 MIDI/JSON RPC 驱动，Piano Roll 通过请求文件与宿主脚本触发；Native 后端通过 Gopher 页面桥接传递受审操作。

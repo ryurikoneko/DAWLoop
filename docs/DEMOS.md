@@ -18,7 +18,7 @@ With a WAV of your own, you want to explore its energy changes and prepare an ed
 
 Import, play, pause and seek to a transition. If the backing becomes denser in the second half, use that as a question for analysis, returning to the original audio whenever you need a reference.
 
-![Music Intelligence workspace](media/music-home.png)
+<img src="media/music-home.png" alt="Music Intelligence workspace" width="900">
 
 ### 第二步：用报告形成问题 / Turn the report into a creative decision
 
@@ -26,7 +26,7 @@ Import, play, pause and seek to a transition. If the backing becomes denser in t
 
 Review levels, energy, rhythmic changes and key candidates. You might leave space in a busy passage and sustain notes in a quieter one. Save a useful report so you can revisit it.
 
-![Music analysis](media/analysis-report.png)
+<img src="media/analysis-report.png" alt="Music analysis" width="760">
 
 ### 第三步：创建与选择旋律 / Create and choose a candidate
 
@@ -40,9 +40,9 @@ Translate your decisions into key, harmony, rhythm, density and seed settings. C
 
 Select notes in the Piano Roll and edit pitch, start, duration and velocity. Audition and undo help compare ideas. Save a named score and export MIDI for instruments and arrangement in your DAW.
 
-![Piano Roll editing](media/piano-roll.png)
+<img src="media/piano-roll.png" alt="Piano Roll editing" width="760">
 
-**成果：**一份可重开的分析报告、一份可继续编辑的乐谱与一个 MIDI 文件。图片分别展示已有界面，不是同一素材的一次连续录屏；以上是由现有功能构成的使用场景。
+成果：一份可重开的分析报告、一份可继续编辑的乐谱与一个 MIDI 文件。图片分别展示已有界面，不是同一素材的一次连续录屏；以上是由现有功能构成的使用场景。
 
 **What you keep:** a saved report, an editable score and a MIDI file. The images show existing interfaces separately, not a continuous recording of this one source file; the scenario combines the available features.
 
@@ -63,6 +63,8 @@ The story comes from the public session 7 summary for the constrained Native FAS
 维护者准备专用测试工程，保留原工程基线；选定已有 Pattern 1、808 Kick 和 PPQ 96，操作范围为第 5–8 小节的固定 16-note 短句。宿主写入需要明确授权，用户保留实际预览与接受操作。
 
 The maintainer prepared a disposable project and retained its baseline. The target was existing Pattern 1, 808 Kick, PPQ 96, with a fixed 16-note phrase in bars 5–8. Host writes required explicit permission, and preview/acceptance remained with the user.
+
+<img src="media/fl-write-case.zh.svg" alt="依据公开测试记录绘制的目标与合成计划示意" width="680">
 
 ### 身份与导航 / Establish the destination
 

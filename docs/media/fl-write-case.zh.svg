@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="688" viewBox="0 0 680 688" role="img" aria-labelledby="title desc">
+<!-- SPDX-License-Identifier: MIT -->
+<!-- SPDX-FileCopyrightText: 2026 ryurikoneko -->
+<title id="title">真实写入测试：从目标到结果</title><desc id="desc">依据公开session 7摘要及原始合成计划绘制；不是宿主截图或事件读回。</desc>
+<rect width="680" height="688" rx="20" fill="#101923"/>
+<g font-family="Segoe UI,Microsoft YaHei,sans-serif">
+<text x="30" y="52" fill="#e7edf5" font-size="31" font-weight="650">真实写入测试：从目标到结果</text>
+<text x="30" y="89" fill="#9db1c6" font-size="23" font-weight="400">依据公开测试记录绘制的示意图</text>
+<rect x="28" y="118" width="624" height="106" rx="13" fill="#192938" stroke="#324c62"/>
+<text x="48" y="156" fill="#80dcd8" font-size="25" font-weight="400">操作目标</text>
+<text x="48" y="199" fill="#e7edf5" font-size="27" font-weight="600">Pattern 1   →   808 Kick   →   Piano Roll</text>
+<path d="M340 230v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
+<rect x="28" y="264" width="624" height="198" rx="13" fill="#192938" stroke="#324c62"/>
+<text x="48" y="302" fill="#80dcd8" font-size="26" font-weight="400">合成计划 · 16 个音符 · PPQ 96</text>
+<rect x="48" y="326" width="144" height="56" fill="#101923" stroke="#324c62"/>
+<text x="100" y="418" fill="#c3d1df" font-size="23" font-weight="400">5</text>
+<rect x="192" y="326" width="144" height="56" fill="#101923" stroke="#324c62"/>
+<text x="244" y="418" fill="#c3d1df" font-size="23" font-weight="400">6</text>
+<rect x="336" y="326" width="144" height="56" fill="#101923" stroke="#324c62"/>
+<text x="388" y="418" fill="#c3d1df" font-size="23" font-weight="400">7</text>
+<rect x="480" y="326" width="144" height="56" fill="#101923" stroke="#324c62"/>
+<text x="532" y="418" fill="#c3d1df" font-size="23" font-weight="400">8</text>
+<rect x="48.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="102.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="120.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="174.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="192.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="219.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="264.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="309.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="336.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="390.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="408.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="435.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="480.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="543.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="552.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<rect x="606.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
+<text x="48" y="448" fill="#c3d1df" font-size="23" font-weight="400">第 5–8 小节 · 图中显示计划中的音符位置</text>
+<path d="M340 468v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
+<rect x="28" y="502" width="624" height="118" rx="13" fill="#192938" stroke="#324c62"/>
+<text x="48" y="543" fill="#80dcd8" font-size="25" font-weight="400">执行与确认</text>
+<text x="48" y="586" fill="#e7edf5" font-size="25" font-weight="600">真实写入 → 用户接受 → 观察与试听确认</text>
+<text x="30" y="660" fill="#9db1c6" font-size="23" font-weight="400">来源：公开 session 7 摘要与合成计划</text>
+</g></svg>

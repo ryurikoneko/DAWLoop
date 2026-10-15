@@ -16,144 +16,141 @@ Start with a WAV you want to explore, or a musical part you want to work on in t
 
 [Download Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [Try the Runtime](docs/QUICKSTART.md) · [Demos](docs/DEMOS.md) · [Capabilities](docs/CAPABILITIES.md) · [Contribute](CONTRIBUTING.md)
 
-![Music Intelligence workspace](docs/media/music-home.png)
+<img src="docs/media/music-home.png" alt="Music Intelligence workspace" width="900">
 
-## From musical ideas to editable melodies, all in one workspace
 
-Perhaps you want to understand how a piece builds energy. Perhaps you have a chord progression but no melody you like yet. Music Intelligence brings listening, analysis, rule-assisted composition and note editing together: understand your material, then choose the change you want to make.
+## From musical material to an editable melody
 
-### Listen to the material and explore its changes
+Study how a piece changes, or find a melody for an existing harmony. Music Intelligence brings listening, analysis, creation and editing into one workspace.
 
-Import your WAV, play or pause it, and seek to an interesting point. The analysis report offers loudness, energy and rhythmic changes, along with key candidates. For example, explore a transition from a quiet passage to a busy one before deciding whether your new melody should leave space or become more active.
+### Import and analyze music
 
-Save useful reports explicitly and reopen them from the saved-results list. Estimated rhythm and key information is presented as reference material; creative choices remain yours.
+Import your WAV, listen and seek to an interesting passage, then explore levels, energy, rhythm changes and key candidates. Find where a backing part becomes busier before deciding whether your melody should leave space or become more active.
 
-### Create candidates with constraints, then make them your own
+<img src="docs/media/analysis-report.png" alt="DAWLoop music analysis interface" width="760">
 
-Set the key, chord progression, rhythmic tendency, length and density. Rule-assisted composition uses those constraints to organize notes: harmony guides note choices, rhythm guides placement, and density changes how active the phrase is. Change the seed to explore another candidate, or keep the same settings for comparison.
+Interpret the report alongside listening. Save useful analyses and reopen them from the list. Rhythm and key candidates inform your creative choices.
 
-Continue into the Piano Roll. Select one or several notes, move pitch and start time, change duration or velocity, undo an edit, and audition the phrase. Name and save a score you want to keep, or export MIDI for your production project. A generated candidate becomes material you can shape further.
+### Create and shape a melody
 
-### Extract notes you can inspect and adjust
+Set key, harmony, rhythm, length, density and seed to create a rule-assisted melody. With Basic Pitch installed and configured, you can also transcribe notes from instrumental audio.
 
-To explore an existing instrumental melody, install and configure Basic Pitch in Component Manager, then send the transcription to the same Piano Roll. Read the component terms and confirm installation first, check its state, and start transcription. Review, edit and export the resulting notes as part of your own musical process.
+<img src="docs/media/piano-roll.png" alt="DAWLoop Piano Roll note and velocity editing" width="760">
 
-```mermaid
-flowchart TD
-    A[Import your WAV material] --> B[Listen, pause and seek]
-    B --> C[Explore loudness, energy and rhythm]
-    C --> D[Choose a creative direction]
-    D --> E[Set harmony, rhythm, density and seed]
-    E --> F[Create a rule-assisted melody]
-    B -. Install and configure Basic Pitch .-> T[Transcribe audio into notes]
-    F --> G[Review and edit in the Piano Roll]
-    T --> G
-    G --> H[Audition and save a score]
-    H --> I[Export MIDI and continue production]
-```
+Select and move notes, change pitch, start, duration and velocity, audition the phrase and undo changes. Name and save a score you want to keep, then export MIDI for further instrument and arrangement work.
 
-Solid lines show the standalone listening, composition and editing workflow; the dotted branch is optional transcription. Analysis informs your decisions, while you choose the composition settings. The arrows do not imply automatic analysis-to-composer parameter mapping.
+### Prepare the components you need
 
-<details>
-<summary>Explore analysis, Piano Roll editing and component management</summary>
+Component Manager shows installation requirements and availability. Review the terms and confirm installation, then prepare basic analysis or Basic Pitch transcription for your task.
 
-![Music Analysis](docs/media/analysis-report.png)
-![Piano Roll editing](docs/media/piano-roll.png)
-![Component management](docs/media/model-manager.png)
+<img src="docs/media/model-manager.png" alt="DAWLoop component management interface" width="640">
 
-</details>
-
-## Beyond MIDI generation: bringing AI actions into FL Studio
-
-Suppose you are preparing a new melody for an instrument. Along with the notes, you want the agent to know which Pattern and Channel to work on, and what actually happened in the host. DAWLoop's Runtime provides musical plans, target checks, execution adapters and observation records for that kind of task.
-
-This is a separate developer entry point: configure an execution backend and connect your own agent to a running FL Studio environment. Desktop editing and Runtime host actions have their own workflows, connected by a project direction built around musical intent and explicit targets.
-
-### From a musical goal to an operation plan
-
-The agent first makes the request concrete: expected notes, positions, durations, velocities, the intended part and the permitted action. DAWLoop Core expresses these through musical grids, absolute ticks and Note Plans, turning “add a short phrase in the next bar” into data that can be checked.
-
-| A common MIDI-file workflow | An agent workflow inside the host |
-| --- | --- |
-| Generate MIDI, retrieve the file and import it | The agent submits a structured musical plan |
-| The user chooses an instrument, position and destination | Runtime checks the target and context |
-| The user inspects the DAW and adjusts the result | A backend dispatches a supported action; an observer records the outcome |
-| Generate again or edit manually | A human or agent chooses whether to continue, re-plan or stop |
-
-The comparison describes two ways to organize the work. Each real host path runs under its own target, permission and observation contract.
-
-### Know the Pattern and Channel before acting
-
-The Pattern identifies the musical segment being edited; the Channel identifies its instrument. A selected Channel Rack row is only one part of establishing which Piano Roll is actually open.
-
-DAWLoop Controller reads project context, Pattern number and name, global Channel index and name, PPQ and the loaded session. Navigation to existing targets follows “select an existing Pattern → exclusively select the Channel → open its Piano Roll.” Identity reads before and after navigation accompany UI observation to establish the visible target. Navigation and creation are managed as distinct capabilities.
-
-### What carries the action into FL Studio?
-
-The pinned Community FL Studio MCP exposes transport, Channel, Piano Roll, Mixer and loaded-plugin parameter tools. DAWLoop adds plans, target checks, result conversion and verification policy around those interfaces; its own Controller supplies identity and navigation. A separate Native research path uses the Gopher bridge for constrained operations, preserving human preview and acceptance.
+### The complete Desktop workflow
 
 ```mermaid
 flowchart TD
-    U[User and AI agent] --> P[Brain: intent and structured music plan]
-    P --> R[DAWLoop Runtime: target, permission and execution]
-    R --> T[Identify and navigate existing targets]
-    T <--> C[DAWLoop Controller]
-    C <--> FL[Running FL Studio]
-    R --> E{Choose a backend for the operation}
-    E --> M[Community FL Studio MCP]
-    M --> CM[MIDI RPC or Piano Roll script trigger]
-    CM <--> FL
-    E --> N[Native Gopher bridge]
-    N <--> FL
-    FL --> O[Observation and applicable readback]
-    O --> V[Check and report under the matching contract]
-    V --> U
+    A[Import WAV<br/>Listen and seek] --> B[Explore<br/>music analysis]
+    B --> C[Choose harmony<br/>rhythm and density]
+    C --> D[Create a<br/>melody candidate]
+    A -. Basic Pitch configured .-> T[Transcribe<br/>notes]
+    D --> E[Piano Roll<br/>Edit and audition]
+    T --> E
+    E --> F[Save a score<br/>Export MIDI]
 ```
 
-This architecture follows responsibilities in the source. Controller target access, Community tools and the Native bridge have different roles and call/readback paths. Community Piano Roll operations also use a request queue, host-script triggering and state files, described in the integration guide.
+Reports inform your direction; you choose composition settings and edits. Optional transcription and rule-based creation lead into the same note-editing workflow.
 
-### After sending an action, what else matters?
+## Bring AI actions into real FL Studio
 
-An acknowledgement tells you something about execution. To check a musical goal, the workflow also needs to establish where the action landed, what actual state is available, and how that state relates to the original plan.
+When you ask an agent to prepare a phrase for an instrument, the task can continue into the running DAW. DAWLoop structures the plan, establishes the destination, connects the execution backend to FL Studio and brings results back for the next decision.
 
-When complete event readback is available, the Exact-Set comparator checks start, duration, pitch, velocity and duplicate counts. **PASS** means the relevant rules have enough evidence and their conditions are satisfied. **STOP** means a mismatch, ambiguous target or missing evidence prevents the workflow from continuing under those rules. Execution and observation also retain their own states and scope.
+<img src="docs/media/fl-agent-workflow.en.svg" alt="Six-step illustration from musical goal through planning, target identity, FL execution, observation and decision" width="680">
+
+1. Describe the goal: choose the instrument and passage you want to change.
+2. Prepare the plan: specify notes, timing, durations and permitted bounds.
+3. Identify the target: check Pattern, Channel and project context.
+4. Execute: dispatch an authorized host action through the selected backend.
+5. Observe: obtain actual state and applicable readback.
+6. Decide: continue, re-plan or stop using the report.
+
+### Where should the notes go?
+
+The Pattern identifies the musical segment; the Channel identifies its instrument. Controller reads actual identity, while Runtime navigates existing objects and uses UI observation to establish the Piano Roll destination.
 
 ```mermaid
 flowchart TD
-    A[Understand the user's goal] --> B[Prepare a musical plan]
-    B --> C[Check Pattern, Channel and context]
-    C --> H[Human confirms actions requiring permission]
-    H --> E[Dispatch one supported operation]
-    E --> O[Obtain a separate post-action observation]
-    O --> Q{Complete event readback available?}
-    Q -->|Yes| V[Compare planned and actual events]
-    V --> P[Report PASS or STOP]
-    Q -->|No| S[Record execution and observation within their scope]
-    P --> D[Human or agent chooses the next action]
-    S --> D
-    D -. Re-plan .-> B
-    D --> X[Stop and retain the record]
+    A[User selects an existing target] --> B[Read Pattern number and name]
+    B --> C[Read Channel index and name]
+    C --> D[Navigate to the target Piano Roll]
+    D --> E[Check identity and visible destination]
 ```
 
-The diagram explains how an agent uses feedback. Full event comparison and scoped observation records remain distinct, with human review before actions requiring permission. A subsequent attempt gets a new plan and record, preserving earlier outcomes.
+### What carries the operation into FL Studio?
 
-### A constrained operation that actually ran
+Community FL Studio MCP exposes transport, Channel, Piano Roll, Mixer and loaded-plugin parameter tools. DAWLoop adds musical plans, target management and evaluation. Native Gopher provides a separate execution path; Controller identity and navigation support target preparation.
 
-In a dedicated test project, the maintainer selected existing Pattern 1 and 808 Kick, preparing a fixed 16-note phrase in bars 5–8 at PPQ 96. Runtime checked context, organized navigation and dispatched one controlled operation. The user reviewed the host preview and accepted it manually; application observation and a completion callback followed, and the user confirmed the audible result.
+```mermaid
+flowchart TD
+    R[DAWLoop<br/>Runtime] --> C[Controller<br/>Identity / navigation]
+    C <--> F[Running<br/>FL Studio]
+    R --> M[Community<br/>FL Studio MCP]
+    M --> T[MIDI RPC /<br/>Piano Roll script]
+    T <--> F
+    R --> N[Native Gopher<br/>bridge]
+    N <--> F
+    F --> O[Observation /<br/>readback]
+```
 
-The public record retains one dispatch, zero retries, zero fallback and its actual terminal state, `COMPLETED_UNVERIFIED`. It shows how real-host execution, human acceptance and observation fit together; full event-set comparison remains `NOT_VERIFIED` in that same record.
+The branches serve target preparation, Community tools and Native actions. Actual calls follow the chosen backend into the host.
 
-Before a host experiment, back up data, use an authorized disposable test project, and confirm the Pattern, Channel and operation scope. Installing a backend does not grant permission to write into the current song.
+### How do execution and feedback connect?
 
-[Read the complete story](docs/DEMOS.md) · [Public source record](evidence/public/fast_session_7.json) · [Execution paths and message sequence](docs/FL_STUDIO_MCP.md) · [Deployment and permissions](docs/DEPLOYMENT.md)
+This Native sequence starts with a task and destination, then dispatches the operation. The user reviews the host preview before completion information and application observation return to the workflow.
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant D as DAWLoop
+    participant F as FL Studio
+    U->>D: Goal and permission
+    D->>F: Read target and navigate
+    F-->>D: Actual target state
+    D->>F: Dispatch via Native
+    F-->>U: Show preview
+    U->>F: Review and accept
+    F-->>D: Completion and observation
+    D-->>U: Result and next decision
+```
+
+### How does the agent decide what comes next?
+
+An acknowledgement describes execution; actual readback supports checking the musical goal. With complete note events, Exact-Set compares start, duration, pitch, velocity and multiplicity to return PASS / STOP. Other observations are reported under the matching operation rules.
+
+```mermaid
+flowchart TD
+    A[Post-action<br/>observation] --> B{Complete event<br/>readback?}
+    B -->|Yes| C[Compare planned<br/>and actual notes]
+    C --> D[PASS / STOP]
+    B -->|Other observation| E[Report actual<br/>execution state]
+    D --> F[Human / agent<br/>decision]
+    E --> F
+    F -->|Continue| G[Prepare next plan]
+    F -->|Stop| H[Retain this attempt]
+```
+
+### A real FL Studio note-write test
+
+DAWLoop has completed a real FL Studio note-write test and passed acceptance.
+
+<img src="docs/media/fl-write-case.en.svg" alt="Illustration of the public test target, synthetic 16-note plan and execution confirmation" width="680">
+
+The illustration follows the public test record and synthetic plan. See the [operation story](docs/DEMOS.md), [public record](evidence/public/fast_session_7.json) and [execution paths](docs/FL_STUDIO_MCP.md) for their sources.
 
 ## Why bring these capabilities together?
 
-**From plans to actions:** structured musical intent can be handed to execution adapters and supported backends inside a real DAW.
-
-**From actions to checked results:** targets, acknowledgements, observations and verification findings remain distinct. An agent can reason about its next step using that information rather than a single success string.
-
-**From analysis to editing:** creators get a standalone listening and editing workspace; developers get an extensible Runtime. Brain organizes plans and rules, Hands connects the host, and Ears supplies MIDI, orchestration and audio analysis for the next production decision.
+- From plans to actions: structure musical intent and reach the real DAW through a backend.
+- From actions to evaluation: use targets, execution information and observations to choose the next step.
+- From analysis to editing: create in Desktop and extend agent workflows through Runtime.
 
 [Architecture](docs/ARCHITECTURE.md) · [Production Pipeline](docs/PRODUCTION_PIPELINE.md) · [Capabilities and source](docs/CAPABILITIES.md)
 

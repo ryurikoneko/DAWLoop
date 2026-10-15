@@ -39,3 +39,10 @@ Desktop scenarios are implementation-based usage examples; existing images are n
 [GitHub展示建议](GITHUB_SHOWCASE.md) 和 [Release文案提案](RELEASE_COPY_v0.5.6-alpha.2_PROPOSAL.md) 只提供维护者审阅材料。当前Release正文仍含早先通知关闭描述，而main已有特定Alpha.2 Preview限时批准；两者的历史不同，不通过文档修改扩大批准范围。正式Release、资产、标签、通知文件与设置不在本次文档改动内。
 
 The presentation and release-copy proposals are review material. The current release still contains an earlier notification-disabled statement, while main has a time-limited approval for the specific Alpha.2 Preview release. Those histories differ; documentation does not expand approval. Published releases, assets, tags, notification files and settings are outside this documentation change.
+
+
+## 默认可见的首页展示 / Visible homepage walkthrough
+
+首页直接显示工作区、分析、Piano Roll与组件管理四张既有真实图片。新建六步流程和历史写入案例的中英文SVG属于CONFIRMED_PROJECT_GENERATED，来源与SHA256见[示意图清单](media/workflow-illustrations.json)。其中音符位置根据原合成计划绘制，不是事件读回或宿主截图。首页简述实际写入测试验收结论，历史证据中的原始终态与验证字段保持不变。
+
+The homepage displays four existing software images directly. New bilingual workflow and case SVGs are project-generated illustrations, with source files and digests in the manifest. Planned note positions are not host readback. The homepage summarizes write-test acceptance while the original evidence retains its terminal and verification fields.

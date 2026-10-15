@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="1100" viewBox="0 0 680 1100" role="img" aria-labelledby="title desc">
+<!-- SPDX-License-Identifier: MIT -->
+<!-- SPDX-FileCopyrightText: 2026 ryurikoneko -->
+<title id="title">From musical intent to real FL Studio</title><desc id="desc">Workflow illustration, not an FL Studio screenshot.</desc>
+<rect width="680" height="1100" rx="20" fill="#101923"/>
+<g font-family="Segoe UI,Microsoft YaHei,sans-serif">
+<text x="30" y="53" fill="#e7edf5" font-size="32" font-weight="650">From musical intent to real FL Studio</text>
+<text x="30" y="90" fill="#9db1c6" font-size="23" font-weight="400">Workflow illustration · DAWLoop Runtime</text>
+<rect x="28" y="122" width="624" height="120" rx="13" fill="#192938" stroke="#324c62"/>
+<circle cx="63" cy="159" r="19" fill="#244d58"/>
+<text x="56" y="168" fill="#9af0e9" font-size="25" font-weight="650">1</text>
+<text x="97" y="168" fill="#e7edf5" font-size="28" font-weight="600">Describe the musical goal</text>
+<text x="48" y="211" fill="#c3d1df" font-size="25" font-weight="400">Choose the part and the intended change</text>
+<path d="M340 246v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
+<rect x="28" y="273" width="624" height="120" rx="13" fill="#192938" stroke="#324c62"/>
+<circle cx="63" cy="310" r="19" fill="#244d58"/>
+<text x="56" y="319" fill="#9af0e9" font-size="25" font-weight="650">2</text>
+<text x="97" y="319" fill="#e7edf5" font-size="28" font-weight="600">Prepare a structured plan</text>
+<text x="48" y="362" fill="#c3d1df" font-size="25" font-weight="400">Define pitch, timing, duration and bounds</text>
+<path d="M340 397v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
+<rect x="28" y="424" width="624" height="120" rx="13" fill="#192938" stroke="#324c62"/>
+<circle cx="63" cy="461" r="19" fill="#244d58"/>
+<text x="56" y="470" fill="#9af0e9" font-size="25" font-weight="650">3</text>
+<text x="97" y="470" fill="#e7edf5" font-size="28" font-weight="600">Identify the destination</text>
+<text x="48" y="513" fill="#c3d1df" font-size="25" font-weight="400">Check Pattern, Channel and current context</text>
+<path d="M340 548v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
+<rect x="28" y="575" width="624" height="120" rx="13" fill="#192938" stroke="#324c62"/>
+<circle cx="63" cy="612" r="19" fill="#244d58"/>
+<text x="56" y="621" fill="#9af0e9" font-size="25" font-weight="650">4</text>
+<text x="97" y="621" fill="#e7edf5" font-size="28" font-weight="600">Act inside real FL Studio</text>
+<text x="48" y="664" fill="#c3d1df" font-size="25" font-weight="400">Dispatch an authorized backend operation</text>
+<path d="M340 699v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
+<rect x="28" y="726" width="624" height="120" rx="13" fill="#192938" stroke="#324c62"/>
+<circle cx="63" cy="763" r="19" fill="#244d58"/>
+<text x="56" y="772" fill="#9af0e9" font-size="25" font-weight="650">5</text>
+<text x="97" y="772" fill="#e7edf5" font-size="28" font-weight="600">Observe the resulting state</text>
+<text x="48" y="815" fill="#c3d1df" font-size="25" font-weight="400">Obtain observations and applicable readback</text>
+<path d="M340 850v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
+<rect x="28" y="877" width="624" height="120" rx="13" fill="#192938" stroke="#324c62"/>
+<circle cx="63" cy="914" r="19" fill="#244d58"/>
+<text x="56" y="923" fill="#9af0e9" font-size="25" font-weight="650">6</text>
+<text x="97" y="923" fill="#e7edf5" font-size="28" font-weight="600">Choose the next action</text>
+<text x="48" y="966" fill="#c3d1df" font-size="25" font-weight="400">Continue, re-plan or stop using the evidence</text>
+<text x="30" y="1073" fill="#9db1c6" font-size="24" font-weight="400">Plan → Execute → Observe → Verify → Decide</text>
+</g></svg>

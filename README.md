@@ -16,144 +16,141 @@ DAWLoop 是面向 AI 辅助音乐创作与可验证 DAW 自动化的开放框架
 
 [下载 Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [体验 Runtime](docs/QUICKSTART.md) · [使用场景](docs/DEMOS.md) · [功能目录](docs/CAPABILITIES.md) · [参与贡献](CONTRIBUTING.md)
 
-![Music Intelligence 工作区](docs/media/music-home.png)
+<img src="docs/media/music-home.png" alt="Music Intelligence workspace" width="900">
+
 
 ## 一个工作区，从音乐素材到可编辑旋律
 
-你可能想研究一段音乐的能量起伏，也可能已经有了和声，却还没有满意的旋律。Music Intelligence 把素材试听、音乐分析、规则辅助创作和音符编辑放在一起：先理解你手中的材料，再决定自己想做出的改变。
+研究一段音乐的变化，或为已有和声准备旋律：Music Intelligence 把试听、分析、创作和编辑放在同一个工作区。
 
-### 听见素材，再读懂变化
+### 导入与分析音乐
 
-导入自己的 WAV，在工作区播放、暂停并定位到感兴趣的位置。分析报告提供响度、能量与节奏变化、调性候选等参考，让你有依据地选择要继续研究的部分。例如，先找出从平静走向密集的段落，再决定新旋律应该保持空间，还是增加活动感。
+导入自己的 WAV，试听并定位感兴趣的段落，再查看响度、能量、节奏变化和调性候选。例如，先找出伴奏开始变密的位置，再考虑旋律应该留白还是增加活动感。
 
-分析结果可以主动保存，之后从保存列表重新打开。估计性的节奏与调性信息作为候选呈现；创作上的取舍由你决定。
+<img src="docs/media/analysis-report.png" alt="DAWLoop 音乐分析界面" width="760">
 
-### 用约束创建候选，用编辑形成自己的旋律
+结合试听阅读分析结果，保存值得继续研究的报告，之后从列表重新打开。分析帮助你形成创作判断，节奏和调性候选供你参考。
 
-输入调性、和声进行、节奏倾向、长度与密度，规则辅助创作会据此组织音符。和声影响候选音的选择，节奏条件影响落点，密度影响音符活动程度；改变 Seed 可以探索另一组候选，保留相同设置便于比较。
+### 创建与修改旋律
 
-生成以后继续进入 Piano Roll：选择一个音符或一组音符，移动音高和起点、调整时值与力度，撤销不合适的修改，再试听乐句。给满意的结果命名并保存乐谱，或导出 MIDI 带入自己的制作工程。这些步骤让候选旋律成为可以继续打磨的材料。
+设置调性、和声、节奏、长度、密度与 Seed，创建规则辅助旋律；也可以在安装配置 Basic Pitch 后，从乐器音频转录音符。
 
-### 从音频提取可以调整的音符
+<img src="docs/media/piano-roll.png" alt="DAWLoop Piano Roll 音符与力度编辑" width="760">
 
-想研究已有乐器旋律时，可以在组件管理中安装并配置 Basic Pitch，再把音频转录到同一个 Piano Roll。先阅读组件许可并确认安装，随后检查组件状态，再开始转录。得到的音符仍可由你审阅、调整与导出。
+在 Piano Roll 中选择和移动音符，调整音高、起点、时值与力度，试听并撤销不合适的修改。给满意的乐谱命名保存，导出 MIDI 后继续音色与编排制作。
+
+### 准备需要的组件
+
+组件管理显示安装条件与可用状态。先阅读许可并确认安装，再按任务准备基础分析或 Basic Pitch 转录组件。
+
+<img src="docs/media/model-manager.png" alt="DAWLoop 组件管理界面" width="640">
+
+### 完整的 Desktop 工作流
 
 ```mermaid
 flowchart TD
-    A[导入自己的 WAV 素材] --> B[播放、暂停与定位]
-    B --> C[查看响度、能量与节奏分析]
-    C --> D[选择创作方向]
-    D --> E[设置和声、节奏、密度与 Seed]
-    E --> F[创建规则辅助旋律]
-    B -. 安装并配置 Basic Pitch .-> T[从音频转录音符]
-    F --> G[Piano Roll 审阅与编辑]
-    T --> G
-    G --> H[试听并保存乐谱]
-    H --> I[导出 MIDI，继续制作]
+    A[导入 WAV<br/>试听与定位] --> B[查看音乐分析]
+    B --> C[选择和声<br/>节奏与密度]
+    C --> D[创建旋律候选]
+    A -. 已配置 Basic Pitch .-> T[转录音符]
+    D --> E[Piano Roll<br/>编辑与试听]
+    T --> E
+    E --> F[保存乐谱<br/>导出 MIDI]
 ```
 
-实线是独立工作区中的试听、创作与编辑流程；虚线是可选转录分支。分析报告帮助你构思，创作设置由你选定；图中的箭头不表示分析报告会自动决定旋律参数。
-
-<details>
-<summary>查看分析报告、Piano Roll 与组件管理</summary>
-
-![音乐分析](docs/media/analysis-report.png)
-![Piano Roll 编辑](docs/media/piano-roll.png)
-![组件管理](docs/media/model-manager.png)
-
-</details>
+分析报告帮助你选择创作方向，具体旋律设置和编辑由你决定。可选转录与规则创作汇入同一个音符编辑工作流。
 
 ## 让 AI 参与真实的 FL Studio 工作流
 
-假设你正在为一个乐器准备新的旋律想法。除了得到一份 MIDI 文件，你还希望 Agent 知道应当操作哪个 Pattern、哪一个 Channel，以及这次动作在宿主里实际发生了什么。DAWLoop 的 Runtime 为这类任务提供音乐计划、目标检查、执行适配和观察记录。
+当你希望 AI 为某个乐器准备短句，任务可以从音乐意图继续进入真实宿主：DAWLoop 组织计划，核对操作目标，通过执行后端与正在运行的 FL Studio 通信，再把结果带回下一轮判断。
 
-这是项目另一条独立入口：开发者配置执行后端，把自己的 Agent 接入运行中的 FL Studio。Desktop 的本地编辑器与 Runtime 宿主操作各有工作流程，音乐计划和明确目标把它们放在同一个项目方向之下。
+<img src="docs/media/fl-agent-workflow.zh.svg" alt="音乐目标、结构化计划、目标识别、FL Studio执行、观察和决策的六步流程示意" width="680">
 
-### 从“想改什么”到“准备怎样操作”
+1. 描述音乐目标：明确希望改变的乐器与片段。
+2. 准备音乐计划：表达音符、节奏位置、时值与允许范围。
+3. 识别目标：读取并核对 Pattern、Channel 与工程上下文。
+4. 执行动作：由所选后端派发获准的宿主操作。
+5. 观察结果：取得实际状态及适用的读回。
+6. 决定下一步：根据报告继续、修改计划或停止。
 
-Agent 先把用户意图整理为具体计划：预期音符、节奏位置、持续时间、力度、目标声部以及允许的动作。DAWLoop Core 用音乐网格、绝对 tick 和 Note Plan 表达这些信息，让“在下一小节加一个短句”成为可以检查的操作数据。
+### 音符应该落在哪里？
 
-| 常见 MIDI 文件流程 | 面向真实宿主的 Agent 工作模式 |
-| --- | --- |
-| 生成 MIDI，用户获取文件并导入 | Agent 提交结构化音乐计划 |
-| 用户选择乐器、位置与接收对象 | Runtime 检查目标与上下文 |
-| 用户在 DAW 中检查结果并继续修改 | 执行后端派发受支持的动作，观察者记录结果 |
-| 再次生成或手动编辑 | 人工或 Agent 根据报告选择继续、修改计划或停止 |
-
-这张对照表说明两种操作组织方式。具体宿主路径按照各自的目标、授权和观察合同运行。
-
-### 先弄清 Pattern 与 Channel
-
-Pattern 决定当前编辑的片段，Channel 决定片段中的乐器。即便 Channel Rack 选中了某个通道，也仍需要确认打开的 Piano Roll 指向哪里。
-
-DAWLoop Controller 读取当前工程上下文、Pattern 编号与名称、Channel 全局索引与名称、PPQ 和加载会话信息。已有目标导航按“选已有 Pattern → 独占选择 Channel → 定向打开 Piano Roll”组织；前后身份读取与界面观察一起帮助核对实际目标。导航已有对象与创建新对象是分别管理的能力。
-
-### 谁把动作送进 FL Studio？
-
-固定版本的 Community FL Studio MCP 提供 transport、Channel、Piano Roll、Mixer 和已加载插件参数等工具接口。DAWLoop 在这些工具周围补充计划、目标检查、结果转换与验证规则；自有 Controller 提供身份与导航能力。另一个 Native 研究路径通过 Gopher 桥接派发受限操作，并保留人工预览和接受步骤。
+Pattern 决定音乐片段，Channel 决定乐器。Controller 读取真实身份，Runtime 导航到已有对象，并结合界面观察核对 Piano Roll 的目标。
 
 ```mermaid
 flowchart TD
-    U[用户与 AI Agent] --> P[Brain：音乐意图与结构化计划]
-    P --> R[DAWLoop Runtime：目标、授权与执行组织]
-    R --> T[目标识别与已有目标导航]
-    T <--> C[DAWLoop Controller]
-    C <--> FL[运行中的 FL Studio]
-    R --> E{按操作选择执行后端}
-    E --> M[Community FL Studio MCP]
-    M --> CM[MIDI RPC 或 Piano Roll 脚本触发]
-    CM <--> FL
-    E --> N[Native Gopher 桥接]
-    N <--> FL
-    FL --> O[观察状态与适用读回]
-    O --> V[按对应合同检查并报告]
-    V --> U
+    A[用户指定已有目标] --> B[读取 Pattern 编号与名称]
+    B --> C[读取 Channel 索引与名称]
+    C --> D[导航至目标 Piano Roll]
+    D --> E[重新核对身份与可见目标]
 ```
 
-这是按源码职责整理的执行架构图。Controller 的目标通道、Community 工具和 Native 桥接并行分工；不同操作使用不同的调用及回读路径。Community Piano Roll 还涉及请求队列、宿主脚本触发和状态文件，详见连接指南。
+### 谁把操作送进 FL Studio？
 
-### 操作已发送之后，还需要知道什么？
-
-工具回报请求已接收，回答的是执行过程中的一个问题；音乐目标是否达成，还需要观察动作落到了哪里、取得什么实际状态，以及这些信息能否与原计划对应。
-
-具备完整事件读回时，Exact-Set 比较器会核对计划与实际音符的起点、时值、音高、力度和重复次数。**PASS** 表示对应规则下取得了足够依据并满足条件；**STOP** 表示出现差异、目标不明确或缺少继续判断所需的信息。执行与观察记录也有各自的状态，报告会保留它们的真实范围。
+Community FL Studio MCP 提供 transport、Channel、Piano Roll、Mixer 与已加载插件参数等工具。DAWLoop 补充音乐计划、目标管理和结果核验。Native Gopher 是另一条执行路径；Controller 的身份与导航为目标准备提供支持。
 
 ```mermaid
 flowchart TD
-    A[理解用户目标] --> B[形成音乐计划]
-    B --> C[核对 Pattern、Channel 与上下文]
-    C --> H[用户确认需要授权的动作]
-    H --> E[执行一次受支持的操作]
-    E --> O[独立取得执行后的观察]
-    O --> Q{取得完整事件读回？}
-    Q -->|是| V[比较计划与实际事件]
-    V --> P[报告 PASS 或 STOP]
-    Q -->|否| S[记录执行与观察状态，保留验证边界]
-    P --> D[人工或 Agent 决定下一步]
-    S --> D
-    D -. 修改计划 .-> B
-    D --> X[停止，保留本次记录]
+    R[DAWLoop<br/>Runtime] --> C[Controller<br/>身份与导航]
+    C <--> F[真实运行的<br/>FL Studio]
+    R --> M[Community<br/>FL Studio MCP]
+    M --> T[MIDI RPC 或<br/>Piano Roll 脚本]
+    T <--> F
+    R --> N[Native Gopher<br/>桥接]
+    N <--> F
+    F --> O[观察与适用读回]
 ```
 
-这张图解释 Agent 如何使用反馈。完整事件比较与限定观察记录分别报告，人工审阅保留在需要授权的动作之前。后续尝试形成新的计划和记录，保留此前发生过的结果。
+三条分支分别负责目标准备、Community 工具调用与 Native 操作；实际请求按所选后端进入宿主。
 
-### 一个实际执行过的受限场景
+### 执行与反馈怎样衔接？
 
-维护者曾在专用测试工程中，选定已有 Pattern 1 和 808 Kick，以 PPQ 96 准备第 5–8 小节的固定 16-note 短句。Runtime 核对上下文，组织目标导航，派发一次受控操作；用户查看宿主预览并人工接受，随后取得应用观察和完成回调，用户也确认试听结果。
+下面用 Native 流程说明消息顺序：先明确任务与目标，再派发操作；用户审阅宿主预览，随后取得完成信息与实际观察。
 
-公开记录保留了“一次派发、零重试、零 fallback”和实际终态 `COMPLETED_UNVERIFIED`。这份案例展示真实宿主中的执行、人工接受与观察如何衔接；完整音符集合比较的状态在同一记录中保留为 `NOT_VERIFIED`。
+```mermaid
+sequenceDiagram
+    participant U as 用户
+    participant D as DAWLoop
+    participant F as FL Studio
+    U->>D: 音乐目标与授权
+    D->>F: 读取并导航目标
+    F-->>D: 实际目标状态
+    D->>F: 经 Native 后端派发
+    F-->>U: 呈现操作预览
+    U->>F: 人工审阅并接受
+    F-->>D: 完成信息与观察
+    D-->>U: 结果及下一步
+```
 
-运行此类宿主实验前，必须备份数据、使用获准的专用测试工程并确认 Pattern、Channel 和操作范围。安装后端本身不授予对当前作品写入的权限。
+### 观察之后，怎样决定继续？
 
-[阅读完整操作故事](docs/DEMOS.md) · [原始公开摘要](evidence/public/fast_session_7.json) · [执行原理与消息时序](docs/FL_STUDIO_MCP.md) · [宿主部署与权限](docs/DEPLOYMENT.md)
+工具回执描述执行情况；实际读回用于核对音乐目标。取得完整音符事件时，Exact-Set 比较起点、时值、音高、力度与重复次数，输出 PASS / STOP；其他观察按对应操作规则形成报告。
+
+```mermaid
+flowchart TD
+    A[执行后观察] --> B{有完整事件读回？}
+    B -->|有| C[比较计划与<br/>实际音符]
+    C --> D[PASS / STOP]
+    B -->|其他观察| E[报告实际<br/>执行状态]
+    D --> F[人工或 Agent 判断]
+    E --> F
+    F -->|继续| G[准备下一轮计划]
+    F -->|停止| H[保留本次记录]
+```
+
+### 真实 FL Studio 写入测试
+
+DAWLoop 已完成真实 FL Studio 音符写入测试，验收通过。
+
+<img src="docs/media/fl-write-case.zh.svg" alt="公开测试记录的目标、16音符合成计划与执行确认示意" width="680">
+
+示意图依据公开测试记录与合成计划绘制。真实流程与实现分别见 [操作故事](docs/DEMOS.md)、[公开记录](evidence/public/fast_session_7.json) 和 [执行原理](docs/FL_STUDIO_MCP.md)。
 
 ## 为什么把这些能力放在一起？
 
-**从计划到操作：**结构化音乐意图可以交给执行适配器，由受支持的后端参与真实 DAW 操作。
-
-**从操作到核验：**目标、执行回执、实际观察和验证结论分别保留，Agent 能根据它们判断下一步，而不是只消费一个“成功”字符串。
-
-**从音乐分析到编辑：**创作者有独立的试听与编辑工作区，开发者有可扩展的 Runtime。Brain 组织计划与规则，Hands 连接宿主，Ears 以 MIDI、编排和音频分析为下一轮制作提供信息。
+- 从计划到操作：把音乐意图组织为明确任务，通过后端进入真实 DAW。
+- 从操作到核验：结合目标、执行信息与实际观察，判断下一步。
+- 从分析到编辑：在 Desktop 中创作和修改，用 Runtime 扩展 Agent 工作流。
 
 [架构解释](docs/ARCHITECTURE.md) · [Production Pipeline](docs/PRODUCTION_PIPELINE.md) · [功能与源码](docs/CAPABILITIES.md)
 

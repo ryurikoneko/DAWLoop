@@ -6,7 +6,7 @@ Desktop 把音乐素材、分析报告与可编辑的乐谱放在同一个 Music
 
 Desktop brings musical material, analysis reports and editable scores into Music Intelligence. Explore a WAV for creative ideas or start directly with key and rhythm settings, then shape the notes in the Piano Roll and save or export your work.
 
-![Music Intelligence workspace](media/music-home.png)
+<img src="media/music-home.png" alt="Music Intelligence workspace" width="900">
 
 本页按“带入素材 → 理解 → 创作 → 编辑 → 保存与导出”介绍独立 Desktop 体验。需要研究真实 FL Studio 操作的开发者，可在熟悉音乐数据之后进入 [Runtime 工作流](FL_STUDIO_MCP.md)。
 
@@ -56,7 +56,7 @@ The report organizes loudness, peaks, energy changes, rhythmic information and k
 
 For a backing part that grows denser, find its energy changes before choosing where your melody should pause or become more active. Combine estimates with listening rather than treating a candidate as a musical certainty.
 
-![Music analysis](media/analysis-report.png)
+<img src="media/analysis-report.png" alt="Music analysis" width="760">
 
 想保留报告时使用保存操作，并从保存列表重新打开。分析的作用是帮助下一步创作：它不会替你决定最终旋律。
 
@@ -96,7 +96,7 @@ The Piano Roll places time horizontally and pitch vertically. Select one or seve
 
 For example, lengthen the final note and listen to the space before the next phrase. Undo it if it feels wrong and try a softer accent instead. Continue selecting, editing or comparing candidate versions until the phrase fits your intention.
 
-![Piano Roll editing](media/piano-roll.png)
+<img src="media/piano-roll.png" alt="Piano Roll editing" width="760">
 
 ## 保存、恢复与 MIDI 导出 / Keep and reuse your work
 
@@ -114,7 +114,7 @@ Export MIDI to bring the notes into your DAW for instrument selection, arrangeme
 
 Component Manager shows availability, installation requirements and license confirmation. Prepare basic components first, then choose transcription models for your task. The Basic Pitch archive is about 136.5 MiB; allow at least 1 GiB of free space before installation. Follow displayed states and errors when checking or retrying setup.
 
-![Component management](media/model-manager.png)
+<img src="media/model-manager.png" alt="Component management" width="640">
 
 界面支持中英文。普通用户可以围绕素材、报告和乐谱组织工作；开发者需要更详细环境信息时再使用相应诊断入口。升级前备份用户数据，保留已有模型环境和保存成果。
 
