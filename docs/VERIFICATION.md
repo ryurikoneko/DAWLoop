@@ -4,7 +4,7 @@
 
 [统一能力表](CAPABILITIES.md)分开公开代码、内部候选、离线测试和特定场景实测。Desktop 的真实本地音频推理不证明 FL Host 通信；新宿主尚未认证不抹去旧 FAST 证据。Embedding 提取不证明风格学习；GUI 成功不等于生产工程安全认证。
 
-Actual internal audio inference does not prove FL communication. The unproven new host route does not erase historical FAST evidence. Embedding extraction is not style learning; UI success is not production-project certification.
+Actual Desktop audio inference does not prove FL communication. The unproven new host route does not erase historical FAST evidence. Embedding extraction is not style learning; UI success is not production-project certification.
 
 当前Native FAST固定16-note人工接受流程已通过受限现场验收，终态为`COMPLETED_UNVERIFIED`；不能依赖下文Exact-Set算法宣称VERIFIED。producer-side实际note集合仍不可认证，Native VERIFIED冻结。下文历史接入说明针对Community读回路径；当前Native范围与公开证据见[统一状态](DAWLOOP_RUNTIME_V2.md#current)。
 

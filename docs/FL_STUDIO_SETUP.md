@@ -8,6 +8,10 @@ Set up the Runtime's FL integration once, then use read-only diagnostics to chec
 
 ## Install
 
+先在FL的文件设置中核对当前User data folder，并据此确定实际Settings目录；安装器的推测路径需要与你正在运行的FL一致。完成这一页后，你会拥有一套Controller安装、固定端口配置和可重复的本地诊断入口。
+
+Confirm the active User data folder in FL's file settings and derive the actual Settings directory. Match the running instance rather than relying on a guessed path. This guide establishes one Controller installation, stable port configuration and repeatable local diagnostics.
+
 Install the FL Studio dependencies, preview the detected environment, then install into the active FL Studio `Settings` directory:
 
 ```powershell
@@ -30,6 +34,10 @@ dawloop doctor --settings-dir "<FL Studio Settings directory>"
 The bundled backend uses named MIDI devices and does not require Port 42. Do not change a working host port setting solely to match that old development convention.
 
 ## Verify
+
+安装后的第一项成果是本地诊断可解释：依赖是否存在、端口是否出现、脚本是否安装，以及运行中的Controller是否报告新鲜状态。probe-fl读取状态文件，不发送MIDI；若构建或心跳不符，先在Script output中Reload，再重新检查。
+
+The first useful result is understandable local diagnostics: dependencies, visible ports, installed scripts and fresh running-Controller status. The probe-fl option reads a status file without sending MIDI. If build or heartbeat does not match, reload through Script output before checking again.
 
 ### Release and Controller update awareness
 
@@ -77,8 +85,9 @@ your installation source before explicitly updating. Then run `dawloop setup-fl`
 reload the Controller through FL Studio's Script output window, and run
 `dawloop doctor --probe-fl` again. Installing a script does not reload it.
 
-For notifications while DAWLoop is not running, subscribe to the repository's
-GitHub **Watch → Custom → Releases** option. No background notifier is installed.
+For release mail while the Runtime is not running, subscribe through GitHub
+**Watch → Custom → Releases**. The Python setup installs no background notifier.
+Desktop notification approval is a separate product policy; see [Desktop](DESKTOP.md).
 
 `dawloop doctor` reports dependencies, loopMIDI process, port names, and installed scripts. `dawloop doctor --probe-fl` reads the Controller's local runtime status file only; it does not send MIDI, PING, or an identity request. The Controller writes this file during initialization and refreshes `last_seen_at` through a throttled `OnIdle` callback. Runtime build identity is compared with the build ID embedded in the installed script; the file SHA256 is reported separately and is not treated as proof of the loaded in-memory version. `supportedDevices` being present in the script means auto-binding is available in principle, not that FL has confirmed it in this installation.
 

@@ -27,6 +27,6 @@ Use the existing license, scope and brand policies. Presentation changes grant n
 
 ## Social Preview
 
-现有1280×640品牌卡片与Logo用途分别保留。GitHub设置状态见 [展示核验](../PUBLIC_PRESENTATION_REVIEW.md)；需要上传时由维护者在Repository Settings完成。
+现有1280×640品牌卡片与Logo用途分别保留。2026-10-15读取的GitHub设置仍为默认仓库卡片，未启用自定义Open Graph图片。候选排版与维护者操作见 [展示建议](../GITHUB_SHOWCASE.md)，旧 [展示核验](../PUBLIC_PRESENTATION_REVIEW.md) 保留其原日期的记录。
 
-The card and logo retain separate roles. Repository settings are verified separately from the PNG's existence.
+The card and logo retain separate roles. GitHub used its default repository card on 15 October 2026; see the presentation proposal for the separate owner upload action. Earlier review records retain their original dates.

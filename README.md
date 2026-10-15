@@ -1,13 +1,12 @@
-<p align="center"><img src="docs/media/hero.png" alt="DAWLoop 品牌头图" width="100%"></p>
 <p align="center"><img src="docs/media/logo.png" alt="DAWLoop 标志" width="64" height="64"></p>
 
 # DAWLoop
 
-**让 AI 真正参与音乐制作。**
+**让音乐想法进入可观察、可继续的制作流程。**
 
-DAWLoop 连接音乐分析、MIDI 创作与真实 DAW 操作。在桌面工作区探索素材、编辑旋律；通过开放 Runtime 为 Agent 构建规划、执行、观察和结果核对的工作流。
+DAWLoop 是面向 AI 辅助音乐创作与可验证 DAW 自动化的开放框架。音乐创作者可以在独立 Desktop 工作区试听素材、分析音乐、创建旋律和编辑 MIDI；开发者可以通过 Python Runtime，把音乐计划、真实 FL Studio 操作与结果观察组织成 Agent 工作流。
 
-为音乐创作者提供制作工具，为开发者提供可扩展的音乐自动化框架。
+你可以从一个 WAV 素材开始，也可以从正在制作的乐器声部开始。前者通向可编辑的音符与 MIDI，后者通向目标明确、需要确认、能够留下操作记录的宿主交互。
 
 [中文](README.md) | [English](README.en.md)
 
@@ -15,16 +14,48 @@ DAWLoop 连接音乐分析、MIDI 创作与真实 DAW 操作。在桌面工作�
 [![MIT code](https://img.shields.io/badge/code-MIT-blue)](LICENSE)
 [![Alpha](https://img.shields.io/badge/status-Alpha-orange)](docs/DESKTOP.md)
 
-[下载 Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [试用开发者 Runtime](docs/QUICKSTART.md) · [演示](docs/DEMOS.md) · [功能](docs/CAPABILITIES.md) · [参与贡献](CONTRIBUTING.md)
-
-## 探索 DAWLoop
-
-Music Intelligence 将试听、分析、旋律创作与编辑放在一个工作区中。
+[下载 Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [体验 Runtime](docs/QUICKSTART.md) · [使用场景](docs/DEMOS.md) · [功能目录](docs/CAPABILITIES.md) · [参与贡献](CONTRIBUTING.md)
 
 ![Music Intelligence 工作区](docs/media/music-home.png)
 
+## 一个工作区，从音乐素材到可编辑旋律
+
+你可能想研究一段音乐的能量起伏，也可能已经有了和声，却还没有满意的旋律。Music Intelligence 把素材试听、音乐分析、规则辅助创作和音符编辑放在一起：先理解你手中的材料，再决定自己想做出的改变。
+
+### 听见素材，再读懂变化
+
+导入自己的 WAV，在工作区播放、暂停并定位到感兴趣的位置。分析报告提供响度、能量与节奏变化、调性候选等参考，让你有依据地选择要继续研究的部分。例如，先找出从平静走向密集的段落，再决定新旋律应该保持空间，还是增加活动感。
+
+分析结果可以主动保存，之后从保存列表重新打开。估计性的节奏与调性信息作为候选呈现；创作上的取舍由你决定。
+
+### 用约束创建候选，用编辑形成自己的旋律
+
+输入调性、和声进行、节奏倾向、长度与密度，规则辅助创作会据此组织音符。和声影响候选音的选择，节奏条件影响落点，密度影响音符活动程度；改变 Seed 可以探索另一组候选，保留相同设置便于比较。
+
+生成以后继续进入 Piano Roll：选择一个音符或一组音符，移动音高和起点、调整时值与力度，撤销不合适的修改，再试听乐句。给满意的结果命名并保存乐谱，或导出 MIDI 带入自己的制作工程。这些步骤让候选旋律成为可以继续打磨的材料。
+
+### 从音频提取可以调整的音符
+
+想研究已有乐器旋律时，可以在组件管理中安装并配置 Basic Pitch，再把音频转录到同一个 Piano Roll。先阅读组件许可并确认安装，随后检查组件状态，再开始转录。得到的音符仍可由你审阅、调整与导出。
+
+```mermaid
+flowchart TD
+    A[导入自己的 WAV 素材] --> B[播放、暂停与定位]
+    B --> C[查看响度、能量与节奏分析]
+    C --> D[选择创作方向]
+    D --> E[设置和声、节奏、密度与 Seed]
+    E --> F[创建规则辅助旋律]
+    B -. 安装并配置 Basic Pitch .-> T[从音频转录音符]
+    F --> G[Piano Roll 审阅与编辑]
+    T --> G
+    G --> H[试听并保存乐谱]
+    H --> I[导出 MIDI，继续制作]
+```
+
+实线是独立工作区中的试听、创作与编辑流程；虚线是可选转录分支。分析报告帮助你构思，创作设置由你选定；图中的箭头不表示分析报告会自动决定旋律参数。
+
 <details>
-<summary>音乐分析、Piano Roll 编辑与组件管理</summary>
+<summary>查看分析报告、Piano Roll 与组件管理</summary>
 
 ![音乐分析](docs/media/analysis-report.png)
 ![Piano Roll 编辑](docs/media/piano-roll.png)
@@ -32,64 +63,117 @@ Music Intelligence 将试听、分析、旋律创作与编辑放在一个工作�
 
 </details>
 
-[完整体验流程](docs/DESKTOP.md) · [素材到旋律的演示](docs/DEMOS.md) · [图片来源](docs/media/README.md)
+## 让 AI 参与真实的 FL Studio 工作流
 
-## 你可以做什么？
+假设你正在为一个乐器准备新的旋律想法。除了得到一份 MIDI 文件，你还希望 Agent 知道应当操作哪个 Pattern、哪一个 Channel，以及这次动作在宿主里实际发生了什么。DAWLoop 的 Runtime 为这类任务提供音乐计划、目标检查、执行适配和观察记录。
 
-| 工作 | 使用方式 |
+这是项目另一条独立入口：开发者配置执行后端，把自己的 Agent 接入运行中的 FL Studio。Desktop 的本地编辑器与 Runtime 宿主操作各有工作流程，音乐计划和明确目标把它们放在同一个项目方向之下。
+
+### 从“想改什么”到“准备怎样操作”
+
+Agent 先把用户意图整理为具体计划：预期音符、节奏位置、持续时间、力度、目标声部以及允许的动作。DAWLoop Core 用音乐网格、绝对 tick 和 Note Plan 表达这些信息，让“在下一小节加一个短句”成为可以检查的操作数据。
+
+| 常见 MIDI 文件流程 | 面向真实宿主的 Agent 工作模式 |
 | --- | --- |
-| 理解音乐素材 | 导入与试听音频，查看响度、节奏变化、调性候选和分析报告 |
-| 创作旋律 | 根据和声、节奏、密度与 Seed 约束生成规则辅助旋律 |
-| 编辑 MIDI | 在 Desktop Piano Roll 审阅音符、调整音高与力度、撤销、试听并导出 MIDI |
-| 转录音符 | 在组件管理中一键安装 Basic Pitch，把音频转为可编辑音符 |
-| 操作真实 DAW | 通过 Runtime 的 FL Studio 执行后端进行目标明确的宿主交互 |
-| 构建音乐 Agent | 将结构化计划、目标约束、状态观察与结果验证接入自己的 Agent |
+| 生成 MIDI，用户获取文件并导入 | Agent 提交结构化音乐计划 |
+| 用户选择乐器、位置与接收对象 | Runtime 检查目标与上下文 |
+| 用户在 DAW 中检查结果并继续修改 | 执行后端派发受支持的动作，观察者记录结果 |
+| 再次生成或手动编辑 | 人工或 Agent 根据报告选择继续、修改计划或停止 |
 
-FL Studio MCP 是执行路径之一，提供 transport、Channel、Piano Roll、Mixer 与已加载插件参数等接口。DAWLoop 自有 Controller 补充现有 Pattern 的识别和导航，把操作放在明确目标与人工审阅的流程中。[功能与集成范围](docs/CAPABILITIES.md)
+这张对照表说明两种操作组织方式。具体宿主路径按照各自的目标、授权和观察合同运行。
 
-## 为什么选择 DAWLoop？
+### 先弄清 Pattern 与 Channel
 
-### 把音乐意图带进制作流程
+Pattern 决定当前编辑的片段，Channel 决定片段中的乐器。即便 Channel Rack 选中了某个通道，也仍需要确认打开的 Piano Roll 指向哪里。
 
-- **从计划到操作：**用 Note Plan 和目标约束表达音乐意图，再通过执行适配器交给真实 DAW 的受支持操作。Agent 开发者可以复用这条路径，把自己的规划接入宿主。
-- **从操作到核验：**记录操作目标，独立读取实际状态，再比较计划与结果。`PASS / STOP` 帮助 Agent 决定下一步；执行成功回执本身不是结果证明。[验证范围](docs/CAPABILITIES.md)
-- **从分析到编辑：**在独立 Desktop 工作区试听、分析、创作并编辑 MIDI，同时通过开放 Runtime 扩展 Agent 工作流。两者提供不同使用入口；真实 DAW 集成单独配置。
+DAWLoop Controller 读取当前工程上下文、Pattern 编号与名称、Channel 全局索引与名称、PPQ 和加载会话信息。已有目标导航按“选已有 Pattern → 独占选择 Channel → 定向打开 Piano Roll”组织；前后身份读取与界面观察一起帮助核对实际目标。导航已有对象与创建新对象是分别管理的能力。
 
-[查看素材分析与 MIDI 编辑流程](docs/DEMOS.md) · [查看真实 FL Studio 研究记录](evidence/public/fast_session_7.json)
+### 谁把动作送进 FL Studio？
 
-### Brain / Hands / Ears
+固定版本的 Community FL Studio MCP 提供 transport、Channel、Piano Roll、Mixer 和已加载插件参数等工具接口。DAWLoop 在这些工具周围补充计划、目标检查、结果转换与验证规则；自有 Controller 提供身份与导航能力。另一个 Native 研究路径通过 Gopher 桥接派发受限操作，并保留人工预览和接受步骤。
 
-| 层次 | 为制作工作带来什么 |
-| --- | --- |
-| **Brain — 音乐规划与 Agent 规则** | 用音乐网格、Note Plan 与约束表达意图，组织下一步动作 |
-| **Hands — DAW 执行与控制** | 连接真实 FL Studio，将计划转为受支持的宿主操作 |
-| **Ears — 分析与制作辅助** | 用 MIDI、编排与音频测量理解素材，为下一轮计划提供输入 |
+```mermaid
+flowchart TD
+    U[用户与 AI Agent] --> P[Brain：音乐意图与结构化计划]
+    P --> R[DAWLoop Runtime：目标、授权与执行组织]
+    R --> T[目标识别与已有目标导航]
+    T <--> C[DAWLoop Controller]
+    C <--> FL[运行中的 FL Studio]
+    R --> E{按操作选择执行后端}
+    E --> M[Community FL Studio MCP]
+    M --> CM[MIDI RPC 或 Piano Roll 脚本触发]
+    CM <--> FL
+    E --> N[Native Gopher 桥接]
+    N <--> FL
+    FL --> O[观察状态与适用读回]
+    O --> V[按对应合同检查并报告]
+    V --> U
+```
 
-三层将创作意图、实际操作和反馈连接起来，Agent 可以利用熟悉的工具接口扩展工作流。
+这是按源码职责整理的执行架构图。Controller 的目标通道、Community 工具和 Native 桥接并行分工；不同操作使用不同的调用及回读路径。Community Piano Roll 还涉及请求队列、宿主脚本触发和状态文件，详见连接指南。
 
-### 操作之后，核对结果
+### 操作已发送之后，还需要知道什么？
 
-**Plan → Execute → Observe → Verify → Iterate**
+工具回报请求已接收，回答的是执行过程中的一个问题；音乐目标是否达成，还需要观察动作落到了哪里、取得什么实际状态，以及这些信息能否与原计划对应。
 
-工具回复“成功”只是执行信息。DAWLoop 的验证模块比较计划与实际事件，以 **PASS / STOP** 帮助 Agent 决定继续、停止或重新规划。人工审阅保留在需要确认的宿主操作中。
+具备完整事件读回时，Exact-Set 比较器会核对计划与实际音符的起点、时值、音高、力度和重复次数。**PASS** 表示对应规则下取得了足够依据并满足条件；**STOP** 表示出现差异、目标不明确或缺少继续判断所需的信息。执行与观察记录也有各自的状态，报告会保留它们的真实范围。
 
-[架构](docs/ARCHITECTURE.md) · [验证模型](docs/VERIFICATION.md) · [公开证据](evidence/public/README.md)
+```mermaid
+flowchart TD
+    A[理解用户目标] --> B[形成音乐计划]
+    B --> C[核对 Pattern、Channel 与上下文]
+    C --> H[用户确认需要授权的动作]
+    H --> E[执行一次受支持的操作]
+    E --> O[独立取得执行后的观察]
+    O --> Q{取得完整事件读回？}
+    Q -->|是| V[比较计划与实际事件]
+    V --> P[报告 PASS 或 STOP]
+    Q -->|否| S[记录执行与观察状态，保留验证边界]
+    P --> D[人工或 Agent 决定下一步]
+    S --> D
+    D -. 修改计划 .-> B
+    D --> X[停止，保留本次记录]
+```
+
+这张图解释 Agent 如何使用反馈。完整事件比较与限定观察记录分别报告，人工审阅保留在需要授权的动作之前。后续尝试形成新的计划和记录，保留此前发生过的结果。
+
+### 一个实际执行过的受限场景
+
+维护者曾在专用测试工程中，选定已有 Pattern 1 和 808 Kick，以 PPQ 96 准备第 5–8 小节的固定 16-note 短句。Runtime 核对上下文，组织目标导航，派发一次受控操作；用户查看宿主预览并人工接受，随后取得应用观察和完成回调，用户也确认试听结果。
+
+公开记录保留了“一次派发、零重试、零 fallback”和实际终态 `COMPLETED_UNVERIFIED`。这份案例展示真实宿主中的执行、人工接受与观察如何衔接；完整音符集合比较的状态在同一记录中保留为 `NOT_VERIFIED`。
+
+运行此类宿主实验前，必须备份数据、使用获准的专用测试工程并确认 Pattern、Channel 和操作范围。安装后端本身不授予对当前作品写入的权限。
+
+[阅读完整操作故事](docs/DEMOS.md) · [原始公开摘要](evidence/public/fast_session_7.json) · [执行原理与消息时序](docs/FL_STUDIO_MCP.md) · [宿主部署与权限](docs/DEPLOYMENT.md)
+
+## 为什么把这些能力放在一起？
+
+**从计划到操作：**结构化音乐意图可以交给执行适配器，由受支持的后端参与真实 DAW 操作。
+
+**从操作到核验：**目标、执行回执、实际观察和验证结论分别保留，Agent 能根据它们判断下一步，而不是只消费一个“成功”字符串。
+
+**从音乐分析到编辑：**创作者有独立的试听与编辑工作区，开发者有可扩展的 Runtime。Brain 组织计划与规则，Hands 连接宿主，Ears 以 MIDI、编排和音频分析为下一轮制作提供信息。
+
+[架构解释](docs/ARCHITECTURE.md) · [Production Pipeline](docs/PRODUCTION_PIPELINE.md) · [功能与源码](docs/CAPABILITIES.md)
 
 ## 开始使用
 
-### 下载 Desktop Alpha
+### 音乐创作者：下载 Desktop
 
 [Windows x64 便携版 ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.2/DAWLoop%2B0.5.6-alpha.2-Windows-x64-Portable.zip) · [发行说明与校验和](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2)
 
-1. 解压完整程序目录，运行 `DAWLoop.exe`。
-2. 在 Music Intelligence 的组件管理中阅读许可并确认安装基础组件。
-3. 导入 WAV，试听并分析；安装 Basic Pitch 后可转录为音符，在 Piano Roll 编辑并导出 MIDI。
+程序未签名。运行前核对官方来源和 `SHA256SUMS.txt`，保留系统安全保护；升级前备份用户数据。
 
-无需 Codex、Node 或系统 Python。软件未签名；遇到未知发布者提示时先核对官方来源与校验和，保留系统安全保护。[首次运行指南](docs/DESKTOP.md)
+1. 解压完整程序目录并运行 `DAWLoop.exe`。
+2. 在 Music Intelligence → 组件管理阅读许可，确认安装基础组件；需要转录时再安装 Basic Pitch。
+3. 导入 WAV，试听与分析，或创建旋律进入 Piano Roll，保存并导出 MIDI。
 
-### 试用开发者 Runtime
+[Desktop 使用指南](docs/DESKTOP.md) 按界面展开每一步，无需安装系统 Python、Node 或 Codex。
 
-Python 3.11+。先运行合成素材示例，生成分析、profile 和音乐计划：
+### 开发者：先运行 Runtime 例子
+
+Python 3.11+。以下例子使用合成数据，生成分析、profile 与音乐计划：
 
 ```powershell
 git clone https://github.com/ryurikoneko/DAWLoop.git
@@ -99,31 +183,22 @@ python -m venv .venv
 .\.venv\Scripts\python.exe learning/examples/generic_learning/run.py --output workspace/personal/demo-v1
 ```
 
-Linux/macOS 使用 `python3 -m venv .venv` 和 `.venv/bin/python`。输出目录须为新目录。[Quickstart](docs/QUICKSTART.md) · [FL Studio 设置](docs/FL_STUDIO_SETUP.md) · [部署指南](docs/DEPLOYMENT.md)
+Linux/macOS 使用 `python3 -m venv .venv` 和 `.venv/bin/python`。每次选择尚不存在的输出目录。
 
-## 为创作者与开发者而设计
+[Quickstart](docs/QUICKSTART.md) · [FL Studio 设置](docs/FL_STUDIO_SETUP.md) · [贡献](CONTRIBUTING.md) · [路线图](docs/ROADMAP.md)
 
-- **音乐创作者：**在一个工作区中试听、分析、创作和编辑，保留对音乐结果的选择。
-- **Agent 开发者：**复用音乐合同、执行适配器与验证接口，接入自己的工具调用模型。
-- **开源贡献者：**改进编辑体验、兼容性、分析方法或 DAW 集成。[贡献指南](CONTRIBUTING.md)
+## 开源与致谢
 
-## 产品方向
+项目自有代码采用 [MIT 许可证](LICENSE)。品牌与部分图像的独立声明见 [品牌政策](TRADEMARKS.md)、[许可范围](LICENSE_POLICY.md) 和 [媒体说明](docs/media/README.md)。
 
-持续改善首次安装与组件管理，扩展可验证的 FL Studio 工作流，完善 Agent 规划，并研究音乐检索、分析与生成。[路线图](docs/ROADMAP.md)
+感谢 [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) 的社区 FL Studio 控制工作，以及 Bilibili 创作者 [坏影子不坏](https://space.bilibili.com/599132499)（UID 599132499）的 [DSH 工作流展示](https://www.bilibili.com/video/BV1PTht6cENP/)。其制作实践启发 Production Pipeline；部分通用分析代码改编自其提供的 MIT 许可 `whale-music-pipeline`，保留原作者通知。
+
+[完整致谢](docs/ACKNOWLEDGEMENTS.md) · [第三方通知](THIRD_PARTY_NOTICES.md) · [来源](PROVENANCE.md) · [安全](SECURITY.md) · [术语](docs/GLOSSARY.md)
 
 ## 当前版本说明
 
-- Desktop **0.5.6-alpha.2** 已公开为 Windows x64 Pre-release；维护者 Windows 环境已运行，独立干净 Windows 兼容性尚待验证。
-- 随包基础组件支持 WAV 分析；Basic Pitch 支持阅读许可后应用内一键安装、真实音符转录、Piano Roll 编辑和 MIDI 导出。无需安装系统 Python。
-- Desktop 内置 Piano Roll 用于本地 MIDI 编辑；真实 FL 控制通过独立 Runtime 集成。通用自动混音、任意工程自主控制及完整风格学习属于后续研究。
-- 已有 FL 现场研究和离线验证各有明确范围；后端工具能力与宿主验证记录分别列在 [能力页](docs/CAPABILITIES.md)。Alpha.2 Preview 更新提醒已获独立批准，仅面向选择 Preview 且尚未升级的受支持客户端；下载和安装由用户主动完成。
-- [Alpha.1 历史发行](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1) 保留，旧附件不替换。
-- 展示截图来自此前开发版本。Desktop 源码在 [发行标签](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.2)，Python Runtime 在 main。[详细版本与安装说明](docs/DESKTOP.md)
-
-## 开源、贡献与致谢
-
-项目自有代码采用 [MIT 许可证](LICENSE)。品牌与部分图片使用独立声明，见 [品牌政策](TRADEMARKS.md)、[许可范围](LICENSE_POLICY.md) 和 [媒体说明](docs/media/README.md)。
-
-感谢 [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) 的 FL Studio 控制工作，以及 Bilibili 创作者 [坏影子不坏](https://space.bilibili.com/599132499)（UID 599132499）的 [DSH 工作流展示](https://www.bilibili.com/video/BV1PTht6cENP/)。其制作实践启发了 Production Pipeline；部分通用分析代码改编自其提供的 MIT 许可 `whale-music-pipeline`，保留原作者通知。
-
-[贡献](CONTRIBUTING.md) · [Issues](https://github.com/ryurikoneko/DAWLoop/issues) · [完整致谢](docs/ACKNOWLEDGEMENTS.md) · [第三方通知](THIRD_PARTY_NOTICES.md) · [来源](PROVENANCE.md) · [安全](SECURITY.md)
+- Desktop **0.5.6-alpha.2** 是公开 Windows x64 Pre-release；维护者环境已有运行记录，独立干净 Windows 兼容性仍待确认，程序未签名。
+- 基础分析支持 WAV；Basic Pitch 可在确认许可后安装，适合乐器素材，转录结果需要音乐审阅。
+- Desktop 与 Python Runtime 分别交付；本文宿主图说明工作模式，具体 FL 现场范围以固定测试记录和 [验证文档](docs/VERIFICATION.md) 为准。
+- 通用自主制作、任意工程连续控制及完整自动混音属于 [后续方向](docs/ROADMAP.md)。
+- 截图来自此前开发版本；Desktop 源码见 [Alpha.2 标签](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.2)，Runtime 在 main。更新提示仅按版本、渠道与维护者批准匹配，不自动安装。

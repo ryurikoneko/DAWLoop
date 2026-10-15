@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest a scoped improvement to DAWLoop.
+description: Suggest a music workflow or developer experience to improve.
 title: "[Feature]: "
 body:
   - type: markdown
@@ -8,13 +8,13 @@ body:
   - type: textarea
     id: problem
     attributes:
-      label: Problem to solve
+      label: What are you trying to create or do?
     validations:
       required: true
   - type: textarea
     id: proposal
     attributes:
-      label: Proposed behavior
+      label: What would make this task easier?
     validations:
       required: true
   - type: dropdown

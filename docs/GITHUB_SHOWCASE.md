@@ -1,38 +1,48 @@
-# GitHub 产品展示 / GitHub presentation
+# GitHub 展示建议 / Repository presentation proposals
 
-面向音乐创作者和开发者，让读者先理解工具能帮助完成什么，再进入技术与验证资料。
+本页把实际仓库元数据与建议分开。About、Topics与Social Preview设置由维护者审阅后操作；文档中的候选不代表已上传或已生效。
 
-Present DAWLoop to creators and developers through useful workflows, with technical evidence one link away.
+This page separates observed metadata from proposals. The owner reviews About, Topics and Social Preview changes; a candidate documented here is not a deployed setting.
 
-## About
+## About：实际描述与候选 / Current description and candidates
+
+2026-10-15读取到的描述为： / Description observed on 15 October 2026:
 
 > AI-assisted music creation and verifiable DAW automation. Windows Desktop Alpha and an open Python Runtime.
 
-仓库 About 使用上述定位；Website 留空，下载入口指向官方 Releases。
+建议候选： / Candidates:
 
-The repository About uses this positioning. Website remains empty; downloads use official Releases.
+1. **推荐 / Recommended:** “Music creation, MIDI editing and real DAW automation for AI agents, with structured plans, observation and verification.”
+2. “An open framework connecting music analysis, editable melodies and verifiable AI-agent workflows in real DAWs.”
+3. “Create and edit music in Desktop. Build AI agents that plan, act and verify inside real DAWs.”
+
+第一句同时介绍创作、编辑、宿主执行和Agent方法，长度适合GitHub描述。Website目前为空，可继续保留，主要下载入口使用官方Releases。
+
+The recommended sentence covers creation, editing, host execution and the agent method within GitHub's description limit. Website is currently empty and can remain so; use official Releases for downloads.
 
 ## Topics
 
-保留现有有效topics：ai-agent、ai-agents、ai-music、audio-to-midi、automation、daw、experimental、mcp、midi、music-analysis、music-production、python。可增加 `fl-studio`、`electron`、`music-creation`；Desktop源码已公开在发行标签。避免autonomous/certified等未经依据的状态词。
+当前：`ai-agent`, `ai-agents`, `ai-music`, `audio-to-midi`, `automation`, `daw`, `experimental`, `mcp`, `midi`, `music-analysis`, `music-production`, `python`。
 
-Retain current valid topics; consider fl-studio, electron and music-creation now that Desktop source is public at its release tag. Topic recommendations do not change repository settings.
+建议保留已有主题，增加 `fl-studio`、`music-creation`、`electron`。依据分别为当前FL适配、Desktop创作工作流与公开Desktop标签中的Electron源码。避免把产品愿景作为已实现主题。
 
-## Social Preview
+Keep existing topics and consider `fl-studio`, `music-creation` and `electron`, reflecting the adapter, creator workflow and public Desktop source. Do not use aspirations as implemented-feature topics.
 
-[现有品牌卡片](media/social-preview.png)为1280×640极简黑底白字，与正式Logo及Hero视觉一致。保留现有图像；未来文字版可采用“Music Intelligence · MIDI Creation · Verifiable DAW Automation”。
+## Social Preview：现状与排版 / State and layout
 
-The existing minimal brand card matches the selected visual identity. A future text variant may use the tagline above.
+2026-10-15 GitHub返回 `usesCustomOpenGraphImage=false`，使用生成式仓库卡片。[已有PNG](media/social-preview.png)在仓库中，尚不能据此声称设置已上传。
 
-实际上传状态与页面核验结果见本PR的 [展示审阅记录](PUBLIC_PRESENTATION_REVIEW.md)。维护者可在 Settings → General → Social preview 上传已有图片；仓库存在PNG与设置已生效分别核对。
+GitHub reported `usesCustomOpenGraphImage=false` on that date, using a generated repository card. The existing PNG is a repository asset rather than evidence of an uploaded custom setting.
 
-Actual settings verification is recorded in the review document. Uploading remains a separate maintainer action.
+建议保留黑白背景与青色圆环Logo，制作或选用1280×640卡片：DAWLoop作主标题；下方以“Music Intelligence · AI Music Creation”为第一行，“Verifiable DAW Automation”为第二行；保持大字号与留白，版权署名置于角落。缩小后应先读到名称和三个方向，不放版本、内部状态或无依据排名。
 
-## 页面与发行
+Keep the monochrome background and cyan ring logo in a 1280×640 card: DAWLoop as the title, followed by “Music Intelligence · AI Music Creation” and “Verifiable DAW Automation.” Use large text and space, with a small copyright credit. Avoid version numbers, internal states and unsupported rankings.
 
-- 首屏：项目价值、语言切换、真实CI/MIT/Alpha、Desktop下载和Runtime入口。
-- 产品截图：Music Intelligence主页在前，其余折叠展示；来源链接集中。
-- 当前版本说明：每个产品页一个简短章节，准确描述公开Alpha与可选模型。
-- Release 采用已批准的产品介绍顺序：[当前文案与后续指南计划](RELEASE_COPY_PROPOSAL.md)。已发布资产和包内指南保持不变。
+## 维护者操作清单 / Owner checklist
 
-[公开写作规范](PUBLIC_CONTENT_STYLE.md) · [改造清单](PUBLIC_CONTENT_AUDIT.md) · [历史配置记录](archive/public-presentation-20261014/docs__GITHUB_SHOWCASE.md.txt)
+- 审阅About候选和新增Topics，再修改Settings。 / Review description and topic candidates before applying settings.
+- 按 [媒体许可](media/README.md) 审阅卡片，上传后重新核对实际社交预览。 / Review media terms and verify the actual card after upload.
+- 审阅 [Alpha.2 Release文案建议](RELEASE_COPY_v0.5.6-alpha.2_PROPOSAL.md)，另行批准后才修改已发布正文。 / Review the separate release proposal before approving a published-copy change.
+- 保持资产、标签、哈希、原始证据与通知审批独立。 / Keep assets, tags, hashes, evidence and notification approvals independent.
+
+[公开写作规范](PUBLIC_CONTENT_STYLE.md) · [媒体与来源](media/README.md)

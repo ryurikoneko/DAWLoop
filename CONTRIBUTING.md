@@ -1,6 +1,15 @@
 # Contributing
 
-Help improve music workflows, editing, analysis or DAW integration. Start with the [Runtime Quickstart](docs/QUICKSTART.md), [Desktop source tag](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.1) and [public writing guide](docs/PUBLIC_CONTENT_STYLE.md). Document the behavior and verification scope of your contribution.
+Help improve music workflows, editing, analysis or DAW integration. Start with the [Runtime Quickstart](docs/QUICKSTART.md), [Desktop source tag](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.2) and [public writing guide](docs/PUBLIC_CONTENT_STYLE.md). Document the behavior and verification scope of your contribution.
+
+## Choose a contribution / 选择贡献方向
+
+- **Creator workflows:** share a reproducible editing or analysis task and the result you need. Start with [Desktop](docs/DESKTOP.md) and [Demos](docs/DEMOS.md).
+- **Runtime and analysis:** add a musical contract, analyzer or synthetic fixture. Start with [Quickstart](docs/QUICKSTART.md) and [Production Pipeline](docs/PRODUCTION_PIPELINE.md).
+- **FL integration:** study targets, execution paths and applicable readback before proposing an adapter change. Start with [Architecture](docs/ARCHITECTURE.md) and [FL integration](docs/FL_STUDIO_MCP.md).
+- **Documentation and translation:** improve task explanations, diagrams and bilingual terminology using the [Glossary](docs/GLOSSARY.md).
+
+欢迎创作工作流反馈、分析与Runtime实现、宿主适配、合成测试素材及文档翻译。请说明用户想完成什么、预期与实际结果，并遵守下文的安全、来源和验证要求。
 
 ## Development setup
 
