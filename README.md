@@ -48,11 +48,9 @@ DAWLoop 把音乐分析、旋律创作和 MIDI 编辑放进一个工作区，并
 ```mermaid
 flowchart TD
     A[导入 WAV<br/>试听与定位] --> B[查看音乐分析]
-    B --> C[选择和声<br/>节奏与密度]
-    C --> D[创建旋律候选]
-    A -. 已配置 Basic Pitch .-> T[转录音符]
+    B --> C[选择和声与节奏]
+    C --> D[生成或转录旋律]
     D --> E[Piano Roll<br/>编辑与试听]
-    T --> E
     E --> F[保存乐谱<br/>导出 MIDI]
 ```
 
@@ -77,10 +75,10 @@ Pattern 决定音乐片段，Channel 决定乐器。Controller 读取真实身�
 
 ```mermaid
 flowchart TD
-    A[用户指定已有目标] --> B[读取 Pattern 编号与名称]
-    B --> C[读取 Channel 索引与名称]
-    C --> D[导航至目标 Piano Roll]
-    D --> E[重新核对身份与可见目标]
+    A[选择已有目标] --> B[读取 Pattern<br/>编号与名称]
+    B --> C[读取 Channel<br/>索引与名称]
+    C --> D[导航至 Piano Roll]
+    D --> E[核对身份与界面]
 ```
 
 ### 谁把操作送进 FL Studio？
@@ -89,36 +87,29 @@ Community FL Studio MCP 提供 transport、Channel、Piano Roll、Mixer 与已�
 
 ```mermaid
 flowchart TD
-    R[DAWLoop<br/>Runtime] --> C[Controller<br/>身份与导航]
-    C <--> F[真实运行的<br/>FL Studio]
-    R --> M[Community<br/>FL Studio MCP]
-    M --> T[MIDI RPC 或<br/>Piano Roll 脚本]
-    T <--> F
-    R --> N[Native Gopher<br/>桥接]
-    N <--> F
-    F --> O[观察与适用读回]
+    A[DAWLoop 音乐计划] --> B[确认目标与权限]
+    B --> C[选择执行后端]
+    C --> D[派发宿主操作]
+    D --> E[真实 FL Studio]
+    E --> F[取得实际观察]
 ```
 
-三条分支分别负责目标准备、Community 工具调用与 Native 操作；实际请求按所选后端进入宿主。
+Controller 负责身份与导航；实际操作按所选 Community 或 Native 后端进入宿主。[完整后端架构](docs/FL_STUDIO_MCP.md#execution)保留各条路径及其边界。
 
 ### 执行与反馈怎样衔接？
 
 下面用 Native 流程说明消息顺序：先明确任务与目标，再派发操作；用户审阅宿主预览，随后取得完成信息与实际观察。
 
 ```mermaid
-sequenceDiagram
-    participant U as 用户
-    participant D as DAWLoop
-    participant F as FL Studio
-    U->>D: 音乐目标与授权
-    D->>F: 读取并导航目标
-    F-->>D: 实际目标状态
-    D->>F: 经 Native 后端派发
-    F-->>U: 呈现操作预览
-    U->>F: 人工审阅并接受
-    F-->>D: 完成信息与观察
-    D-->>U: 结果及下一步
+flowchart TD
+    A[明确任务与目标] --> B[派发 Native 操作]
+    B --> C[呈现宿主预览]
+    C --> D[人工审阅并接受]
+    D --> E[取得完成信息<br/>与应用观察]
+    E --> F[反馈给用户或 Agent]
 ```
+
+[完整消息时序](docs/FL_STUDIO_MCP.md#native-sequence)说明各参与方的交互。
 
 ### 观察之后，怎样决定继续？
 
@@ -126,19 +117,16 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
-    A[执行后观察] --> B{有完整事件读回？}
-    B -->|有| C[比较计划与<br/>实际音符]
-    C --> D[PASS / STOP]
-    B -->|其他观察| E[报告实际<br/>执行状态]
-    D --> F[人工或 Agent 判断]
-    E --> F
-    F -->|继续| G[准备下一轮计划]
-    F -->|停止| H[保留本次记录]
+    A[取得执行后观察] --> B[选择适用验证规则]
+    B --> C[核对目标与证据]
+    C --> D[保留本次结果]
+    D --> E[人工或 Agent 决策]
+    E --> F[继续、重规划或停止]
 ```
 
 ### 真实 FL Studio 写入测试
 
-DAWLoop 已完成真实 FL Studio 音符写入测试，验收通过。
+DAWLoop 已在真实 FL Studio 中完成受控音符操作的现场测试，涵盖目标确认、操作派发、人工接受及执行结果观察。
 
 <img src="docs/media/fl-write-case.zh.svg" alt="公开测试记录的目标、16音符合成计划与执行确认示意" width="680">
 

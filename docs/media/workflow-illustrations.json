@@ -11,7 +11,7 @@
       "src/dawloop/runtime/fast_music.py",
       "src/dawloop/adapters/fl_studio_mcp/adapter.py"
     ],
-    "sha256": "55c85c7aedeaddb4e32da17e19c42448e827263f5a6faeb8bc661eaa6b518689"
+    "sha256": "d802f5d351195fd70d1068811f8560b029a62a28cf478727f2558568f2f40298"
   },
   {
     "asset": "fl-agent-workflow.en.svg",
@@ -25,7 +25,7 @@
       "src/dawloop/runtime/fast_music.py",
       "src/dawloop/adapters/fl_studio_mcp/adapter.py"
     ],
-    "sha256": "281299d907a97e4dd6b5bf0281a0b8eb61379f7481c0ee99e8c8db9035ac877d"
+    "sha256": "3584f0750c102735793b18aa05c704aa0ad510d7be73c4961cec28c43e39b69f"
   },
   {
     "asset": "fl-write-case.zh.svg",
@@ -38,7 +38,7 @@
       "evidence/public/fast_session_7.json",
       "tests/native_fixtures/practical_16_note/rendered_source.py"
     ],
-    "sha256": "fb3f5158e59f56b9342012e903ec5fc1810f30ef22fcb3e2e04a13cb76273ced"
+    "sha256": "d3e7f71b924a068c2570bc66b8088a6745ccdaac007445de08974576d14c8641"
   },
   {
     "asset": "fl-write-case.en.svg",
@@ -51,6 +51,6 @@
       "evidence/public/fast_session_7.json",
       "tests/native_fixtures/practical_16_note/rendered_source.py"
     ],
-    "sha256": "d1365c153a59cb909a48a880622bdfc25b969569f9a1e65c20f740c2d39f3286"
+    "sha256": "1e72b877d20c6f87de8bfe3ef40e5a1410c29ee507564c165a73edae9fdde1f9"
   }
 ]

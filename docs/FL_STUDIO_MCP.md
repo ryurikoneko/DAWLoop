@@ -61,6 +61,8 @@ flowchart TD
 
 This is identification and navigation of existing objects. Target preparation associates before/after identity reads with separate UI observation rather than relying on a single selection flag.
 
+<a id="execution"></a>
+
 ## 实际通信路径 / The actual communication paths
 
 ### Controller 身份与普通 RPC / Identity and ordinary RPC
@@ -105,6 +107,8 @@ flowchart TD
 图中的分支来自不同执行实现，Controller 与 Community MCP 不是所有操作必经的串行组合。
 
 The branches represent separate implementations. Controller and Community MCP are not a mandatory serial chain for every operation.
+
+<a id="native-sequence"></a>
 
 ## 一次受限 Native 操作的信息流 / A constrained Native message sequence
 

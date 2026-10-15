@@ -5,21 +5,21 @@
 <rect width="680" height="688" rx="20" fill="#101923"/>
 <g font-family="Segoe UI,Microsoft YaHei,sans-serif">
 <text x="30" y="52" fill="#e7edf5" font-size="31" font-weight="650">A real write test: target to outcome</text>
-<text x="30" y="89" fill="#9db1c6" font-size="23" font-weight="400">Illustration based on the public test record</text>
+<text x="30" y="89" fill="#9db1c6" font-size="26" font-weight="400">Illustration based on the public test record</text>
 <rect x="28" y="118" width="624" height="106" rx="13" fill="#192938" stroke="#324c62"/>
-<text x="48" y="156" fill="#80dcd8" font-size="25" font-weight="400">Target</text>
-<text x="48" y="199" fill="#e7edf5" font-size="27" font-weight="600">Pattern 1   →   808 Kick   →   Piano Roll</text>
+<text x="48" y="156" fill="#80dcd8" font-size="28" font-weight="400">Target</text>
+<text x="48" y="199" fill="#e7edf5" font-size="30" font-weight="600">Pattern 1   →   808 Kick   →   Piano Roll</text>
 <path d="M340 230v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
 <rect x="28" y="264" width="624" height="198" rx="13" fill="#192938" stroke="#324c62"/>
 <text x="48" y="302" fill="#80dcd8" font-size="26" font-weight="400">Synthetic plan · 16 notes · PPQ 96</text>
 <rect x="48" y="326" width="144" height="56" fill="#101923" stroke="#324c62"/>
-<text x="100" y="418" fill="#c3d1df" font-size="23" font-weight="400">5</text>
+<text x="100" y="418" fill="#c3d1df" font-size="26" font-weight="400">5</text>
 <rect x="192" y="326" width="144" height="56" fill="#101923" stroke="#324c62"/>
-<text x="244" y="418" fill="#c3d1df" font-size="23" font-weight="400">6</text>
+<text x="244" y="418" fill="#c3d1df" font-size="26" font-weight="400">6</text>
 <rect x="336" y="326" width="144" height="56" fill="#101923" stroke="#324c62"/>
-<text x="388" y="418" fill="#c3d1df" font-size="23" font-weight="400">7</text>
+<text x="388" y="418" fill="#c3d1df" font-size="26" font-weight="400">7</text>
 <rect x="480" y="326" width="144" height="56" fill="#101923" stroke="#324c62"/>
-<text x="532" y="418" fill="#c3d1df" font-size="23" font-weight="400">8</text>
+<text x="532" y="418" fill="#c3d1df" font-size="26" font-weight="400">8</text>
 <rect x="48.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
 <rect x="102.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
 <rect x="120.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
@@ -36,10 +36,10 @@
 <rect x="543.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
 <rect x="552.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
 <rect x="606.0" y="343" width="4.5" height="22" rx="1" fill="#80dcd8"/>
-<text x="48" y="448" fill="#c3d1df" font-size="23" font-weight="400">Bars 5–8 · planned note positions</text>
+<text x="48" y="448" fill="#c3d1df" font-size="26" font-weight="400">Bars 5–8 · planned note positions</text>
 <path d="M340 468v23m-7-7 7 7 7-7" fill="none" stroke="#67d3cf" stroke-width="3"/>
 <rect x="28" y="502" width="624" height="118" rx="13" fill="#192938" stroke="#324c62"/>
-<text x="48" y="543" fill="#80dcd8" font-size="25" font-weight="400">Execution and confirmation</text>
-<text x="48" y="586" fill="#e7edf5" font-size="25" font-weight="600">Write → Human acceptance → Observation</text>
-<text x="30" y="660" fill="#9db1c6" font-size="23" font-weight="400">Source: public session 7 summary and synthetic plan</text>
+<text x="48" y="543" fill="#80dcd8" font-size="28" font-weight="400">Execution and confirmation</text>
+<text x="48" y="586" fill="#e7edf5" font-size="28" font-weight="600">Write → Human acceptance → Observation</text>
+<text x="30" y="660" fill="#9db1c6" font-size="26" font-weight="400">Source: public session 7 summary and synthetic plan</text>
 </g></svg>

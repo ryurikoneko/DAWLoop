@@ -47,13 +47,11 @@ Component Manager shows installation requirements and availability. Review the t
 
 ```mermaid
 flowchart TD
-    A[Import WAV<br/>Listen and seek] --> B[Explore<br/>music analysis]
-    B --> C[Choose harmony<br/>rhythm and density]
-    C --> D[Create a<br/>melody candidate]
-    A -. Basic Pitch configured .-> T[Transcribe<br/>notes]
+    A[Import WAV<br/>Listen and seek] --> B[Explore analysis]
+    B --> C[Choose harmony<br/>and rhythm]
+    C --> D[Create or<br/>transcribe notes]
     D --> E[Piano Roll<br/>Edit and audition]
-    T --> E
-    E --> F[Save a score<br/>Export MIDI]
+    E --> F[Save score<br/>Export MIDI]
 ```
 
 Reports inform your direction; you choose composition settings and edits. Optional transcription and rule-based creation lead into the same note-editing workflow.
@@ -77,10 +75,10 @@ The Pattern identifies the musical segment; the Channel identifies its instrumen
 
 ```mermaid
 flowchart TD
-    A[User selects an existing target] --> B[Read Pattern number and name]
-    B --> C[Read Channel index and name]
-    C --> D[Navigate to the target Piano Roll]
-    D --> E[Check identity and visible destination]
+    A[Choose a target] --> B[Read Pattern<br/>number and name]
+    B --> C[Read Channel<br/>index and name]
+    C --> D[Open target<br/>Piano Roll]
+    D --> E[Check identity<br/>and destination]
 ```
 
 ### What carries the operation into FL Studio?
@@ -89,36 +87,29 @@ Community FL Studio MCP exposes transport, Channel, Piano Roll, Mixer and loaded
 
 ```mermaid
 flowchart TD
-    R[DAWLoop<br/>Runtime] --> C[Controller<br/>Identity / navigation]
-    C <--> F[Running<br/>FL Studio]
-    R --> M[Community<br/>FL Studio MCP]
-    M --> T[MIDI RPC /<br/>Piano Roll script]
-    T <--> F
-    R --> N[Native Gopher<br/>bridge]
-    N <--> F
-    F --> O[Observation /<br/>readback]
+    A[DAWLoop plan] --> B[Confirm target<br/>and permission]
+    B --> C[Select backend]
+    C --> D[Dispatch operation]
+    D --> E[Real FL Studio]
+    E --> F[Observe outcome]
 ```
 
-The branches serve target preparation, Community tools and Native actions. Actual calls follow the chosen backend into the host.
+Controller supplies identity and navigation; host actions use the selected Community or Native backend. The [full backend architecture](docs/FL_STUDIO_MCP.md#execution) keeps the paths and their boundaries distinct.
 
 ### How do execution and feedback connect?
 
 This Native sequence starts with a task and destination, then dispatches the operation. The user reviews the host preview before completion information and application observation return to the workflow.
 
 ```mermaid
-sequenceDiagram
-    participant U as User
-    participant D as DAWLoop
-    participant F as FL Studio
-    U->>D: Goal and permission
-    D->>F: Read target and navigate
-    F-->>D: Actual target state
-    D->>F: Dispatch via Native
-    F-->>U: Show preview
-    U->>F: Review and accept
-    F-->>D: Completion and observation
-    D-->>U: Result and next decision
+flowchart TD
+    A[Task and target] --> B[Dispatch via Native]
+    B --> C[Show host preview]
+    C --> D[Human review<br/>and acceptance]
+    D --> E[Completion and<br/>app observation]
+    E --> F[Feedback to<br/>user or agent]
 ```
+
+The [full message sequence](docs/FL_STUDIO_MCP.md#native-sequence) shows the interaction between participants.
 
 ### How does the agent decide what comes next?
 
@@ -126,19 +117,16 @@ An acknowledgement describes execution; actual readback supports checking the mu
 
 ```mermaid
 flowchart TD
-    A[Post-action<br/>observation] --> B{Complete event<br/>readback?}
-    B -->|Yes| C[Compare planned<br/>and actual notes]
-    C --> D[PASS / STOP]
-    B -->|Other observation| E[Report actual<br/>execution state]
-    D --> F[Human / agent<br/>decision]
-    E --> F
-    F -->|Continue| G[Prepare next plan]
-    F -->|Stop| H[Retain this attempt]
+    A[Observe outcome] --> B[Select applicable<br/>verification rules]
+    B --> C[Evaluate target<br/>and evidence]
+    C --> D[Retain this result]
+    D --> E[Human or<br/>agent decision]
+    E --> F[Continue, re-plan<br/>or stop]
 ```
 
 ### A real FL Studio note-write test
 
-DAWLoop has completed a real FL Studio note-write test and passed acceptance.
+DAWLoop has completed a controlled note-operation test in real FL Studio, covering target confirmation, execution dispatch, human acceptance, and observation of the outcome.
 
 <img src="docs/media/fl-write-case.en.svg" alt="Illustration of the public test target, synthetic 16-note plan and execution confirmation" width="680">
 
