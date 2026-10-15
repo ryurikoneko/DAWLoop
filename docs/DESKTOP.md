@@ -56,7 +56,7 @@ Component Manager shows installation, version and job status. Explicitly saved r
 - 随包基础分析支持 WAV。音频预览与分析的格式支持分别管理；此版不承诺 MP3/FLAC 分析。 / Bundled analysis supports WAV; playback and analysis codec support are separate.
 - Basic Pitch 独立组件随包提供，安装前确认许可并校验文件；维护者本机全新隔离目录已完成真实转录、编辑、MIDI 导出读回与重启恢复。 / The isolated Basic Pitch component is included, installed after license consent and integrity checks; real transcription, editing, MIDI roundtrip and restart recovery passed in fresh directories on the maintainer’s Windows system.
 - Desktop Piano Roll 是本地编辑器；FL 操作按 [Runtime 部署](DEPLOYMENT.md) 独立配置与验证。通用自动混音和自主工程制作仍是研究方向。 / Local editing and live host integration are separate workflows.
-- 分析包含估计值，按报告来源与不确定性解读。公开 Windows 更新通知关闭，没有自动下载安装。 / Interpret estimates using their source and uncertainty; public notifications and automatic updates are disabled.
+- 分析包含估计值，按报告来源与不确定性解读。Alpha.2 Preview 提醒经独立批准，受用户设置与批准时效约束，没有自动下载安装。 / Interpret estimates using their source and uncertainty; Alpha.2 Preview reminders require user settings and an unexpired approval, with no automatic download or installation.
 - 截图来自此前开发版本。源码在 [公开发行标签](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.2)，main 为 Python Runtime 与项目文档。 / Screenshots are from an earlier build; Desktop source is at the release tag.
 
 Basic Pitch 适合乐器素材；复杂混音不等于多轨分离。 / Basic Pitch is intended for instrument material, not complete multi-track separation of complex mixes.

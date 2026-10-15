@@ -2,6 +2,12 @@
 
 <a id="current"></a>
 
+## Alpha.2 Preview 通知独立批准：2026-10-15
+
+维护者明确确认Windows人工通知测试完成，并授权仅v0.5.6-alpha.2、preview、Release 412979500的Windows Toast与应用内更新提示。批准ID dawloop-alpha2-preview-20261015，有效期七日，UTC起止时间见release_notifications/approvals/alpha2-preview-20261015.json；Stable、未来版本、自动下载安装均未批准。系统人工测试来源登记为MAINTAINER_CONFIRMED，不冒充代理直接观察或填造逐项结果。
+
+沿用schema v2及现有客户端权限、版本比较、去重、稍后提醒、五分钟批准时效与撤销机制，不新增常驻进程。公开Alpha.1/Alpha.2的内置简短文案不能由远端替换，指定文案独立登记。没有更新模块、未选择Preview、关闭更新检查或未主动开启系统通知的客户端不保证收到Toast；配置上线不等于全用户送达。旧Release、标签、九项发行附件不修改。最终PR及读回证据见本轮通知验收记录，详细撤销流程见release_notifications/README.md。
+
 ## 公开展示与Desktop分发独立门：2026-10-14
 
 用户本轮已授权推送文档分支、PR、保护规则合并及通过独立门的预览发布；此前禁止Push不沿用为本轮阻塞。公开Runtime业务基线1a99482保持，品牌/README候选从最新origin/main独立集成。Hero左下灰色版权署名，选定Logo和实际产品截图保留，个人权属PENDING_OWNER_REVIEW、不声称登记。

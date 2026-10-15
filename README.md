@@ -116,7 +116,7 @@ Linux/macOS 使用 `python3 -m venv .venv` 和 `.venv/bin/python`。输出目录
 - Desktop **0.5.6-alpha.2** 已公开为 Windows x64 Pre-release；维护者 Windows 环境已运行，独立干净 Windows 兼容性尚待验证。
 - 随包基础组件支持 WAV 分析；Basic Pitch 支持阅读许可后应用内一键安装、真实音符转录、Piano Roll 编辑和 MIDI 导出。无需安装系统 Python。
 - Desktop 内置 Piano Roll 用于本地 MIDI 编辑；真实 FL 控制通过独立 Runtime 集成。通用自动混音、任意工程自主控制及完整风格学习属于后续研究。
-- 已有 FL 现场研究和离线验证各有明确范围；后端工具能力与宿主验证记录分别列在 [能力页](docs/CAPABILITIES.md)。公开更新通知关闭，更新由用户主动完成。
+- 已有 FL 现场研究和离线验证各有明确范围；后端工具能力与宿主验证记录分别列在 [能力页](docs/CAPABILITIES.md)。Alpha.2 Preview 更新提醒已获独立批准，仅面向选择 Preview 且尚未升级的受支持客户端；下载和安装由用户主动完成。
 - [Alpha.1 历史发行](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1) 保留，旧附件不替换。
 - 展示截图来自此前开发版本。Desktop 源码在 [发行标签](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.2)，Python Runtime 在 main。[详细版本与安装说明](docs/DESKTOP.md)
 
