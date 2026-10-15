@@ -1,14 +1,50 @@
 {
   "schema_version": 2,
   "product": "dawloop-desktop",
-  "channel": "stable",
-  "version": null,
-  "release_id": null,
-  "notification_enabled": false,
-  "approved_by_owner": false,
-  "approved_owner": null,
-  "approval_command": null,
-  "active_approval_id": null,
-  "approvals": [],
+  "channel": "preview",
+  "version": "v0.5.6-alpha.2",
+  "release_id": 412979500,
+  "notification_enabled": true,
+  "approved_by_owner": true,
+  "approved_owner": "ryurikoneko",
+  "approval_command": "ENABLE_PUBLIC_UPDATE_NOTIFICATION",
+  "active_approval_id": "dawloop-alpha2-preview-20261015",
+  "approvals": [
+    {
+      "approval_id": "dawloop-alpha2-preview-20261015",
+      "owner": "ryurikoneko",
+      "command": "ENABLE_PUBLIC_UPDATE_NOTIFICATION",
+      "product": "dawloop-desktop",
+      "version": "v0.5.6-alpha.2",
+      "release_id": 412979500,
+      "channel": "preview",
+      "release_form": "prerelease",
+      "content_url": "https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2",
+      "approved_at": "2026-10-15T04:41:05.422455+00:00",
+      "expires_at": "2026-10-22T04:41:05.422455+00:00",
+      "authorization_source": "维护者于2026-10-15在当前对话明确批准，仅本次Alpha.2 Preview的Windows Toast及应用内提示。",
+      "acceptance": {
+        "status": "MAINTAINER_CONFIRMED",
+        "source": "维护者声明已完成Windows通知人工测试并批准上线",
+        "agent_direct_observation": false,
+        "per_case_results": "NOT_SEPARATELY_REPORTED"
+      },
+      "other_versions": "DISABLED",
+      "stable": "DISABLED",
+      "automatic_download_install": false,
+      "requested_content": {
+        "zh-CN": {
+          "title": "DAWLoop 推出重大更新",
+          "body": "v0.5.6-alpha.2 现已推出（实验性预览版）。\n全新音乐智能工作区、Basic Pitch 音频转 MIDI、Piano Roll 编辑体验。\n点击查看更新详情。"
+        },
+        "en-US": {
+          "title": "A major DAWLoop update is available",
+          "body": "v0.5.6-alpha.2 is now available as an experimental preview.\nExplore Music Intelligence, Basic Pitch audio-to-MIDI and Piano Roll editing.\nView update details."
+        }
+      },
+      "legacy_client_content": "已发布Alpha.1及Alpha.2客户端使用内置简短文案，不读取requested_content；本次不修改既有二进制。",
+      "delivery_scope": "仅运行中且自动检查开启、选择Preview、版本低于Alpha.2的受支持客户端；Windows Toast还需用户主动开启系统通知。"
+    }
+  ],
   "revocations": []
 }

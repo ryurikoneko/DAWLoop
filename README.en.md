@@ -116,7 +116,7 @@ Improve installation and component management, expand verifiable FL Studio workf
 - Desktop **0.5.6-alpha.2** is a public Windows x64 Pre-release. It has run in the maintainer's Windows environment; independent clean-Windows compatibility still awaits validation.
 - Bundled basic components support WAV analysis. Basic Pitch now offers in-app one-click installation after license review, real note transcription, Piano Roll editing and MIDI export, without system Python.
 - The Desktop Piano Roll edits local MIDI. Real FL control uses a separate Runtime integration. General AutoMix, arbitrary-project autonomous control and full style learning remain research directions.
-- Live FL research and offline verification have specific scopes, recorded separately from backend tool availability in [Capabilities](docs/CAPABILITIES.md). Public update notifications are disabled; updates remain user-initiated.
+- Live FL research and offline verification have specific scopes, recorded separately from backend tool availability in [Capabilities](docs/CAPABILITIES.md). Alpha.2 Preview reminders have version-specific approval for supported clients that select Preview and have not upgraded; downloads and installation remain user-initiated.
 - [Alpha.1 remains available](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1); its original assets are unchanged.
 - Screenshots show an earlier development build. Desktop source is at the [release tag](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.2); Python Runtime is on main. [Detailed release and installation scope](docs/DESKTOP.md)
 
