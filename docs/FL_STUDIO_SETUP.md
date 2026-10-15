@@ -101,3 +101,9 @@ Desktop notification approval is a separate product policy; see [Desktop](DESKTO
 - `LOOPMIDI_AUTOSTART_NOT_CONFIRMED`: check loopMIDI's own login-start option; DAWLoop does not edit undocumented configuration.
 
 Restart checks are intentionally separate: FL close/reopen; loopMIDI close/reopen followed by FL device refresh; Windows logout/login or reboot. The Windows restart case must be performed by the maintainer. DAWLoop does not close FL Studio or reboot the machine.
+
+## Experimental Native SysEx HELLO troubleshooting
+
+The experimental Native/SysEx read-only path is **separate from** the default DAWLoop Controller / MCP JSON-RPC installation documented above. If a dedicated Native HELLO test times out, **do not change the default MCP or FLSkill ports** and do not use a Mixer write as a connectivity probe.
+
+See [Native SysEx connection recovery: documented HELLO failure and recovery](NATIVE_SYSEX_CONNECTION_TROUBLESHOOTING.md) for the observed initialization/Guard evidence, an example of an extra FL Studio Output port assignment, a verified one-time HELLO recovery, and explicit uncertainty about the underlying cause. The documented 16ms success **does not** certify Mixer READ, Setter, or restart reliability.
