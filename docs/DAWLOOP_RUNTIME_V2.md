@@ -2,6 +2,10 @@
 
 <a id="current"></a>
 
+## 产品与工作流文档：2026-10-15
+
+当前公开Desktop为v0.5.6-alpha.2，Basic Pitch首次安装入口已随该版本恢复；源码在对应发行标签，Runtime main独立演进。下文10月14日的未公开、首装阻塞与候选状态属于当时记录。当前使用入口见[Desktop指南](DESKTOP.md)、[能力目录](CAPABILITIES.md)与[工作流演示](DEMOS.md)。Alpha.2 Preview的特定通知批准仍按下一节及原审批文件执行，本文档改造不改变审批或发送状态。
+
 ## Alpha.2 Preview 通知独立批准：2026-10-15
 
 维护者明确确认Windows人工通知测试完成，并授权仅v0.5.6-alpha.2、preview、Release 412979500的Windows Toast与应用内更新提示。批准ID dawloop-alpha2-preview-20261015，有效期七日，UTC起止时间见release_notifications/approvals/alpha2-preview-20261015.json；Stable、未来版本、自动下载安装均未批准。系统人工测试来源登记为MAINTAINER_CONFIRMED，不冒充代理直接观察或填造逐项结果。

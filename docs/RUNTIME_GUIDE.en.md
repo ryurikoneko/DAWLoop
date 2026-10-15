@@ -1,4 +1,4 @@
-> Runtime engineering guide retained from the previous homepage. See the [capability matrix](CAPABILITIES.md) for Desktop preview and public distribution status.
+> Runtime engineering guide retained from the previous homepage. See the [capability matrix](CAPABILITIES.md) for the public Desktop Alpha and current distribution status.
 
 # DAWLoop
 

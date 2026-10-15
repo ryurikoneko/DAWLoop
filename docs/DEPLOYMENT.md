@@ -4,7 +4,7 @@
 
 Choose Desktop for the music workspace, Python Runtime for planning/agents, and the host setup below for FL research.
 
-- [Desktop发行、组件与源码](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.1)
+- [Desktop发行、组件与源码](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2)
 - [Runtime Quickstart](QUICKSTART.md)
 - [FL一次性设置](FL_STUDIO_SETUP.md)
 - [能力与验证](CAPABILITIES.md)
@@ -14,6 +14,10 @@ Choose Desktop for the music workspace, Python Runtime for planning/agents, and 
 Use a disposable project, back up data and confirm the target before host actions. Installation grants no project-write permission. The contracts below retain identity, budgets, human acceptance, observation and failure handling.
 
 ## A. 离线部署：无需 FL Studio
+
+先运行合成素材例子，确认安装、Schema和输出目录工作正常。这给后续宿主研究提供独立的软件基线；不需要启动FL或准备真实作品。
+
+Start with the synthetic example to establish that installation, schemas and output paths work. It provides an independent software baseline before host integration, without opening FL or using a song project.
 
 ```powershell
 git clone https://github.com/ryurikoneko/DAWLoop.git
@@ -39,6 +43,10 @@ Python 3.11+；Linux/macOS 可使用 `.venv/bin/python` 跑离线合同。Native
 
 ## B. Controller：一次性安装与明确配置
 
+这一步让Python与FL中加载的脚本使用同一Settings目录。预览安装位置后再安装；完成后先看doctor的本地诊断，确认脚本和设备，再进入获准的只读身份检查。
+
+This step aligns Python with the Settings directory used by the loaded FL script. Preview the location, install, then inspect local doctor diagnostics before an authorized read-only identity check.
+
 取得 FL 当前活动 **Settings** 目录，不假设维护者路径，不混用多个配置根。
 
 ```powershell
@@ -52,6 +60,10 @@ Python 3.11+；Linux/macOS 可使用 `.venv/bin/python` 跑离线合同。Native
 `doctor --probe-fl` 只读生命周期记录，不发送身份 RPC。现场必须由运行中的 Controller 返回并核对 `controller_build_id / controller_session_id / project_generation`；磁盘 SHA 不代替加载版本。project_title 可空，仅为描述字段。
 
 ## C. Native FAST：受限研究接入
+
+Native路径用于目标与动作都受到限制的宿主实验。执行该流程会留下派发、人工接受和观察记录；它的结果应按FAST合同解释，不能从一次完成回调推导完整音符一致性。
+
+The Native path supports host experiments with bounded targets and actions. It produces dispatch, human-acceptance and observation records, interpreted under the FAST contract rather than inferring complete note equality from a completion callback.
 
 初始化 Gopher WebView 后，研究桥接从本机 CDP 发现唯一 Gopher 页面并核对 catalog/host generation；端口开放不等于可写。普通启动未必开放端点。
 
@@ -99,6 +111,10 @@ policy = {add_only: true, max_notes: 16, retry: 0, fallback_after_dispatch: 0}
 人工报告 **persisted ≠ claimed**；协调器实际领取才记 REALTIME。晚到报告不改写原终态。Agent 点击不冒充 HUMAN，报告工具不会点击 Accept。
 
 ## D. MCP stdio：接口可启动，live 仍暂停
+
+这是DAWLoop自己的Agent工具入口，服务于下述FAST合同；它与bundled Community FL Studio MCP后端是不同角色。客户端能列出工具或启动子进程，并不建立当前宿主的写入就绪状态。
+
+This is DAWLoop's own agent-tool entry point for the FAST contract below, distinct from the bundled Community FL Studio MCP backend. Starting the server or listing tools does not establish host-write readiness.
 
 ```powershell
 .\.venv\Scripts\dawloop-mcp.exe --settings-dir "<absolute active Settings directory>" --expected-build "<approved runtime build id>" --data-dir "<absolute private run directory>"

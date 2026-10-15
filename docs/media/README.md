@@ -25,8 +25,16 @@ Images and the original provenance manifest are unchanged. Screenshots use owned
 
 Use the existing license, scope and brand policies. Presentation changes grant no new asset rights or registration claims; earlier review and unresolved ownership records remain in the archive.
 
+## 工作流示意 / Workflow illustrations
+
+`fl-agent-workflow.zh.svg` / `.en.svg` 展示音乐目标到宿主反馈的六步流程；`fl-write-case.zh.svg` / `.en.svg` 将公开session 7的目标与合成计划画成示意。它们是可审阅SVG源码，不是FL Studio截图；计划音符位置来自已有合成fixture，不冒充实际事件读回。
+
+These editable SVGs explain the six-step host workflow and the recorded test target/plan. They are illustrations rather than host screenshots; the note positions come from the synthetic fixture. See [illustration sources](workflow-illustrations.json).
+
+新建技术示意图按根MIT许可发布，原有品牌与软件截图的许可保持不变。 / The new technical illustrations use the root MIT License; existing brand and screenshot terms are unchanged.
+
 ## Social Preview
 
-现有1280×640品牌卡片与Logo用途分别保留。GitHub设置状态见 [展示核验](../PUBLIC_PRESENTATION_REVIEW.md)；需要上传时由维护者在Repository Settings完成。
+现有1280×640品牌卡片与Logo用途分别保留。2026-10-15读取的GitHub设置仍为默认仓库卡片，未启用自定义Open Graph图片。候选排版与维护者操作见 [展示建议](../GITHUB_SHOWCASE.md)，旧 [展示核验](../PUBLIC_PRESENTATION_REVIEW.md) 保留其原日期的记录。
 
-The card and logo retain separate roles. Repository settings are verified separately from the PNG's existence.
+The card and logo retain separate roles. GitHub used its default repository card on 15 October 2026; see the presentation proposal for the separate owner upload action. Earlier review records retain their original dates.

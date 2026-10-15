@@ -1,5 +1,5 @@
 name: Live verification feedback
-description: Report a sanitized result from a real FL Studio test.
+description: Share the task, target and sanitized outcome of a real FL Studio test.
 title: "[Live test]: "
 body:
   - type: markdown
@@ -41,7 +41,7 @@ body:
   - type: textarea
     id: operation
     attributes:
-      label: Operation and planned state
+      label: Your task, operation and planned state
       description: Include only synthetic notes or sanitized operation details.
     validations:
       required: true

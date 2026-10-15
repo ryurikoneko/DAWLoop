@@ -1,4 +1,4 @@
-> 这是公开 Runtime 工程说明，保留原首页的技术内容。Desktop 内部预览与公开发行状态以 [能力表](CAPABILITIES.md) 为准。
+> 这是公开 Runtime 工程说明，保留原首页的技术内容。Desktop 公开 Alpha 与当前发行状态以 [能力表](CAPABILITIES.md) 为准。
 
 # DAWLoop
 

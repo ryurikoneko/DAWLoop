@@ -1,10 +1,10 @@
 ## Change summary
 
-<!-- What changes for users? -->
+<!-- 说明用户要完成的任务，以及提交后的行为。 -->
 
 ## Scope
 
-<!-- Which modules, adapters, or documents are affected? -->
+<!-- 说明改动面向Desktop、Runtime、宿主集成还是文档。 -->
 
 ## Tests and checks
 

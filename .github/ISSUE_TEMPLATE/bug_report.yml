@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a reproducible problem in DAWLoop.
+description: Tell us what you were trying to make and what happened.
 title: "[Bug]: "
 body:
   - type: markdown
@@ -32,14 +32,20 @@ body:
   - type: textarea
     id: steps
     attributes:
-      label: Steps to reproduce
-      description: Use synthetic data and remove personal paths or project names.
+      label: Your task and steps to reproduce
+      description: Describe your musical or development task, then list the steps. Use synthetic data and remove personal paths or project names.
     validations:
       required: true
   - type: textarea
-    id: expected_actual
+    id: expected
     attributes:
-      label: Expected and actual behavior
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead?
     validations:
       required: true
   - type: textarea
