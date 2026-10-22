@@ -35,6 +35,14 @@ These editable SVGs explain the six-step host workflow and the recorded test tar
 
 ## Social Preview
 
+## Plugin 开发截图 / Plugin development screenshot
+
+`plugin-composer-build102.png` 是 build102 本机安装候选的真实 Composer 界面。维护者批准仅裁切到插件工作区，以移除宿主用户名和采样库侧栏；没有重绘、修改控件或替换生成结果。它展示开发状态，不是公开安装包的下载承诺。
+
+`plugin-composer-build102.png` shows the actual Composer interface from a locally installed build102 candidate. The owner approved cropping to the plugin workspace to remove host identity and the sample-library sidebar. No UI or generated result was redrawn. This is a development preview, not a public-download announcement.
+
+该截图不作为根 MIT 下的插件源码交付；品牌及图像使用另见现有许可范围与品牌政策，第三方权利不变。 / The screenshot does not distribute Plugin source under the root MIT License. Existing brand/media policies and third-party rights remain applicable.
+
 现有1280×640品牌卡片与Logo用途分别保留。2026-10-15读取的GitHub设置仍为默认仓库卡片，未启用自定义Open Graph图片。候选排版与维护者操作见 [展示建议](../GITHUB_SHOWCASE.md)，旧 [展示核验](../PUBLIC_PRESENTATION_REVIEW.md) 保留其原日期的记录。
 
 The card and logo retain separate roles. GitHub used its default repository card on 15 October 2026; see the presentation proposal for the separate owner upload action. Earlier review records retain their original dates.

@@ -14,6 +14,16 @@ DAWLoop 把音乐分析、旋律创作和 MIDI 编辑放进一个工作区，并
 
 [下载 Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [体验 Runtime](docs/QUICKSTART.md) · [使用场景](docs/DEMOS.md) · [功能目录](docs/CAPABILITIES.md) · [参与贡献](CONTRIBUTING.md)
 
+## 选择你的工作入口
+
+| 产品 | 定位与入口 |
+|---|---|
+| **DAWLoop Desktop — Open Source** | 独立音乐工作区 · [Desktop](docs/DESKTOP.md) |
+| **DAWLoop Plugin — Proprietary** | Composer / Mixer 开发预览 · [Plugin](docs/PLUGINS.md) |
+| **DAWLoop Runtime — Open Source** | Agent 规划、执行与验证 · [Quickstart](docs/QUICKSTART.md) |
+
+Plugin 与本仓库开源代码分开交付，目前没有获准公开的插件下载。
+
 <img src="docs/media/music-home.png" alt="Music Intelligence workspace" width="900">
 
 

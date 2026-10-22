@@ -14,6 +14,16 @@ Analyze music, shape melodies and edit MIDI in one workspace. Build AI agents th
 
 [Download Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [Try the Runtime](docs/QUICKSTART.md) · [Demos](docs/DEMOS.md) · [Capabilities](docs/CAPABILITIES.md) · [Contribute](CONTRIBUTING.md)
 
+## Choose your workspace
+
+| Product | Purpose and entry |
+|---|---|
+| **DAWLoop Desktop — Open Source** | Standalone music workspace · [Desktop](docs/DESKTOP.md) |
+| **DAWLoop Plugin — Proprietary** | Composer / Mixer development preview · [Plugin](docs/PLUGINS.md#english) |
+| **DAWLoop Runtime — Open Source** | Agent planning, execution and verification · [Quickstart](docs/QUICKSTART.md) |
+
+Plugin is delivered separately from this repository's open-source code. No public Plugin download has been approved.
+
 <img src="docs/media/music-home.png" alt="Music Intelligence workspace" width="900">
 
 
