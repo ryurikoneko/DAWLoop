@@ -15,6 +15,20 @@ The circular waveform logo and minimal black-and-white hero define the visual id
 | [model-manager.png](model-manager.png) | Component and Model Management |
 | [music-workspace.png](music-workspace.png) | Earlier workspace view |
 
+## DAWLoop 角色形象 / DAWLoop character illustration
+
+`dawloop-character.png` 为维护者提供并批准用于首页的角色形象。绘制署名按维护者指示为 **Ryurikoneko**；左下角为 `Copyright (c) 2026 ryurikoneko`，右下角为 `Character illustrated by Ryurikoneko`。两行在原图白色底边对齐，不改动角色与原有构图。
+
+The maintainer supplied and approved this character illustration for the homepage, crediting **Ryurikoneko** as the illustrator. The lower-left copyright and lower-right illustration credit share one baseline in the original white margin.
+
+使用维护者明确批准的本地文字叠加，保留原始 1280×1280 画布；已读回导出的 PNG，确认两处文字区域以外的像素与原图一致。
+
+Only the two credit lines were added locally with explicit approval. The exported PNG retains the original 1280×1280 canvas and unchanged pixels outside the text areas.
+
+这张图是品牌美术，不是软件截图或开源代码；本次授权用于 DAWLoop 官方文档展示，不把根 MIT 的软件授权扩展到角色图。未声明注册或独立核验完整权属，既有软件与第三方许可不变。
+
+This is brand artwork, separate from software screenshots and open-source code. Approval covers presentation in DAWLoop documentation and does not extend the software's root MIT grant to the artwork. No registration or independently verified chain of title is claimed; existing software and third-party grants remain unchanged.
+
 ## 来源与许可 / Sources and use
 
 现有图像与原始 [provenance.json](provenance.json) 本次均保持不变。该文件记录来源与发布摘要、候选版本及变换。截图来自此前开发版本，使用自有合成素材；当前公开产品范围见 [Desktop](../DESKTOP.md)。

@@ -16,6 +16,8 @@ Analyze and edit in Desktop, develop and audition reference-based ideas in Plugi
 
 [Download Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [Try the Runtime](docs/QUICKSTART.md) · [Demos](docs/DEMOS.md) · [Capabilities](docs/CAPABILITIES.md) · [Contribute](CONTRIBUTING.md)
 
+<img src="docs/media/dawloop-character.png" alt="DAWLoop character illustration by Ryurikoneko" width="640">
+
 ## Choose your workspace
 
 | Product | Purpose and entry |

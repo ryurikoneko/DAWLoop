@@ -1,8 +1,8 @@
 # 原创人物与美术资产政策 / Character and art policy
 
-当前没有提供正式角色名、定稿立绘、三视图或人物设定。所有角色条目均为 `RESERVED_FOR_FUTURE_ASSET`，不宣称不存在的作品已取得著作权，也没有登记、证书或注册号。
+维护者已提供并批准 [DAWLoop 角色形象](../media/dawloop-character.png) 用于项目首页，绘制署名按维护者指示为 Ryurikoneko。正式角色名、三视图及人物设定尚未提供；这些未来条目继续保留占位。没有登记、证书或注册号声明。
 
-No completed character has been supplied. Entries are placeholders, not rights claims in nonexistent works or registration certificates.
+The maintainer supplied and approved the DAWLoop character illustration for the homepage, crediting Ryurikoneko as illustrator. A formal character name, three-view sheet and character settings remain unspecified; those future entries remain placeholders. No registration or certificate is claimed.
 
 ## 正式完成后的记录
 

@@ -8,7 +8,7 @@ The user selected an individual as the proposed holder. The public signature rem
 
 - [品牌资产清单](ASSET_REGISTRY.json)：名称、Logo、Splash/Hero、展示截图和未来美术条目。
 - [清单结构](asset-registry.schema.json)：明确的个人主体、未知值、摘要及未登记状态。
-- [角色清单](CHARACTER_ASSET_REGISTRY.json)：当前仅占位，无正式角色名、作品或公开版本。
+- [角色清单](CHARACTER_ASSET_REGISTRY.json)：已批准的首页角色形象及来源，正式角色名与其他未来资料保留占位。
 - [历史许可审查](HISTORICAL_LICENSE_REVIEW.md)：保留根MIT背景与后续图像声明，不借新路径撤回旧权利。
 - [角色政策](CHARACTER_POLICY.md)：发布图、再利用素材和私人源文件分别管理。
 - [登记准备清单](REGISTRATION_READINESS.md)：只准备材料，不代办申请。

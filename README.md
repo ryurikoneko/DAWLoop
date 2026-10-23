@@ -16,6 +16,8 @@
 
 [下载 Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [体验 Runtime](docs/QUICKSTART.md) · [使用场景](docs/DEMOS.md) · [功能目录](docs/CAPABILITIES.md) · [参与贡献](CONTRIBUTING.md)
 
+<img src="docs/media/dawloop-character.png" alt="DAWLoop 品牌角色形象，角色由 Ryurikoneko 绘制" width="640">
+
 ## 选择你的工作入口
 
 | 产品 | 定位与入口 |
