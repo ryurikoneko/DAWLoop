@@ -12,7 +12,7 @@ The homepage separates the three products and shows the real Composer preview. D
 
 建议 About： / Proposed About:
 
-> AI music creation and verifiable DAW automation. Open-source Desktop and Runtime, with proprietary a proprietary Composer plugin.
+> AI-assisted music creation and verifiable DAW automation: open-source Desktop and Runtime, plus the proprietary DAWLoop Composer VST3 plugin.
 
 这是一份元数据候选，不代表已修改 GitHub Settings。现有 Topics 与社交卡片保持，待维护者审阅后另行更新。
 
