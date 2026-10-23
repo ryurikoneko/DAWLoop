@@ -36,7 +36,7 @@ Plugin 与本仓库开源代码分开交付，Composer 已提供 [Windows VST3 �
 
 ## DAWLoop Desktop — Open Source
 
-Desktop 是独立运行的音乐工作区，不依赖 FL Studio。分析素材、创作和编辑音符后，可以导出标准 MIDI，在自己使用的 DAW 中继续制作。
+Desktop 是独立运行的音乐工作区，不依赖 DAW。分析素材、创作和编辑音符后，可以导出标准 MIDI，在自己使用的 DAW 中继续制作。
 
 ### 一个工作区，从音乐素材到可编辑旋律
 
