@@ -30,8 +30,13 @@ Plugin is delivered separately from this repository's open-source code. Composer
 
 <img src="docs/media/music-home.png" alt="Music Intelligence workspace" width="900">
 
+<br>
+
+---
 
 ## DAWLoop Desktop — Open Source
+
+Desktop runs independently of FL Studio. Analyze material, create and edit notes, then export standard MIDI to continue production in your preferred DAW.
 
 ### From musical material to an editable melody
 
@@ -72,17 +77,25 @@ flowchart TD
 
 Reports inform your direction; you choose composition settings and edits. Optional transcription and rule-based creation lead into the same note-editing workflow.
 
+<br>
+
+---
+
 ## DAWLoop Plugin — Composer
 
 **Bring your musical references, your AI collaborator and your real DAW into the same creative process.**
 
-Composer is a VST3 workspace for developing music inside your host. Bring in a chord progression or melody, describe an idea to your own AI, generate alternatives, compare and audition them, then take MIDI back into FL Studio for instruments, arrangement and production.
+Composer is a VST3 workspace for developing music inside your host. Bring in a chord progression or melody, describe an idea to your own AI, generate alternatives, compare and audition them, then take MIDI back into your DAW for instruments, arrangement and production.
 
 It gives you somewhere to work when you have the beginning of an idea and want to explore what comes next: a lead over your chords, a different harmonization, a bass or arpeggio direction, or a new development that follows the reference rhythm. AI supplies candidates; visible notes and audible comparisons help you choose and shape your own version.
 
 <img src="docs/media/plugin-composer.en.png" alt="Composer harmonic canvas, reference MIDI and generated candidates" width="900">
 
 Composer running in real FL Studio: musical goals and harmony above, reference and generated notes below, with auditioning and candidate selection in the same workspace.
+
+### Create inside your preferred DAW
+
+Composer is currently delivered as **Windows x64 VST3** for hosts supporting that format, including **FL Studio, Ableton Live, Cubase, REAPER and Bitwig Studio**. Import reference MIDI, develop and audition candidates in the plugin, then continue arranging through standard MIDI files or host-supported drag and drop. Host support here is based on VST3 format compatibility; the FL-specific clipboard, Piano Roll snapshots and Controller bridge serve FL Studio workflows.
 
 ### Start with music you already have
 
@@ -136,9 +149,9 @@ You decide how the AI contributes: offer several harmonic directions, develop a 
 
 API keys are stored in Windows Credential Manager. Explicit test or generation requests send prompts, reference notes and relevant parameters to your provider and may incur provider charges. [Configuration and usage](docs/PLUGINS.md#english)
 
-### Take the chosen idea back into real FL Studio
+### Take the chosen idea back into your DAW
 
-When a candidate is worth developing, export standard MIDI or use **Drag MIDI** to move it into the intended Piano Roll. Accept FL Studio's import confirmation when shown, then continue with your own instruments, sounds, effects and arrangement.
+When a candidate is worth developing, export standard MIDI or use **Drag MIDI** in a host that accepts MIDI drag and drop to place it on the intended track or note editor. In FL Studio, accept the import confirmation when shown, then continue with your own instruments, sounds, effects and arrangement.
 
 A creative task can therefore lead directly into the next one: explore reference-based ideas in Composer, hand the chosen notes to the host, then develop sound, rhythm and structure in the real project. Use it for a single melody or harmony decision, or make it part of your ongoing agent-assisted workflow.
 
@@ -157,11 +170,15 @@ flowchart TD
 
 1. Save your project and close the host. Install the complete VST3 bundle in the standard VST3 directory, then rescan.
 2. Open Composer's Getting Started tutorial, import or paste reference MIDI, and configure your API or connect your agent.
-3. Choose a musical direction, generate and audition alternatives, then drag the MIDI you want back into FL Studio.
+3. Choose a musical direction, generate and audition alternatives, then export or drag your chosen MIDI back into your DAW.
 
 The complete bundle includes a sampled piano, worker, fonts and guides; no separate Python installation is required. Microsoft Visual C++ V14 x64 Runtime is required. This is a Windows x64 prerelease; the [Plugin guide](docs/PLUGINS.md#english) covers installation and optional host bridges.
 
 Composer's proprietary implementation is available free for personal and commercial music creation under separate [binary-use terms](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Composer-Binary-Use-Terms-0.2.0-rc.1.txt). Desktop and Runtime retain their existing open-source licenses.
+
+<br>
+
+---
 
 ## DAWLoop Runtime — Open Source
 

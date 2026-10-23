@@ -30,8 +30,13 @@ Plugin 与本仓库开源代码分开交付，Composer 已提供 [Windows VST3 �
 
 <img src="docs/media/music-home.png" alt="Music Intelligence workspace" width="900">
 
+<br>
+
+---
 
 ## DAWLoop Desktop — Open Source
+
+Desktop 是独立运行的音乐工作区，不依赖 FL Studio。分析素材、创作和编辑音符后，可以导出标准 MIDI，在自己使用的 DAW 中继续制作。
 
 ### 一个工作区，从音乐素材到可编辑旋律
 
@@ -72,17 +77,25 @@ flowchart TD
 
 分析报告帮助你选择创作方向，具体旋律设置和编辑由你决定。可选转录与规则创作汇入同一个音符编辑工作流。
 
+<br>
+
+---
+
 ## DAWLoop Plugin — Composer
 
 **把你的音乐参考、AI 创作伙伴和真实 DAW 放在同一个创作过程里。**
 
-Composer 是运行在宿主中的 VST3 音乐创作工作区。你可以带入已经写好的和弦或旋律，向自己的 AI 描述想法，生成新的音乐候选，在插件里比较、试听和调整，再把 MIDI 带回 FL Studio，继续选择音色、编排和制作。
+Composer 是运行在宿主中的 VST3 音乐创作工作区。你可以带入已经写好的和弦或旋律，向自己的 AI 描述想法，生成新的音乐候选，在插件里比较、试听和调整，再把 MIDI 带回你使用的 DAW，继续选择音色、编排和制作。
 
 对于已经有灵感但还缺少下一步的创作者，它提供一个可以不断尝试的地方：给和弦寻找主旋律、为乐句探索另一套和声、准备贝斯或琶音方向，或保留参考的节奏重新发展音乐。AI 提供候选，你通过看得见的音符和听得到的对比做选择，逐步形成自己的版本。
 
 <img src="docs/media/plugin-composer.zh.png" alt="Composer 的和声画布、参考 MIDI 与生成候选工作区" width="900">
 
 Composer 在真实 FL Studio 中的界面：上方组织音乐目标与和声，下方并排查看参考和生成 MIDI，试听与候选切换都留在当前工作区。
+
+### 在你熟悉的 DAW 中创作
+
+当前 Composer 提供 **Windows x64 VST3**，可用于支持该格式的宿主，例如 **FL Studio、Ableton Live、Cubase、REAPER 和 Bitwig Studio**。导入参考 MIDI，在插件中准备、比较和试听候选，再通过标准 MIDI 文件或宿主支持的拖拽方式继续编排。这里的宿主支持依据 VST3 格式兼容性；FL 专用剪贴板、Piano Roll 快照与 Controller 桥接用于 FL Studio 工作流。
 
 ### 从已有音乐出发，让 AI 理解你正在写什么
 
@@ -136,9 +149,9 @@ Composer 内置采样钢琴，支持播放参考、生成内容，或把两者�
 
 配置 API 时，密钥由 Windows 凭据库保存。主动测试或生成会向所选服务商发送提示词、参考音符及相关参数，服务商可能收费。[配置与使用说明](docs/PLUGINS.md)
 
-### 把选择的音乐带回真实 FL Studio
+### 把选择的音乐带回你的 DAW
 
-当候选已经值得继续制作，可以导出标准 MIDI，或直接从 **Drag MIDI** 拖入目标 Piano Roll。FL Studio 显示导入确认时，接受后继续使用自己的乐器、音色、效果和编排。
+当候选已经值得继续制作，可以导出标准 MIDI，或在支持 MIDI 拖拽的宿主中，从 **Drag MIDI** 拖入目标音轨或音符编辑器。以 FL Studio 为例，显示导入确认时接受，再继续使用自己的乐器、音色、效果和编排。
 
 这让一次创作能自然接到下一步：在 Composer 中围绕参考探索想法，把选择的音符交给宿主，再在真实工程中发展音色、节奏和段落。你既可以只把它当作某次和声或旋律探索的伙伴，也可以把它放进自己的长期 Agent 创作流程。
 
@@ -157,11 +170,15 @@ flowchart TD
 
 1. 保存工程并关闭宿主，将完整 VST3 Bundle 放入标准 VST3 目录后重新扫描。
 2. 打开 Composer 入门教程，导入或粘贴自己的参考 MIDI，配置 API 或连接自己的 Agent。
-3. 选择音乐方向，生成、比较和试听候选，将满意的 MIDI 拖回 FL Studio。
+3. 选择音乐方向，生成、比较和试听候选，将满意的 MIDI 导出或拖回你使用的 DAW。
 
 完整包包含采样钢琴、worker、字体与指南，无需单独安装 Python；需要 Microsoft Visual C++ V14 x64 Runtime。当前为 Windows x64 预发行版，安装与可选宿主桥接步骤见 [Plugin 指南](docs/PLUGINS.md)。
 
 Composer 自有实现闭源，允许免费用于个人及商业音乐创作，按独立的 [二进制使用条款](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Composer-Binary-Use-Terms-0.2.0-rc.1.txt) 分发。Desktop 与 Runtime 保留原有开源许可。
+
+<br>
+
+---
 
 ## DAWLoop Runtime — Open Source
 
