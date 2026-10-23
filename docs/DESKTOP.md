@@ -12,6 +12,10 @@ Desktop brings musical material, analysis reports and editable scores into Music
 
 This guide follows the standalone experience from material to analysis, creation, editing and saved output. Developers working with real FL Studio can then explore the separate Runtime workflow.
 
+Desktop 是开源独立应用；闭源 [Plugin](PLUGINS.md) 把参考与候选带进宿主，开源 [Runtime](QUICKSTART.md) 提供开发者接口。Desktop 本地 Piano Roll、Composer 编辑视图与真实 FL Piano Roll 是不同界面。
+
+Desktop is the open-source standalone app. Proprietary Plugin works inside the host; open-source Runtime provides developer interfaces. The Desktop Piano Roll, Composer note view and FL Piano Roll are separate interfaces.
+
 ## 认识 Music Intelligence / Find your way around
 
 主页为常用任务提供入口：试听自己的素材、查看分析、创建旋律，以及进入音频转 MIDI 与音符编辑。组件管理负责准备基础分析和可选模型；保存的分析与乐谱各有列表，方便重新打开继续研究。

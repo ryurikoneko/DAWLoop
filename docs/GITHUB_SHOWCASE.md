@@ -4,6 +4,20 @@
 
 This page separates observed metadata from proposals. The owner reviews About, Topics and Social Preview changes; a candidate documented here is not a deployed setting.
 
+## 三产品展示方案 / Three-product presentation
+
+首页以 Desktop — Open Source、Plugin — Proprietary、Runtime — Open Source 三个入口呈现。Plugin 展示 Composer 的真实开发界面；Desktop 与 [Composer 预发行版](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1) 分别提供下载。Composer r2 已公开，本轮仅交付 Composer。
+
+The homepage separates the three products and shows the real Composer preview. Desktop and the published Composer prerelease have separate downloads. Composer r2 is now public, and this delivery includes Composer only.
+
+建议 About： / Proposed About:
+
+> AI music creation and verifiable DAW automation. Open-source Desktop and Runtime, with proprietary a proprietary Composer plugin.
+
+这是一份元数据候选，不代表已修改 GitHub Settings。现有 Topics 与社交卡片保持，待维护者审阅后另行更新。
+
+This is a metadata proposal, not a deployed GitHub setting. Existing topics and social-card settings remain for owner review.
+
 ## About：实际描述与候选 / Current description and candidates
 
 2026-10-15读取到的描述为： / Description observed on 15 October 2026:

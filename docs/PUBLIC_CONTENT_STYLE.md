@@ -42,6 +42,12 @@ Ground current capabilities in code, releases or records and phrase directions a
 
 Express facts, inferences and unknowns naturally, without internal reasoning prefixes, confidence markers or progress-log prose. Keep both languages equal in depth, conditions, downloads and credits, using the glossary above.
 
+## 三产品边界 / Three-product boundary
+
+Desktop 与 Runtime 是开源交付；Plugin 自有实现闭源，本轮仅交付 Composer，按实际产品核对功能和发行状态。每次写下载前核对 Published Release 和实际资产；本地 ZIP 或 Draft 不代表可公开下载。不要以 Composer 的宿主记录证明 Runtime 验证已完成。
+
+Desktop and Runtime are open-source deliveries; private Plugin implementation is proprietary. This delivery covers Composer only. Confirm the published release and actual asset before adding a download. Local ZIPs and drafts are not public delivery. Composer host records do not certify Runtime verification.
+
 ## 审阅问题 / Review questions
 
 只读首页，读者是否能说清：项目是什么、不连FL能做什么、为何连接FL、相较MIDI文件流程增加了什么、执行反馈怎样工作、应从Desktop还是Runtime开始？

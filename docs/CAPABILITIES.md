@@ -1,8 +1,8 @@
 # 选择你的音乐工作流 / Find your music workflow
 
-DAWLoop 为两种工作方式提供入口：创作者可以在 Desktop 中研究素材、制作旋律和编辑音符；开发者可以用 Runtime 组织音乐计划，接入分析工具与真实 DAW 后端。本页按任务介绍实现位置，便于选择适合自己的入口。
+DAWLoop 通过 Desktop、Plugin 和 Runtime 三种产品提供入口：创作者可以在 Desktop 中研究素材、制作旋律和编辑音符；开发者可以用 Runtime 组织音乐计划，接入分析工具与真实 DAW 后端。本页按任务介绍实现位置，便于选择适合自己的入口。
 
-DAWLoop supports two ways of working: creators can study audio, build melodies and edit notes in Desktop; developers can use Runtime to structure musical plans and connect analysis tools with real DAW backends. This catalog connects tasks to their implementations.
+DAWLoop provides three product routes: Desktop, Plugin and Runtime. creators can study audio, build melodies and edit notes in Desktop; developers can use Runtime to structure musical plans and connect analysis tools with real DAW backends. This catalog connects tasks to their implementations.
 
 ## Desktop：从素材到旋律 / From material to melody
 
@@ -17,6 +17,21 @@ Import a WAV, listen, and inspect energy, rhythm changes and key candidates. Cre
 | 审阅和编辑 / Review and edit | 音符选择、移动、属性、力度、撤销重做、试听及MIDI导出 / Note selection, movement, properties, velocity, undo/redo, audition and MIDI export | [Piano Roll](https://github.com/ryurikoneko/DAWLoop/blob/v0.5.6-alpha.2/apps/desktop/src/PianoRoll.tsx) |
 | 从音频取得音符 / Transcribe audio | 经组件管理器安装并配置Basic Pitch后运行转录 / Transcription after installing and configuring Basic Pitch | [Component setup](DESKTOP.md)、[Pitch component](https://github.com/ryurikoneko/DAWLoop/blob/v0.5.6-alpha.2/packages/music-intelligence/pitch-component.mjs) |
 | 保留创作成果 / Keep results | 主动保存报告、命名乐谱、重启后重新打开，中英文界面 / Explicit report and score saving, reopening after restart, Chinese/English UI | [Worked example](DEMOS.md) |
+
+## Plugin：宿主内的制作工作区 / Production inside the host
+
+Plugin 自有实现闭源，与本仓库开源代码分别交付。当前 Composer r2 是已公开的 [Windows x64 VST3 预发行版](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1)，本轮仅交付 Composer。
+
+Plugin is proprietary and delivered separately. Composer r2 is a [public Windows x64 VST3 prerelease](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1). This delivery includes Composer only.
+
+| 用户任务 / Task | 实际范围 / Scope |
+| --- | --- |
+| 参考与创作 / Reference and creation | 标准 MIDI、官方 MIDI 剪贴板、提示词、和声画布、候选与历史 / Standard MIDI, official MIDI clipboard, prompts, harmonic canvas, candidates and history |
+| 比较与带回宿主 / Review and host transfer | A/B、采样钢琴试听、和弦/音区设置、MIDI 导出与拖出 / A/B, sampled-piano audition, chord/register controls, MIDI export and drag |
+| 个性化 AI / Personal AI | 配置自己的 API，或让 Agent 连接插件 / Configure your API or connect an agent |
+| 当前钢琴窗 / Current Piano Roll | 可选辅助脚本快照，无需保存工程；名称桥接与音符读取分开 / Optional unsaved snapshot helper; name browsing separate from note reading |
+
+具体交付、测试范围及旧保存工程读取的外部依赖见 [Plugin 指南](PLUGINS.md)。 / See the Plugin guide for delivery, test scope and the external dependency of saved-project reading.
 
 ## Agent / Runtime：把意图变成可处理的计划 / Turn intent into a plan
 

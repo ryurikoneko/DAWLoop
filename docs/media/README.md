@@ -15,6 +15,20 @@ The circular waveform logo and minimal black-and-white hero define the visual id
 | [model-manager.png](model-manager.png) | Component and Model Management |
 | [music-workspace.png](music-workspace.png) | Earlier workspace view |
 
+## DAWLoop 角色形象 / DAWLoop character illustration
+
+`dawloop-character.png` 为维护者提供并批准用于首页的角色形象。绘制署名按维护者指示为 **Ryurikoneko**；左下角为 `Copyright (c) 2026 ryurikoneko`，右下角为 `Character illustrated by Ryurikoneko`。两行在原图白色底边对齐，不改动角色与原有构图。
+
+The maintainer supplied and approved this character illustration for the homepage, crediting **Ryurikoneko** as the illustrator. The lower-left copyright and lower-right illustration credit share one baseline in the original white margin.
+
+使用维护者明确批准的本地文字叠加，保留原始 1280×1280 画布；已读回导出的 PNG，确认两处文字区域以外的像素与原图一致。
+
+Only the two credit lines were added locally with explicit approval. The exported PNG retains the original 1280×1280 canvas and unchanged pixels outside the text areas.
+
+这张图是品牌美术，不是软件截图或开源代码；本次授权用于 DAWLoop 官方文档展示，不把根 MIT 的软件授权扩展到角色图。未声明注册或独立核验完整权属，既有软件与第三方许可不变。
+
+This is brand artwork, separate from software screenshots and open-source code. Approval covers presentation in DAWLoop documentation and does not extend the software's root MIT grant to the artwork. No registration or independently verified chain of title is claimed; existing software and third-party grants remain unchanged.
+
 ## 来源与许可 / Sources and use
 
 现有图像与原始 [provenance.json](provenance.json) 本次均保持不变。该文件记录来源与发布摘要、候选版本及变换。截图来自此前开发版本，使用自有合成素材；当前公开产品范围见 [Desktop](../DESKTOP.md)。
@@ -32,6 +46,24 @@ Use the existing license, scope and brand policies. Presentation changes grant n
 These editable SVGs explain the six-step host workflow and the recorded test target/plan. They are illustrations rather than host screenshots; the note positions come from the synthetic fixture. See [illustration sources](workflow-illustrations.json).
 
 新建技术示意图按根MIT许可发布，原有品牌与软件截图的许可保持不变。 / The new technical illustrations use the root MIT License; existing brand and screenshot terms are unchanged.
+
+## Plugin 开发截图 / Plugin development screenshot
+
+`plugin-composer-build102.png` 是 build102 本机安装候选的真实 Composer 界面。维护者批准仅裁切到插件工作区，以移除宿主用户名和采样库侧栏；没有重绘、修改控件或替换生成结果。它展示开发状态，不是公开安装包的下载承诺。
+
+`plugin-composer-build102.png` shows the actual Composer interface from a locally installed build102 candidate. The owner approved cropping to the plugin workspace to remove host identity and the sample-library sidebar. No UI or generated result was redrawn. This is a development preview, not a public-download announcement.
+
+该截图不作为根 MIT 下的插件源码交付；品牌及图像使用另见现有许可范围与品牌政策，第三方权利不变。 / The screenshot does not distribute Plugin source under the root MIT License. Existing brand/media policies and third-party rights remain applicable.
+
+## 当前 Plugin 预览 / Current Plugin previews
+
+`plugin-composer.zh.png` 与 `plugin-composer.en.png` 来自 2026-10-23 Release Experience 的真实 FL Studio 界面，只按维护者已批准方式裁切到插件工作区；未重绘、替换控件或结果。画面保留测试提示词与通用音源名称，移除宿主用户名、私有工程路径及素材库侧栏。r2 只调整关于菜单入口，此主工作区未变化；截图不是 r2 重新安装验收。
+
+The Composer images are approved workspace-only crops of actual Release Experience host captures. No controls or results were redrawn. Host identity, private paths and the sample sidebar are excluded. The r2 change concerns an About-menu entry, not this workspace; these images do not claim a new r2 installation test.
+
+这些图片用于维护者授权的产品展示，不分发私有 Plugin 实现，也不修改现有媒体、品牌和第三方许可。旧 build102 图片保留其历史身份。[Plugin 范围与来源](../PLUGINS.md)
+
+These images serve the owner-authorized preview and distribute no private implementation. Existing media, brand and third-party licenses remain unchanged; the older build102 image retains its historical identity.
 
 ## Social Preview
 

@@ -33,7 +33,7 @@ flowchart TD
 
 The diagram describes responsibilities. The integrating agent supplies language understanding; Core validates musical data and operation contracts. Each real path reports results using the information it can actually observe.
 
-## Desktop 与 Runtime 分别如何工作 / Two delivery paths
+## 三种产品分别如何工作 / Three product delivery paths
 
 Desktop 的 Music Intelligence 提供素材、试听、分析、旋律与编辑器界面。用户通过组件管理准备分析或转录环境，再保存报告、乐谱或导出 MIDI。界面、受控应用接口与后台任务各自分工，用户围绕音乐成果操作。
 
@@ -43,9 +43,14 @@ Python Runtime 提供音乐合同、Agent 接口、执行适配与验证器。�
 
 Python Runtime provides music contracts, agent interfaces, adapters and validators. Callers supply explicit targets, sessions and permitted actions, and Runtime organizes the backend. Local Desktop scores and host-operation data are separate entry points with explicit unit and contract adaptation.
 
+Plugin 将 Composer 的参考 MIDI、生成、试听及宿主输出组织为独立 VST3 工作区。它是闭源产品，不是公开 Runtime 包的组成部分；r2 仅打包 Composer。产品之间目前通过文件、剪贴板和明确操作衔接，不宣称已经共享实时状态。
+
+Plugin organizes reference MIDI, generation, audition and host output in a separate Composer VST3 workspace. The proprietary Plugin is separate from the public Runtime package; r2 bundles Composer only. Files, clipboard transfer and explicit operations connect the products, without a claim of shared live state.
+
 | 来源 / Source | 阅读入口 / Entry |
 | --- | --- |
 | Desktop Alpha.2 | [发行标签源码](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.2)、[Music Intelligence](https://github.com/ryurikoneko/DAWLoop/blob/v0.5.6-alpha.2/apps/desktop/src/MusicIntelligence.tsx) |
+| Plugin private implementation | [Composer preview and scope](PLUGINS.md) |
 | Runtime on main | [runtime](../src/dawloop/runtime/)、[adapters](../src/dawloop/adapters/) |
 | 音乐创作者 / Creators | [Desktop 操作指南](DESKTOP.md) |
 | Agent 开发者 / Developers | [Quickstart](QUICKSTART.md)、[部署合同](DEPLOYMENT.md) |

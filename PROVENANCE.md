@@ -1,5 +1,26 @@
 # 来源记录 / Provenance
 
+## Character presentation — 2026-10-23
+
+`docs/media/dawloop-character.png` 的原图由维护者提供；维护者明确指定绘制署名为 Ryurikoneko，并授权首页展示及本地添加左右下角英文署名。它不是项目从零生成的角色图。两处文字叠加与中英文首页/媒体说明文案为 CONFIRMED_PROJECT_GENERATED，原始美术按用户提供来源单独记录。详见 [媒体说明](docs/media/README.md)。
+
+The maintainer supplied the original artwork, credited Ryurikoneko as illustrator, and authorized homepage display and local credit overlays. Only the overlays and presentation text are CONFIRMED_PROJECT_GENERATED; the illustration itself is maintainer-supplied artwork.
+
+## Composer binary publication — 2026-10-23
+
+维护者批准免费安装及个人/商业音乐创作用途，不授予 Plugin 自有实现源码或专有二进制再分发权。独立中英文条款作为 [Composer Release](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1) 附件提供；原 r2 ZIP、原 SHA-256、根 MIT 与第三方许可均保持不变。此记录及下载入口文案为 CONFIRMED_PROJECT_GENERATED，不向公开仓库迁移私有实现。
+
+The owner approved free installation and use for personal and commercial music creation, without a source-code license or redistribution permission for proprietary Plugin binaries. Separate bilingual terms accompany the Composer release. The original r2 ZIP, checksum, root MIT and third-party grants remain unchanged; public documentation does not distribute private implementation.
+
+## Three-product presentation — 2026-10-23
+
+README.md、README.en.md 与产品指南、能力目录、架构、演示、入门、路线图和贡献入口的本轮文案为 CONFIRMED_PROJECT_GENERATED。它们分别描述开源 Desktop / Runtime 与闭源 Plugin，不分发私有实现。Plugin 当前描述根据本地 0.2.0-rc.1 r2 包的 README/清单、Release Experience 现场记录整理；这些私有记录未被冒充为公开归档证据。公开下载仅对应实际 Published Release。
+
+The presentation text is CONFIRMED_PROJECT_GENERATED. It separates open-source Desktop/Runtime from proprietary Plugin without distributing private implementation. Plugin scope comes from the local r2 package guide/inventory, Release Experience host records; private records are not represented as public archived evidence. Download links refer only to published releases.
+
+新截图的来源、裁切与使用范围见 [media](docs/media/README.md)。既有 MIT、历史来源分类及第三方原始声明保持不变。
+
+
 DAWLoop 的公开仓库从独立、干净的 Git 历史开始。项目自己的 Core、Schema、测试和文档按本仓库需求编写；第三方源码或基于第三方实现改编的文件必须单独标记来源、许可证和边界。
 
 当前公开开发树中存在两类有意引入的第三方来源：
