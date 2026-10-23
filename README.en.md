@@ -14,7 +14,7 @@ Analyze and edit in Desktop, develop and audition reference-based ideas in Plugi
 [![Desktop & Runtime: MIT](https://img.shields.io/badge/Desktop_%26_Runtime-MIT-blue)](LICENSE)
 [![Alpha](https://img.shields.io/badge/status-Alpha-orange)](docs/DESKTOP.md)
 
-[Download Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [Try the Runtime](docs/QUICKSTART.md) · [Demos](docs/DEMOS.md) · [Capabilities](docs/CAPABILITIES.md) · [Contribute](CONTRIBUTING.md)
+[Download Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [Download Composer VST3](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1) · [Try the Runtime](docs/QUICKSTART.md) · [Demos](docs/DEMOS.md) · [Capabilities](docs/CAPABILITIES.md) · [Contribute](CONTRIBUTING.md)
 
 <img src="docs/media/dawloop-character.png" alt="DAWLoop character illustration by Ryurikoneko" width="640">
 
@@ -72,46 +72,96 @@ flowchart TD
 
 Reports inform your direction; you choose composition settings and edits. Optional transcription and rule-based creation lead into the same note-editing workflow.
 
-## DAWLoop Plugin — Proprietary
+## DAWLoop Plugin — Composer
 
-Keep references, AI candidates and auditioning inside your DAW. Plugin is a separate proprietary product line: **Composer** is the focus of this delivery.
+**Bring your musical references, your AI collaborator and your real DAW into the same creative process.**
 
-### Composer: turn a reference into your next phrase
+Composer is a VST3 workspace for developing music inside your host. Bring in a chord progression or melody, describe an idea to your own AI, generate alternatives, compare and audition them, then take MIDI back into FL Studio for instruments, arrangement and production.
 
-Have a chord progression and want a different melody or harmony? Bring a MIDI file or FL Studio's official MIDI clipboard into the reference area, describe your goal, compare candidates on the harmonic canvas and take the version you like back into the host.
+It gives you somewhere to work when you have the beginning of an idea and want to explore what comes next: a lead over your chords, a different harmonization, a bass or arpeggio direction, or a new development that follows the reference rhythm. AI supplies candidates; visible notes and audible comparisons help you choose and shape your own version.
 
-<img src="docs/media/plugin-composer.en.png" alt="Actual Composer development interface with harmonic canvas, reference MIDI and generated MIDI" width="900">
+<img src="docs/media/plugin-composer.en.png" alt="Composer harmonic canvas, reference MIDI and generated candidates" width="900">
 
-Captured from a development build running in real FL Studio, cropped to the plugin workspace. The current candidate uses a sampled piano for auditioning by default.
+Composer running in real FL Studio: musical goals and harmony above, reference and generated notes below, with auditioning and candidate selection in the same workspace.
 
-- **Bring a reference**: import standard MIDI, or use Piano Roll → File → Copy to MIDI clipboard and paste it into Composer. Reference notes provide musical context.
-- **Describe and compare**: choose a target and emotion, write your prompt, and review generated notes, A/B comparisons and candidate history.
-- **Listen and refine**: audition the reference and candidate separately or together, adjust chords and register settings, and choose a version to keep.
-- **Return to the host**: export or drag MIDI into the intended Piano Roll, accepting the host's import dialog when shown.
-- **Read host context**: optional FL helper scripts provide a current Piano Roll snapshot without saving the project; a Controller bridge provides source-name browsing. Check Pattern / Channel and the actual open Piano Roll. Reading names is separate from reading notes.
+### Start with music you already have
 
-#### AI Generation & Personalization
+A short musical passage can be enough to start. Import your `.mid` file into the reference area, or use **File → Copy to MIDI clipboard** in FL Studio's Piano Roll and paste it into Composer. The notes appear on the timeline, giving the next creative task concrete musical context.
+
+Describe the reference as chords, melody or another source type, then combine it with musical settings and a prompt. With a four-bar progression, you might look for a more spacious lead; with an existing lead, you might explore harmony and register. Seeing reference and candidate together helps you understand how a new idea relates to the material you want to keep.
+
+With optional FL helper scripts configured, you can also capture the current Piano Roll without saving the project first. A Controller bridge supplies project, Pattern and Channel name context. MIDI files, the official MIDI clipboard and host snapshots offer different ways to bring your material into the workspace. [Input and host setup guide](docs/PLUGINS.md#english)
+
+### Explore several musical roles from one reference
+
+Choose a musical role, then use the main prompt and more specific settings to tell your AI what you want to explore:
+
+| Direction | How it can help your writing |
+| --- | --- |
+| **Chord** | Explore progressions, inversions and voicings around a reference, comparing harmonic colors |
+| **Lead** | Develop melody candidates over existing harmony, with instructions for contour, movement and space |
+| **Bass** | Explore bass lines that support the harmony and provide MIDI material for rhythmic and low-end arrangement |
+| **Arpeggio** | Develop harmonic ideas into moving broken-chord patterns |
+| **Pad** | Prepare sustained-note and harmonic-bed ideas, then choose instruments and layers in the host |
+
+For example, you could ask:
+
+> Develop a warm four-bar lead around these chords. Leave space in the first two bars, then add a little more movement in the second half.
+
+You can also keep the reference rhythm as a constraint while changing the role, emotion or register. Your instructions define the creative direction; the connected agent or model develops candidates from the reference and settings.
+
+### See and shape the musical structure
+
+The harmonic canvas lays out chords in musical time, with note views for both reference and generated material. Follow the progression across bars, see where a phrase enters, and compare its register, timing and pitch relationships with the reference.
+
+Chord editing, register settings, timeline controls and pitch zoom help turn a promising direction into a more specific arrangement. The main prompt sets the overall goal; sections such as Compose, Chord and Emotion provide room for more detailed instructions. Undo and redo support comparing your choices.
+
+### Choose with auditioning, history and A/B tools
+
+Composer includes a sampled piano for auditioning the reference, generated material or both together. Hear how a melody works against the harmony before choosing which instrument should carry it in your DAW.
+
+Candidate history lets you return to previous generations. A/B tools let you retain and audition two choices, comparing their musical direction. Keep a version you like, change the prompt, emotion or harmony, and explore another approach without making the latest result your only point of reference.
+
+This turns a vague preference into something you can evaluate: which phrase is more memorable, which voicing suits the mood, or which register fits the arrangement? Return to the notes and listen before deciding.
+
+### AI Generation & Personalization
 
 **Your agent. Your musical direction.**
 
-Composer supplies reference notes, musical parameters and a workspace for comparing candidates. Results depend on your connected agent or model, prompts, reference material and configuration. An externally trained or fine-tuned model may be part of your own setup; the plugin does not train or fine-tune models, and training is not required to use it.
+Configure your API provider, address and model in settings, or connect your own agent to the plugin. Composer organizes reference notes, musical goals, parameters and candidates in one workspace, giving your AI collaborator concrete inputs and editable MIDI results to hand back to you.
 
-Settings provide provider, API address and model configuration, with keys stored in Windows Credential Manager. Explicit test or generation requests send prompts, reference notes and relevant musical parameters to the selected provider and may incur provider fees. You can also connect your own agent to the plugin and work with reference notes and musical parameters.
+Your approach can grow with your own setup: choose a model suited to your style, develop better prompts, build a reference collection, or connect models you have trained, fine-tuned or configured elsewhere. Composer does not require you to train a model; a familiar agent, useful references and a clear musical goal can be your starting point.
+
+You decide how the AI contributes: offer several harmonic directions, develop a lead over a backing part, or prepare bass and arpeggio candidates. Audition and edit those ideas into your own arrangement. Composer makes the ideas tangible as notes you can compare, revise and continue producing.
+
+API keys are stored in Windows Credential Manager. Explicit test or generation requests send prompts, reference notes and relevant parameters to your provider and may incur provider charges. [Configuration and usage](docs/PLUGINS.md#english)
+
+### Take the chosen idea back into real FL Studio
+
+When a candidate is worth developing, export standard MIDI or use **Drag MIDI** to move it into the intended Piano Roll. Accept FL Studio's import confirmation when shown, then continue with your own instruments, sounds, effects and arrangement.
+
+A creative task can therefore lead directly into the next one: explore reference-based ideas in Composer, hand the chosen notes to the host, then develop sound, rhythm and structure in the real project. Use it for a single melody or harmony decision, or make it part of your ongoing agent-assisted workflow.
 
 ```mermaid
 flowchart TD
-    A[Bring reference MIDI] --> B[Set a musical goal]
-    B --> C[Connect your agent or model]
-    C --> D[Generate and compare]
-    D --> E[Audition, refine and choose]
+    A[Bring reference MIDI] --> B[Choose a role and goal]
+    B --> C[Your agent or model]
+    C --> D[Generate musical candidates]
+    D --> E[Audition, compare and refine]
     E --> F[Export MIDI]
 ```
 
-### Plugin availability
+### Download and start creating
 
 [Download Composer 0.2.0-rc.1 · Windows x64 VST3](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Plugin-V2-0.2.0-rc.1-Windows-x64-VST3-r2.zip) · [Release notes and checksums](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1)
 
-Install and use it free of charge for personal and commercial music creation. No source-code license or redistribution permission for proprietary binaries is granted; see the [binary-use terms](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Composer-Binary-Use-Terms-0.2.0-rc.1.txt). This delivery contains the full Composer bundle without a standalone installer or production updater. See the [Plugin guide](docs/PLUGINS.md#english) for release preparation, optional bridges and licensing.
+1. Save your project and close the host. Install the complete VST3 bundle in the standard VST3 directory, then rescan.
+2. Open Composer's Getting Started tutorial, import or paste reference MIDI, and configure your API or connect your agent.
+3. Choose a musical direction, generate and audition alternatives, then drag the MIDI you want back into FL Studio.
+
+The complete bundle includes a sampled piano, worker, fonts and guides; no separate Python installation is required. Microsoft Visual C++ V14 x64 Runtime is required. This is a Windows x64 prerelease; the [Plugin guide](docs/PLUGINS.md#english) covers installation and optional host bridges.
+
+Composer's proprietary implementation is available free for personal and commercial music creation under separate [binary-use terms](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Composer-Binary-Use-Terms-0.2.0-rc.1.txt). Desktop and Runtime retain their existing open-source licenses.
 
 ## DAWLoop Runtime — Open Source
 

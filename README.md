@@ -14,7 +14,7 @@
 [![Desktop & Runtime: MIT](https://img.shields.io/badge/Desktop_%26_Runtime-MIT-blue)](LICENSE)
 [![Alpha](https://img.shields.io/badge/status-Alpha-orange)](docs/DESKTOP.md)
 
-[下载 Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [体验 Runtime](docs/QUICKSTART.md) · [使用场景](docs/DEMOS.md) · [功能目录](docs/CAPABILITIES.md) · [参与贡献](CONTRIBUTING.md)
+[下载 Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [下载 Composer VST3](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1) · [体验 Runtime](docs/QUICKSTART.md) · [使用场景](docs/DEMOS.md) · [功能目录](docs/CAPABILITIES.md) · [参与贡献](CONTRIBUTING.md)
 
 <img src="docs/media/dawloop-character.png" alt="DAWLoop 品牌角色形象，角色由 Ryurikoneko 绘制" width="640">
 
@@ -72,46 +72,96 @@ flowchart TD
 
 分析报告帮助你选择创作方向，具体旋律设置和编辑由你决定。可选转录与规则创作汇入同一个音符编辑工作流。
 
-## DAWLoop Plugin — Proprietary
+## DAWLoop Plugin — Composer
 
-把参考、AI 候选与试听留在 DAW 里。Plugin 是独立闭源产品线，本轮交付面向作曲的 **Composer**。
+**把你的音乐参考、AI 创作伙伴和真实 DAW 放在同一个创作过程里。**
 
-### Composer：从参考音乐到自己的下一句
+Composer 是运行在宿主中的 VST3 音乐创作工作区。你可以带入已经写好的和弦或旋律，向自己的 AI 描述想法，生成新的音乐候选，在插件里比较、试听和调整，再把 MIDI 带回 FL Studio，继续选择音色、编排和制作。
 
-已有一段和弦，想找到更合适的旋律或另一种和声？把 MIDI 文件或 FL Studio 的官方 MIDI 剪贴板内容放入参考区，描述音乐目标，在和声画布与生成区比较候选，再将喜欢的版本带回宿主。
+对于已经有灵感但还缺少下一步的创作者，它提供一个可以不断尝试的地方：给和弦寻找主旋律、为乐句探索另一套和声、准备贝斯或琶音方向，或保留参考的节奏重新发展音乐。AI 提供候选，你通过看得见的音符和听得到的对比做选择，逐步形成自己的版本。
 
-<img src="docs/media/plugin-composer.zh.png" alt="Composer 真实开发界面：和声画布、参考 MIDI 与生成 MIDI" width="900">
+<img src="docs/media/plugin-composer.zh.png" alt="Composer 的和声画布、参考 MIDI 与生成候选工作区" width="900">
 
-截图来自真实 FL Studio 中的开发版本；仅裁切插件工作区。当前候选默认使用采样钢琴试听。
+Composer 在真实 FL Studio 中的界面：上方组织音乐目标与和声，下方并排查看参考和生成 MIDI，试听与候选切换都留在当前工作区。
 
-- **带入参考**：导入标准 MIDI，或使用 Piano Roll → File → Copy to MIDI clipboard 后在插件中粘贴。参考区保留音符与和声上下文。
-- **描述与比较**：选择目标和情绪，填写提示词，查看生成音符、A/B 比较及候选历史。
-- **试听与调整**：独立或合并试听参考与候选，编辑和弦、音区等音乐设置，再选择保留的版本。
-- **回到宿主**：导出或拖出 MIDI 到指定 Piano Roll；宿主出现导入确认时由用户接受。
-- **读取宿主上下文**：可选 FL 辅助脚本提供无需保存工程的当前钢琴窗快照；名称浏览由 Controller 桥接提供。使用前核对 Pattern / Channel 与实际打开的钢琴窗，名称读取不等于音符读取。
+### 从已有音乐出发，让 AI 理解你正在写什么
 
-#### AI Generation & Personalization
+创作可以从一小段音乐开始。把自己的 `.mid` 文件导入参考区，或在 FL Studio Piano Roll 使用 **File → Copy to MIDI clipboard**，再回到 Composer 粘贴。参考音符会出现在时间轴上，成为下一次创作的具体上下文。
+
+你可以把参考设置成和弦、旋律或其他音乐来源，结合音乐参数描述任务。例如，已有一个四小节和声循环时，可以围绕它寻找更简洁的旋律；已有主奏时，可以探索不同的和声与音区安排。参考与候选同时可见，便于判断新的想法怎样接上原有音乐。
+
+配置可选 FL 辅助脚本后，也可以取得当前 Piano Roll 的音符快照，无需先保存工程；Controller 桥接提供工程、Pattern 和 Channel 名称上下文。文件、官方 MIDI 剪贴板与宿主快照让你可以按自己的工作方式带入参考。[输入与宿主接入指南](docs/PLUGINS.md)
+
+### 一个参考，展开多种音乐方向
+
+Composer 将创作目标放在明确的音乐角色上。选择生成方向，再用主提示词和细分设置告诉 AI 需要怎样的结果：
+
+| 生成方向 | 可以怎样参与创作 |
+| --- | --- |
+| **Chord — 和声** | 为参考探索新的和弦进行、转位与声部安排，比较不同和声色彩 |
+| **Lead — 主旋律** | 围绕已有和声准备旋律候选，描述乐句走向、活动感与留白 |
+| **Bass — 贝斯** | 探索与和声搭配的低音线，为后续节奏与低频编排提供 MIDI 素材 |
+| **Arpeggio — 琶音** | 将和声方向发展为流动的分解音型，寻找不同运动方式 |
+| **Pad — 铺底** | 准备持续音与和声铺底方向，在宿主中进一步选择音色与层次 |
+
+例如，你可以提出这样的创作要求：
+
+> 围绕这段和弦准备四小节主旋律，整体温暖，前两小节留白，后两小节增加一点活动感。
+
+也可以保留参考的节奏作为约束，改变目标声部、情绪或音区，继续比较新的版本。这些指令表达你的创作意图；具体候选由接入的 Agent 或模型结合参考与设置产生。
+
+### 和声画布：让音乐结构可以看、可以改
+
+和声画布把和弦按音乐时间排列，而参考区和生成区保留对应的音符视图。你可以沿着小节理解进行，查看候选落在哪个音区、何时进入，以及它与参考在节奏和音高上的关系。
+
+通过和弦编辑、音区设置、时间轴与音高缩放等控件，你可以把“大致合适”的方向推进到更具体的音乐安排。主提示词负责整体目标，Compose、Chord、Emotion 等分区提供进一步表达意图的位置；撤销与重做帮助你比较取舍。
+
+### 用试听和 A/B 比较选择自己的版本
+
+Composer 内置采样钢琴，支持播放参考、生成内容，或把两者放在一起试听。这样，你可以先听清旋律和和声之间的关系，再决定把它交给宿主中的哪一个音源。
+
+候选历史让你重新打开先前生成的版本；A/B 工具可以保存和试听两种选择，比较它们的音乐走向。你可以先保留一个版本，再修改提示词、情绪或和声条件继续探索，而不是只对着最后一次生成的结果做决定。
+
+这个过程适合把模糊的想法变成可比较的选择：哪一句更有记忆点，哪种和声更贴合情绪，哪个音区更适合当前编排，都可以回到音符与试听中判断。
+
+### AI Generation & Personalization
 
 **你的 Agent，你的音乐方向。Your agent. Your musical direction.**
 
-Composer 提供参考音符、音乐参数与可比较的候选工作区；生成方向取决于你接入的 Agent / 模型、提示词、参考素材及配置。已经在外部训练或微调的模型也可以成为你的接入选择，但插件本身不负责训练或微调，使用它也不要求先训练模型。
+你可以在设置中配置自己的 API 服务、地址和模型，也可以让自己的 Agent 连接插件，围绕参考音乐开展创作。Composer 把参考音符、音乐目标、参数与候选结果放在一个可操作的工作区，让你的 AI 创作伙伴拥有具体的音乐输入和可以交还给你的 MIDI 成果。
 
-设置中可配置服务商、API 地址和模型，密钥由 Windows 凭据库保存。主动测试或生成时，提示词、参考音符及相关音乐参数会发送给所选服务商，可能产生第三方费用。也可以让自己的 Agent 连接插件，利用参考音符与音乐参数参与创作。
+生成方向可以随着你的工作方式发展：选择适合自己风格的模型，完善提示词，积累自己的参考材料，或接入你在外部训练、微调和配置的模型。插件本身不要求你训练模型；熟悉的 Agent、现有参考和清楚的音乐目标就可以成为起点。
+
+你决定希望 AI 帮到哪一步：先提供几种和声方向，围绕伴奏准备一段主旋律，生成贝斯或琶音候选，再通过试听与编辑把它变成自己的安排。Composer 的价值在于把这些想法交成音符，让你能够比较、修改和继续制作。
+
+配置 API 时，密钥由 Windows 凭据库保存。主动测试或生成会向所选服务商发送提示词、参考音符及相关参数，服务商可能收费。[配置与使用说明](docs/PLUGINS.md)
+
+### 把选择的音乐带回真实 FL Studio
+
+当候选已经值得继续制作，可以导出标准 MIDI，或直接从 **Drag MIDI** 拖入目标 Piano Roll。FL Studio 显示导入确认时，接受后继续使用自己的乐器、音色、效果和编排。
+
+这让一次创作能自然接到下一步：在 Composer 中围绕参考探索想法，把选择的音符交给宿主，再在真实工程中发展音色、节奏和段落。你既可以只把它当作某次和声或旋律探索的伙伴，也可以把它放进自己的长期 Agent 创作流程。
 
 ```mermaid
 flowchart TD
-    A[带入参考 MIDI] --> B[描述目标与音乐条件]
-    B --> C[连接自己的 Agent 或模型]
-    C --> D[生成并比较候选]
-    D --> E[试听、调整与选择]
+    A[带入参考 MIDI] --> B[选择声部与音乐目标]
+    B --> C[自己的 Agent 或模型]
+    C --> D[生成音乐候选]
+    D --> E[试听、比较与调整]
     E --> F[导出 MIDI]
 ```
 
-### Plugin 获取方式
+### 下载与开始
 
 [下载 Composer 0.2.0-rc.1 · Windows x64 VST3](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Plugin-V2-0.2.0-rc.1-Windows-x64-VST3-r2.zip) · [发行说明与校验和](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1)
 
-允许免费安装，用于个人及商业音乐创作；插件源码及专有二进制再分发权不随之授予。见 [二进制使用条款](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Composer-Binary-Use-Terms-0.2.0-rc.1.txt)。本轮交付 Composer 完整 Bundle，不含独立安装器或生产更新器。发行准备、可选桥接和许可说明见 [Plugin 指南](docs/PLUGINS.md)。
+1. 保存工程并关闭宿主，将完整 VST3 Bundle 放入标准 VST3 目录后重新扫描。
+2. 打开 Composer 入门教程，导入或粘贴自己的参考 MIDI，配置 API 或连接自己的 Agent。
+3. 选择音乐方向，生成、比较和试听候选，将满意的 MIDI 拖回 FL Studio。
+
+完整包包含采样钢琴、worker、字体与指南，无需单独安装 Python；需要 Microsoft Visual C++ V14 x64 Runtime。当前为 Windows x64 预发行版，安装与可选宿主桥接步骤见 [Plugin 指南](docs/PLUGINS.md)。
+
+Composer 自有实现闭源，允许免费用于个人及商业音乐创作，按独立的 [二进制使用条款](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Composer-Binary-Use-Terms-0.2.0-rc.1.txt) 分发。Desktop 与 Runtime 保留原有开源许可。
 
 ## DAWLoop Runtime — Open Source
 
