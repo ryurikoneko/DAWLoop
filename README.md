@@ -24,7 +24,7 @@
 | **DAWLoop Plugin — Proprietary** | Composer 宿主内创作 · [Plugin](docs/PLUGINS.md) |
 | **DAWLoop Runtime — Open Source** | Agent 规划、执行与验证 · [Quickstart](docs/QUICKSTART.md) |
 
-Plugin 与本仓库开源代码分开交付，Composer 正在准备公开发行。
+Plugin 与本仓库开源代码分开交付，Composer 已提供 [Windows VST3 预发行版](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1)。
 
 <img src="docs/media/music-home.png" alt="Music Intelligence workspace" width="900">
 
@@ -107,7 +107,9 @@ flowchart TD
 
 ### Plugin 获取方式
 
-Composer **0.2.0-rc.1** 的 Windows x64 VST3 本地候选已打包，正在准备公开发行；本轮交付 Composer 完整 Bundle，不含独立安装器或生产更新器。下载入口将在实际发布后提供。发行准备、可选桥接和许可说明见 [Plugin 指南](docs/PLUGINS.md)。
+[下载 Composer 0.2.0-rc.1 · Windows x64 VST3](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Plugin-V2-0.2.0-rc.1-Windows-x64-VST3-r2.zip) · [发行说明与校验和](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1)
+
+允许免费安装，用于个人及商业音乐创作；插件源码及专有二进制再分发权不随之授予。见 [二进制使用条款](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Composer-Binary-Use-Terms-0.2.0-rc.1.txt)。本轮交付 Composer 完整 Bundle，不含独立安装器或生产更新器。发行准备、可选桥接和许可说明见 [Plugin 指南](docs/PLUGINS.md)。
 
 ## DAWLoop Runtime — Open Source
 
@@ -235,7 +237,7 @@ Linux/macOS 使用 `python3 -m venv .venv` 和 `.venv/bin/python`。每次选择
 
 ## 开源与致谢
 
-Desktop、Runtime 与本公开仓库的项目自有开源代码采用 [MIT 许可证](LICENSE)。Plugin 私有实现保持闭源，二进制发行条款另行提供；根 MIT 不覆盖未公开的 Plugin 实现。品牌与部分图像的独立声明见 [品牌政策](TRADEMARKS.md)、[许可范围](LICENSE_POLICY.md) 和 [媒体说明](docs/media/README.md)。
+Desktop、Runtime 与本公开仓库的项目自有开源代码采用 [MIT 许可证](LICENSE)。Plugin 私有实现保持闭源，二进制按独立的 [免费使用条款](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Composer-Binary-Use-Terms-0.2.0-rc.1.txt) 分发；根 MIT 不覆盖未公开的 Plugin 实现。品牌与部分图像的独立声明见 [品牌政策](TRADEMARKS.md)、[许可范围](LICENSE_POLICY.md) 和 [媒体说明](docs/media/README.md)。
 
 感谢 [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) 的社区 FL Studio 控制工作，以及 Bilibili 创作者 [坏影子不坏](https://space.bilibili.com/599132499)（UID 599132499）的 [DSH 工作流展示](https://www.bilibili.com/video/BV1PTht6cENP/)。其制作实践启发 Production Pipeline；部分通用分析代码改编自其提供的 MIT 许可 `whale-music-pipeline`，保留原作者通知。
 
@@ -243,7 +245,7 @@ Desktop、Runtime 与本公开仓库的项目自有开源代码采用 [MIT 许�
 
 ## 当前版本说明
 
-- 本轮 Plugin 交付仅包含 Composer，采用独立闭源二进制条款，不自动安装更新。
+- Plugin **Composer 0.2.0-rc.1** 已公开预发行，仅含 Composer，采用独立闭源二进制条款，不自动安装更新。
 - Desktop **0.5.6-alpha.2** 是公开 Windows x64 Pre-release；维护者环境已有运行记录，独立干净 Windows 兼容性仍待确认，程序未签名。
 - 基础分析支持 WAV；Basic Pitch 可在确认许可后安装，适合乐器素材，转录结果需要音乐审阅。
 - Desktop 与 Python Runtime 分别交付；本文宿主图说明工作模式，具体 FL 现场范围以固定测试记录和 [验证文档](docs/VERIFICATION.md) 为准。

@@ -112,9 +112,9 @@ The actual Composer workspace places reference and generated material together. 
 
 <img src="media/plugin-composer.zh.png" alt="Composer 开发界面的参考与候选" width="900">
 
-这是 Plugin 的本地场景，不改写场景 B 的 Runtime 历史结果，也不是远程 API 配置的验收。当前 r2 尚未公开发布；产品条件见 [Plugin](PLUGINS.md)。
+这是 Plugin 的本地场景，不改写场景 B 的 Runtime 历史结果，也不是远程 API 配置的验收。当前 r2 已作为 [Composer 预发行版](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1) 公开；产品条件见 [Plugin](PLUGINS.md)。
 
-This local Plugin scenario does not rewrite the Runtime result in scenario B or establish acceptance of remote API configuration. The r2 candidate is not publicly released; the Plugin guide explains its delivery and conditions.
+This local Plugin scenario does not rewrite the Runtime result in scenario B or establish acceptance of remote API configuration. The r2 build is available as the [Composer prerelease](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1); the Plugin guide explains its delivery and conditions.
 
 ## 选择自己的入口 / Choose your route
 

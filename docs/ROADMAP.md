@@ -14,9 +14,9 @@ Desktop Alpha provides listening, WAV analysis, rule-assisted melodies, Piano Ro
 
 ## Composer 的创作体验 / Composer creation workflow
 
-Composer 已形成参考 MIDI、生成候选、试听与宿主转移的本地流程。后续重点是改善可选宿主读取的目标确认，完善 API 与 Agent 接入，并准备独立发行交付。
+Composer 已形成参考 MIDI、生成候选、试听与宿主转移的本地流程。后续重点是改善可选宿主读取的目标确认，完善 API 与 Agent 接入，并改善独立发行体验。
 
-Composer has a local reference-to-candidate, audition and host-transfer workflow. Next are clearer target confirmation for optional host reads, API and agent integration, and separate release delivery.
+Composer has a local reference-to-candidate, audition and host-transfer workflow. Next are clearer target confirmation for optional host reads, API and agent integration, and a smoother separate release experience.
 
 ## 更连贯的Desktop工作流 / A smoother Desktop workflow
 

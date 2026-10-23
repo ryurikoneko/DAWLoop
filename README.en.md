@@ -24,7 +24,7 @@ Analyze and edit in Desktop, develop and audition reference-based ideas in Plugi
 | **DAWLoop Plugin — Proprietary** | Composer creation inside the host · [Plugin](docs/PLUGINS.md#english) |
 | **DAWLoop Runtime — Open Source** | Agent planning, execution and verification · [Quickstart](docs/QUICKSTART.md) |
 
-Plugin is delivered separately from this repository's open-source code. Composer is being prepared for public release.
+Plugin is delivered separately from this repository's open-source code. Composer is available as a [Windows VST3 prerelease](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1).
 
 <img src="docs/media/music-home.png" alt="Music Intelligence workspace" width="900">
 
@@ -107,7 +107,9 @@ flowchart TD
 
 ### Plugin availability
 
-Composer **0.2.0-rc.1** is packaged as a local Windows x64 VST3 candidate, being prepared for public release. This delivery contains the full Composer bundle without a standalone installer or production updater. A download link will be added after publication. See the [Plugin guide](docs/PLUGINS.md#english) for release preparation, optional bridges and licensing.
+[Download Composer 0.2.0-rc.1 · Windows x64 VST3](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Plugin-V2-0.2.0-rc.1-Windows-x64-VST3-r2.zip) · [Release notes and checksums](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1)
+
+Install and use it free of charge for personal and commercial music creation. No source-code license or redistribution permission for proprietary binaries is granted; see the [binary-use terms](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Composer-Binary-Use-Terms-0.2.0-rc.1.txt). This delivery contains the full Composer bundle without a standalone installer or production updater. See the [Plugin guide](docs/PLUGINS.md#english) for release preparation, optional bridges and licensing.
 
 ## DAWLoop Runtime — Open Source
 
@@ -235,7 +237,7 @@ On Linux/macOS use `python3 -m venv .venv` and `.venv/bin/python`. Choose a new 
 
 ## Open source and credits
 
-Project-authored open-source code in Desktop, Runtime and this public repository uses the [MIT License](LICENSE). Private Plugin implementation is proprietary, with separate binary distribution terms; the root MIT grant does not cover unpublished Plugin implementation. Branding and certain images have separate notices in the [brand policy](TRADEMARKS.md), [license scope](LICENSE_POLICY.md) and [media guide](docs/media/README.md).
+Project-authored open-source code in Desktop, Runtime and this public repository uses the [MIT License](LICENSE). Private Plugin implementation is proprietary, with separate [free-use binary terms](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Composer-Binary-Use-Terms-0.2.0-rc.1.txt); the root MIT grant does not cover unpublished Plugin implementation. Branding and certain images have separate notices in the [brand policy](TRADEMARKS.md), [license scope](LICENSE_POLICY.md) and [media guide](docs/media/README.md).
 
 Thanks to [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) for community FL Studio control, and Bilibili creator [坏影子不坏](https://space.bilibili.com/599132499) (UID 599132499) for the [DSH workflow demonstration](https://www.bilibili.com/video/BV1PTht6cENP/). Those practices influenced the Production Pipeline; some generalized analysis code is adapted from the supplied MIT-licensed `whale-music-pipeline`, retaining original notices.
 
@@ -243,7 +245,7 @@ Thanks to [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-m
 
 ## Current Version Notes
 
-- This Plugin delivery includes Composer only, under separate proprietary binary terms, without automatic installation of updates.
+- Plugin **Composer 0.2.0-rc.1** is a public prerelease containing Composer only, under separate proprietary binary terms, without automatic installation of updates.
 - Desktop **0.5.6-alpha.2** is a public Windows x64 Pre-release. It has maintainer-environment records; independent clean-Windows compatibility awaits confirmation, and the binary is unsigned.
 - Basic analysis supports WAV. Basic Pitch can be installed after license confirmation and is intended for instrument material, with musical review of the transcription.
 - Desktop and Python Runtime are separate deliveries. Host diagrams describe the working model; fixed live-test scope is recorded in [Verification](docs/VERIFICATION.md).

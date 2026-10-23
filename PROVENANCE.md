@@ -1,5 +1,11 @@
 # 来源记录 / Provenance
 
+## Composer binary publication — 2026-10-23
+
+维护者批准免费安装及个人/商业音乐创作用途，不授予 Plugin 自有实现源码或专有二进制再分发权。独立中英文条款作为 [Composer Release](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1) 附件提供；原 r2 ZIP、原 SHA-256、根 MIT 与第三方许可均保持不变。此记录及下载入口文案为 CONFIRMED_PROJECT_GENERATED，不向公开仓库迁移私有实现。
+
+The owner approved free installation and use for personal and commercial music creation, without a source-code license or redistribution permission for proprietary Plugin binaries. Separate bilingual terms accompany the Composer release. The original r2 ZIP, checksum, root MIT and third-party grants remain unchanged; public documentation does not distribute private implementation.
+
 ## Three-product presentation — 2026-10-23
 
 README.md、README.en.md 与产品指南、能力目录、架构、演示、入门、路线图和贡献入口的本轮文案为 CONFIRMED_PROJECT_GENERATED。它们分别描述开源 Desktop / Runtime 与闭源 Plugin，不分发私有实现。Plugin 当前描述根据本地 0.2.0-rc.1 r2 包的 README/清单、Release Experience 现场记录整理；这些私有记录未被冒充为公开归档证据。公开下载仅对应实际 Published Release。

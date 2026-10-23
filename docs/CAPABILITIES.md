@@ -20,9 +20,9 @@ Import a WAV, listen, and inspect energy, rhythm changes and key candidates. Cre
 
 ## Plugin：宿主内的制作工作区 / Production inside the host
 
-Plugin 自有实现闭源，与本仓库开源代码分别交付。当前 Composer r2 是本地 Windows x64 VST3 候选，未公开发布，本轮仅交付 Composer。
+Plugin 自有实现闭源，与本仓库开源代码分别交付。当前 Composer r2 是已公开的 [Windows x64 VST3 预发行版](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1)，本轮仅交付 Composer。
 
-Plugin is proprietary and delivered separately. Composer r2 is a local Windows x64 VST3 candidate, not a public release. This delivery includes Composer only.
+Plugin is proprietary and delivered separately. Composer r2 is a [public Windows x64 VST3 prerelease](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1). This delivery includes Composer only.
 
 | 用户任务 / Task | 实际范围 / Scope |
 | --- | --- |

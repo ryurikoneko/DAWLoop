@@ -6,9 +6,9 @@ This page separates observed metadata from proposals. The owner reviews About, T
 
 ## 三产品展示方案 / Three-product presentation
 
-首页以 Desktop — Open Source、Plugin — Proprietary、Runtime — Open Source 三个入口呈现。Plugin 展示 Composer 的真实开发界面；只有 Desktop 现有公开发行提供下载。Composer 本地 r2 候选不作为公开资产，本轮仅交付 Composer。
+首页以 Desktop — Open Source、Plugin — Proprietary、Runtime — Open Source 三个入口呈现。Plugin 展示 Composer 的真实开发界面；Desktop 与 [Composer 预发行版](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1) 分别提供下载。Composer r2 已公开，本轮仅交付 Composer。
 
-The homepage separates the three products and shows the real Composer preview. Only the existing published Desktop release has a download. The local Composer r2 candidate is not a public asset, and this delivery includes Composer only.
+The homepage separates the three products and shows the real Composer preview. Desktop and the published Composer prerelease have separate downloads. Composer r2 is now public, and this delivery includes Composer only.
 
 建议 About： / Proposed About:
 

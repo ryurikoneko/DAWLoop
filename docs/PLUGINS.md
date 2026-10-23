@@ -12,7 +12,7 @@ Plugin 是 DAWLoop 的闭源宿主产品线，与开源 Desktop 和 Runtime 分�
 
 <img src="media/plugin-composer.zh.png" alt="Composer 当前开发工作区" width="900">
 
-当前本地 Windows x64 VST3 候选为 **0.2.0-rc.1 / release-experience-20261023-r2**。包含完整 Composer Bundle、冻结 worker、字体、钢琴资源、指南和第三方通知；普通用户不需另装 Python。外部前置条件为 Microsoft Visual C++ V14 x64 Runtime。它不是公开发行，也没有获批的下载地址。
+当前本地 Windows x64 VST3 候选为 **0.2.0-rc.1 / release-experience-20261023-r2**。包含完整 Composer Bundle、冻结 worker、字体、钢琴资源、指南和第三方通知；普通用户不需另装 Python。外部前置条件为 Microsoft Visual C++ V14 x64 Runtime。现已作为 [Composer 预发行版](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1) 公开。
 
 | 工作流 | 当前范围 |
 | --- | --- |
@@ -32,11 +32,11 @@ Plugin 是 DAWLoop 的闭源宿主产品线，与开源 Desktop 和 Runtime 分�
 
 ### 安装与更新准备
 
-获批分发后，手动安装应在关闭全部宿主后复制完整 VST3 Bundle 到标准 VST3 目录，再让宿主扫描。升级前保留旧 Bundle 与用户数据，整包替换；不能热换运行中的模块。r2 不包含独立安装器、旧更新器或已配置的生产在线更新源，不能沿用 build102 的安装器描述。
+手动安装应在关闭全部宿主后复制完整 VST3 Bundle 到标准 VST3 目录，再让宿主扫描。升级前保留旧 Bundle 与用户数据，整包替换；不能热换运行中的模块。r2 不包含独立安装器、旧更新器或已配置的生产在线更新源，不能沿用 build102 的安装器描述。
 
 ### 许可与来源
 
-Plugin 自有私有实现闭源，最终产品分发条款待维护者确定。开源 Desktop、Runtime 和本仓库既有代码仍保留 MIT 及原授权；Plugin 中开源 SDK、worker 依赖、字体与 VCSL 采样保留各自许可通知。没有把全部产品、截图或第三方组件统一改为 MIT。参见 [许可范围](../LICENSE_POLICY.md)、[媒体来源](media/README.md)。
+Plugin 自有私有实现闭源，允许免费安装，用于个人与商业音乐创作；不授予源码及专有二进制再分发权。见 [二进制使用条款](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Composer-Binary-Use-Terms-0.2.0-rc.1.txt)。开源 Desktop、Runtime 和本仓库既有代码仍保留 MIT 及原授权；Plugin 中开源 SDK、worker 依赖、字体与 VCSL 采样保留各自许可通知。没有把全部产品、截图或第三方组件统一改为 MIT。参见 [许可范围](../LICENSE_POLICY.md)、[媒体来源](media/README.md)。
 
 ## English
 
@@ -48,7 +48,7 @@ Reference MIDI → musical goal → your configured agent/model → candidate co
 
 <img src="media/plugin-composer.en.png" alt="Current Composer development workspace" width="900">
 
-The local Windows x64 VST3 candidate is **0.2.0-rc.1 / release-experience-20261023-r2**. It includes the full Composer bundle, frozen worker, fonts, piano resources, guides and third-party notices. No separate Python installation is required; Microsoft Visual C++ V14 x64 Runtime is an external prerequisite. This is not a public release and has no approved download.
+The local Windows x64 VST3 candidate is **0.2.0-rc.1 / release-experience-20261023-r2**. It includes the full Composer bundle, frozen worker, fonts, piano resources, guides and third-party notices. No separate Python installation is required; Microsoft Visual C++ V14 x64 Runtime is an external prerequisite. It is available as the [Composer prerelease](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1).
 
 | Workflow | Current scope |
 | --- | --- |
@@ -68,8 +68,8 @@ Local host records cover importing 17 notes through the official clipboard, gene
 
 ### Installation and update preparation
 
-After distribution approval, manual installation would copy the complete VST3 bundle into the standard VST3 directory with all hosts closed, then rescan. Keep the old bundle and user data before replacing the full bundle; never replace a loaded module. The r2 ZIP contains no standalone installer, old updater or configured production online-update source. The build102 installer description does not apply to r2.
+For manual installation, copy the complete VST3 bundle into the standard VST3 directory with all hosts closed, then rescan. Keep the old bundle and user data before replacing the full bundle; never replace a loaded module. The r2 ZIP contains no standalone installer, old updater or configured production online-update source. The build102 installer description does not apply to r2.
 
 ### Licensing and provenance
 
-Private Plugin implementation is proprietary, with final distribution terms pending owner approval. Desktop, Runtime and existing repository code retain MIT and their prior grants. Bundled open-source SDKs, worker dependencies, fonts and VCSL samples retain their own notices. Products, screenshots and third-party components have not been collectively relicensed as MIT. See [license scope](../LICENSE_POLICY.md) and [media sources](media/README.md).
+Private Plugin implementation is proprietary, with [free-use binary terms](https://github.com/ryurikoneko/DAWLoop/releases/download/plugin-v0.2.0-rc.1/DAWLoop-Composer-Binary-Use-Terms-0.2.0-rc.1.txt) allowing personal and commercial music creation, without a source-code license or redistribution permission for proprietary binaries. Desktop, Runtime and existing repository code retain MIT and their prior grants. Bundled open-source SDKs, worker dependencies, fonts and VCSL samples retain their own notices. Products, screenshots and third-party components have not been collectively relicensed as MIT. See [license scope](../LICENSE_POLICY.md) and [media sources](media/README.md).
