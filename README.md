@@ -24,7 +24,7 @@
 | **DAWLoop Plugin — Proprietary** | Composer 宿主内创作 · [Plugin](docs/PLUGINS.md) |
 | **DAWLoop Runtime — Open Source** | Agent 规划、执行与验证 · [Quickstart](docs/QUICKSTART.md) |
 
-Plugin 与本仓库开源代码分开交付，目前没有获准公开的插件下载。
+Plugin 与本仓库开源代码分开交付，Composer 正在准备公开发行。
 
 <img src="docs/media/music-home.png" alt="Music Intelligence workspace" width="900">
 
@@ -102,7 +102,7 @@ flowchart TD
     B --> C[连接自己的 Agent 或模型]
     C --> D[生成并比较候选]
     D --> E[试听、调整与选择]
-    E --> F[拖出 MIDI<br/>在宿主继续制作]
+    E --> F[导出 MIDI]
 ```
 
 ### Plugin 获取方式

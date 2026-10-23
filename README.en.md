@@ -24,7 +24,7 @@ Analyze and edit in Desktop, develop and audition reference-based ideas in Plugi
 | **DAWLoop Plugin — Proprietary** | Composer creation inside the host · [Plugin](docs/PLUGINS.md#english) |
 | **DAWLoop Runtime — Open Source** | Agent planning, execution and verification · [Quickstart](docs/QUICKSTART.md) |
 
-Plugin is delivered separately from this repository's open-source code. No public Plugin download has been approved.
+Plugin is delivered separately from this repository's open-source code. Composer is being prepared for public release.
 
 <img src="docs/media/music-home.png" alt="Music Intelligence workspace" width="900">
 
@@ -102,7 +102,7 @@ flowchart TD
     B --> C[Connect your agent or model]
     C --> D[Generate and compare]
     D --> E[Audition, refine and choose]
-    E --> F[Drag MIDI out<br/>Continue in the host]
+    E --> F[Export MIDI]
 ```
 
 ### Plugin availability
