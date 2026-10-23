@@ -4,6 +4,10 @@
 
 Start with synthetic material to explore features, profiles and musical plans. For the creator workspace, use the Desktop Alpha; this page is the Python developer route.
 
+需要宿主内的参考、生成与试听工作区，请看独立闭源 [Plugin 预览](PLUGINS.md)；它不随 `pip install dawloop` 安装，当前也没有公开 Plugin 下载。
+
+For reference-based creation inside the host, see the separate proprietary Plugin preview. It is not installed by `pip install dawloop` and currently has no public download.
+
 ## 1. 安装并运行一个例子 / Install and run
 
 虚拟环境将开发依赖与系统Python分开；learning extra提供例子需要的Schema校验。使用虚拟环境解释器的完整相对路径，可以避免终端尚未激活环境时调用到另一份安装。

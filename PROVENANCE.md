@@ -1,5 +1,14 @@
 # 来源记录 / Provenance
 
+## Three-product presentation — 2026-10-23
+
+README.md、README.en.md 与产品指南、能力目录、架构、演示、入门、路线图和贡献入口的本轮文案为 CONFIRMED_PROJECT_GENERATED。它们分别描述开源 Desktop / Runtime 与闭源 Plugin，不分发私有实现。Plugin 当前描述根据本地 0.2.0-rc.1 r2 包的 README/清单、Release Experience 现场记录整理；这些私有记录未被冒充为公开归档证据。公开下载仅对应实际 Published Release。
+
+The presentation text is CONFIRMED_PROJECT_GENERATED. It separates open-source Desktop/Runtime from proprietary Plugin without distributing private implementation. Plugin scope comes from the local r2 package guide/inventory, Release Experience host records; private records are not represented as public archived evidence. Download links refer only to published releases.
+
+新截图的来源、裁切与使用范围见 [media](docs/media/README.md)。既有 MIT、历史来源分类及第三方原始声明保持不变。
+
+
 DAWLoop 的公开仓库从独立、干净的 Git 历史开始。项目自己的 Core、Schema、测试和文档按本仓库需求编写；第三方源码或基于第三方实现改编的文件必须单独标记来源、许可证和边界。
 
 当前公开开发树中存在两类有意引入的第三方来源：

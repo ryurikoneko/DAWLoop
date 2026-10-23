@@ -2,14 +2,16 @@
 
 # DAWLoop
 
-**AI 辅助音乐创作，与真实 DAW 的执行闭环。**
+**AI Music Creation & DAW Automation**
 
-DAWLoop 把音乐分析、旋律创作和 MIDI 编辑放进一个工作区，并为 AI Agent 提供真实 FL Studio 执行、观察与核验工具。
+让音乐创作、AI 智能与真实 DAW 交互融为一体。
+
+在 Desktop 分析素材、创作与编辑 MIDI；在 Plugin 中围绕参考音乐生成和试听候选；用 Runtime 构建能够规划、操作、观察与验证的 Agent 工作流。
 
 [中文](README.md) | [English](README.en.md)
 
 [![CI](https://github.com/ryurikoneko/DAWLoop/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ryurikoneko/DAWLoop/actions/workflows/ci.yml)
-[![MIT code](https://img.shields.io/badge/code-MIT-blue)](LICENSE)
+[![Desktop & Runtime: MIT](https://img.shields.io/badge/Desktop_%26_Runtime-MIT-blue)](LICENSE)
 [![Alpha](https://img.shields.io/badge/status-Alpha-orange)](docs/DESKTOP.md)
 
 [下载 Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [体验 Runtime](docs/QUICKSTART.md) · [使用场景](docs/DEMOS.md) · [功能目录](docs/CAPABILITIES.md) · [参与贡献](CONTRIBUTING.md)
@@ -19,7 +21,7 @@ DAWLoop 把音乐分析、旋律创作和 MIDI 编辑放进一个工作区，并
 | 产品 | 定位与入口 |
 |---|---|
 | **DAWLoop Desktop — Open Source** | 独立音乐工作区 · [Desktop](docs/DESKTOP.md) |
-| **DAWLoop Plugin — Proprietary** | Composer / Mixer 开发预览 · [Plugin](docs/PLUGINS.md) |
+| **DAWLoop Plugin — Proprietary** | Composer 宿主内创作 · [Plugin](docs/PLUGINS.md) |
 | **DAWLoop Runtime — Open Source** | Agent 规划、执行与验证 · [Quickstart](docs/QUICKSTART.md) |
 
 Plugin 与本仓库开源代码分开交付，目前没有获准公开的插件下载。
@@ -27,7 +29,9 @@ Plugin 与本仓库开源代码分开交付，目前没有获准公开的插件�
 <img src="docs/media/music-home.png" alt="Music Intelligence workspace" width="900">
 
 
-## 一个工作区，从音乐素材到可编辑旋律
+## DAWLoop Desktop — Open Source
+
+### 一个工作区，从音乐素材到可编辑旋律
 
 研究一段音乐的变化，或为已有和声准备旋律：Music Intelligence 把试听、分析、创作和编辑放在同一个工作区。
 
@@ -66,7 +70,50 @@ flowchart TD
 
 分析报告帮助你选择创作方向，具体旋律设置和编辑由你决定。可选转录与规则创作汇入同一个音符编辑工作流。
 
-## 让 AI 参与真实的 FL Studio 工作流
+## DAWLoop Plugin — Proprietary
+
+把参考、AI 候选与试听留在 DAW 里。Plugin 是独立闭源产品线，本轮交付面向作曲的 **Composer**。
+
+### Composer：从参考音乐到自己的下一句
+
+已有一段和弦，想找到更合适的旋律或另一种和声？把 MIDI 文件或 FL Studio 的官方 MIDI 剪贴板内容放入参考区，描述音乐目标，在和声画布与生成区比较候选，再将喜欢的版本带回宿主。
+
+<img src="docs/media/plugin-composer.zh.png" alt="Composer 真实开发界面：和声画布、参考 MIDI 与生成 MIDI" width="900">
+
+截图来自真实 FL Studio 中的开发版本；仅裁切插件工作区。当前候选默认使用采样钢琴试听。
+
+- **带入参考**：导入标准 MIDI，或使用 Piano Roll → File → Copy to MIDI clipboard 后在插件中粘贴。参考区保留音符与和声上下文。
+- **描述与比较**：选择目标和情绪，填写提示词，查看生成音符、A/B 比较及候选历史。
+- **试听与调整**：独立或合并试听参考与候选，编辑和弦、音区等音乐设置，再选择保留的版本。
+- **回到宿主**：导出或拖出 MIDI 到指定 Piano Roll；宿主出现导入确认时由用户接受。
+- **读取宿主上下文**：可选 FL 辅助脚本提供无需保存工程的当前钢琴窗快照；名称浏览由 Controller 桥接提供。使用前核对 Pattern / Channel 与实际打开的钢琴窗，名称读取不等于音符读取。
+
+#### AI Generation & Personalization
+
+**你的 Agent，你的音乐方向。Your agent. Your musical direction.**
+
+Composer 提供参考音符、音乐参数与可比较的候选工作区；生成方向取决于你接入的 Agent / 模型、提示词、参考素材及配置。已经在外部训练或微调的模型也可以成为你的接入选择，但插件本身不负责训练或微调，使用它也不要求先训练模型。
+
+设置中可配置服务商、API 地址和模型，密钥由 Windows 凭据库保存。主动测试或生成时，提示词、参考音符及相关音乐参数会发送给所选服务商，可能产生第三方费用。也可以让自己的 Agent 连接插件，利用参考音符与音乐参数参与创作。
+
+```mermaid
+flowchart TD
+    A[带入参考 MIDI] --> B[描述目标与音乐条件]
+    B --> C[连接自己的 Agent 或模型]
+    C --> D[生成并比较候选]
+    D --> E[试听、调整与选择]
+    E --> F[拖出 MIDI<br/>在宿主继续制作]
+```
+
+### Plugin 获取方式
+
+Composer **0.2.0-rc.1** 的 Windows x64 VST3 本地候选已打包，正在准备公开发行；本轮交付 Composer 完整 Bundle，不含独立安装器或生产更新器。下载入口将在实际发布后提供。发行准备、可选桥接和许可说明见 [Plugin 指南](docs/PLUGINS.md)。
+
+## DAWLoop Runtime — Open Source
+
+Runtime 为开发者提供 Musical Grid、Note Plan、Production Pipeline、Agent 接口、执行适配与验证工具。它把音乐意图变成有明确目标和可观察结果的宿主任务。
+
+### 让 AI 参与真实的 FL Studio 工作流
 
 当你希望 AI 为某个乐器准备短句，任务可以从音乐意图继续进入真实宿主：DAWLoop 组织计划，核对操作目标，通过执行后端与正在运行的 FL Studio 通信，再把结果带回下一轮判断。
 
@@ -142,6 +189,12 @@ DAWLoop 已在真实 FL Studio 中完成受控音符操作的现场测试，涵�
 
 示意图依据公开测试记录与合成计划绘制。真实流程与实现分别见 [操作故事](docs/DEMOS.md)、[公开记录](evidence/public/fast_session_7.json) 和 [执行原理](docs/FL_STUDIO_MCP.md)。
 
+## 三种产品，怎样一起工作？
+
+Desktop 适合离开宿主研究素材、创建和编辑 MIDI；Composer 把参考、生成与试听放进宿主；Runtime 则让开发者扩展计划、后端与验证规则。你可以独立使用其中一条路径，也可以通过 MIDI 文件、剪贴板和明确的宿主操作衔接制作。
+
+Brain 是 Runtime 的音乐计划与规则，Hands 是宿主执行后端，Ears 是 Production Pipeline 的分析与测量。这是职责划分，不表示三个产品已经无缝自动同步。
+
 ## 为什么把这些能力放在一起？
 
 - 从计划到操作：把音乐意图组织为明确任务，通过后端进入真实 DAW。
@@ -182,7 +235,7 @@ Linux/macOS 使用 `python3 -m venv .venv` 和 `.venv/bin/python`。每次选择
 
 ## 开源与致谢
 
-项目自有代码采用 [MIT 许可证](LICENSE)。品牌与部分图像的独立声明见 [品牌政策](TRADEMARKS.md)、[许可范围](LICENSE_POLICY.md) 和 [媒体说明](docs/media/README.md)。
+Desktop、Runtime 与本公开仓库的项目自有开源代码采用 [MIT 许可证](LICENSE)。Plugin 私有实现保持闭源，二进制发行条款另行提供；根 MIT 不覆盖未公开的 Plugin 实现。品牌与部分图像的独立声明见 [品牌政策](TRADEMARKS.md)、[许可范围](LICENSE_POLICY.md) 和 [媒体说明](docs/media/README.md)。
 
 感谢 [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) 的社区 FL Studio 控制工作，以及 Bilibili 创作者 [坏影子不坏](https://space.bilibili.com/599132499)（UID 599132499）的 [DSH 工作流展示](https://www.bilibili.com/video/BV1PTht6cENP/)。其制作实践启发 Production Pipeline；部分通用分析代码改编自其提供的 MIT 许可 `whale-music-pipeline`，保留原作者通知。
 
@@ -190,6 +243,7 @@ Linux/macOS 使用 `python3 -m venv .venv` 和 `.venv/bin/python`。每次选择
 
 ## 当前版本说明
 
+- 本轮 Plugin 交付仅包含 Composer，采用独立闭源二进制条款，不自动安装更新。
 - Desktop **0.5.6-alpha.2** 是公开 Windows x64 Pre-release；维护者环境已有运行记录，独立干净 Windows 兼容性仍待确认，程序未签名。
 - 基础分析支持 WAV；Basic Pitch 可在确认许可后安装，适合乐器素材，转录结果需要音乐审阅。
 - Desktop 与 Python Runtime 分别交付；本文宿主图说明工作模式，具体 FL 现场范围以固定测试记录和 [验证文档](docs/VERIFICATION.md) 为准。

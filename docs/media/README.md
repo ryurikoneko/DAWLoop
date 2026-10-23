@@ -41,6 +41,16 @@ These editable SVGs explain the six-step host workflow and the recorded test tar
 
 该截图不作为根 MIT 下的插件源码交付；品牌及图像使用另见现有许可范围与品牌政策，第三方权利不变。 / The screenshot does not distribute Plugin source under the root MIT License. Existing brand/media policies and third-party rights remain applicable.
 
+## 当前 Plugin 预览 / Current Plugin previews
+
+`plugin-composer.zh.png` 与 `plugin-composer.en.png` 来自 2026-10-23 Release Experience 的真实 FL Studio 界面，只按维护者已批准方式裁切到插件工作区；未重绘、替换控件或结果。画面保留测试提示词与通用音源名称，移除宿主用户名、私有工程路径及素材库侧栏。r2 只调整关于菜单入口，此主工作区未变化；截图不是 r2 重新安装验收。
+
+The Composer images are approved workspace-only crops of actual Release Experience host captures. No controls or results were redrawn. Host identity, private paths and the sample sidebar are excluded. The r2 change concerns an About-menu entry, not this workspace; these images do not claim a new r2 installation test.
+
+这些图片用于维护者授权的产品展示，不分发私有 Plugin 实现，也不修改现有媒体、品牌和第三方许可。旧 build102 图片保留其历史身份。[Plugin 范围与来源](../PLUGINS.md)
+
+These images serve the owner-authorized preview and distribute no private implementation. Existing media, brand and third-party licenses remain unchanged; the older build102 image retains its historical identity.
+
 ## Social Preview
 
 现有1280×640品牌卡片与Logo用途分别保留。2026-10-15读取的GitHub设置仍为默认仓库卡片，未启用自定义Open Graph图片。候选排版与维护者操作见 [展示建议](../GITHUB_SHOWCASE.md)，旧 [展示核验](../PUBLIC_PRESENTATION_REVIEW.md) 保留其原日期的记录。

@@ -11,6 +11,12 @@ Help improve music workflows, editing, analysis or DAW integration. Start with t
 
 欢迎创作工作流反馈、分析与Runtime实现、宿主适配、合成测试素材及文档翻译。请说明用户想完成什么、预期与实际结果，并遵守下文的安全、来源和验证要求。
 
+## Product scope / 产品范围
+
+Desktop and Runtime are open source. Private Plugin implementation is developed separately and is not contributed through this public repository. Plugin documentation, translation and reproducible user feedback are welcome; do not attach private source, binaries, credentials or music without permission. See [Plugin scope](docs/PLUGINS.md).
+
+Desktop 与 Runtime 开源；Plugin 私有实现独立维护。本公开仓库欢迎 Plugin 文档、翻译和可复现反馈，不要求提交私有实现，不接收未经授权的源码、二进制、凭据或音乐素材。
+
 ## Development setup
 
 Use Python 3.11 or newer. From the repository root:

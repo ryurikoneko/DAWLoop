@@ -2,14 +2,16 @@
 
 # DAWLoop
 
-**AI-assisted music creation, connected to real DAW workflows.**
+**AI Music Creation & DAW Automation**
 
-Analyze music, shape melodies and edit MIDI in one workspace. Build AI agents that act inside real FL Studio, observe results and verify the next step.
+Bring music creation, AI and real DAW interaction together.
+
+Analyze and edit in Desktop, develop and audition reference-based ideas in Plugin, and build agents that plan, act, observe and verify through Runtime.
 
 [中文](README.md) | [English](README.en.md)
 
 [![CI](https://github.com/ryurikoneko/DAWLoop/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ryurikoneko/DAWLoop/actions/workflows/ci.yml)
-[![MIT code](https://img.shields.io/badge/code-MIT-blue)](LICENSE)
+[![Desktop & Runtime: MIT](https://img.shields.io/badge/Desktop_%26_Runtime-MIT-blue)](LICENSE)
 [![Alpha](https://img.shields.io/badge/status-Alpha-orange)](docs/DESKTOP.md)
 
 [Download Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [Try the Runtime](docs/QUICKSTART.md) · [Demos](docs/DEMOS.md) · [Capabilities](docs/CAPABILITIES.md) · [Contribute](CONTRIBUTING.md)
@@ -19,7 +21,7 @@ Analyze music, shape melodies and edit MIDI in one workspace. Build AI agents th
 | Product | Purpose and entry |
 |---|---|
 | **DAWLoop Desktop — Open Source** | Standalone music workspace · [Desktop](docs/DESKTOP.md) |
-| **DAWLoop Plugin — Proprietary** | Composer / Mixer development preview · [Plugin](docs/PLUGINS.md#english) |
+| **DAWLoop Plugin — Proprietary** | Composer creation inside the host · [Plugin](docs/PLUGINS.md#english) |
 | **DAWLoop Runtime — Open Source** | Agent planning, execution and verification · [Quickstart](docs/QUICKSTART.md) |
 
 Plugin is delivered separately from this repository's open-source code. No public Plugin download has been approved.
@@ -27,7 +29,9 @@ Plugin is delivered separately from this repository's open-source code. No publi
 <img src="docs/media/music-home.png" alt="Music Intelligence workspace" width="900">
 
 
-## From musical material to an editable melody
+## DAWLoop Desktop — Open Source
+
+### From musical material to an editable melody
 
 Study how a piece changes, or find a melody for an existing harmony. Music Intelligence brings listening, analysis, creation and editing into one workspace.
 
@@ -66,7 +70,50 @@ flowchart TD
 
 Reports inform your direction; you choose composition settings and edits. Optional transcription and rule-based creation lead into the same note-editing workflow.
 
-## Bring AI actions into real FL Studio
+## DAWLoop Plugin — Proprietary
+
+Keep references, AI candidates and auditioning inside your DAW. Plugin is a separate proprietary product line: **Composer** is the focus of this delivery.
+
+### Composer: turn a reference into your next phrase
+
+Have a chord progression and want a different melody or harmony? Bring a MIDI file or FL Studio's official MIDI clipboard into the reference area, describe your goal, compare candidates on the harmonic canvas and take the version you like back into the host.
+
+<img src="docs/media/plugin-composer.en.png" alt="Actual Composer development interface with harmonic canvas, reference MIDI and generated MIDI" width="900">
+
+Captured from a development build running in real FL Studio, cropped to the plugin workspace. The current candidate uses a sampled piano for auditioning by default.
+
+- **Bring a reference**: import standard MIDI, or use Piano Roll → File → Copy to MIDI clipboard and paste it into Composer. Reference notes provide musical context.
+- **Describe and compare**: choose a target and emotion, write your prompt, and review generated notes, A/B comparisons and candidate history.
+- **Listen and refine**: audition the reference and candidate separately or together, adjust chords and register settings, and choose a version to keep.
+- **Return to the host**: export or drag MIDI into the intended Piano Roll, accepting the host's import dialog when shown.
+- **Read host context**: optional FL helper scripts provide a current Piano Roll snapshot without saving the project; a Controller bridge provides source-name browsing. Check Pattern / Channel and the actual open Piano Roll. Reading names is separate from reading notes.
+
+#### AI Generation & Personalization
+
+**Your agent. Your musical direction.**
+
+Composer supplies reference notes, musical parameters and a workspace for comparing candidates. Results depend on your connected agent or model, prompts, reference material and configuration. An externally trained or fine-tuned model may be part of your own setup; the plugin does not train or fine-tune models, and training is not required to use it.
+
+Settings provide provider, API address and model configuration, with keys stored in Windows Credential Manager. Explicit test or generation requests send prompts, reference notes and relevant musical parameters to the selected provider and may incur provider fees. You can also connect your own agent to the plugin and work with reference notes and musical parameters.
+
+```mermaid
+flowchart TD
+    A[Bring reference MIDI] --> B[Set a musical goal]
+    B --> C[Connect your agent or model]
+    C --> D[Generate and compare]
+    D --> E[Audition, refine and choose]
+    E --> F[Drag MIDI out<br/>Continue in the host]
+```
+
+### Plugin availability
+
+Composer **0.2.0-rc.1** is packaged as a local Windows x64 VST3 candidate, being prepared for public release. This delivery contains the full Composer bundle without a standalone installer or production updater. A download link will be added after publication. See the [Plugin guide](docs/PLUGINS.md#english) for release preparation, optional bridges and licensing.
+
+## DAWLoop Runtime — Open Source
+
+Runtime provides Musical Grid, Note Plan, Production Pipeline, agent interfaces, execution adapters and verification tools. It turns musical intent into host tasks with explicit targets and observable outcomes.
+
+### Bring AI actions into real FL Studio
 
 When you ask an agent to prepare a phrase for an instrument, the task can continue into the running DAW. DAWLoop structures the plan, establishes the destination, connects the execution backend to FL Studio and brings results back for the next decision.
 
@@ -142,6 +189,12 @@ DAWLoop has completed a controlled note-operation test in real FL Studio, coveri
 
 The illustration follows the public test record and synthetic plan. See the [operation story](docs/DEMOS.md), [public record](evidence/public/fast_session_7.json) and [execution paths](docs/FL_STUDIO_MCP.md) for their sources.
 
+## How the products work together
+
+Desktop supports studying material and editing MIDI outside the host. Composer brings reference-based generation and auditioning into the host. Runtime lets developers extend plans, backends and verification rules. Use one route independently or connect them through MIDI files, clipboard transfer and explicit host actions.
+
+Brain means Runtime planning and rules, Hands means DAW execution backends, and Ears means Production Pipeline analysis and measurement. These responsibilities do not imply seamless automatic synchronization between products.
+
 ## Why bring these capabilities together?
 
 - From plans to actions: structure musical intent and reach the real DAW through a backend.
@@ -182,7 +235,7 @@ On Linux/macOS use `python3 -m venv .venv` and `.venv/bin/python`. Choose a new 
 
 ## Open source and credits
 
-Project-authored code uses the [MIT License](LICENSE). Branding and certain images have separate notices in the [brand policy](TRADEMARKS.md), [license scope](LICENSE_POLICY.md) and [media guide](docs/media/README.md).
+Project-authored open-source code in Desktop, Runtime and this public repository uses the [MIT License](LICENSE). Private Plugin implementation is proprietary, with separate binary distribution terms; the root MIT grant does not cover unpublished Plugin implementation. Branding and certain images have separate notices in the [brand policy](TRADEMARKS.md), [license scope](LICENSE_POLICY.md) and [media guide](docs/media/README.md).
 
 Thanks to [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-mcp) for community FL Studio control, and Bilibili creator [坏影子不坏](https://space.bilibili.com/599132499) (UID 599132499) for the [DSH workflow demonstration](https://www.bilibili.com/video/BV1PTht6cENP/). Those practices influenced the Production Pipeline; some generalized analysis code is adapted from the supplied MIT-licensed `whale-music-pipeline`, retaining original notices.
 
@@ -190,6 +243,7 @@ Thanks to [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-m
 
 ## Current Version Notes
 
+- This Plugin delivery includes Composer only, under separate proprietary binary terms, without automatic installation of updates.
 - Desktop **0.5.6-alpha.2** is a public Windows x64 Pre-release. It has maintainer-environment records; independent clean-Windows compatibility awaits confirmation, and the binary is unsigned.
 - Basic analysis supports WAV. Basic Pitch can be installed after license confirmation and is intended for instrument material, with musical review of the transcription.
 - Desktop and Python Runtime are separate deliveries. Host diagrams describe the working model; fixed live-test scope is recorded in [Verification](docs/VERIFICATION.md).

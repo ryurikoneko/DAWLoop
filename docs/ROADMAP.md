@@ -12,6 +12,12 @@ Desktop Alpha provides listening, WAV analysis, rule-assisted melodies, Piano Ro
 
 [Desktop体验](DESKTOP.md) · [Runtime Quickstart](QUICKSTART.md) · [真实宿主案例](DEMOS.md) · [能力目录](CAPABILITIES.md)
 
+## Composer 的创作体验 / Composer creation workflow
+
+Composer 已形成参考 MIDI、生成候选、试听与宿主转移的本地流程。后续重点是改善可选宿主读取的目标确认，完善 API 与 Agent 接入，并准备独立发行交付。
+
+Composer has a local reference-to-candidate, audition and host-transfer workflow. Next are clearer target confirmation for optional host reads, API and agent integration, and separate release delivery.
+
 ## 更连贯的Desktop工作流 / A smoother Desktop workflow
 
 让第一次导入音频、理解报告、创建候选旋律、保存和继续编辑更容易衔接。组件管理应更清楚地解释下载、许可、磁盘与运行条件；中英文使用指南应各自围绕实际操作组织。对创作者而言，这意味着减少环境摸索，把更多时间留给音乐选择。
@@ -30,7 +36,7 @@ Build on existing Pattern/Channel identity and navigation toward richer target o
 
 Connect actual host notes to their plans and preserve independent readback and comparison. Consistent records help reproduce problems, locate differences and inform later agent actions. Multiplicity, time units and target identity belong in each operation's contract.
 
-## Mixer与混音辅助 / Mixer and production assistance
+## Runtime Mixer 控制闭环 / Runtime Mixer control loop
 
 先验证推子是否写到请求值，再测量声音是否进入目标区间。Phase A比较控制值并记录容差来源；Phase B使用新音频评估结果；Phase C根据结果重新规划，并保留每次尝试的历史。这使Agent可以区分控制问题与混音策略问题。
 

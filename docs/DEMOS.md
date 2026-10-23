@@ -1,8 +1,8 @@
 # DAWLoop 情景演示 / DAWLoop in practice
 
-两条入口围绕同一个问题：怎样把音乐意图变成下一步可以继续制作的内容？第一条在独立 Desktop 中完成，第二条展示真实 FL Studio 中已经记录过的受控操作。
+Desktop、Plugin 与 Runtime 围绕同一个问题：怎样把音乐意图变成下一步可以继续制作的内容？第一条在独立 Desktop 中完成，第二条展示真实 FL Studio 中已经记录过的受控操作。
 
-Two routes address the same question: how does a musical idea become something you can work with next? One uses standalone Desktop; the other follows a recorded, controlled operation inside real FL Studio.
+Desktop, Plugin and Runtime address the same question: how does a musical idea become something you can work with next? One uses standalone Desktop; the other follows a recorded, controlled operation inside real FL Studio.
 
 ## 演示 A：从音乐素材到 MIDI / From material to MIDI
 
@@ -103,6 +103,18 @@ The summary records one dispatch, no retry or fallback, a human report, applicat
 The original terminal state is **`COMPLETED_UNVERIFIED`**. Execution and observation were recorded under that contract; complete producer-side note readback and Exact-Set remain **`NOT_VERIFIED`**. The distinction makes the next development step explicit.
 
 [执行原理与时序](FL_STUDIO_MCP.md) · [部署合同](DEPLOYMENT.md) · [验证模型](VERIFICATION.md) · [固定公开记录](../evidence/public/fast_session_7.json)
+
+## 演示 C：参考 MIDI 到宿主候选 / Reference MIDI to a host candidate
+
+Composer 的真实开发界面把参考与生成内容并排展示。已有本地现场流程为：官方 MIDI 剪贴板导入 17 音 → CLI 生成 16 音 → 采样钢琴试听 → 拖入独立 FL 测试目标 → 官方 MIDI 剪贴板回读。数量、音高、起点及时值相符，力度差异对应 MIDI 7-bit 量化。
+
+The actual Composer workspace places reference and generated material together. A local run imported 17 notes through FL's MIDI clipboard, generated 16 through the CLI, auditioned them, dragged them into a separate test target and read them back through the official clipboard. Count, pitch, start and duration matched; velocity differences reflect 7-bit MIDI quantization.
+
+<img src="media/plugin-composer.zh.png" alt="Composer 开发界面的参考与候选" width="900">
+
+这是 Plugin 的本地场景，不改写场景 B 的 Runtime 历史结果，也不是远程 API 配置的验收。当前 r2 尚未公开发布；产品条件见 [Plugin](PLUGINS.md)。
+
+This local Plugin scenario does not rewrite the Runtime result in scenario B or establish acceptance of remote API configuration. The r2 candidate is not publicly released; the Plugin guide explains its delivery and conditions.
 
 ## 选择自己的入口 / Choose your route
 
