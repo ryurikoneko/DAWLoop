@@ -36,7 +36,7 @@ Plugin is delivered separately from this repository's open-source code. Composer
 
 ## DAWLoop Desktop — Open Source
 
-Desktop runs independently of FL Studio. Analyze material, create and edit notes, then export standard MIDI to continue production in your preferred DAW.
+Desktop runs independently of DAW. Analyze material, create and edit notes, then export standard MIDI to continue production in your preferred DAW.
 
 ### From musical material to an editable melody
 
