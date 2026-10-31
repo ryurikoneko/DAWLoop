@@ -163,8 +163,10 @@ def audition(lab,method,params):
     pairs=json.loads(manifest.decode('utf-8'));study=hashlib.sha256(manifest).hexdigest()
     lab.db.execute('CREATE TABLE IF NOT EXISTS audition_events(id INTEGER PRIMARY KEY,study TEXT,pair TEXT,kind TEXT,body TEXT,created REAL)')
     if method=='auditionList':
-        rated={r['pair'] for r in lab.db.execute("SELECT pair FROM audition_events WHERE study=? AND kind='RATING'",(study,))}
-        return [dict(id=p['id'],status='RATED' if p['id'] in rated else 'PENDING',durationA=p['a']['end']-p['a']['start'],durationB=p['b']['end']-p['b']['start']) for p in pairs]
+        rated={}
+        for r in lab.db.execute("SELECT pair,body FROM audition_events WHERE study=? AND kind='RATING' ORDER BY id DESC",(study,)):
+            if r['pair'] not in rated:rated[r['pair']]=json.loads(r['body'])['ratings']
+        return [dict(id=p['id'],status='RATED' if p['id'] in rated else 'PENDING',ratings=rated.get(p['id']),durationA=p['a']['end']-p['a']['start'],durationB=p['b']['end']-p['b']['start']) for p in pairs]
     pair=next(p for p in pairs if p['id']==params['pair'])
     if method=='auditionReveal':
         with lab.db:lab.db.execute('INSERT INTO audition_events(study,pair,kind,body,created) VALUES(?,?,?,?,?)',(study,pair['id'],'REVEAL','{}',time.time()))

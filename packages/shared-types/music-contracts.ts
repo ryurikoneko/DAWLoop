@@ -19,7 +19,7 @@ export interface StyleSegment {id:string;asset:string;name:string;start:number;e
 export interface StyleCandidate extends StyleSegment {cosine:number;preference:number;score:number}
 export interface SongStructure {asset:string;name:string;coverage:{duration:number;coverage:number;complete:boolean};sections:Array<{id:number;start:number;end:number;label:string;rmsMean:number|null;centroidMean:number|null;bpmCandidate:number|null;repeats:Array<{section:number;similarity:number}>}>;curves:{energy:number[][];centroid:number[][]};novelty:number[];selfSimilarity:number[][];bpmCandidates:number[];semantic:Record<string,null>}
 export interface MusicBridge {
-  styleAuditionList(p:{}):Promise<Result<Array<{id:string;status:string;durationA:number;durationB:number}>>>;
+  styleAuditionList(p:{}):Promise<Result<Array<{id:string;status:string;durationA:number;durationB:number;ratings:Record<'overall'|'rhythm'|'timbre'|'harmony'|'arrangement'|'reference','similar'|'different'|'unknown'>|null}>>>;
   styleAuditionReveal(p:{pair:string}):Promise<Result<{a:StyleSegment;b:StyleSegment;score:number;category:string}>>;
   styleAuditionPreview(p:{pair:string;side:'a'|'b'}):Promise<Result<{assetId:string;url:string}>>;
   styleAuditionRate(p:{pair:string;ratings:Record<'overall'|'rhythm'|'timbre'|'harmony'|'arrangement'|'reference','similar'|'different'|'unknown'>}):Promise<Result<boolean>>;

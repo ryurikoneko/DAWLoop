@@ -7,7 +7,7 @@ const fields=['overall','rhythm','timbre','harmony','arrangement','reference'] a
 const empty=()=>Object.fromEntries(fields.map(k=>[k,'unknown'])) as Rating;
 export function StyleAudition(){
  const {i18n}=useTranslation();const zh=i18n.language==='zh-CN';
- const [pairs,setPairs]=useState<Array<{id:string;status:string;durationA:number;durationB:number}>>([]);
+ const [pairs,setPairs]=useState<Array<{id:string;status:string;durationA:number;durationB:number;ratings:Rating|null}>>([]);
  const [index,setIndex]=useState(0),[ratings,setRatings]=useState<Rating>(empty),[error,setError]=useState(''),[busy,setBusy]=useState(false),[url,setUrl]=useState('');
  const [revealed,setRevealed]=useState<Awaited<ReturnType<MusicBridge['styleAuditionReveal']>> extends {data:infer D}?D:unknown>(null);
  const grant=useRef<{assetId:string;url:string}|null>(null);const audio=useRef<HTMLAudioElement>(null);
@@ -16,11 +16,11 @@ export function StyleAudition(){
  async function unwrap<T>(p:Promise<import('../../../packages/shared-types/contracts').Result<T>>){const r=await p;if(!r.ok)throw Error(r.error.code);return r.data;}
  async function act(fn:()=>Promise<void>){setBusy(true);setError('');try{await fn();}catch{setError(zh?'无法读取听审清单，请确认研究目录包含本轮清单。':'Could not read the listening study. Check that this research folder contains the study.');}finally{setBusy(false);}}
  async function play(side:'a'|'b'){await release();const g=await unwrap(window.dawloop.music.styleAuditionPreview({pair:pairs[index].id,side}));grant.current=g;setUrl(g.url);}
- async function move(next:number){await release();setUrl('');setIndex(next);setRatings(empty());setRevealed(null);}
+ async function move(next:number){await release();setUrl('');setIndex(next);setRatings(pairs[next]?.ratings??empty());setRevealed(null);}
  const labels=zh?['整体听感','节奏','音色','和声','编曲','愿意加入参考库']:['Overall sound','Rhythm','Timbre','Harmony','Arrangement','Add to my references'];
  const pair=pairs[index];
  return <section className="panel" aria-label={zh?'片段盲听':'Blind listening'}><h3>{zh?'片段盲听':'Blind listening'}</h3><p>{zh?'先试听 A 和 B，再记录你的感受。歌曲信息与模型分数可在听后展开。':'Listen to A and B, then record your impression. Reveal song information and model scores after listening.'}</p>
- <button disabled={busy} onClick={()=>void act(async()=>{await move(0);setPairs(await unwrap(window.dawloop.music.styleAuditionList({})));})}>{zh?'打开听审清单':'Open listening study'}</button>
+ <button disabled={busy} onClick={()=>void act(async()=>{await move(0);const list=await unwrap(window.dawloop.music.styleAuditionList({}));setPairs(list);setRatings(list[0]?.ratings??empty());})}>{zh?'打开听审清单':'Open listening study'}</button>
  {error&&<p role="alert">{error}</p>}
  {pair&&<><p>{index+1} / {pairs.length} · {pair.status==='RATED'?(zh?'已记录':'Recorded'):(zh?'待试听':'Awaiting review')}</p><div className="buttons"><button disabled={busy} onClick={()=>void act(()=>play('a'))}>{zh?'试听 A':'Play A'} ({pair.durationA.toFixed(1)}s)</button><button disabled={busy} onClick={()=>void act(()=>play('b'))}>{zh?'试听 B':'Play B'} ({pair.durationB.toFixed(1)}s)</button></div>
  {url&&<audio ref={audio} key={url} src={url} autoPlay controls/>}
