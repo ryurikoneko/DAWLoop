@@ -18,13 +18,18 @@ export interface SavedScore {schemaVersion:1;id:string;name:string;savedAt:strin
 export interface StyleSegment {id:string;asset:string;name:string;start:number;end:number}
 export interface StyleCandidate extends StyleSegment {cosine:number;preference:number;score:number}
 export interface ListeningRating {overall:number|null;rhythm:number|null;drumsBass:number|null;melodyHarmony:number|null;timbre:number|null;arrangement:number|null;enjoymentA:number|null;enjoymentB:number|null;referenceA:number|null;referenceB:number|null;preference:'a'|'b'|'both'|'neither'|'unknown';notes:string;reviewed:boolean}
-export interface ListeningPair {schemaVersion:2;id:string;status:string;durationA:number;durationB:number;ratings:ListeningRating|null}
+export interface ListeningPair {schemaVersion:2;id:string;status:string;durationA:number;durationB:number;ratings:ListeningRating|null;qualification?:{status:string;retrievalEligible:boolean;exclusionReason:string|null}}
+export interface SemanticView {status:{state:string;completed:number;total:number;error?:string;elapsedSeconds?:number;peakRssBytes?:number;modelRevision?:string};songs:{asset:string;duration:number;sections:{id:number;start:number;end:number;groups:Record<string,{top:string|null;margin:number|null;candidates:{id:string;label:string;text:string;cosine:number}[]}>}[]}[];profiles?:{collection?:{songCount:number;sectionCount:number};personal?:{claims:{description:string;evidence:{pair:string;quote:string}[]}[]};experiment?:{prompts:{id:string;name:string;english:string;clauses:{text:string;source:string}[]}[]}}}
 export interface ListeningSummary {status:string;ratedPairs:number;totalPairs:number;references:object[];userDescriptions:{text:string}[];associations:Record<string,{n:number;spearman:number|null}>}
 export interface SongStructure {asset:string;name:string;coverage:{duration:number;coverage:number;complete:boolean};sections:Array<{id:number;start:number;end:number;label:string;rmsMean:number|null;centroidMean:number|null;bpmCandidate:number|null;repeats:Array<{section:number;similarity:number}>}>;curves:{energy:number[][];centroid:number[][]};novelty:number[];selfSimilarity:number[][];bpmCandidates:number[];semantic:Record<string,null>}
 export interface MusicBridge {
+  styleSemanticStart(p:{}):Promise<Result<boolean>>;
+  styleSemanticCancel(p:{}):Promise<Result<boolean>>;
+  styleSemanticStatus(p:{}):Promise<Result<SemanticView>>;
+  styleAuditionDisposition(p:{pair:string;status:'VALID'|'INVALID'|'SKIPPED';reason:string}):Promise<Result<boolean>>;
   styleAuditionList(p:{}):Promise<Result<ListeningPair[]>>;
   styleAuditionReveal(p:{pair:string}):Promise<Result<{a:StyleSegment&{auditionRange?:{start:number;end:number}};b:StyleSegment&{auditionRange?:{start:number;end:number}};score:number;category:string}>>;
-  styleAuditionPreview(p:{pair:string;side:'a'|'b';mode?:'context'|'extended'|'whole'}):Promise<Result<{assetId:string;url:string}>>;
+  styleAuditionPreview(p:{pair:string;side:'a'|'b';mode?:'anchor'|'context'|'extended'|'whole'}):Promise<Result<{assetId:string;url:string}>>;
   styleAuditionRate(p:{pair:string;ratings:ListeningRating}):Promise<Result<boolean>>;
   styleAuditionSummary(p:{}):Promise<Result<ListeningSummary>>;
   styleAuditionLeaveBlind(p:{}):Promise<Result<boolean>>;

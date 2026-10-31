@@ -15,15 +15,22 @@ class ListeningTests(unittest.TestCase):
         lab=StyleLab(folder);p=lab.root/'owned.wav';sf.write(p,np.zeros(8000*60),8000)
         asset=lab.import_audio([p])[0];anchor=dict(asset=asset,name='TEST_FIXTURE',start=25,end=30,duration=60,sourceSha256=digest(p))
         anchor['context']=context(anchor,60,20)
-        study=dict(schemaVersion=2,pairs=[dict(id=f'p-{i}',a=anchor,b=anchor,score=.5+i*.1) for i in range(3)],scoreScope='original5secondAnchors')
+        pairs=[]
+        for i in range(3):
+            a=dict(anchor,start=5+i*5,end=10+i*5);a['context']=context(a,60,20)
+            b=dict(anchor,start=35+i*5,end=40+i*5);b['context']=context(b,60,20)
+            pairs.append(dict(id=f'p-{i}',a=a,b=b,score=.5+i*.1))
+        study=dict(schemaVersion=2,pairs=pairs,scoreScope='original5secondAnchors')
         target=lab.root/'phase5';target.mkdir();file=target/'study.json';file.write_text(json.dumps(study),encoding='utf-8')
+        for pair in study['pairs']:
+            for side in ('a','b'):audition(lab,'auditionClip',dict(pair=pair['id'],side=side,mode='anchor'))
         return lab,file
 
     def test_blinding_rating_recovery_and_immutable_study(self):
         with tempfile.TemporaryDirectory() as folder:
             lab,file=self.setup_study(folder);original=file.read_bytes()
             row=audition(lab,'auditionList',{})[0]
-            self.assertEqual(set(row),{'schemaVersion','id','status','durationA','durationB','ratings'});self.assertEqual(row['durationA'],20)
+            self.assertEqual(set(row),{'schemaVersion','id','status','durationA','durationB','ratings','qualification'});self.assertEqual(row['durationA'],20)
             with self.assertRaisesRegex(ValueError,'RATE_BEFORE_REVEAL'):audition(lab,'auditionReveal',dict(pair='p-0'))
             rating=dict.fromkeys(NUMERIC,None);rating.update(preference='unknown',notes='',reviewed=True)
             rating.update(overall=1,enjoymentA=5,enjoymentB=5,referenceA=5,preference='both')
@@ -31,10 +38,10 @@ class ListeningTests(unittest.TestCase):
             lab=StyleLab(folder)
             self.assertEqual(audition(lab,'auditionList',{})[0]['ratings'],rating)
             self.assertEqual(audition(lab,'auditionReveal',dict(pair='p-0'))['score'],.5)
-            audition(lab,'auditionRate',dict(pair='p-0',ratings=rating))
+            with self.assertRaisesRegex(ValueError,'EXISTING_REVIEW_PRESERVED'):audition(lab,'auditionRate',dict(pair='p-0',ratings=rating))
             result=audition(lab,'auditionSummary',{})
             self.assertEqual(result['ratedPairs'],1);self.assertEqual(len(result['references']),1)
-            self.assertEqual(result['associations']['overall']['n'],0)
+            self.assertEqual(result['associations']['overall']['n'],1)
             self.assertIsNone(result['characteristics']['timbre']);self.assertIsNone(result['wholeSongPreferences'])
             self.assertEqual(file.read_bytes(),original);lab.db.close()
 

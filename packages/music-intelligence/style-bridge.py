@@ -14,12 +14,13 @@ request=json.loads(sys.stdin.buffer.readline(65537))
 method=request['method'];p=request.get('params',{})
 allowed={'list':set(),'search':{'query','scope'},'feedback':{'query','candidate','liked'},'profile':{'name','segments'},'clip':{'id'},'song':{'asset'},'sectionEdit':{'asset','index','start','end','label'},'fullPrompt':{'assets'},'fullPromptSave':{'assets','text'},'rangeClip':{'asset','start','end'},'rangeSearch':{'asset','start','end','scope'}}
 allowed.update(auditionList=set(),auditionRate={'pair','ratings'},auditionReveal={'pair'},auditionPreview={'pair','side'})
+allowed['auditionDisposition']={'pair','status','reason'}
 allowed['auditionSummary']=set();allowed['auditionLeaveBlind']=set()
 if method=='auditionPreview' and 'mode' in p:allowed['auditionPreview']={'pair','side','mode'}
 if method not in allowed or set(p)!=allowed[method]:raise ValueError('IPC_REJECTED')
 rows=vectors.descriptors()
 assets={a['id']:a for a in lab.search()}
-if method in ('auditionList','auditionRate','auditionReveal','auditionSummary','auditionLeaveBlind'):
+if method in ('auditionDisposition','auditionList','auditionRate','auditionReveal','auditionSummary','auditionLeaveBlind'):
     result=audition(lab,method,p)
 elif method=='song':
     result=load_analysis(lab,p['asset'])

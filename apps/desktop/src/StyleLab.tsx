@@ -1,5 +1,6 @@
 import {WholeSong} from './WholeSong';
 import {StyleAudition} from './StyleAudition';
+import {StyleSemantics} from './StyleSemantics';
 import {useRef,useState,useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import type {StyleSegment,StyleCandidate} from '../../../packages/shared-types/music-contracts';
@@ -20,6 +21,7 @@ export function StyleLab(){
  {error&&<p role="alert">{error}</p>}
  {!listening&&!!segments.length&&<><label>{zh?'参考片段':'Reference excerpt'}<select value={query} onChange={e=>{setQuery(e.target.value);setResults([]);}}>{segments.map(s=><option key={s.id} value={s.id}>{s.name} · {s.start.toFixed(1)}–{s.end.toFixed(1)}s</option>)}</select></label><div className="buttons"><button disabled={busy} onClick={()=>void act(()=>play(query))}>{zh?'试听参考':'Play reference'}</button><select aria-label={zh?'检索范围':'Search scope'} value={scope} onChange={e=>setScope(e.target.value as 'cross'|'within')}><option value="cross">{zh?'其他歌曲':'Other songs'}</option><option value="within">{zh?'同一歌曲':'Same song'}</option></select><button disabled={busy} onClick={()=>void act(async()=>setResults(await unwrap(window.dawloop.music.styleSearch({query,scope}))))}>{zh?'搜索相似片段':'Find similar excerpts'}</button></div></>}
  {!listening&&audio&&<audio key={audio} src={audio} controls autoPlay/>}
+ {!listening&&!!segments.length&&<StyleSemantics segments={segments}/>}
  {!listening&&results.map(r=><div className="panel" key={r.id}><strong>{r.name}</strong><p>{r.start.toFixed(1)}–{r.end.toFixed(1)}s · {zh?'向量接近度':'Vector similarity'} {r.cosine.toFixed(3)}</p><div className="buttons"><button disabled={busy} onClick={()=>void act(()=>play(r.id))}>{zh?'试听比较':'Listen'}</button><button disabled={busy} onClick={()=>void act(async()=>{await unwrap(window.dawloop.music.styleFeedback({query,candidate:r.id,liked:1}));setLiked(v=>[...new Set([...v,r.id])]);setResults(await unwrap(window.dawloop.music.styleSearch({query,scope})));})}>{zh?'喜欢':'Like'}</button><button disabled={busy} onClick={()=>void act(async()=>{await unwrap(window.dawloop.music.styleFeedback({query,candidate:r.id,liked:-1}));setLiked(v=>v.filter(id=>id!==r.id));setResults(await unwrap(window.dawloop.music.styleSearch({query,scope})));})}>{zh?'不喜欢':'Dislike'}</button></div></div>)}
  {!listening&&!!liked.length&&<><label>{zh?'画像名称':'Profile name'}<input value={name} onChange={e=>setName(e.target.value)}/></label><button disabled={busy||!name.trim()} onClick={()=>void act(async()=>{await unwrap(window.dawloop.music.styleProfile({name:name.trim(),segments:liked}));setLiked([]);})}>{zh?'将喜欢的片段保存为画像':'Save favorites as a profile'}</button></>}
  </section>;

@@ -85,16 +85,39 @@ def validate_rating(rating):
     if not isinstance(rating['notes'],str) or len(rating['notes'])>2000:raise ValueError('INVALID_REVIEW_NOTE')
 
 
+def qualifications(lab,study,key,ratings):
+    dispositions={r['pair']:json.loads(r['body']) for r in lab.db.execute("SELECT pair,body FROM listening_events WHERE study=? AND kind='DISPOSITION' ORDER BY id",(key,))}
+    result={};seen={}
+    for p in study['pairs']:
+        r=ratings.get(p['id'])
+        if not r:continue
+        status=dispositions.get(p['id'],{}).get('status','VALID')
+        ranges=r.get('primaryRanges',{}) if r.get('schemaVersion',0)>=3 else r.get('previewRequests',{})
+        comparable=all(s in ranges and all(ranges[s].get(k)==p[s][k] for k in ('asset','start','end')) for s in ('a','b'))
+        signature=tuple(sorted((v.get('asset'),v.get('start'),v.get('end')) for v in ranges.values())) if len(ranges)==2 else None
+        duplicate=seen.get(signature) if signature else None
+        if signature and status=='VALID':seen.setdefault(signature,p['id'])
+        identical=bool(signature and signature[0]==signature[1])
+        reason='EXCLUDED_BY_REVIEW' if status!='VALID' else 'IDENTICAL_PLAYBACK' if identical else 'DUPLICATE_RANGE_PAIR' if duplicate else 'RANGE_MISMATCH' if not comparable else 'SOURCE_REVEALED' if r['revealedBeforeRating'] else None
+        result[p['id']]=dict(status=status,ratingEventId=r['eventId'],ratingRanges=ranges,featureRanges={s:{k:p[s][k] for k in ('asset','start','end')} for s in ('a','b')},scopeComparable=comparable,retrievalEligible=reason is None,exclusionReason=reason,duplicateOf=duplicate,disposition=dispositions.get(p['id']))
+    return result
+
+
 def audition(lab,method,params):
     study,key=load(lab);ratings=latest(lab,key)
     if method=='auditionList':
-        return [dict(schemaVersion=2,id=p['id'],status='RATED' if p['id'] in ratings else 'PENDING',durationA=p['a']['context']['end']-p['a']['context']['start'],durationB=p['b']['context']['end']-p['b']['context']['start'],ratings=ratings.get(p['id'],{}).get('ratings')) for p in study['pairs']]
+        q=qualifications(lab,study,key,ratings)
+        return [dict(schemaVersion=2,id=p['id'],status='RATED' if p['id'] in ratings else 'PENDING',durationA=p['a']['context']['end']-p['a']['context']['start'],durationB=p['b']['context']['end']-p['b']['context']['start'],ratings=ratings.get(p['id'],{}).get('ratings'),qualification=q.get(p['id'])) for p in study['pairs']]
     if method=='auditionSummary':return summary(lab,study,key,ratings)
     if method=='auditionLeaveBlind':
         event(lab,key,'*','RESEARCH_EXPOSURE',{})
         return True
     pair=next((p for p in study['pairs'] if p['id']==params['pair']),None)
     if pair is None:raise ValueError('UNKNOWN_LISTENING_PAIR')
+    if method=='auditionDisposition':
+        if pair['id'] not in ratings or params['status'] not in ('VALID','INVALID','SKIPPED') or not isinstance(params['reason'],str) or not 1<=len(params['reason'])<=2000:raise ValueError('INVALID_DISPOSITION')
+        event(lab,key,pair['id'],'DISPOSITION',dict(status=params['status'],reason=params['reason'],source='USER_REVIEW',ratingEventId=ratings[pair['id']]['eventId']))
+        return True
     if method=='auditionReveal':
         if pair['id'] not in ratings:raise ValueError('RATE_BEFORE_REVEAL')
         event(lab,key,pair['id'],'REVEAL',{})
@@ -104,20 +127,23 @@ def audition(lab,method,params):
     if method=='auditionClip':
         if params['side'] not in ('a','b'):raise ValueError('INVALID_SIDE')
         anchor=pair[params['side']];mode=params.get('mode','context')
-        if mode not in ('context','extended','whole'):raise ValueError('INVALID_LISTENING_MODE')
-        row=dict(anchor['context']) if mode=='context' else context(anchor,anchor['duration'],40) if mode=='extended' else dict(asset=anchor['asset'],start=0,end=anchor['duration'])
+        if mode not in ('anchor','context','extended','whole'):raise ValueError('INVALID_LISTENING_MODE')
+        row={k:anchor[k] for k in ('asset','start','end')} if mode=='anchor' else dict(anchor['context']) if mode=='context' else context(anchor,anchor['duration'],40) if mode=='extended' else dict(asset=anchor['asset'],start=0,end=anchor['duration'])
         a=lab.db.execute('SELECT * FROM assets WHERE id=?',(row['asset'],)).fetchone()
         if not a or digest(a['path'])!=anchor['sourceSha256']:raise ValueError('STUDY_SOURCE_CHANGED')
-        event(lab,key,pair['id'],'PREVIEW_REQUEST',dict(side=params['side'],mode=mode,**row))
+        event(lab,key,pair['id'],'PREVIEW_REQUEST',dict(side=params['side'],mode=mode,purpose='SUPPLEMENTAL_SONG' if mode=='whole' else 'RATING_PRIMARY',**row))
         return row
     if method!='auditionRate':raise ValueError('IPC_REJECTED')
+    if pair['id'] in ratings:raise ValueError('EXISTING_REVIEW_PRESERVED')
     validate_rating(params['ratings'])
     revealed=lab.db.execute("SELECT 1 FROM listening_events WHERE study=? AND ((pair=? AND kind='REVEAL') OR kind='RESEARCH_EXPOSURE') LIMIT 1",(key,pair['id'])).fetchone() is not None
-    requests={}
+    requests={};primary={}
     for r in lab.db.execute("SELECT body FROM listening_events WHERE study=? AND pair=? AND kind='PREVIEW_REQUEST' ORDER BY id DESC",(key,pair['id'])):
         body=json.loads(r['body'])
         if body['side'] not in requests:requests[body['side']]=body
-    event(lab,key,pair['id'],'RATING',dict(schemaVersion=2,ratings=params['ratings'],revealedBeforeRating=revealed,modelScore=pair['score'],scoreScope=study['scoreScope'],previewRequests=requests))
+        if body.get('purpose')=='RATING_PRIMARY' and body['side'] not in primary:primary[body['side']]=body
+    if len(primary)!=2:raise ValueError('LISTEN_TO_BOTH_PRIMARY_EXCERPTS')
+    event(lab,key,pair['id'],'RATING',dict(schemaVersion=3,ratings=params['ratings'],revealedBeforeRating=revealed,modelScore=pair['score'],scoreScope=study['scoreScope'],previewRequests=requests,primaryRanges=primary))
     return True
 
 
@@ -130,8 +156,9 @@ def rank(values):
 
 def summary(lab,study,key,ratings):
     associations={};references=[];favorites=[];notes=[]
+    eligibility=qualifications(lab,study,key,ratings)
     for field in SIMILARITY:
-        pairs=[(p['score'],ratings[p['id']]['ratings'][field]) for p in study['pairs'] if p['id'] in ratings and not ratings[p['id']]['revealedBeforeRating'] and ratings[p['id']]['ratings'][field] is not None]
+        pairs=[(p['score'],ratings[p['id']]['ratings'][field]) for p in study['pairs'] if eligibility.get(p['id'],{}).get('retrievalEligible') and ratings[p['id']]['ratings'][field] is not None]
         rho=None
         if len(pairs)>=3:
             x=rank([p[0] for p in pairs]);y=rank([p[1] for p in pairs])
@@ -141,13 +168,15 @@ def summary(lab,study,key,ratings):
         if p['id'] not in ratings:continue
         r=ratings[p['id']]['ratings']
         if r['notes'].strip():notes.append(dict(pair=p['id'],text=r['notes'],source='USER_AUTHORED'))
+        if eligibility[p['id']]['status']!='VALID':continue
         for side in ('a','b'):
             suffix=side.upper();enjoy=r['enjoyment'+suffix];ref=r['reference'+suffix]
-            a=p[side];requested=ratings[p['id']].get('previewRequests',{}).get(side)
+            a=p[side];requested=ratings[p['id']].get('primaryRanges',ratings[p['id']].get('previewRequests',{})).get(side)
             region={k:requested[k] for k in ('asset','start','end')} if requested else a['context']
             entry=dict(pair=p['id'],side=side,asset=a['asset'],range=region,rangeSource='PREVIEW_REQUEST' if requested else 'DEFAULT_CONTEXT',ratingEventId=ratings[p['id']]['eventId'],sourceSha256=a['sourceSha256'],enjoyment=enjoy,reference=ref)
             if ref is not None and ref>=4:references.append(dict(entry,source='USER_RATED_REFERENCE'))
             if enjoy is not None and enjoy>=4:favorites.append(dict(entry,source='USER_LIKED_EXCERPT'))
     event_ids=sorted(r['eventId'] for r in ratings.values())
-    version=hashlib.sha256((key+json.dumps(event_ids)).encode()).hexdigest()[:16]
-    return dict(schemaVersion=1,profileId='personal-'+version,study=key,sourceRatingEvents=event_ids,status='WAITING_FOR_RATINGS' if not ratings else 'PROVISIONAL_PERSONAL_PROFILE',ratedPairs=len(ratings),totalPairs=len(study['pairs']),references=references,favorites=favorites,userDescriptions=notes,associations=associations,wholeSongPreferences=None,characteristics={k:None for k in ('rhythm','drumsBass','timbre','melodyHarmony','arrangement')},unansweredReason='NO_VALIDATED_DESCRIPTOR_OR_WHOLE_SONG_RATINGS',modelTrained=False)
+    disposition_ids=[r[0] for r in lab.db.execute("SELECT id FROM listening_events WHERE study=? AND kind='DISPOSITION' ORDER BY id",(key,))]
+    version=hashlib.sha256((key+json.dumps([event_ids,disposition_ids])).encode()).hexdigest()[:16]
+    return dict(schemaVersion=1,profileId='personal-'+version,study=key,sourceRatingEvents=event_ids,status='WAITING_FOR_RATINGS' if not ratings else 'PROVISIONAL_PERSONAL_PROFILE',ratedPairs=len(ratings),totalPairs=len(study['pairs']),references=references,favorites=favorites,userDescriptions=notes,associations=associations,qualifications=eligibility,wholeSongPreferences=None,characteristics={k:None for k in ('rhythm','drumsBass','timbre','melodyHarmony','arrangement')},unansweredReason='NO_VALIDATED_DESCRIPTOR_OR_WHOLE_SONG_RATINGS',modelTrained=False)
