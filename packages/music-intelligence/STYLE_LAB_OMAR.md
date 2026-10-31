@@ -82,7 +82,7 @@ style_structure.py按原始采样数合并窗口区间，检查逐帧时间格�
 
 SQLite `listening_events(id,study,pair,kind,body,created)`追加保存PREVIEW_REQUEST、RATING、REVEAL及RESEARCH_EXPOSURE。study绑定清单字节摘要；评分保留模型分数、五秒作用范围、请求过的试听范围及揭示前后状态。请求过播放不证明已经听完。重启恢复最新评分，旧评分及原始分析不覆盖。
 
-`auditionSummary`从当前清单最新评分生成独立个人画像投影，profileId绑定清单与评分事件ID。保留sourceRatingEvents、references、userDescriptions、associations、wholeSongPreferences、characteristics。喜欢程度和参考价值均≥4的项目进入个人参考清单，范围引用实际请求的试听区间，未请求时明确标记默认上下文。整曲喜好及节奏/Bass/音色等语义解释没有证据时保持null，不从歌曲名、艺术家或高模型分数补写。画像可由持久事件重建，不依赖运行内存。
+`auditionSummary`从当前清单最新评分生成独立个人画像投影，profileId绑定清单与评分事件ID。保留sourceRatingEvents、references、favorites、userDescriptions、associations、wholeSongPreferences、characteristics。参考价值≥4进入参考清单，喜欢程度≥4另进喜爱清单，两者不互为条件；不喜欢但值得研究的片段仍可作为参考。范围引用实际请求的试听区间，未请求时明确标记默认上下文。整曲喜好及节奏/Bass/音色等语义解释没有证据时保持null，不从歌曲名、艺术家或高模型分数补写。画像可由持久事件重建，不依赖运行内存。
 
 六维相似评分与原始模型分数采用含并列秩的Spearman作描述性比较，仅使用揭示前的最新评价；不足3条、常量评分或缺失时结果null，逐维报告实际样本数。20/40秒或整首听感与五秒模型锚点作用范围不同，事件中的previewRequests用于后续分层分析；相关性不证明普遍音乐理解，不训练权重。
 

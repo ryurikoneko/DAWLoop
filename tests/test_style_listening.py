@@ -71,3 +71,11 @@ class ListeningTests(unittest.TestCase):
             audition(lab,'auditionRate',dict(pair='p-0',ratings=r))
             self.assertEqual(audition(lab,'auditionSummary',{})['associations']['overall']['n'],0)
             lab.db.close()
+
+    def test_reference_value_does_not_require_liking(self):
+        with tempfile.TemporaryDirectory() as folder:
+            lab,file=self.setup_study(folder)
+            r=dict.fromkeys(NUMERIC,None);r.update(overall=1,enjoymentA=1,referenceA=5,enjoymentB=5,referenceB=1,preference='b',notes='',reviewed=True)
+            audition(lab,'auditionRate',dict(pair='p-0',ratings=r));result=audition(lab,'auditionSummary',{})
+            self.assertEqual([r['side'] for r in result['references']],['a'])
+            self.assertEqual([r['side'] for r in result['favorites']],['b']);lab.db.close()

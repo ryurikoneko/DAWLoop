@@ -129,7 +129,7 @@ def rank(values):
 
 
 def summary(lab,study,key,ratings):
-    associations={};references=[];notes=[]
+    associations={};references=[];favorites=[];notes=[]
     for field in SIMILARITY:
         pairs=[(p['score'],ratings[p['id']]['ratings'][field]) for p in study['pairs'] if p['id'] in ratings and not ratings[p['id']]['revealedBeforeRating'] and ratings[p['id']]['ratings'][field] is not None]
         rho=None
@@ -143,10 +143,11 @@ def summary(lab,study,key,ratings):
         if r['notes'].strip():notes.append(dict(pair=p['id'],text=r['notes'],source='USER_AUTHORED'))
         for side in ('a','b'):
             suffix=side.upper();enjoy=r['enjoyment'+suffix];ref=r['reference'+suffix]
-            if enjoy is not None and ref is not None and enjoy>=4 and ref>=4:
-                a=p[side];requested=ratings[p['id']].get('previewRequests',{}).get(side)
-                region={k:requested[k] for k in ('asset','start','end')} if requested else a['context']
-                references.append(dict(pair=p['id'],side=side,asset=a['asset'],range=region,rangeSource='PREVIEW_REQUEST' if requested else 'DEFAULT_CONTEXT',ratingEventId=ratings[p['id']]['eventId'],sourceSha256=a['sourceSha256'],enjoyment=enjoy,reference=ref,source='USER_RATED_REFERENCE'))
+            a=p[side];requested=ratings[p['id']].get('previewRequests',{}).get(side)
+            region={k:requested[k] for k in ('asset','start','end')} if requested else a['context']
+            entry=dict(pair=p['id'],side=side,asset=a['asset'],range=region,rangeSource='PREVIEW_REQUEST' if requested else 'DEFAULT_CONTEXT',ratingEventId=ratings[p['id']]['eventId'],sourceSha256=a['sourceSha256'],enjoyment=enjoy,reference=ref)
+            if ref is not None and ref>=4:references.append(dict(entry,source='USER_RATED_REFERENCE'))
+            if enjoy is not None and enjoy>=4:favorites.append(dict(entry,source='USER_LIKED_EXCERPT'))
     event_ids=sorted(r['eventId'] for r in ratings.values())
     version=hashlib.sha256((key+json.dumps(event_ids)).encode()).hexdigest()[:16]
-    return dict(schemaVersion=1,profileId='personal-'+version,study=key,sourceRatingEvents=event_ids,status='WAITING_FOR_RATINGS' if not ratings else 'PROVISIONAL_PERSONAL_PROFILE',ratedPairs=len(ratings),totalPairs=len(study['pairs']),references=references,userDescriptions=notes,associations=associations,wholeSongPreferences=None,characteristics={k:None for k in ('rhythm','drumsBass','timbre','melodyHarmony','arrangement')},unansweredReason='NO_VALIDATED_DESCRIPTOR_OR_WHOLE_SONG_RATINGS',modelTrained=False)
+    return dict(schemaVersion=1,profileId='personal-'+version,study=key,sourceRatingEvents=event_ids,status='WAITING_FOR_RATINGS' if not ratings else 'PROVISIONAL_PERSONAL_PROFILE',ratedPairs=len(ratings),totalPairs=len(study['pairs']),references=references,favorites=favorites,userDescriptions=notes,associations=associations,wholeSongPreferences=None,characteristics={k:None for k in ('rhythm','drumsBass','timbre','melodyHarmony','arrangement')},unansweredReason='NO_VALIDATED_DESCRIPTOR_OR_WHOLE_SONG_RATINGS',modelTrained=False)
