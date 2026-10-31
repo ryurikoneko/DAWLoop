@@ -55,13 +55,16 @@ class GenerationLab:
 
     def create(self,settings):
         required={'platform','modelVersion','language','vocalType','targetSeconds','bpm','lyrics','replicates'}
-        if not isinstance(settings,dict) or set(settings)!=required:raise ValueError('INVALID_EXPERIMENT_SETTINGS')
+        if not isinstance(settings,dict) or not required.issubset(settings) or set(settings)-required-{'structurePlan'}:raise ValueError('INVALID_EXPERIMENT_SETTINGS')
+        if 'structurePlan' in settings and (not isinstance(settings['structurePlan'],str) or len(settings['structurePlan'])>2000):raise ValueError('INVALID_STRUCTURE_PLAN')
         for k in ('platform','modelVersion','language','vocalType'):text(settings[k],100)
         text(settings['lyrics'],8000)
         if type(settings['targetSeconds'])!=int or not 30<=settings['targetSeconds']<=600 or type(settings['bpm'])!=int or not 60<=settings['bpm']<=220 or type(settings['replicates'])!=int or not 2<=settings['replicates']<=5:raise ValueError('INVALID_EXPERIMENT_SETTINGS')
         audit=self.audit();experiment=identity();now=time.time()
+        audit['structureControl']=dict(text=settings.get('structurePlan',''),source='USER_DEFINED_CREATIVE_CONTROL_NOT_DETECTED_STRUCTURE')
         if audit['energyContrastMedianDb']<=1:raise ValueError('REFERENCE_ENERGY_CONTRAST_NOT_SUPPORTED')
         common=f" {settings['bpm']} BPM; {settings['language']} lyrics; {settings['vocalType']} vocals; target duration {settings['targetSeconds']} seconds. Use the same supplied lyrics."
+        if settings.get('structurePlan','').strip():common+=' '+settings['structurePlan'].strip()
         with self.db:
             self.db.execute('INSERT INTO experiments VALUES(?,?,?,?)',(experiment,encoded(settings),encoded(audit),now))
             for group,body,evidence in [('A',BASE+common,dict(source='GENERIC_EXPERIMENT_TASK_NO_PERSONAL_DATA')),('B',BASE+common+' '+MEASURED,dict(source='MEASURED_ENERGY_CONTRAST_TO_COMPOSITION_REQUEST',measurementIds=[e['asset'] for e in audit['measurements']])),('C',BASE+common+' '+MEASURED+' '+PERSONAL,dict(source='MEASURED_CONTRAST_PLUS_USER_EXPLICIT_PREFERENCES',ratingEvents=audit['ratingEvents'],weights=None))]:
@@ -109,6 +112,7 @@ class GenerationLab:
         with self.db:self.db.execute('INSERT INTO trials VALUES(?,?,?,?,?,?,?)',(trial,prompt,asset,sha,encoded(metadata),identity(),time.time()))
         settings=json.loads(self.db.execute('SELECT settings FROM experiments WHERE id=?',(p['experiment'],)).fetchone()[0])
         comparable=metadata['platform']==settings['platform'] and metadata['modelVersion']==settings['modelVersion'] and all(metadata['settings'].get(k)==settings[k] for k in ('language','vocalType','targetSeconds','bpm','lyrics'))
+        comparable=comparable and metadata['settings'].get('structurePlan','')==settings.get('structurePlan','')
         self.event(trial,'IMPORTED',dict(source='USER_REPORTED_GENERATION',metadataVerifiedByPlatform=False,settingsMatch=comparable,sourceSha256=sha,promptVersion=p['version'],fileDuration=info.duration))
         return trial
 

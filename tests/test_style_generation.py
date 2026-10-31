@@ -11,6 +11,16 @@ from style_generation import GenerationLab,DEFAULTS,SCORES,MEASURED,analysis_tri
 
 
 class GenerationTests(unittest.TestCase):
+    def test_structure_is_shared_and_old_experiment_is_preserved(self):
+        with tempfile.TemporaryDirectory() as folder:
+            g,w,m,a,_=self.fixture(folder);old=w['experiment']['id'];original=[p['body'] for p in w['prompts']]
+            plan='Intro > Verse > Build-up > Drop > Breakdown > Outro. Use gradual transitions.'
+            settings=dict(DEFAULTS,modelVersion='TEST_FIXTURE',language='Japanese',structurePlan=plan,lyrics='[Intro]\n[Verse]\nテストの歌\n[Build-up]\n[Drop]\n[Breakdown]\n[Outro]')
+            new=g.create(settings);self.assertTrue(all(plan in p['body'] for p in g.workspace(new)['prompts']))
+            self.assertEqual([p['body'] for p in g.workspace(old)['prompts']],original)
+            p=g.workspace(new)['prompts'][0];trial=g.imported(p['id'],dict(m,settings={k:v for k,v in settings.items() if k!='structurePlan'}),a)
+            self.assertFalse(g.latest(trial,'IMPORTED')['settingsMatch']);g.db.close()
+
     def fixture(self,folder):
         root=Path(folder);lab=StyleLab(root);reference=root/'reference.wav';sf.write(reference,np.sin(np.arange(8000)*.1)*.1,8000);a=lab.import_audio([reference])[0];lab.db.close()
         (root/'structure').mkdir();(root/'structure'/(a+'.json')).write_text(json.dumps(dict(asset=a,sourceSha256=digest(reference),coverage=dict(duration=1),dspJob='TEST_FIXTURE',vectorVersion='TEST_FIXTURE',curves=dict(energy=[[0,.01],[.5,.2]]))),encoding='utf-8')

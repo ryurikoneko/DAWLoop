@@ -1,4 +1,4 @@
-export interface GenerationSettings {platform:string;modelVersion:string;language:string;vocalType:string;targetSeconds:number;bpm:number;lyrics:string;replicates:number}
+export interface GenerationSettings {platform:string;modelVersion:string;language:string;vocalType:string;targetSeconds:number;bpm:number;lyrics:string;replicates:number;structurePlan?:string}
 export interface GenerationMetadata {generatedAt:string;modelVersion:string;platform:string;batchId:string|null;seed:string|null;settings:Record<string,unknown>;sourceNote:string}
 export interface GenerationRating {liking:number|null;productionQuality:number|null;targetCloseness:number|null;melody:number|null;harmonyEmotion:number|null;timbre:number|null;groove:number|null;arrangement:number|null;vocals:number|null;direction:number|null;wouldKeep:'yes'|'no'|'unknown';notes:string;reviewed:boolean}
 export interface GenerationPrompt {id:string;group_name:string;version:number;body:string;parent:string|null;reason:string;evidence:Record<string,unknown>}
