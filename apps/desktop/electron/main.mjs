@@ -12,6 +12,7 @@ import { desktopDevelopment, rendererMethodAllowed } from './renderer-policy.mjs
 import { exportDiagnosticReport } from './diagnostic-export.mjs';
 import { observerPython, productEnvironment, safeStartupRecord } from './product-environment.mjs';
 import { DesktopUpdates } from '../../../packages/desktop-updates/service.mjs';
+import { StyleLabBridge } from './style-lab.mjs';
 import { windowsNotifier } from './update-toast.mjs';
 protocol.registerSchemesAsPrivileged([{scheme:"dawloop-audio",privileges:{standard:true,secure:true,stream:true,corsEnabled:true}}]);
 if(process.platform==='win32')app.setAppUserModelId('DAWLoop.Desktop.Internal');
@@ -28,7 +29,7 @@ if (override) {
   fs.mkdirSync(browserData, { recursive:true });
   app.setPath('userData', browserData);
 }
-let music;let desktopInitialization;let updates;let updateTimer;
+let music;let styleLab;let desktopInitialization;let updates;let updateTimer;
 const brandIcon=path.resolve(directory,'../dist/brand/DAWLoop.ico');
 let window, core, tray, translations, sessionWorker, sessionStartup, sessionInvalidation, sessionUnsubscribe; let quitting = false;
 let lastDiagnosticText, exporting = false;
@@ -96,12 +97,12 @@ else {
       }
       return result;
     });
-    const musicMethods=new Set(['archivedAssets','savedScores','saveScore','audioSetupStatus','connectLocalAudioRuntime','basicStatus','configureAudioRuntime','saveAsset','dismiss','reviewOffsets','setupStatus','setupFinish','setupInstall','openYueExperience','status','models','jobs','analyze','cancel','install','check','verify','load','unload','modelDiagnostics','abc','profile','removeAsset','collection','preview','releasePreview','waveform','extractEmbedding','transcribe','generate','importAudio','importAbc','importMidi','exportMidi']);
+    const musicMethods=new Set(['styleOpen','styleSearch','styleFeedback','styleProfile','stylePreview','archivedAssets','savedScores','saveScore','audioSetupStatus','connectLocalAudioRuntime','basicStatus','configureAudioRuntime','saveAsset','dismiss','reviewOffsets','setupStatus','setupFinish','setupInstall','openYueExperience','status','models','jobs','analyze','cancel','install','check','verify','load','unload','modelDiagnostics','abc','profile','removeAsset','collection','preview','releasePreview','waveform','extractEmbedding','transcribe','generate','importAudio','importAbc','importMidi','exportMidi']);
     ipcMain.handle('dawloop:music',async(event,method,params)=>{
       if(!trusted(event)||quitting||!musicMethods.has(method))return failure();
       try { if(JSON.stringify(params??null).length>1024*1024)return failure();
         await desktopInitialization;let data;
-        if(method==='openYueExperience'){await shell.openExternal('https://yue.noizai.net/');data=true;}else if(method==='importAudio'||method==='importMidi'||method==='importAbc'){
+        if(method.startsWith('style')){styleLab??=new StyleLabBridge(music);if(method==='styleOpen'){if(params!==undefined)throw Error('IPC_REJECTED');const picked=await dialog.showOpenDialog(window,{properties:['openDirectory']});data=picked.canceled?null:await styleLab.open(picked.filePaths[0]);}else if(method==='stylePreview'){if(!params||Object.keys(params).join()!=='id')throw Error('IPC_REJECTED');data=await styleLab.preview(params.id);}else{const operations={styleSearch:'search',styleFeedback:'feedback',styleProfile:'profile'};data=await styleLab.call(operations[method],params);}}else if(method==='openYueExperience'){await shell.openExternal('https://yue.noizai.net/');data=true;}else if(method==='importAudio'||method==='importMidi'||method==='importAbc'){
           const selected=await dialog.showOpenDialog(window,{properties:['openFile'],filters:[{name:method==='importAudio'?'Audio':method==='importAbc'?'ABC':'MIDI',extensions:method==='importAudio'?['wav','mp3','flac']:method==='importAbc'?['abc']:['mid','midi']}]});
           data=selected.canceled?null:method==='importAudio'?await music.importAudio(selected.filePaths[0]):method==='importAbc'?await music.importAbc(selected.filePaths[0]):await music.importMidi(selected.filePaths[0]);
         }else if(method==='exportMidi'){const selected=await dialog.showSaveDialog(window,{defaultPath:'DAWLoop-score.mid',filters:[{name:'MIDI',extensions:['mid']}]});data=selected.canceled?null:await music.exportMidi(params.score,selected.filePath);}
@@ -153,7 +154,7 @@ else {
   }).catch(error => { console.error('DESKTOP_STARTUP_FAILED', /^[A-Z0-9_]{1,120}$/.test(error?.message) ? error.message : 'STARTUP_UNAVAILABLE'); if(!quitting)app.exit(1); });
   app.on('window-all-closed', () => app.quit());
   app.on('before-quit', event => {
-    clearInterval(updateTimer);
+    clearInterval(updateTimer);styleLab?.close();
     if (quitting || !core) return;
     event.preventDefault(); quitting = true;
     Promise.resolve(desktopInitialization).catch(()=>{}).then(()=>music?.close()).then(()=>core.close()).then(()=>sessionStartup?.catch(()=>undefined)).then(()=>sessionWorker?.close()).finally(() => { tray?.destroy(); app.quit(); });

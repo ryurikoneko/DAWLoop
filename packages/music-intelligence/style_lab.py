@@ -71,8 +71,10 @@ class StyleLab:
         with self.db:
             self.db.execute("UPDATE jobs SET state='QUEUED',progress=0,error=NULL WHERE id=? AND state IN ('FAILED','CANCELLED','INTERRUPTED')", (job,))
 
-    def recover(self):
-        lock = self.root / 'worker.lock'
+    def recover(self, lock_name='worker.lock', recover_jobs=True):
+        if lock_name not in ('worker.lock','omar-worker.lock'):
+            raise ValueError('UNKNOWN_WORKER_LOCK')
+        lock = self.root / lock_name
         if lock.exists():
             pid = int(lock.read_text(encoding='ascii'))
             if sys.platform == 'win32':
@@ -94,8 +96,9 @@ class StyleLab:
                 else:
                     raise ValueError('WORKER_STILL_PRESENT')
             lock.unlink()
-        with self.db:
-            self.db.execute("UPDATE jobs SET state='INTERRUPTED',error='WORKER_INTERRUPTED' WHERE state IN ('PROCESSING','CANCEL_REQUESTED')")
+        if recover_jobs:
+            with self.db:
+                self.db.execute("UPDATE jobs SET state='INTERRUPTED',error='WORKER_INTERRUPTED' WHERE state IN ('PROCESSING','CANCEL_REQUESTED')")
 
     def rate(self, asset, score, start=0, end=None, likes='', avoids=''):
         if not math.isfinite(score) or not 0 <= score <= 5 or not math.isfinite(start) or start < 0 or end is not None and (not math.isfinite(end) or end <= start):

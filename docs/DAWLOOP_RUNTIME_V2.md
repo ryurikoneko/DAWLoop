@@ -2,6 +2,14 @@
 
 <a id="current"></a>
 
+## Style Lab Phase 2：2026-10-31
+
+已追溯并复用原OMAR-RQ worker、固定权重及受管环境；历史24秒600×1024与本轮24秒复测分别保留。三首整曲31窗、150个5秒检索片段，保留完整25Hz时间序列；30秒窗/25秒步长。两次全量向量最大绝对差0，第二次约161.88秒，实际推理进程峰值工作集4.704GiB。初次错误读取Windows多层venv启动器PID所得约4MiB已作废，原记录保留。
+
+单窗口增加Style Lab研究目录选择、参考及候选试听、同曲/跨曲检索、正负反馈和片段画像。中英文真实Electron单窗口操作及媒体播放通过；4项Python合同、32项音乐Node、15项安全/语言、1项IPC拒绝与66项UI通过，TS/Vite构建通过。测试偏好在独立TEST_FIXTURE库，未冒充维护者偏好。人工音乐相似性听审仍NOT_TESTED；高余弦和聚类不代表风格标签。
+
+源码见packages/music-intelligence/STYLE_LAB_OMAR.md；私人证据留在本地StyleLab/phase1-20261031/phase2，原曲及权重不提交。原模型读取和公开Alpha.2、Composer、Runtime、Controller不修改。新候选仅本地internal.stylelab.2，不覆盖现有入口。下一步先听审检索结果，不扩张新模型。
+
 ## Style Lab Phase 1 本地研究闭环：2026-10-31
 
 独立feature/style-lab-phase1-20261031分支基于公开Alpha.2源码0e27d40，不修改发行标签或现有Desktop入口。新增本地Python资料库/队列/画像/提示词API及开发CLI，复用原song-dsp.py。3首私人MP3整曲与各60–90秒片段共6次真实分析成功，源文件SHA未变；整曲速度只有1/3返回低置信度候选，其余保持未知。资产内容去重、持久化、独立评分与提示词历史、片段选择、增量排队已实现。评分测试为独立副本模拟输入，未登记为维护者真实偏好。

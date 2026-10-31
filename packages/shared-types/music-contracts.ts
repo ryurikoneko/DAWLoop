@@ -15,7 +15,14 @@ export interface SetupProvider {id:string;license:string;codeLicense?:string;dow
 export interface SetupStatus {schemaVersion:1;completed:boolean;skipped:boolean;offlineModelUploads:false;providers:SetupProvider[];hardware:{cpu?:string;ramBytes:number;freeRamBytes:number;platform:string;osRelease:string;arch:string;gpu:{name:string;memoryMiB:number;driver:string}|null;wsl:string[]|null;python:{role:string;configured:boolean;version?:string;verified:boolean}[]}}
 export interface AudioSetupStatus {state:'READY'|'NOT_READY';componentState?:'READY'|'INSTALL_REQUIRED'|'INSTALLING'|'FAILED'|'NOT_SUPPORTED';resources:{id:string;license:string;additionalBytes:number;kind:'EXISTING_MANAGED_ENVIRONMENT'}[];offlineInstallAvailable:boolean;reasonCode:string|null;component?:{id:string;version:string;archiveBytes:number;installedBytes:number;minimumFreeBytes:number;license:string;licenseReview:string};job?:{id:string;state:string;error:string|null;activationCommitted:boolean}|null}
 export interface SavedScore {schemaVersion:1;id:string;name:string;savedAt:string;category:'USER_EDITED';score:SymbolicScore}
+export interface StyleSegment {id:string;asset:string;name:string;start:number;end:number}
+export interface StyleCandidate extends StyleSegment {cosine:number;preference:number;score:number}
 export interface MusicBridge {
+  styleOpen():Promise<Result<StyleSegment[]|null>>;
+  styleSearch(p:{query:string;scope:'cross'|'within'}):Promise<Result<StyleCandidate[]>>;
+  styleFeedback(p:{query:string;candidate:string;liked:1|-1}):Promise<Result<boolean>>;
+  styleProfile(p:{name:string;segments:string[]}):Promise<Result<number>>;
+  stylePreview(p:{id:string}):Promise<Result<{assetId:string;url:string}>>;
   savedScores():Promise<Result<SavedScore[]>>;
   saveScore(p:{score:SymbolicScore;name:string}):Promise<Result<SavedScore>>;
   audioSetupStatus():Promise<Result<AudioSetupStatus>>;

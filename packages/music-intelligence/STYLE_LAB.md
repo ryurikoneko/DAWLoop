@@ -1,5 +1,7 @@
 # Style Lab Phase 1
 
+Phase 2已复用原OMAR-RQ并接入单窗口检索；当前用法见[OMAR研究指南](STYLE_LAB_OMAR.md)。以下保留第一阶段实现范围。
+
 本地研究入口，基于公开 Alpha.2 独立分支；不替换已发布 Desktop，不改变原分析、转录、Piano Roll 或 MIDI 路径。
 
 ## 运行
