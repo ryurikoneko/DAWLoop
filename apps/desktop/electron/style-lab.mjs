@@ -13,7 +13,7 @@ export class StyleLabBridge {
     try{return await this.call('list',{});}catch(e){this.root=null;throw e;}
   }
   async call(method,params){
-    const keys={auditionList:[],auditionReveal:['pair'],auditionRate:['pair','ratings'],auditionPreview:['pair','side'],list:[],search:['query','scope'],feedback:['query','candidate','liked'],profile:['name','segments'],clip:['id'],song:['asset'],sectionEdit:['asset','index','start','end','label'],fullPrompt:['assets'],fullPromptSave:['assets','text'],rangeClip:['asset','start','end'],rangeSearch:['asset','start','end','scope']}[method];
+    const keys={auditionLeaveBlind:[],auditionSummary:[],auditionList:[],auditionReveal:['pair'],auditionRate:['pair','ratings'],auditionPreview:params&&'mode' in params?['pair','side','mode']:['pair','side'],list:[],search:['query','scope'],feedback:['query','candidate','liked'],profile:['name','segments'],clip:['id'],song:['asset'],sectionEdit:['asset','index','start','end','label'],fullPrompt:['assets'],fullPromptSave:['assets','text'],rangeClip:['asset','start','end'],rangeSearch:['asset','start','end','scope']}[method];
     if(!this.root||!keys||!params||Object.keys(params).sort().join()!==[...keys].sort().join())throw Error('IPC_REJECTED');
     const runtime=await managedRuntime(this.music.home);
     if(runtime.state!=='VERIFIED')throw Error('MI_PYTHON_NOT_CONFIGURED');

@@ -159,6 +159,10 @@ def run_experiment(vectors,root):
 
 
 def audition(lab,method,params):
+    if (lab.root/'phase5/study.json').exists():
+        from style_listening import audition as current_audition
+        return current_audition(lab,method,params)
+    if method=='auditionLeaveBlind':return True
     manifest=(lab.root/'phase4/audition-pairs.json').read_bytes()
     pairs=json.loads(manifest.decode('utf-8'));study=hashlib.sha256(manifest).hexdigest()
     lab.db.execute('CREATE TABLE IF NOT EXISTS audition_events(id INTEGER PRIMARY KEY,study TEXT,pair TEXT,kind TEXT,body TEXT,created REAL)')

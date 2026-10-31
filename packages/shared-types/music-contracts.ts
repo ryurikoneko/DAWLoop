@@ -17,12 +17,17 @@ export interface AudioSetupStatus {state:'READY'|'NOT_READY';componentState?:'RE
 export interface SavedScore {schemaVersion:1;id:string;name:string;savedAt:string;category:'USER_EDITED';score:SymbolicScore}
 export interface StyleSegment {id:string;asset:string;name:string;start:number;end:number}
 export interface StyleCandidate extends StyleSegment {cosine:number;preference:number;score:number}
+export interface ListeningRating {overall:number|null;rhythm:number|null;drumsBass:number|null;melodyHarmony:number|null;timbre:number|null;arrangement:number|null;enjoymentA:number|null;enjoymentB:number|null;referenceA:number|null;referenceB:number|null;preference:'a'|'b'|'both'|'neither'|'unknown';notes:string;reviewed:boolean}
+export interface ListeningPair {schemaVersion:2;id:string;status:string;durationA:number;durationB:number;ratings:ListeningRating|null}
+export interface ListeningSummary {status:string;ratedPairs:number;totalPairs:number;references:object[];userDescriptions:{text:string}[];associations:Record<string,{n:number;spearman:number|null}>}
 export interface SongStructure {asset:string;name:string;coverage:{duration:number;coverage:number;complete:boolean};sections:Array<{id:number;start:number;end:number;label:string;rmsMean:number|null;centroidMean:number|null;bpmCandidate:number|null;repeats:Array<{section:number;similarity:number}>}>;curves:{energy:number[][];centroid:number[][]};novelty:number[];selfSimilarity:number[][];bpmCandidates:number[];semantic:Record<string,null>}
 export interface MusicBridge {
-  styleAuditionList(p:{}):Promise<Result<Array<{id:string;status:string;durationA:number;durationB:number;ratings:Record<'overall'|'rhythm'|'timbre'|'harmony'|'arrangement'|'reference','similar'|'different'|'unknown'>|null}>>>;
-  styleAuditionReveal(p:{pair:string}):Promise<Result<{a:StyleSegment;b:StyleSegment;score:number;category:string}>>;
-  styleAuditionPreview(p:{pair:string;side:'a'|'b'}):Promise<Result<{assetId:string;url:string}>>;
-  styleAuditionRate(p:{pair:string;ratings:Record<'overall'|'rhythm'|'timbre'|'harmony'|'arrangement'|'reference','similar'|'different'|'unknown'>}):Promise<Result<boolean>>;
+  styleAuditionList(p:{}):Promise<Result<ListeningPair[]>>;
+  styleAuditionReveal(p:{pair:string}):Promise<Result<{a:StyleSegment&{auditionRange?:{start:number;end:number}};b:StyleSegment&{auditionRange?:{start:number;end:number}};score:number;category:string}>>;
+  styleAuditionPreview(p:{pair:string;side:'a'|'b';mode?:'context'|'extended'|'whole'}):Promise<Result<{assetId:string;url:string}>>;
+  styleAuditionRate(p:{pair:string;ratings:ListeningRating}):Promise<Result<boolean>>;
+  styleAuditionSummary(p:{}):Promise<Result<ListeningSummary>>;
+  styleAuditionLeaveBlind(p:{}):Promise<Result<boolean>>;
   styleFullPromptSave(p:{assets:string[];text:string}):Promise<Result<{english:string}>>;
   styleSong(p:{asset:string}):Promise<Result<SongStructure>>;
   styleSectionEdit(p:{asset:string;index:number;start:number;end:number;label:string}):Promise<Result<SongStructure>>;
