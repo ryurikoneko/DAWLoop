@@ -36,8 +36,8 @@ class StyleLab:
         ids = []
         for value in paths:
             p = Path(value).resolve()
-            if p.suffix.lower() not in ('.mp3', '.wav') or not p.is_file():
-                raise ValueError('请选择存在的 MP3 或 WAV 文件')
+            if p.suffix.lower() not in ('.mp3', '.wav', '.flac') or not p.is_file():
+                raise ValueError('请选择存在的 MP3、WAV 或 FLAC 文件')
             sha = digest(p)
             identity = sha[:24]
             with self.db:

@@ -7,6 +7,7 @@ import queue
 import subprocess
 import threading
 import time
+import math
 import numpy as np
 import soundfile as sf
 from style_lab import StyleLab, digest
@@ -69,7 +70,7 @@ class VectorLab:
             raise ValueError('OMAR_PYTHON_CHANGED')
         self.folder = self.runtime/'models/omar-rq'/self.settings['revision']
         self.worker_path = Path(__file__).with_name('model-worker.py')
-        self.version = self.settings['revision']+'-layer6-w30-hop25-'+digest(self.worker_path)[:12]
+        self.version = self.settings['revision']+'-layer6-w30-hop25-'+digest(self.worker_path)[:12]+'-tailgrid2'
         self.root = lab.root/'omar'/self.version
         self.root.mkdir(parents=True, exist_ok=True)
         self.lab.db.executescript('''
@@ -96,7 +97,7 @@ class VectorLab:
                 with self.lab.db:
                     self.lab.db.execute('INSERT OR IGNORE INTO vectors VALUES(?,?,?,?,?,?,?,?)', (identity, asset, float(start), end, self.version, 'QUEUED', identity+'.npy', None))
 
-    def run(self, maximum=None):
+    def run(self, maximum=None, cancelled=None):
         lock = self.lab.root/'omar-worker.lock'
         fd = os.open(lock, os.O_CREAT|os.O_EXCL|os.O_WRONLY)
         os.write(fd, str(os.getpid()).encode('ascii'))
@@ -110,6 +111,8 @@ class VectorLab:
                 return dict(computed=0, cacheOnly=True)
             worker = Worker(self.python, self.worker_path, self.settings, self.folder, self.root/'worker.log')
             for row in rows:
+                if cancelled and cancelled():
+                    return dict(computed=completed,cancelled=True,seconds=time.perf_counter()-started,peakRssBytes=worker.peak_rss or None)
                 if maximum is not None and completed >= maximum:
                     break
                 a = self.lab.db.execute('SELECT * FROM assets WHERE id=?', (row['asset'],)).fetchone()
@@ -117,16 +120,36 @@ class VectorLab:
                     raise ValueError('SOURCE_CHANGED')
                 info = sf.info(a['path'])
                 audio, rate = sf.read(a['path'], start=round(row['start']*info.samplerate), stop=round(row['end']*info.samplerate), dtype='float32', always_2d=True)
+                actual_duration=len(audio)/rate
+                padding=0
+                if actual_duration<30:
+                    target=min(round(30*rate),math.ceil((actual_duration+.04)*25)/25*rate)
+                    padding=max(0,round(target)-len(audio))
+                    audio=np.pad(audio,((0,padding),(0,0)))
                 wav = self.root/'input.wav'
                 sf.write(wav, audio, rate, subtype='PCM_16')
                 pending = self.root/(row['filename']+'.partial')
                 pending.unlink(missing_ok=True)
                 with self.lab.db:
                     self.lab.db.execute("UPDATE vectors SET state='PROCESSING' WHERE id=?", (row['id'],))
-                meta = worker.call('embedding', dict(path=str(wav), output=str(pending)))
+                try:
+                    meta = worker.call('embedding', dict(path=str(wav), output=str(pending)))
+                except Exception as error:
+                    with self.lab.db:
+                        self.lab.db.execute("UPDATE vectors SET state='FAILED',metadata=? WHERE id=?",(json.dumps(dict(error=str(error))),row['id']))
+                    if worker.process.poll() is not None:
+                        worker.close()
+                        worker=Worker(self.python,self.worker_path,self.settings,self.folder,self.root/'worker.log')
+                    continue
                 values = np.load(pending, allow_pickle=False)
                 if values.shape != tuple(meta['shape']) or values.shape[1] != 1024 or len(values)>750 or not np.isfinite(values).all():
                     raise ValueError('VECTOR_CONTRACT_REJECTED')
+                valid=np.asarray(meta['timestamps'])<actual_duration
+                values=values[valid]
+                meta['timestamps']=np.asarray(meta['timestamps'])[valid].tolist()
+                meta['norms']=np.asarray(meta['norms'])[valid].tolist()
+                meta.update(shape=list(values.shape),duration=actual_duration,paddingFrames=padding,paddingSampleRate=rate)
+                with pending.open('wb') as stream:np.save(stream,values,allow_pickle=False)
                 if digest(a['path']) != a['sha']:
                     raise ValueError('SOURCE_CHANGED_DURING_EMBEDDING')
                 meta.update(sourceSha256=a['sha'], version=self.version, modelRevision=self.settings['revision'], runtime=worker.loaded, layer=6, windowStart=row['start'], globalTimestamps=[row['start']+t for t in meta['timestamps']], dtype=str(values.dtype), vectorSha256=digest(pending))

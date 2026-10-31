@@ -1,3 +1,4 @@
+import {WholeSong} from './WholeSong';
 import {useRef,useState,useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import type {StyleSegment,StyleCandidate} from '../../../packages/shared-types/music-contracts';
@@ -13,6 +14,7 @@ export function StyleLab(){
  return <section className="panel"><h3>Style Lab</h3><p>{zh?'选择参考片段，寻找值得试听比较的音乐，再收藏喜欢的部分。':'Choose a reference excerpt, discover listening comparisons and save your favorites.'}</p>
  <button disabled={busy} onClick={()=>void act(async()=>{const list=await unwrap(window.dawloop.music.styleOpen());if(list){await release();setAudio('');setSegments(list);setQuery(list[0]?.id??'');setResults([]);setLiked([]);}})}>{zh?'打开研究资料库':'Open research library'}</button>
  {!segments.length&&<p>{zh?'打开已完成向量分析的本地研究目录。首次计算通过当前研究入口完成。':'Open a local research folder with completed embeddings. Initial computation uses the research entry point.'}</p>}
+ {!!segments.length&&<WholeSong segments={segments}/>}
  {error&&<p role="alert">{error}</p>}
  {!!segments.length&&<><label>{zh?'参考片段':'Reference excerpt'}<select value={query} onChange={e=>{setQuery(e.target.value);setResults([]);}}>{segments.map(s=><option key={s.id} value={s.id}>{s.name} · {s.start.toFixed(1)}–{s.end.toFixed(1)}s</option>)}</select></label><div className="buttons"><button disabled={busy} onClick={()=>void act(()=>play(query))}>{zh?'试听参考':'Play reference'}</button><select aria-label={zh?'检索范围':'Search scope'} value={scope} onChange={e=>setScope(e.target.value as 'cross'|'within')}><option value="cross">{zh?'其他歌曲':'Other songs'}</option><option value="within">{zh?'同一歌曲':'Same song'}</option></select><button disabled={busy} onClick={()=>void act(async()=>setResults(await unwrap(window.dawloop.music.styleSearch({query,scope}))))}>{zh?'搜索相似片段':'Find similar excerpts'}</button></div></>}
  {audio&&<audio key={audio} src={audio} controls autoPlay/>}

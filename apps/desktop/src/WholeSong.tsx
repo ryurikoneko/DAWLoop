@@ -1,0 +1,33 @@
+import {useEffect,useRef,useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import type {SongStructure,StyleSegment,StyleCandidate} from '../../../packages/shared-types/music-contracts';
+import type {Result} from '../../../packages/shared-types/contracts';
+
+async function unwrap<T>(p:Promise<Result<T>>){const r=await p;if(!r.ok)throw Error(r.error.code);return r.data;}
+export function WholeSong({segments}:{segments:StyleSegment[]}){
+ const {i18n}=useTranslation();const zh=i18n.language==='zh-CN';
+ const songs=[...new Map(segments.map(s=>[s.asset,s])).values()];
+ const [asset,setAsset]=useState(songs[0]?.asset??'');const [song,setSong]=useState<SongStructure|null>(null);const [start,setStart]=useState(0);const [end,setEnd]=useState(30);const [zoom,setZoom]=useState(1);const [selected,setSelected]=useState(0);const [label,setLabel]=useState('Unknown');const [error,setError]=useState('');const [busy,setBusy]=useState(false);const [prompt,setPrompt]=useState('');const [hits,setHits]=useState<StyleCandidate[]>([]);const [audio,setAudio]=useState('');const grant=useRef<{assetId:string;url:string}|null>(null);
+ async function act(work:()=>Promise<void>){setBusy(true);setError('');try{await work();}catch{setError(zh?'无法读取完整分析，请检查研究库或所选时间范围。':'Could not read the full analysis. Check the library or selected time range.');}finally{setBusy(false);}}
+ async function release(){if(grant.current){await window.dawloop.music.releasePreview(grant.current);grant.current=null;}}
+ useEffect(()=>{void act(async()=>{const value=await unwrap(window.dawloop.music.styleSong({asset}));setSong(value);setStart(0);setEnd(Math.min(30,value.coverage.duration));setSelected(0);});},[asset]);
+ useEffect(()=>()=>{void release();},[]);
+ async function play(a=asset,s=start,e=end){await release();const next=await unwrap(window.dawloop.music.styleRangePreview({asset:a,start:s,end:e}));grant.current=next;setAudio(next.url);}
+ function pick(index:number){if(!song)return;const s=song.sections[index];setSelected(index);setStart(s.start);setEnd(s.end);setLabel(s.label);}
+ const max=Math.max(...(song?.curves.energy.map(p=>p[1])??[1]),1e-9);
+ return <section className="panel"><h3>{zh?'整曲分析与时间轴':'Whole-song analysis and timeline'}</h3><label>{zh?'歌曲':'Song'}<select value={asset} onChange={e=>setAsset(e.target.value)}>{songs.map(s=><option value={s.asset} key={s.asset}>{s.name}</option>)}</select></label>
+ {error&&<p role="alert">{error}</p>}
+ {song&&<><p>{song.name} · {song.coverage.duration.toFixed(3)}s · {zh?'覆盖':'Coverage'} {(song.coverage.coverage*100).toFixed(2)}%</p><p>{zh?'时间轴根据音乐表征的变化与重复关系生成；段落用途可听审后命名。':'Timeline candidates use changes and repetition in music representations. Name section functions after listening.'}</p>
+ <label>{zh?'时间轴缩放':'Timeline zoom'}<input type="range" min="1" max="4" step=".5" value={zoom} onChange={e=>setZoom(Number(e.target.value))}/></label><div style={{overflowX:'auto'}}><svg role="img" aria-label={zh?'整曲时间轴':'Whole-song timeline'} viewBox={`0 0 ${900*zoom} 150`} style={{width:900*zoom,height:150}}>
+ {song.sections.map((s,i)=><g key={s.id} role="button" tabIndex={0} aria-label={`${zh?'段落':'Section'} ${i+1} ${s.start}–${s.end}`} onClick={()=>pick(i)} onKeyDown={e=>{if(e.key==='Enter')pick(i);}}><rect x={s.start/song.coverage.duration*900*zoom} y="0" width={(s.end-s.start)/song.coverage.duration*900*zoom} height="140" fill={i===selected?'#225e65':i%2?'#182e37':'#10232b'} stroke="#62bec9"/><text x={s.start/song.coverage.duration*900*zoom+3} y="18" fill="white" fontSize="11">{i+1} · {s.start.toFixed(0)}s</text></g>)}
+ <polyline fill="none" stroke="#b7dba0" points={song.curves.energy.map(p=>`${p[0]/song.coverage.duration*900*zoom},${130-p[1]/max*85}`).join(' ')}/></svg></div>
+ <div className="buttons"><label>{zh?'开始秒':'Start seconds'}<input type="number" min="0" value={start} onChange={e=>setStart(Number(e.target.value))}/></label><label>{zh?'结束秒':'End seconds'}<input type="number" max={song.coverage.duration} value={end} onChange={e=>setEnd(Number(e.target.value))}/></label><button disabled={busy} onClick={()=>void act(()=>play())}>{zh?'试听所选范围':'Play selection'}</button><button disabled={busy} onClick={()=>void act(async()=>setHits(await unwrap(window.dawloop.music.styleRangeSearch({asset,start,end,scope:'cross'}))))}>{zh?'以此范围检索':'Search this range'}</button></div>
+ <label>{zh?'段落名称':'Section label'}<input value={label} onChange={e=>setLabel(e.target.value)} placeholder="Intro / Verse / Chorus / Unknown"/></label><button disabled={busy} onClick={()=>void act(async()=>setSong(await unwrap(window.dawloop.music.styleSectionEdit({asset,index:selected,start,end,label}))))}>{zh?'保存边界与名称':'Save boundaries and label'}</button>
+ <details><summary>{zh?'段落摘要与重复候选':'Section summaries and repetition candidates'}</summary>{song.sections.map((s,i)=><div className="panel" key={s.id}><button onClick={()=>pick(i)}>{i+1} · {s.start.toFixed(1)}–{s.end.toFixed(1)}s · {s.label}</button><p>RMS {s.rmsMean?.toFixed(3)??'—'} · {zh?'谱质心':'Centroid'} {s.centroidMean?.toFixed(0)??'—'} Hz · {zh?'速度候选':'Tempo candidate'} {s.bpmCandidate?.toFixed(1)??'—'}</p>{s.repeats.map(r=><button key={r.section} onClick={()=>pick(r.section)}>{zh?'比较段落':'Compare section'} {r.section+1} · {r.similarity.toFixed(3)}</button>)}</div>)}</details>
+ <p>{zh?'乐器、情绪、和弦及段落功能尚未可靠识别，当前不自动补写。':'Instruments, mood, chords and section functions are not reliably identified and are left unassigned.'}</p>
+ {audio&&<audio key={audio} src={audio} autoPlay controls/>}
+ {hits.map(h=><div className="row" key={h.id}><span>{h.name} · {h.start}–{h.end}s · {h.cosine.toFixed(3)}</span><button disabled={busy} onClick={()=>void act(()=>play(h.asset,h.start,h.end))}>{zh?'试听':'Listen'}</button><button disabled={busy} onClick={()=>void act(async()=>{const target=await unwrap(window.dawloop.music.styleSong({asset:h.asset}));const section=target.sections.find(s=>s.start<=h.start&&s.end>h.start);if(section)await play(h.asset,section.start,section.end);})}>{zh?'扩展试听所在段落':'Play containing section'}</button></div>)}
+ <button disabled={busy} onClick={()=>void act(async()=>{const p=await unwrap(window.dawloop.music.styleFullPrompt({assets:songs.map(s=>s.asset)}));setPrompt(p.english);})}>{zh?'根据完整歌曲生成描述':'Describe complete songs'}</button>{prompt&&<label>{zh?'英文创作描述（可编辑）':'Editable English creation description'}<textarea rows={6} value={prompt} onChange={e=>setPrompt(e.target.value)}/><button disabled={busy} onClick={()=>void act(async()=>{await unwrap(window.dawloop.music.styleFullPromptSave({assets:songs.map(s=>s.asset),text:prompt}));})}>{zh?'保存描述版本':'Save description version'}</button></label>}
+ </>}
+ </section>;
+}

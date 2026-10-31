@@ -17,7 +17,14 @@ export interface AudioSetupStatus {state:'READY'|'NOT_READY';componentState?:'RE
 export interface SavedScore {schemaVersion:1;id:string;name:string;savedAt:string;category:'USER_EDITED';score:SymbolicScore}
 export interface StyleSegment {id:string;asset:string;name:string;start:number;end:number}
 export interface StyleCandidate extends StyleSegment {cosine:number;preference:number;score:number}
+export interface SongStructure {asset:string;name:string;coverage:{duration:number;coverage:number;complete:boolean};sections:Array<{id:number;start:number;end:number;label:string;rmsMean:number|null;centroidMean:number|null;bpmCandidate:number|null;repeats:Array<{section:number;similarity:number}>}>;curves:{energy:number[][];centroid:number[][]};novelty:number[];selfSimilarity:number[][];bpmCandidates:number[];semantic:Record<string,null>}
 export interface MusicBridge {
+  styleFullPromptSave(p:{assets:string[];text:string}):Promise<Result<{english:string}>>;
+  styleSong(p:{asset:string}):Promise<Result<SongStructure>>;
+  styleSectionEdit(p:{asset:string;index:number;start:number;end:number;label:string}):Promise<Result<SongStructure>>;
+  styleFullPrompt(p:{assets:string[]}):Promise<Result<{english:string;evidence:object[]}>>;
+  styleRangeSearch(p:{asset:string;start:number;end:number;scope:'cross'|'within'}):Promise<Result<StyleCandidate[]>>;
+  styleRangePreview(p:{asset:string;start:number;end:number}):Promise<Result<{assetId:string;url:string}>>;
   styleOpen():Promise<Result<StyleSegment[]|null>>;
   styleSearch(p:{query:string;scope:'cross'|'within'}):Promise<Result<StyleCandidate[]>>;
   styleFeedback(p:{query:string;candidate:string;liked:1|-1}):Promise<Result<boolean>>;
