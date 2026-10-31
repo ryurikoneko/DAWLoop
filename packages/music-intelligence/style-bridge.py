@@ -6,17 +6,20 @@ import soundfile as sf
 from style_lab import StyleLab, digest
 from style_omar import VectorLab
 from style_structure import load_analysis,edit_section,full_prompt
+from style_quality import audition
 
 lab=StyleLab(sys.argv[1])
 vectors=VectorLab(lab,sys.argv[2])
 request=json.loads(sys.stdin.buffer.readline(65537))
 method=request['method'];p=request.get('params',{})
 allowed={'list':set(),'search':{'query','scope'},'feedback':{'query','candidate','liked'},'profile':{'name','segments'},'clip':{'id'},'song':{'asset'},'sectionEdit':{'asset','index','start','end','label'},'fullPrompt':{'assets'},'fullPromptSave':{'assets','text'},'rangeClip':{'asset','start','end'},'rangeSearch':{'asset','start','end','scope'}}
-if method not in allowed or set(p)!=allowed[method]:
-    raise ValueError('IPC_REJECTED')
+allowed.update(auditionList=set(),auditionRate={'pair','ratings'},auditionReveal={'pair'},auditionPreview={'pair','side'})
+if method not in allowed or set(p)!=allowed[method]:raise ValueError('IPC_REJECTED')
 rows=vectors.descriptors()
 assets={a['id']:a for a in lab.search()}
-if method=='song':
+if method in ('auditionList','auditionRate','auditionReveal'):
+    result=audition(lab,method,p)
+elif method=='song':
     result=load_analysis(lab,p['asset'])
 elif method=='sectionEdit':
     result=edit_section(lab,p['asset'],p['index'],p['start'],p['end'],p['label'])
@@ -57,7 +60,9 @@ elif method=='feedback':
 elif method=='profile':
     result=vectors.save_profile(p['name'],p['segments'])
 else:
-    if method=='rangeClip':
+    if method=='auditionPreview':
+        row=audition(lab,'auditionClip',p)
+    elif method=='rangeClip':
         import math
         row=p
         if not all(type(v) in (int,float) and math.isfinite(v) for v in (row['start'],row['end'])) or not 0<=row['start']<row['end'] or row['end']-row['start']>7200:raise ValueError('INVALID_RANGE')
