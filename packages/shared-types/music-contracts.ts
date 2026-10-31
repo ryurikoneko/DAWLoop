@@ -1,3 +1,4 @@
+import type {GenerationAnalysis,GenerationWorkspace,GenerationSettings,GenerationMetadata,GenerationRating,GenerationRevision} from './generation-contracts';
 import type {Result} from './contracts';
 import type {MusicAnalysisResultV0_5} from './analysis-contracts';
 export interface Note {id?:string;pitch:number;start:number;duration:number;velocity:number;part:number}
@@ -23,6 +24,19 @@ export interface SemanticView {status:{state:string;completed:number;total:numbe
 export interface ListeningSummary {status:string;ratedPairs:number;totalPairs:number;references:object[];userDescriptions:{text:string}[];associations:Record<string,{n:number;spearman:number|null}>}
 export interface SongStructure {asset:string;name:string;coverage:{duration:number;coverage:number;complete:boolean};sections:Array<{id:number;start:number;end:number;label:string;rmsMean:number|null;centroidMean:number|null;bpmCandidate:number|null;repeats:Array<{section:number;similarity:number}>}>;curves:{energy:number[][];centroid:number[][]};novelty:number[];selfSimilarity:number[][];bpmCandidates:number[];semantic:Record<string,null>}
 export interface MusicBridge {
+  styleGenerationAnalysis(p:{trial:string}):Promise<Result<GenerationAnalysis>>;
+  styleGenerationWorkspace(p:{experiment?:string}):Promise<Result<GenerationWorkspace>>;
+  styleGenerationCreate(p:{settings:GenerationSettings}):Promise<Result<string>>;
+  styleGenerationImport(p:{prompt:string;metadata:GenerationMetadata}):Promise<Result<string|null>>;
+  styleGenerationFailure(p:{prompt:string;reason:string}):Promise<Result<string>>;
+  styleGenerationReject(p:{trial:string;reason:string}):Promise<Result<boolean>>;
+  styleGenerationRate(p:{trial:string;ratings:GenerationRating}):Promise<Result<boolean>>;
+  styleGenerationReveal(p:{trial:string}):Promise<Result<{group:string;promptVersion:number;prompt:string;metadata:GenerationMetadata}>>;
+  styleGenerationPreview(p:{trial:string;start:number;end:number}):Promise<Result<{assetId:string;url:string}>>;
+  styleGenerationRevise(p:GenerationRevision):Promise<Result<string>>;
+  styleGenerationAnalyze(p:{trial:string;experiment?:string}):Promise<Result<boolean>>;
+  styleGenerationCancel(p:{}):Promise<Result<boolean>>;
+
   styleSemanticStart(p:{}):Promise<Result<boolean>>;
   styleSemanticCancel(p:{}):Promise<Result<boolean>>;
   styleSemanticStatus(p:{}):Promise<Result<SemanticView>>;

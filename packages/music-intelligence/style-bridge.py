@@ -9,9 +9,13 @@ from style_structure import load_analysis,edit_section,full_prompt
 from style_quality import audition
 
 lab=StyleLab(sys.argv[1])
-vectors=VectorLab(lab,sys.argv[2])
 request=json.loads(sys.stdin.buffer.readline(65537))
 method=request['method'];p=request.get('params',{})
+if method.startswith('generation'):
+    from style_generation import dispatch
+    print(json.dumps(dispatch(lab.root,method,p),ensure_ascii=True,allow_nan=False))
+    sys.exit(0)
+vectors=VectorLab(lab,sys.argv[2])
 allowed={'list':set(),'search':{'query','scope'},'feedback':{'query','candidate','liked'},'profile':{'name','segments'},'clip':{'id'},'song':{'asset'},'sectionEdit':{'asset','index','start','end','label'},'fullPrompt':{'assets'},'fullPromptSave':{'assets','text'},'rangeClip':{'asset','start','end'},'rangeSearch':{'asset','start','end','scope'}}
 allowed.update(auditionList=set(),auditionRate={'pair','ratings'},auditionReveal={'pair'},auditionPreview={'pair','side'})
 allowed['auditionDisposition']={'pair','status','reason'}
