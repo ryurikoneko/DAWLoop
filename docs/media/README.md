@@ -1,40 +1,72 @@
-# 品牌与展示素材 / Brand and showcase media
+# DAWLoop 品牌与产品图片 / Brand and product media
 
-[KNOWN｜HIGH] 圆环青色波形是正式 **Brand icon / Logo**；黑底白字版权头图是 **Hero image**，风格沿用软件 Splash，不是软件图标。图像均来自用户已选定资产或实际运行的内部候选，未改用其他图标、未添加设计稿界面。
+青色圆环波形Logo与极简黑白Hero构成项目视觉识别。产品图片展示Music Intelligence、分析和Piano Roll的实际界面。
 
-[KNOWN | HIGH] The cyan circular waveform is the official brand icon / logo. The black-and-white copyright banner is a code-native hero in the splash style, not the app icon. Assets are user-selected or captured from the running candidate, not invented UI.
+The circular waveform logo and minimal black-and-white hero define the visual identity. Product images show the Music Intelligence workspace, analysis and Piano Roll.
 
-| 文件 / File | 角色 / Role | 来源 / Source |
-| --- | --- | --- |
-| [logo.png](logo.png) | 正式 Logo / Official logo | 用户选定透明1024px素材，像素未改 / Selected transparent asset, unchanged pixels |
-| [hero.png](hero.png) | 首页头图 / README hero | SVG文字排版，左下灰色版权署名，无软件版本 / SVG wordmark and gray copyright signature, no software version |
-| [social-preview.png](social-preview.png) | Social Preview 候选 | 同款版权头图，1280×640 / Same copyright hero |
-| [music-workspace.png](music-workspace.png) | 音乐工作区 | 实际内部候选 / Running candidate |
-| [analysis-report.png](analysis-report.png) | 分析结果 | 自有合成189秒素材；估计保持不确定 / Owned synthetic audio; uncertainty retained |
-| [piano-roll.png](piano-roll.png) | 交互编辑器 | 实际音符及力度编辑 / Actual note and velocity editor |
+| 文件 / File | 用途 / Role |
+| --- | --- |
+| [logo.png](logo.png) | Brand icon / Logo |
+| [hero.png](hero.png) | GitHub Hero |
+| [social-preview.png](social-preview.png) | Social Preview card |
+| [music-home.png](music-home.png) | Music Intelligence workspace |
+| [analysis-report.png](analysis-report.png) | Music Analysis |
+| [piano-roll.png](piano-roll.png) | Piano Roll Editing |
+| [model-manager.png](model-manager.png) | Component and Model Management |
+| [music-workspace.png](music-workspace.png) | Earlier workspace view |
 
-[COMPUTED｜HIGH] 每张图的来源字节摘要、发布摘要、候选版本、源码提交和转换记录见 [provenance.json](provenance.json)。源日志/文件的本机绝对路径不公开。工作区截图仅无损重压缩；Hero/Social改为可编辑SVG排版并渲染PNG，明确属于品牌图而非实际软件截图，不改功能截图或分析结果。未发现私人曲名、用户名、绝对路径、密钥、模型缓存或第三方桌面内容。
+## DAWLoop 角色形象 / DAWLoop character illustration
 
-[COMPUTED | HIGH] [Provenance](provenance.json) records source/published hashes, candidate version, commit and transformations without local absolute paths. Workspace screenshots are losslessly recompressed; hero/social are now rendered from editable SVG and explicitly classified as brand images rather than software screenshots. No private titles, usernames, paths, keys, caches or unrelated desktop content were found in the reviewed images.
+`dawloop-character.png` 为维护者提供并批准用于首页的角色形象。绘制署名按维护者指示为 **Ryurikoneko**；左下角为 `Copyright (c) 2026 ryurikoneko`，右下角为 `Character illustrated by Ryurikoneko`。两行在原图白色底边对齐，不改动角色与原有构图。
 
-## 版权与使用 / Copyright and use
+The maintainer supplied and approved this character illustration for the homepage, crediting **Ryurikoneko** as the illustrator. The lower-left copyright and lower-right illustration credit share one baseline in the original white margin.
 
-[KNOWN｜HIGH] Copyright © 2026 ryurikoneko。本目录的 PNG 图像作为本轮新增公开展示与品牌资产，版权保留；正式 Logo、Splash / Hero 与 Social Preview 不按根 MIT 自动授予品牌使用权。用户已授权本次项目主页展示。其他复用或品牌用途请先取得维护者明确许可；不宣称已注册商标或完成第三方独立权属认证。既有许可不追溯撤销。[完整资产条款](LICENSE.txt) · [品牌政策](../../TRADEMARKS.md)
+使用维护者明确批准的本地文字叠加，保留原始 1280×1280 画布；已读回导出的 PNG，确认两处文字区域以外的像素与原图一致。
 
-[KNOWN | HIGH] Copyright © 2026 ryurikoneko. PNG images newly included here are reserved showcase/brand assets; the root MIT grant does not automatically license branding. The user authorized this repository presentation. Seek explicit maintainer permission for other reuse or branding. No trademark registration or independent ownership certification is claimed; prior grants are not revoked.
+Only the two credit lines were added locally with explicit approval. The exported PNG retains the original 1280×1280 canvas and unchanged pixels outside the text areas.
 
-## Social Preview 计划 / Plan
+这张图是品牌美术，不是软件截图或开源代码；本次授权用于 DAWLoop 官方文档展示，不把根 MIT 的软件授权扩展到角色图。未声明注册或独立核验完整权属，既有软件与第三方许可不变。
 
-[KNOWN｜HIGH] 已准备1280×640、低于1MB、实心黑底 PNG。符合 [GitHub 官方尺寸建议](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview)。本轮只准备候选，未上传到 Settings，未改变远端 Social Preview。
+This is brand artwork, separate from software screenshots and open-source code. Approval covers presentation in DAWLoop documentation and does not extend the software's root MIT grant to the artwork. No registration or independently verified chain of title is claimed; existing software and third-party grants remain unchanged.
 
-[KNOWN | HIGH] A solid-black 1280×640 PNG below 1MB is prepared per GitHub guidance. It has not been uploaded to repository Settings. The brand hero contains a copyright signature instead of a software version; the actual application splash keeps its dynamic version.
+## 来源与许可 / Sources and use
 
-## 个人拟定主体与权属复核 / Individual-holder review
+现有图像与原始 [provenance.json](provenance.json) 本次均保持不变。该文件记录来源与发布摘要、候选版本及变换。截图来自此前开发版本，使用自有合成素材；当前公开产品范围见 [Desktop](../DESKTOP.md)。
 
-[KNOWN｜HIGH] 原署名ryurikoneko保留；用户拟定个人持有，不填写法定姓名。Logo、启动页和同源图像的实际作者/完整权属/历史授权未核清，PENDING_OWNER_REVIEW。既有声明不撤回早期可能已授出的许可；未来角色只占位、不公开私人源文件。[品牌清单](../brand/README.md)
+Images and the original provenance manifest are unchanged. Screenshots use owned synthetic material from earlier development builds; the Desktop guide describes the public release.
 
-[KNOWN | HIGH] The original public signature is retained. Individual ownership is a plan, not verified legal title. Authorship and prior grants remain pending review. Prior permissions are preserved; future character placeholders neither assert rights nor publish source art.
+图像许可、版权及品牌使用按 [LICENSE.txt](LICENSE.txt)、[许可范围](../../LICENSE_POLICY.md) 和 [品牌政策](../../TRADEMARKS.md) 处理；本次展示改造没有新授权、注册声明或权属认证。原始媒体审查与未解决权属记录保留于 [历史快照](../archive/public-presentation-20261014/docs__media__README.md.txt)。
 
-[KNOWN｜HIGH] [可编辑头图源文件](hero-source.svg)仅包含黑底、白字DAWLoop和左下灰字Copyright (c) 2026 ryurikoneko。该署名是用户要求的公开品牌标记，不证明登记、法定身份或完整权属；相关PENDING_OWNER_REVIEW状态保持。软件内Splash实际版本显示不变。
+Use the existing license, scope and brand policies. Presentation changes grant no new asset rights or registration claims; earlier review and unresolved ownership records remain in the archive.
 
-[COMPUTED｜HIGH] 新增 [音乐主页](music-home.png) 与 [模型管理](model-manager.png) 来自打包提交8123ae3的实际内部候选、隔离空userData；界面正确显示缺组件原因。这是开发机上的真实程序截图，不是干净Windows安装证明。
+## 工作流示意 / Workflow illustrations
+
+`fl-agent-workflow.zh.svg` / `.en.svg` 展示音乐目标到宿主反馈的六步流程；`fl-write-case.zh.svg` / `.en.svg` 将公开session 7的目标与合成计划画成示意。它们是可审阅SVG源码，不是FL Studio截图；计划音符位置来自已有合成fixture，不冒充实际事件读回。
+
+These editable SVGs explain the six-step host workflow and the recorded test target/plan. They are illustrations rather than host screenshots; the note positions come from the synthetic fixture. See [illustration sources](workflow-illustrations.json).
+
+新建技术示意图按根MIT许可发布，原有品牌与软件截图的许可保持不变。 / The new technical illustrations use the root MIT License; existing brand and screenshot terms are unchanged.
+
+## Plugin 开发截图 / Plugin development screenshot
+
+`plugin-composer-build102.png` 是 build102 本机安装候选的真实 Composer 界面。维护者批准仅裁切到插件工作区，以移除宿主用户名和采样库侧栏；没有重绘、修改控件或替换生成结果。它展示开发状态，不是公开安装包的下载承诺。
+
+`plugin-composer-build102.png` shows the actual Composer interface from a locally installed build102 candidate. The owner approved cropping to the plugin workspace to remove host identity and the sample-library sidebar. No UI or generated result was redrawn. This is a development preview, not a public-download announcement.
+
+该截图不作为根 MIT 下的插件源码交付；品牌及图像使用另见现有许可范围与品牌政策，第三方权利不变。 / The screenshot does not distribute Plugin source under the root MIT License. Existing brand/media policies and third-party rights remain applicable.
+
+## 当前 Plugin 预览 / Current Plugin previews
+
+`plugin-composer.zh.png` 与 `plugin-composer.en.png` 来自 2026-10-23 Release Experience 的真实 FL Studio 界面，只按维护者已批准方式裁切到插件工作区；未重绘、替换控件或结果。画面保留测试提示词与通用音源名称，移除宿主用户名、私有工程路径及素材库侧栏。r2 只调整关于菜单入口，此主工作区未变化；截图不是 r2 重新安装验收。
+
+The Composer images are approved workspace-only crops of actual Release Experience host captures. No controls or results were redrawn. Host identity, private paths and the sample sidebar are excluded. The r2 change concerns an About-menu entry, not this workspace; these images do not claim a new r2 installation test.
+
+这些图片用于维护者授权的产品展示，不分发私有 Plugin 实现，也不修改现有媒体、品牌和第三方许可。旧 build102 图片保留其历史身份。[Plugin 范围与来源](../PLUGINS.md)
+
+These images serve the owner-authorized preview and distribute no private implementation. Existing media, brand and third-party licenses remain unchanged; the older build102 image retains its historical identity.
+
+## Social Preview
+
+现有1280×640品牌卡片与Logo用途分别保留。2026-10-15读取的GitHub设置仍为默认仓库卡片，未启用自定义Open Graph图片。候选排版与维护者操作见 [展示建议](../GITHUB_SHOWCASE.md)，旧 [展示核验](../PUBLIC_PRESENTATION_REVIEW.md) 保留其原日期的记录。
+
+The card and logo retain separate roles. GitHub used its default repository card on 15 October 2026; see the presentation proposal for the separate owner upload action. Earlier review records retain their original dates.

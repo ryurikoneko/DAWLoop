@@ -1,10 +1,10 @@
 ## Change summary
 
-<!-- What changes for users? -->
+<!-- 说明用户要完成的任务，以及提交后的行为。 -->
 
 ## Scope
 
-<!-- Which modules, adapters, or documents are affected? -->
+<!-- 说明改动面向Desktop、Runtime、宿主集成还是文档。 -->
 
 ## Tests and checks
 
@@ -35,6 +35,9 @@ Results:
 ## Distribution scope
 
 - Baseline / commit:
-- Public Runtime / internal Desktop / documentation:
+- Public Runtime / Desktop release source / documentation:
 - [ ] Screenshots are actual software, sanitized, with permission to publish.
 - [ ] Internal evidence is not presented as a public installer or live host certification.
+
+- [ ] Product copy follows `docs/PUBLIC_CONTENT_STYLE.md` and preserves user safety requirements.
+- [ ] Public documents, templates and text archives use plain language without internal reasoning or confidence labels.

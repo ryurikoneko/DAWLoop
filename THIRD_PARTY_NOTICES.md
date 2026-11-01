@@ -38,12 +38,12 @@ The supplied archive applies separate terms to non-code material: its documentat
 
 ## Desktop preview references — not bundled dependencies
 
-[KNOWN | HIGH] This showcase includes screenshots from an independent internal Desktop, not its model code, packages or weights. Basic Pitch, OMAR-RQ, SheetSage2 and YuE2 references describe provider scope, not licenses granted by this repository. Any future source or model distribution needs its own pinned provenance and dependency/weight license review. The screenshots do not alter the notices above.
+This showcase includes screenshots from an independent internal Desktop, not its model code, packages or weights. Basic Pitch, OMAR-RQ, SheetSage2 and YuE2 references describe provider scope, not licenses granted by this repository. Any future source or model distribution needs its own pinned provenance and dependency/weight license review. The screenshots do not alter the notices above.
 
-[KNOWN｜HIGH] 本轮不把模型缓存、权重、FFmpeg 或 Python 环境作为公开附件；名称出现不代表第三方背书，也不改变原许可。[Desktop范围](docs/DESKTOP.md) · [品牌图像声明](docs/media/LICENSE.txt)
+本轮不把模型缓存、权重、FFmpeg 或 Python 环境作为公开附件；名称出现不代表第三方背书，也不改变原许可。[Desktop范围](docs/DESKTOP.md) · [品牌图像声明](docs/media/LICENSE.txt)
 
 ## Brand and character provenance review
 
-[KNOWN | HIGH] No completed character art, layered file or new third-party artwork is included by this supplement. The selected logo's original artist, reference permissions and AI-assisted creation details remain PENDING_OWNER_REVIEW. Existing component notices above are unchanged; this supplement does not replace a missing artist license with software MIT or the maintainer's signature.
+No completed character art, layered file or new third-party artwork is included by this supplement. The selected logo's original artist, reference permissions and AI-assisted creation details remain PENDING_OWNER_REVIEW. Existing component notices above are unchanged; this supplement does not replace a missing artist license with software MIT or the maintainer's signature.
 
-[KNOWN｜HIGH] 商标、人物及展示文件的来源/作者/拟定个人主体分别登记；发现第三方素材时按实际原许可记录，不把本项目声明当作第三方授权。[清单](docs/brand/README.md)
+商标、人物及展示文件的来源/作者/拟定个人主体分别登记；发现第三方素材时按实际原许可记录，不把本项目声明当作第三方授权。[清单](docs/brand/README.md)

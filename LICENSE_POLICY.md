@@ -2,7 +2,7 @@
 <!-- SPDX-FileCopyrightText: 2026 ryurikoneko -->
 # 许可范围与来源发布
 
-[KNOWN｜HIGH] 根 `LICENSE` 保持原 MIT 和 `ryurikoneko` 版权行。MIT 允许商业使用、出售和闭源派生，要求保留版权与许可通知；本项目没有添加禁止转售、强制联网、不可删除水印、强制 UI 署名等额外条件。[MIT 正文](https://opensource.org/license/mit)。
+根 `LICENSE` 保持原 MIT 和 `ryurikoneko` 版权行。MIT 允许商业使用、出售和闭源派生，要求保留版权与许可通知；本项目没有添加禁止转售、强制联网、不可删除水印、强制 UI 署名等额外条件。[MIT 正文](https://opensource.org/license/mit)。
 
 ## 当前范围
 
@@ -15,13 +15,13 @@
 | 用户私人素材/profile | 不进入发布包；本项目不代替用户决定素材权利 |
 | FLaiK 中的官方 HTML/图片 | 不打包、不代授许可，见 learning/WORKFLOW |
 
-[KNOWN｜HIGH] 新增 NOTICE 和 CITATION 不引入超出 MIT 的强制引用义务。SPDX 头使用实际已记录的版权主体；不覆盖第三方作者，也不往 FL 控制器要求的设备头之前插入文本。
+新增 NOTICE 和 CITATION 不引入超出 MIT 的强制引用义务。SPDX 头使用实际已记录的版权主体；不覆盖第三方作者，也不往 FL 控制器要求的设备头之前插入文本。
 
 ## 新研究资料的非商业许可：逐项启用
 
-[INFERRED｜HIGH] CC BY-NC 4.0 可以用于未来新创作、权属已确认的报告文字或图表，允许署名的非商业分享与改编；不用于软件代码。它不禁止别人独立实现思想，也不追溯撤销既有 MIT 授权。NC 不是禁止所有收费活动的简单价格规则，具体用途按许可定义判断。[许可正文](https://creativecommons.org/licenses/by-nc/4.0/legalcode)、[官方 FAQ](https://creativecommons.org/faq/)。
+未来新创作、权属已确认的报告文字或图表可考虑采用 CC BY-NC 4.0，允许署名的非商业分享与改编；不用于软件代码。它不禁止别人独立实现思想，也不追溯撤销既有 MIT 授权。NC 不是禁止所有收费活动的简单价格规则，具体用途按许可定义判断。[许可正文](https://creativecommons.org/licenses/by-nc/4.0/legalcode)、[官方 FAQ](https://creativecommons.org/faq/)。
 
-[KNOWN｜HIGH] 本轮没有明确资产被重新许可为 CC BY-NC，`LICENSES/CC-BY-NC-4.0.txt` 只保存待选许可原文，不自动覆盖任何路径。正式启用前必须逐文件完成：
+本轮没有明确资产被重新许可为 CC BY-NC，`LICENSES/CC-BY-NC-4.0.txt` 只保存待选许可原文，不自动覆盖任何路径。正式启用前必须逐文件完成：
 
 1. 确认新报告/图表作者及权利，区分引述、数据事实、第三方图片和代码片段。
 2. 核查先前公开版本许可；旧许可仍能被依原条件使用，不能靠移动目录撤销。
@@ -33,16 +33,16 @@
 
 ## 版本来源和签名
 
-[KNOWN｜HIGH] `dawloop provenance` 对显式指定的源码仓库根目录生成公开允许列表的字节摘要；默认是开发快照。工作树有修改时明确记录 `worktree_dirty=true`，Git commit 不能代表这些未提交字节。清单不包含私人素材、文件正文、机器用户名或个人绝对路径。它只验证所列内容，不能证明作者身份，也不能阻止别人修改代码后重新生成自己的清单。当前还不是脱离源码仓库后自动证明安装包来源的入口；release清单嵌入与实际artifact绑定由后续发布流水线补齐。
+`dawloop provenance` 对显式指定的源码仓库根目录生成公开允许列表的字节摘要；默认是开发快照。工作树有修改时明确记录 `worktree_dirty=true`，Git commit 不能代表这些未提交字节。清单不包含私人素材、文件正文、机器用户名或个人绝对路径。它只验证所列内容，不能证明作者身份，也不能阻止别人修改代码后重新生成自己的清单。当前还不是脱离源码仓库后自动证明安装包来源的入口；release清单嵌入与实际artifact绑定由后续发布流水线补齐。
 
 ```powershell
 dawloop provenance --root . --write-manifest ../dawloop-development-provenance.json
 dawloop provenance --root . --manifest ../dawloop-development-provenance.json
 ```
 
-[KNOWN｜HIGH] 写清单采用排他创建，不覆盖旧文件。`research_manifest_hash` 目前覆盖清单中的公开docs与evidence/public摘要及关闭路线记录；它不是全部历史研究资产存档。完整发布时另登记要发布的脱敏证据与 artifact SHA-256。
+写清单采用排他创建，不覆盖旧文件。`research_manifest_hash` 目前覆盖清单中的公开docs与evidence/public摘要及关闭路线记录；它不是全部历史研究资产存档。完整发布时另登记要发布的脱敏证据与 artifact SHA-256。
 
-[INFERRED｜HIGH] 正式发布顺序：确认贡献来源与许可 → 清理私人信息 → 测试/构建 → 提交 → 签名 tag → 在固定 CI 工作流构建 → 签名/attest 实际 wheel、源码包和清单 → 发布 → 校验 → 可选存档 DOI。可信签名要求读者独立核对维护者公钥/身份；“摘要一致”不能升级成“官方版本”。
+建议的正式发布顺序：确认贡献来源与许可 → 清理私人信息 → 测试/构建 → 提交 → 签名 tag → 在固定 CI 工作流构建 → 签名/attest 实际 wheel、源码包和清单 → 发布 → 校验 → 可选存档 DOI。可信签名要求读者独立核对维护者公钥/身份；“摘要一致”不能升级成“官方版本”。
 
 ```powershell
 git tag -s vX.Y.Z -m "DAWLoop vX.Y.Z"
@@ -50,26 +50,26 @@ git verify-tag vX.Y.Z
 dawloop provenance --root . --release-tag vX.Y.Z --write-manifest ../dawloop-release-provenance.json
 ```
 
-[KNOWN｜HIGH] 以上是发布操作范式，`vX.Y.Z` 是占位符；历史 `v0.2.0-alpha.1` 未签名；仓库已登记维护者签名公钥，本轮本地使用该信任表验证 `v1.0.0-alpha.1` tag 通过。tag 验签不等于 Release 已 Publish，也不独立证明维护者现实身份。未登记 DOI。CLI 对 release 要求工作树干净、tag 指向 HEAD 且本地 `git verify-tag` 成功。它仍不认证最终安装包或公钥信任。GitHub 的签名提交验证与 artifact attestations 是不同层；CI 策略与公钥表已入库，既有构建 attestation 记录见 [发布指南](docs/RELEASING.md)；本轮没有重新下载或认证 Release 资产。[签名验证](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification)、[构建证明](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations)。
+以上是发布操作范式，`vX.Y.Z` 是占位符；历史 `v0.2.0-alpha.1` 未签名；仓库已登记维护者签名公钥，本轮本地使用该信任表验证 `v1.0.0-alpha.1` tag 通过。tag 验签不等于 Release 已 Publish，也不独立证明维护者现实身份。未登记 DOI。CLI 对 release 要求工作树干净、tag 指向 HEAD 且本地 `git verify-tag` 成功。它仍不认证最终安装包或公钥信任。GitHub 的签名提交验证与 artifact attestations 是不同层；CI 策略与公钥表已入库，既有构建 attestation 记录见 [发布指南](docs/RELEASING.md)；本轮没有重新下载或认证 Release 资产。[签名验证](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification)、[构建证明](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations)。
 
-[KNOWN｜HIGH] CITATION.cff 当前只记录已确认的项目与维护者，没有虚构 DOI 或发布日期。未来通过维护者授权接入 Zenodo 并存档真实 release 后再填对应 DOI。[引用文件](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files)、[Zenodo 发布存档](https://help.zenodo.org/docs/github/)。
+CITATION.cff 当前只记录已确认的项目与维护者，没有虚构 DOI 或发布日期。未来通过维护者授权接入 Zenodo 并存档真实 release 后再填对应 DOI。[引用文件](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files)、[Zenodo 发布存档](https://help.zenodo.org/docs/github/)。
 
 ## 面对来源争议
 
-[INFERRED｜HIGH] 保留原始 Git 历史、签名/发布记录、内容清单、明确许可及涉嫌违规副本的证据；分别核对通知被移除、报告复制、虚假背书与合法商业 fork。不要把功能相似自动当侵权，也不要期待加密公开 MIT 源码能阻止重构建。投诉只引用真实、可核对的事实，不能仅凭内部水印推断权属。
+处理疑似违规副本时，建议保留原始 Git 历史、签名/发布记录、内容清单、明确许可及相关证据；分别核对通知被移除、报告复制、虚假背书与合法商业 fork。不要把功能相似自动当侵权，也不要期待加密公开 MIT 源码能阻止重构建。投诉只引用真实、可核对的事实，不能仅凭内部水印推断权属。
 
 ## 新增公开品牌与展示图像 / New public brand and showcase images
 
-[KNOWN｜HIGH] 根 MIT 正文、既有代码/文档许可与第三方原始声明不变。新增 `docs/media/` 下的 `logo.png`、`hero.png`、`social-preview.png`、`music-workspace.png`、`analysis-report.png`、`piano-roll.png` 是逐项声明的版权保留图像；用户授权本次项目展示，其他用途按 [图像声明](docs/media/LICENSE.txt)取得明确许可。Markdown、JSON 与工程代码仍为 MIT；不追溯撤回既有许可，不把许可例外扩张到目录外。
+根 MIT 正文、既有代码/文档许可与第三方原始声明不变。新增 `docs/media/` 下的 `logo.png`、`hero.png`、`social-preview.png`、`music-workspace.png`、`analysis-report.png`、`piano-roll.png` 是逐项声明的版权保留图像；用户授权本次项目展示，其他用途按 [图像声明](docs/media/LICENSE.txt)取得明确许可。Markdown、JSON 与工程代码仍为 MIT；不追溯撤回既有许可，不把许可例外扩张到目录外。
 
-[KNOWN | HIGH] The root MIT text, existing code/documentation grants and original third-party notices are unchanged. Only the six explicitly named PNGs have the new reserved image notice. Technical Markdown/JSON remain MIT. Prior grants are not revoked and the exception does not extend beyond the listed images.
+The root MIT text, existing code/documentation grants and original third-party notices are unchanged. Only the six explicitly named PNGs have the new reserved image notice. Technical Markdown/JSON remain MIT. Prior grants are not revoked and the exception does not extend beyond the listed images.
 
 ## 个人持有方案与独立资产政策启用
 
-[KNOWN｜HIGH] 用户明确拟定品牌Logo、视觉与未来角色由个人持有，ownerType为INDIVIDUAL；公开维护者署名仍为ryurikoneko，法定身份不进入公开仓库。作者、权属或历史授权未清时PENDING_OWNER_REVIEW，独立新许可尚不自动生效。未来公司许可/转让需用户另行决定。
+用户明确拟定品牌Logo、视觉与未来角色由个人持有，ownerType为INDIVIDUAL；公开维护者署名仍为ryurikoneko，法定身份不进入公开仓库。作者、权属或历史授权未清时PENDING_OWNER_REVIEW，独立新许可尚不自动生效。未来公司许可/转让需用户另行决定。
 
-[KNOWN｜HIGH] 上一文档候选的六项图像保留声明继续作为历史记录，但不能据此断言早期根MIT下同源图像从未授出权利。本轮明确保留所有既有授权，禁止通过改路径、重压缩、新政策或角色保护限制已授出的软件权利。新资产的独立许可只在作者、权属、第三方许可及历史授权审查完成后配置。[历史审查](docs/brand/HISTORICAL_LICENSE_REVIEW.md)
+上一文档候选的六项图像保留声明继续作为历史记录，但不能据此断言早期根MIT下同源图像从未授出权利。本轮明确保留所有既有授权，禁止通过改路径、重压缩、新政策或角色保护限制已授出的软件权利。新资产的独立许可只在作者、权属、第三方许可及历史授权审查完成后配置。[历史审查](docs/brand/HISTORICAL_LICENSE_REVIEW.md)
 
-[KNOWN | HIGH] Code and previously licensed documents remain under their existing grants. New brand/art policies apply only after provenance, title and prior grants are reviewed. The confirmed individual-holder plan is not proof of legal identity or title. No automatic transfer to a future company is configured.
+Code and previously licensed documents remain under their existing grants. New brand/art policies apply only after provenance, title and prior grants are reviewed. The confirmed individual-holder plan is not proof of legal identity or title. No automatic transfer to a future company is configured.
 
 [资产管理](docs/brand/README.md) · [角色政策](docs/brand/CHARACTER_POLICY.md) · [登记准备](docs/brand/REGISTRATION_READINESS.md)

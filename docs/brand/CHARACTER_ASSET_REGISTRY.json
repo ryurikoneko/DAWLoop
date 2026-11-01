@@ -9,11 +9,11 @@
     "identityEvidence": "NOT_PUBLICLY_RECORDED",
     "automaticTransferToCompany": false
   },
-  "characterStatus": "RESERVED_FOR_FUTURE_ASSET",
+  "characterStatus": "PUBLIC_PRESENTATION_APPROVED",
   "officialCharacterName": null,
   "officialNameStatus": "NOT_DEFINED",
-  "approvedPublicVersion": null,
-  "approvedPublicVersionEvidence": null,
+  "approvedPublicVersion": "docs/media/dawloop-character.png",
+  "approvedPublicVersionEvidence": "Maintainer supplied the illustration and approved homepage display with local credit overlays on 2026-10-23; illustrator credit: Ryurikoneko.",
   "finalStandingArt": null,
   "threeViews": null,
   "characterSettings": null,
@@ -38,5 +38,5 @@
     "future-character-three-views",
     "future-character-settings"
   ],
-  "copyrightClaim": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
+  "copyrightClaim": "Maintainer-requested notice: Copyright (c) 2026 ryurikoneko; independent title review remains pending."
 }

@@ -67,8 +67,6 @@
         "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
       },
       "publicSourceFilesApproved": false,
-      "evidenceLabel": "KNOWN",
-      "confidence": "HIGH",
       "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
       "textValue": "DAWLoop",
       "textSha256": "a38b7d2dd35da74a9c831c203e1a59ff876f631dc12c877baf1f9854902db050",
@@ -157,8 +155,6 @@
         "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
       },
       "publicSourceFilesApproved": false,
-      "evidenceLabel": "KNOWN",
-      "confidence": "HIGH",
       "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。"
     },
     {
@@ -244,8 +240,6 @@
         "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
       },
       "publicSourceFilesApproved": false,
-      "evidenceLabel": "KNOWN",
-      "confidence": "HIGH",
       "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
       "copyrightSignature": "Copyright (c) 2026 ryurikoneko",
       "signatureMeaning": "按用户要求使用公开署名；不是法定身份、登记或完整权属认证。"
@@ -327,8 +321,6 @@
         "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
       },
       "publicSourceFilesApproved": false,
-      "evidenceLabel": "KNOWN",
-      "confidence": "HIGH",
       "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。"
     },
     {
@@ -380,8 +372,6 @@
         "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
       },
       "publicSourceFilesApproved": false,
-      "evidenceLabel": "KNOWN",
-      "confidence": "HIGH",
       "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
       "copyrightClaim": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
     },
@@ -434,8 +424,6 @@
         "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
       },
       "publicSourceFilesApproved": false,
-      "evidenceLabel": "KNOWN",
-      "confidence": "HIGH",
       "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
       "copyrightClaim": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
     },
@@ -488,8 +476,6 @@
         "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
       },
       "publicSourceFilesApproved": false,
-      "evidenceLabel": "KNOWN",
-      "confidence": "HIGH",
       "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
       "copyrightClaim": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
     },
@@ -542,8 +528,6 @@
         "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
       },
       "publicSourceFilesApproved": false,
-      "evidenceLabel": "KNOWN",
-      "confidence": "HIGH",
       "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
       "copyrightClaim": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
     },
@@ -596,8 +580,6 @@
         "basis": "没有提供登记或注册证据；本清单不等于对全球登记簿的独立检索。"
       },
       "publicSourceFilesApproved": false,
-      "evidenceLabel": "KNOWN",
-      "confidence": "HIGH",
       "uncertainty": "管理状态和用户决定可核对；作者、法定身份和完整权属未独立核实。",
       "copyrightClaim": "NOT_ASSERTED_FOR_UNCREATED_ASSET"
     }

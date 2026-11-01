@@ -1,71 +1,68 @@
-# Roadmap
+# DAWLoop 产品方向 / Product roadmap
 
-## 双线交付计划 / Parallel delivery roadmap
+DAWLoop 的方向是让音乐素材、可编辑的想法和真实宿主操作连成一个可理解的工作流。我们从创作者能亲自选择和修改的成果开始，逐步扩展Agent可以执行、观察和核对的任务。
 
-[KNOWN｜HIGH] 公开 Runtime 与内部 Desktop 分开交付、回归和宿主授权；[能力表](CAPABILITIES.md)是当前状态入口。以下待办不代表已实现产品承诺。
+DAWLoop aims to connect musical material, editable ideas and real host actions in an understandable workflow. We start with results creators can choose and revise, then expand the tasks agents can execute, observe and evaluate.
 
-| 优先级 / Priority | Desktop / Music Intelligence | Runtime / Host |
-| --- | --- | --- |
-| P0 | 用户体验验收、可信离线首装、干净Windows / UX acceptance, trusted offline install, clean Windows | 当前来源、租约与 Host / Session 真实证明 / Source, lease and live session proof |
-| P1 | 独立源码集成/发行审查、模型与资源生命周期 / Source/distribution review and asset lifecycle | 逐级只读 Mixer/Identity 证据 / Graded read-only Mixer and identity evidence |
-| P2 | OMAR参考检索、学习与生成模型独立研究 / Separate retrieval, learning and generation research | 通用Plan Adapter、独立验证与受控权限 / Generic Plan Adapter and controlled permission |
+## 现在可以从哪里开始 / Where to start today
 
-[KNOWN | HIGH] The two lines integrate through versioned contracts and independent acceptance. No automated writes, arbitrary projects or model availability are promised by this roadmap. Historical milestones below remain intact.
+Desktop Alpha提供试听、WAV分析、规则辅助旋律、Piano Roll、保存与MIDI导出，以及Basic Pitch组件安装入口。Python Runtime提供音乐时间、计划、Production分析、Agent合同与执行适配。已有受限的FL Studio目标识别、导航和Native操作记录，展示这些部分如何相遇。
 
-本版是 Runtime V2 research-preview；旧 `v0.1.0-alpha` 保留。路线图区分已实现、现场认证与未来计划，不用上游支持或离线测试替代现场证据。
+Desktop Alpha provides listening, WAV analysis, rule-assisted melodies, Piano Roll editing, saved work, MIDI export and Basic Pitch component setup. Python Runtime provides musical timing, plans, production analysis, agent contracts and adapters. Scoped FL Studio identity, navigation and Native operation records show how these parts can meet.
 
-## 已完成
+[Desktop体验](DESKTOP.md) · [Runtime Quickstart](QUICKSTART.md) · [真实宿主案例](DEMOS.md) · [能力目录](CAPABILITIES.md)
 
-- 离线 MusicalGrid、NotePlan、保留重复次数的 Exact-Set 比较器。
-- Community 固定快照、安装/诊断与通用 Production 分析工具，保留第三方来源。
-- Controller build/session/project 身份；已有 Kick ↔ Clap 自动导航与观察性确认。
-- 固定16-note Native FAST 高层入口、单次派发、人工接受、应用观察和完成回调的受限现场闭环。
-- HumanReport 独立持久化/领取/晚到关联，原终态不可改写。
-- MusicalPlan、通用约束、动机/乐句解释、Learning Protocol/Schema/Prompt/版本化profile的离线实现。
-- 三工具 stdio MCP、后台 RunManager、real factory、truthful readiness 与 observer 接线的离线实现。
-- Ubuntu 3.11/3.12、Windows 3.12 离线 CI、构建与隔离安装、Node 合成观察和学习/provenance 回归。
-- main PR/CI 保护、双语项目首页，以及经实际 Actions 验收的 main 候选构建 attestation。
+## Composer 的创作体验 / Composer creation workflow
 
-## P0：音乐计划与用户自己的学习
+Composer 已形成参考 MIDI、生成候选、试听与宿主转移的本地流程。后续重点是改善可选宿主读取的目标确认，完善 API 与 Agent 接入，并改善独立发行体验。
 
-用户 Agent 用自有素材跑分析 → 同类统计 → 显式映射 → 计划验证 → 用户反馈 → 新profile版本。公共项目提供框架，不内置艺术家偏好或宣称学习泛化已认证。下一项接线是学习MusicalPlan到FAST的单位/字段转换与独立验收，不直接开放任意源码或扩张现场note预算。
+Composer has a local reference-to-candidate, audition and host-transfer workflow. Next are clearer target confirmation for optional host reads, API and agent integration, and a smoother separate release experience.
 
-## 暂停候选路线：ZERO-AGENT-COMPUTER-USE FAST
+## 更连贯的Desktop工作流 / A smoother Desktop workflow
 
-```text
-MCP_FAST_PATH = NOT_LIVE_CERTIFIED
-ZERO_AGENT_COMPUTER_USE_FAST_PATH = NOT_LIVE_CERTIFIED
-BROWSER_PAGE_IDENTITY_TRANSPORT = UNAVAILABLE
-OBSERVER_UI_BINDING = BLOCKED
-OBSERVER_REQUEST_COMPLETION = NOT_PROVEN
-```
+让第一次导入音频、理解报告、创建候选旋律、保存和继续编辑更容易衔接。组件管理应更清楚地解释下载、许可、磁盘与运行条件；中英文使用指南应各自围绕实际操作组织。对创作者而言，这意味着减少环境摸索，把更多时间留给音乐选择。
 
-已有实验FAST路径仍有受限证据；新MCP候选路径没有完成现场run。不得重复同一个fetch失败、猜URL、用窗口标题/焦点/坐标替代页面身份或为了发布而降级READY。
+Connect first import, report interpretation, melody candidates, saving and further editing more smoothly. Component management should explain download, license, disk and runtime requirements clearly, with separate task-oriented Chinese and English guides. Creators should spend less time on setup and more on musical decisions.
 
-### GitHub待办：复验与分支展示
+## 更丰富的FL Studio目标与操作 / Richer FL Studio targets and actions
 
-1. 浏览器连接端修复后，先稳定取得真实URL/page identity。
-2. 不开FL，在两个不同process/session generation下各完成一次observer UI binding + request completion，并正常shutdown无残留。
-3. 两次都过才开一个独立MCP现场会话：固定16 notes、一次派发、人工Accept、REALTIME报告/应用领取、宿主回调、试听、不保存恢复。MCP调用与zero-agent-CU分别认证。
-4. 若目标用户仍无法使用该依赖，建立单独候选分支与兼容性说明，展示MCP路径作为可选路线，同时指向已通过的受限FAST/既有观察工作流。不得把未通过的候选路线宣传成更可靠默认方案。
+在已有Pattern、Channel身份读取与导航的基础上，研究更完整的目标组织、Pattern管理与多对象操作。每类操作都需要明确其对象、范围、授权和反馈方式，让“改哪段、哪个乐器、哪些事件”成为可检查的计划。
 
-本次只是将复验条件列为公开待办，未进行新浏览器/FL实验，也未创建一个虚构“已验证替代observer”分支。候选分支只在有实际兼容方案和证据后建立。
+Build on existing Pattern/Channel identity and navigation toward richer target organization, Pattern management and multi-object operations. Each operation needs explicit objects, bounds, authorization and feedback so the intended passage, instrument and events form an inspectable plan.
 
-## 之后的独立阶段
+## 更完整的写入与读回 / Stronger write and readback workflows
 
-| 顺序 | 阶段 | 必须保留的边界 |
-| --- | --- | --- |
-| MCP现场通过后 | 只读bridge/session reuse | status/read/reconnect先行，generation与ledger不拆 |
-| 然后 | normal-project / multi-operation | 工程身份、checkpoint、dirty/save策略、operation预算及失效守卫 |
-| 然后 | 语音输入 | 只是输入层，不重新开启自动commit |
-| 独立评估 | Human telemetry完善 / Auto Accept | Auto Accept默认关闭，无新增像素识别框架 |
+把实际宿主中的音符与计划联系起来，保存独立读回和比较结果。统一的记录结构有助于复现问题、定位偏差，并为后续Agent动作提供依据。重复事件、时间单位和目标身份都应在对应操作合同中说明。
 
-## 冻结：Native VERIFIED
+Connect actual host notes to their plans and preserve independent readback and comparison. Consistent records help reproduce problems, locate differences and inform later agent actions. Multiplicity, time units and target identity belong in each operation's contract.
 
-`NATIVE_VERIFIED_RESEARCH = FROZEN_BLOCKED`，原因是缺少可认证producer-side完整音符读回。现有normal return没有数据传播证据，error channel unresolved，file routes closed，缓存/视觉不足以Exact Set。只有新的可信完整读取接口才解冻，不再重包装旧payload/文件/日志路线。
+## Runtime Mixer 控制闭环 / Runtime Mixer control loop
 
-解冻后的顺序仍是 notes[] → 请求freshness与producer实际目标证据 → baseline+additions multiset/PPQ比较。不能从截图或callback直接跳到VERIFIED。普通工程持续写入与 `v1.0 stable` 的完成条件尚未达成。
+先验证推子是否写到请求值，再测量声音是否进入目标区间。Phase A比较控制值并记录容差来源；Phase B使用新音频评估结果；Phase C根据结果重新规划，并保留每次尝试的历史。这使Agent可以区分控制问题与混音策略问题。
 
-## 来源与发行待办
+First establish whether a fader reached its requested value, then measure whether audio entered the target range. Phase A compares control values with a traceable tolerance; Phase B evaluates newly measured audio; Phase C replans while retaining each attempt. This distinguishes control failures from production-strategy failures.
 
-MIT/NOTICE/AUTHORS/CFF/品牌说明与公开内容hash已有。main 候选构建 attestation 已通过真实验收；可信 signed-tag 发布流程已实现，维护者专用签名公钥现已登记；`v1.0.0-alpha.1` 的本地tag验签已通过，历史构建记录保留；公开 Release 发布及最终资产验证仍是独立步骤。目标版本 `v1.0.0-alpha.1`（Runtime V2 Architecture Preview）尚待正式发布，checksum detached signature 尚未接入。版本准备为 `1.0.0a1`，继续保持 Alpha 范围；历史 `v0.2.0-alpha.1` 保留。具体顺序与验证方法见[发布指南](RELEASING.md)。可选真实 DOI 与第三方复现继续列为后续事项。CC BY-NC 只保存许可文本，未启用非商业报告许可；新增品牌图像按 [精确资产清单](../LICENSE_POLICY.md)保留版权，历史 MIT 授权保持。
+## 能持续协作的Agent / Agents that can keep collaborating
+
+连接音乐约束、计划适配、宿主操作和反馈，使下一轮制作依赖前一轮实际取得的结果。人工预览、接受与停止应成为自然的协作环节；用户保留创作方向和危险操作的决定权。
+
+Connect musical constraints, plan adaptation, host actions and feedback so each next step uses the results actually obtained. Preview, human acceptance and stopping should feel like natural collaboration, with the user retaining creative and safety decisions.
+
+## 音乐检索、分析与生成 / Retrieval, analysis and generation
+
+研究怎样从获准素材中取得有用特征、比较候选、组织参考并辅助创作。模型接入分别评估素材权利、设备要求、实际推理和输出质量，让分析与生成成为可审阅、可编辑的音乐成果。
+
+Explore useful features from permitted material, candidate comparison, references and creation assistance. Model integrations are evaluated for material rights, device requirements, actual inference and output quality, leading to results people can review and edit.
+
+## 参与方向 / Ways to contribute
+
+可以从使用反馈、指南与翻译、音乐分析器、合成测试素材、目标检查或adapter合同入手。[贡献指南](../CONTRIBUTING.md) 说明各入口；[验证文档](VERIFICATION.md) 保存操作规则，[历史路线档案](archive/public-presentation-20261014/docs__ROADMAP.md.txt) 保留此前工程记录。
+
+Contribute workflow feedback, guides and translations, analyzers, synthetic fixtures, target checks or adapter contracts. The contribution guide provides entry points; verification rules and the linked archive preserve the engineering record.
+
+## 当前版本说明 / Current Version Notes
+
+- 当前公开Desktop为 `0.5.6-alpha.2`；实际交付以 [Releases](https://github.com/ryurikoneko/DAWLoop/releases) 为准。 / The public Desktop is Alpha.2; Releases define actual delivery.
+- 本页是产品方向，不承诺发布日期或所有方向都进入下一版本。 / These are directions, without promised dates or a guarantee for the next release.
+- 本地编辑、Community工具与Native宿主操作按不同路径交付和验证。 / Local editing, Community tools and Native host operations have distinct delivery and verification paths.
+- 控制层与音频结果层保持独立，归档记录保留原终态。 / Control and audio outcomes remain separate; archived records retain their original terminal states.
