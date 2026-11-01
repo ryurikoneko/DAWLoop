@@ -1,0 +1,9 @@
+{
+  "title": "用户配置方案",
+  "description": "每份配置保留未知字段，为后续能力扩展预留空间。",
+  "defaultName": "默认",
+  "active": "当前使用",
+  "name": "方案名称",
+  "placeholder": "新配置方案名称",
+  "create": "创建方案"
+}

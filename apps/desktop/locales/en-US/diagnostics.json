@@ -1,0 +1,8 @@
+{
+  "title": "Local diagnostics",
+  "description": "Generate and save a structured, redacted report.",
+  "run": "Run diagnostics",
+  "copy": "Copy diagnostic report",
+  "empty": "No report has been generated.",
+  "export": "Export diagnostic report"
+}

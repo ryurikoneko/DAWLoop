@@ -1,0 +1,9 @@
+{
+  "title": "User profiles",
+  "description": "Profiles preserve unknown fields for future capabilities.",
+  "defaultName": "Default",
+  "active": "Active",
+  "name": "Profile name",
+  "placeholder": "New profile name",
+  "create": "Create profile"
+}

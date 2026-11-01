@@ -1,0 +1,166 @@
+{
+  "environment": "environments\\sheetsage2-v3",
+  "environmentManifest": "models\\sheetsage2\\environment-manifest-v3.json",
+  "environmentManifestSha256": "79894295bdff0f8ee6766e817abbb6233d37ef18eb87f7f2c58d69b092eccea1",
+  "models": [
+    {
+      "name": "SheetSage2",
+      "id": "m-a-p/SheetSage2",
+      "revision": "32c7c7473e7b59e1ed36bd8a8fefbd11ae8d468a",
+      "files": [
+        {
+          "name": "__init__.py",
+          "sha256": "19539a965cabf22d08231688efc15547d005e6345745f48684c2f02d010f82fd"
+        },
+        {
+          "name": "audio_sheetsage2.py",
+          "sha256": "ecce56e7bb8a08cbca9eb27a74d9aeff17f55e80efcc7c48f7436440f610ccc1"
+        },
+        {
+          "name": "benchmark_results.json",
+          "sha256": "780bff9fb34f2ecc115f11625bece4b7444fffc66e0384e852c4d77d2d9eb178"
+        },
+        {
+          "name": "chord_spelling_sheetsage2.py",
+          "sha256": "5a673e3c8caa6d0a4cda19227ce5587c611a2bf85343f6bc623e3d66d99ed8b1"
+        },
+        {
+          "name": "config.json",
+          "sha256": "a986e63f5d831ecb823c11d19cfb371d763f25ae2e614ec9acd714c0b8bb87fd"
+        },
+        {
+          "name": "configuration_mert2.py",
+          "sha256": "77b53ec9d7ee31a599d744fb006e812c7eeaf7390deb46e2f460cf8c17b00bd6"
+        },
+        {
+          "name": "configuration_sheetsage2.py",
+          "sha256": "36d174331b3721d984608252830179bf3516d77b7225f413acc85bdf5efb3bec"
+        },
+        {
+          "name": "durations_sheetsage2.py",
+          "sha256": "abbc297b70b63a86f8509b1db74d0e85d7b46dcb83867cf33741c43f9d49db83"
+        },
+        {
+          "name": "exports_sheetsage2.py",
+          "sha256": "11782cff50f96dac1bf1eedefed86b3cd60222e31b8456bee366eeb373b6a7e5"
+        },
+        {
+          "name": "generation_sheetsage2.py",
+          "sha256": "b58dbbfaebfba2a441a79b8c36183f0e4956acdd3aaf7c655c559933b4c20afd"
+        },
+        {
+          "name": "infer.py",
+          "sha256": "20e6b23c910bfdecf012a8ee8d45efcb31cb6cb21351da5921d95fb877e70de6"
+        },
+        {
+          "name": "io_sheetsage2.py",
+          "sha256": "afb5b4d4a52b513b11cfdad40e7b9d2286dd4ff6585b89688dbb31b3d5376da6"
+        },
+        {
+          "name": "labels_sheetsage2.py",
+          "sha256": "4a80870695dd91da6070e7d8d0ce6b50f3bf71c3f629417a86cf12f4ef4f97e0"
+        },
+        {
+          "name": "midi_sheetsage2.py",
+          "sha256": "32f80d13592c669e56683ebb4c415f13bf8278c8ad1fe43afa500347bed35099"
+        },
+        {
+          "name": "modeling_mert2.py",
+          "sha256": "b1a3174e5649c4b26b0c90d8626f0adacfbbba111a58ed3bb72ad651945a2f5c"
+        },
+        {
+          "name": "modeling_sheetsage2.py",
+          "sha256": "df36bec866e4bd1f0a08e79369405c9a1bd86214a1c48559e75e3e567f43bbc4"
+        },
+        {
+          "name": "notation_sheetsage2.py",
+          "sha256": "f75f0e8b268cd9e9c622d791d3fd77d2e68ad355a4e67018c7e15aeb2bc05af7"
+        },
+        {
+          "name": "pipeline_sheetsage2.py",
+          "sha256": "0ae572554ca375323e2aa4ea1fb25ba27e7f4d520c0ba5b101d74930c0a66c33"
+        },
+        {
+          "name": "processing_sheetsage2.py",
+          "sha256": "b8dfa9f344ea7efab3ac9ec61f4c3bd0345f7a65d39a5c2c8b8a803689fdc393"
+        },
+        {
+          "name": "processor_config.json",
+          "sha256": "1eed73513a74029fe74c71faba70f8cff002ae7be23ac1c926125846d1b29817"
+        },
+        {
+          "name": "render.py",
+          "sha256": "446b18e0ba7250c8584c14bda241f8d063083cd10b1432de82c3cf56736af9de"
+        },
+        {
+          "name": "rendering_sheetsage2.py",
+          "sha256": "ddbcaf314139d67727cb5df6840d7d60d671d5c67f6b185a26b840df1e2d9288"
+        },
+        {
+          "name": "schema_sheetsage2.py",
+          "sha256": "3ee069f0d4dcfb8080f730c43676318d471ab6b3cfef86c6c225aa63a9db182f"
+        },
+        {
+          "name": "setup_render.py",
+          "sha256": "8ee1004067f8e50443005a761d86435337f6ee71eeabf447d543eb5f3ad5561d"
+        },
+        {
+          "name": "tensors_sheetsage2.py",
+          "sha256": "51f72b51ed5a22c751d5adf915198490b1a95ec8959fcf9a38ee71b4444fc8b3"
+        },
+        {
+          "name": "tokenization_sheetsage2.py",
+          "sha256": "2ad9f7734e3d9f750fe575f22fd9ec03a9a4ab52497a6314e76f53ed9024fa75"
+        },
+        {
+          "name": "model.safetensors",
+          "bytes": 228738564,
+          "sha256": "b235f68091a5f5b644000f2b5acb57d1e70432aca2b34ab1b9cf27236e1f4274"
+        }
+      ],
+      "directory": "models\\sheetsage2\\SheetSage2-32c7c7473e7b59e1ed36bd8a8fefbd11ae8d468a-r3"
+    },
+    {
+      "name": "MERT-v2-FullSong",
+      "id": "m-a-p/MERT-v2-FullSong",
+      "revision": "d8ba1c745e733b3908ce6ad16ebeb17ac7600a42",
+      "files": [
+        {
+          "name": "LICENSE",
+          "sha256": "73593d6cad4ca80f3ab1448a4908f92ab802dfffe029561e3b12fa7d07c8b87c"
+        },
+        {
+          "name": "config.json",
+          "sha256": "f2e194895f58be3ddba327255db129ff0e3bee550cc0ecf08e4d22d79ce3bca3"
+        },
+        {
+          "name": "configuration_mert2.py",
+          "sha256": "77b53ec9d7ee31a599d744fb006e812c7eeaf7390deb46e2f460cf8c17b00bd6"
+        },
+        {
+          "name": "marble_results.json",
+          "sha256": "ced741a3d9684b551a2569c2206ba86911addd07a42df72d65b74e4288d4bd0e"
+        },
+        {
+          "name": "modeling_mert2.py",
+          "sha256": "b1a3174e5649c4b26b0c90d8626f0adacfbbba111a58ed3bb72ad651945a2f5c"
+        },
+        {
+          "name": "preprocessor_config.json",
+          "sha256": "fc7337f113b71062b8efd03f8a43a07aa769ce85c6a53fdc0b3bb90c299fe63f"
+        },
+        {
+          "name": "weights_manifest.json",
+          "sha256": "413e2ddfa71ae5bb364bfd15364e221249111e14c2f0843ea6162afb776a8300"
+        },
+        {
+          "name": "model.safetensors",
+          "bytes": 2529812848,
+          "sha256": "e6dd2ab187d6dd62b6521cd7d8f932e237acf0c5757745a7232082e28391350d"
+        }
+      ],
+      "directory": "models\\sheetsage2\\MERT-v2-FullSong-d8ba1c745e733b3908ce6ad16ebeb17ac7600a42-r3"
+    }
+  ],
+  "bytes": 2758551412
+}

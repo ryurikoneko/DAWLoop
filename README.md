@@ -14,7 +14,9 @@
 [![Desktop & Runtime: MIT](https://img.shields.io/badge/Desktop_%26_Runtime-MIT-blue)](LICENSE)
 [![Alpha](https://img.shields.io/badge/status-Alpha-orange)](docs/DESKTOP.md)
 
-[下载 Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [下载 Composer VST3](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1) · [体验 Runtime](docs/QUICKSTART.md) · [使用场景](docs/DEMOS.md) · [功能目录](docs/CAPABILITIES.md) · [参与贡献](CONTRIBUTING.md)
+[下载 Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.8-alpha.1) · [下载 Composer VST3](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1) · [体验 Runtime](docs/QUICKSTART.md) · [使用场景](docs/DEMOS.md) · [功能目录](docs/CAPABILITIES.md) · [参与贡献](CONTRIBUTING.md)
+
+**新版客户端已搭载 Audio Transcription Studio**：多轨查看、试听、编辑与原生 MIDI 拖出；首次安装随包基础音频与 Basic Pitch 组件。完整 SheetSage2 分析需已有独立本地环境。
 
 <img src="docs/media/dawloop-character.png" alt="DAWLoop 品牌角色形象，角色由 Ryurikoneko 绘制" width="640">
 
@@ -278,7 +280,7 @@ Brain 是 Runtime 的音乐计划与规则，Hands 是宿主执行后端，Ears 
 
 ### 音乐创作者：下载 Desktop
 
-[Windows x64 便携版 ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.2/DAWLoop%2B0.5.6-alpha.2-Windows-x64-Portable.zip) · [发行说明与校验和](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2)
+[Windows x64 便携版 ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.8-alpha.1/DAWLoop%2B0.5.8-alpha.1-Windows-x64-Portable.zip) · [发行说明与校验和](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.8-alpha.1)
 
 程序未签名。运行前核对官方来源和 `SHA256SUMS.txt`，保留系统安全保护；升级前备份用户数据。
 
@@ -315,8 +317,8 @@ Desktop、Runtime 与本公开仓库的项目自有开源代码采用 [MIT 许�
 ## 当前版本说明
 
 - Plugin **Composer 0.2.0-rc.1** 已公开预发行，仅含 Composer，采用独立闭源二进制条款，不自动安装更新。
-- Desktop **0.5.6-alpha.2** 是公开 Windows x64 Pre-release；维护者环境已有运行记录，独立干净 Windows 兼容性仍待确认，程序未签名。
+- Desktop **0.5.8-alpha.1** 是公开 Windows x64 Pre-release；维护者环境已有运行记录，独立干净 Windows 兼容性仍待确认，程序未签名。
 - 基础分析支持 WAV；Basic Pitch 可在确认许可后安装，适合乐器素材，转录结果需要音乐审阅。
 - Desktop 与 Python Runtime 分别交付；本文宿主图说明工作模式，具体 FL 现场范围以固定测试记录和 [验证文档](docs/VERIFICATION.md) 为准。
 - 通用自主制作、任意工程连续控制及完整自动混音属于 [后续方向](docs/ROADMAP.md)。
-- 截图来自此前开发版本；Desktop 源码见 [Alpha.2 标签](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.2)，Runtime 在 main。更新提示仅按版本、渠道与维护者批准匹配，不自动安装。
+- 截图来自此前开发版本；Desktop 源码见 [Alpha.2 标签](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.8-alpha.1)，Runtime 在 main。更新提示仅按版本、渠道与维护者批准匹配，不自动安装。

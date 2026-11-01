@@ -1,0 +1,23 @@
+{
+  "overview": "会话概览",
+  "description": "查看运行时、宿主与连接状态。",
+  "runtime": "DAWLoop Runtime",
+  "host": "FL Studio",
+  "mockControl": "开发模拟控制",
+  "controlUnavailable": "真实启停接口尚未接入",
+  "installation": "安装检测",
+  "detected": "已检测到",
+  "notDetected": "未检测到",
+  "processNote": "进程存在与通信连接分别观察",
+  "activeProfile": "当前配置方案",
+  "manageProfiles": "管理配置方案 →",
+  "preferencesNote": "验证偏好仅保存，尚未应用到 Core",
+  "connections": "连接观察",
+  "diagnosticsLink": "诊断 →",
+  "developmentBackend": "开发后端",
+  "mockNote": "Mock 使用独立模拟状态，不代表宿主或桥接能力。",
+  "backendLabel": "后端",
+  "scenarioLabel": "模拟场景",
+  "connectionPending": "连接尚未验证",
+  "recoveryNote": "可重试只读观察或查看诊断。重试不会启动宿主，也不会发送重连操作。"
+}

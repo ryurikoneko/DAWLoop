@@ -1,0 +1,21 @@
+import React from 'react';
+import {afterEach,expect,it,vi} from 'vitest';
+import {cleanup,render} from '@testing-library/react';
+import {I18nextProvider} from 'react-i18next';
+import {createDesktopI18n} from './i18n';
+import {AudioPreviewPlayer} from './AudioPreviewPlayer';
+import type {DesktopBridge} from '../../../packages/shared-types/contracts';
+afterEach(()=>{cleanup();vi.restoreAllMocks();});
+it('替换试听凭据时旧 effect 不得移除已提交的新 src，卸载仍撤销当前凭据',()=>{
+  vi.spyOn(HTMLMediaElement.prototype,'pause').mockImplementation(()=>{});
+  vi.spyOn(HTMLMediaElement.prototype,'load').mockImplementation(()=>{});
+  const release=vi.fn(async()=>({apiVersion:1,ok:true,data:true}));
+  window.dawloop={music:{waveform:vi.fn(async()=>({apiVersion:1,ok:false})),releasePreview:release,cancel:vi.fn()}} as unknown as DesktopBridge;
+  const component=(src:string)=><I18nextProvider i18n={createDesktopI18n('en-US')}><AudioPreviewPlayer src={src} assetId={'1'.repeat(32)} start={0} end={30}/></I18nextProvider>;
+  const view=render(component('dawloop-audio://preview/old'));const audio=view.container.querySelector('audio')!;
+  view.rerender(component('dawloop-audio://preview/new'));
+  expect(audio.getAttribute('src')).toBe('dawloop-audio://preview/new');
+  expect(release).toHaveBeenCalledWith({assetId:'1'.repeat(32),url:'dawloop-audio://preview/old'});
+  view.unmount();expect(audio.hasAttribute('src')).toBe(false);
+  expect(release).toHaveBeenCalledWith({assetId:'1'.repeat(32),url:'dawloop-audio://preview/new'});
+});

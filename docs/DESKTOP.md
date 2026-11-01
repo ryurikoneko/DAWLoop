@@ -16,6 +16,12 @@ Desktop 是开源独立应用；闭源 [Plugin](PLUGINS.md) 把参考与候选�
 
 Desktop is the open-source standalone app. Proprietary Plugin works inside the host; open-source Runtime provides developer interfaces. The Desktop Piano Roll, Composer note view and FL Piano Roll are separate interfaces.
 
+## Audio Transcription Studio
+
+当前下载包含多轨转写工作台：在组件管理安装随包 Basic Audio 和 Basic Pitch 后，导入 WAV、查看音区候选、试听、编辑并拖出已保存的 MIDI。完整人声/和弦分析需要已有的独立 SheetSage2 环境；缺少声部保持未提供。详细功能与边界见 [本版说明](RELEASE_NOTES_DESKTOP_0.5.8_ALPHA_1.md)。
+
+The current download includes the multitrack transcription Studio. Install the bundled Basic Audio and Basic Pitch packs, import a WAV, inspect register candidates, preview/edit notes and drag out saved MIDI. Full vocal/chord analysis requires a separate existing SheetSage2 environment; unavailable parts stay unavailable.
+
 ## 认识 Music Intelligence / Find your way around
 
 主页为常用任务提供入口：试听自己的素材、查看分析、创建旋律，以及进入音频转 MIDI 与音符编辑。组件管理负责准备基础分析和可选模型；保存的分析与乐谱各有列表，方便重新打开继续研究。
@@ -140,7 +146,7 @@ With a WAV of your own, listen for a denser entrance, use the report to inform y
 
 ## 下载与首次启动 / Download and first launch
 
-[Windows x64 Portable ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.2/DAWLoop%2B0.5.6-alpha.2-Windows-x64-Portable.zip) · [Release 与 SHA256SUMS.txt](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2)
+[Windows x64 Portable ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.8-alpha.1/DAWLoop%2B0.5.8-alpha.1-Windows-x64-Portable.zip) · [Release 与 SHA256SUMS.txt](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.8-alpha.1)
 
 运行前核对官方来源与校验和；程序未签名，保留 Windows 安全保护。先备份升级前的数据；组件安装前阅读对应许可。
 
@@ -152,8 +158,8 @@ Extract the complete directory → run `DAWLoop.exe` → install basic component
 
 ## 当前版本说明 / Current Version Notes
 
-- 本页对应公开 Windows x64 Desktop **0.5.6-alpha.2**；独立干净 Windows 兼容性待确认。 / This is the public Windows x64 Alpha; independent clean-Windows compatibility awaits confirmation.
+- 本页对应公开 Windows x64 Desktop **0.5.8-alpha.1**；独立干净 Windows 兼容性待确认。 / This is the public Windows x64 Alpha; independent clean-Windows compatibility awaits confirmation.
 - 基础分析使用 WAV；节奏与调性候选是估计。Basic Pitch 用于乐器素材，转录质量需要审阅。 / Basic analysis uses WAV; rhythm/key estimates and instrument transcriptions need review.
 - 截图来自此前开发版本，展示相应工作区与编辑界面。 / Screenshots illustrate the workspace and editors from an earlier build.
 - Desktop 本地编辑与 Runtime 真实 FL 集成分别交付和配置。 / Local editing and Runtime host integration have separate delivery/setup paths.
-- [Desktop 发行源码](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.2)、[来源与组件许可](../THIRD_PARTY_NOTICES.md)、[后续方向](ROADMAP.md)。 / Use these references for source, component terms and future work.
+- [Desktop 发行源码](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.8-alpha.1)、[来源与组件许可](../THIRD_PARTY_NOTICES.md)、[后续方向](ROADMAP.md)。 / Use these references for source, component terms and future work.

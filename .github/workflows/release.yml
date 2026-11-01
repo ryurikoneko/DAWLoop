@@ -2,7 +2,8 @@ name: Release provenance
 
 on:
   push:
-    tags: ['v*-alpha.*']
+    # 0.5 系列为 Desktop 客户端发行，不进入 Python Runtime 包签名与打包流程。
+    tags: ['v*-alpha.*', '!v0.5.*']
   workflow_dispatch:
 
 permissions:

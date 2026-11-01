@@ -1,0 +1,17 @@
+import {useEffect,useRef,useState} from 'react';
+import {useTranslation} from 'react-i18next';
+export function AudioPreviewPlayer({src,assetId,start,end,developer=false,seek}:{src:string;assetId:string;start:number;end:number;developer?:boolean;seek?:{time:number;request:number}}){
+  const {t}=useTranslation('music');const media=useRef<HTMLAudioElement>(null);const boundary=useRef<number|null>(null);const [error,setError]=useState('');const [peaks,setPeaks]=useState<number[]>([]);
+  useEffect(()=>{let jobId:string|undefined;let cancelled=false,timer:ReturnType<typeof setTimeout>;let attempts=0;
+    const request=async()=>{if(cancelled)return;const r=await window.dawloop.music.waveform({assetId});if(!r.ok)return;jobId=r.data;if(cancelled){void window.dawloop.music.cancel({id:jobId});return;}
+      const poll=async()=>{if(cancelled)return;const jobs=await window.dawloop.music.jobs();if(!jobs.ok)return;const job=jobs.data.find(j=>j.id===r.data);
+        if(job?.state==='COMPLETED'){const result=job.result as {peaks:number[]};if(!cancelled)setPeaks(result.peaks);return;}
+        if(job?.state==='FAILED'&&job.error==='MI_RESOURCE_BUSY'&&attempts++<3){timer=setTimeout(()=>void request(),500);return;}
+        if(job?.state==='FAILED'||job?.state==='CANCELLED')return;timer=setTimeout(()=>void poll(),500);};await poll();};
+    void request();const audio=media.current;return()=>{cancelled=true;clearTimeout(timer);if(jobId)void window.dawloop.music.cancel({id:jobId});
+      // React 已提交新 src 时，旧 effect 只能撤销旧凭据，不能清除新音源。
+      if(audio?.getAttribute('src')===src){audio.pause();audio.removeAttribute('src');audio.load();}void window.dawloop.music.releasePreview({assetId,url:src});};},[assetId,src]);
+  useEffect(()=>{const a=media.current;if(!a||!seek)return;const apply=()=>{a.currentTime=Math.max(0,Math.min(seek.time,a.duration||seek.time));boundary.current=null;void a.play().catch(()=>setError('MI_PLAYBACK_FAILED'));};if(a.readyState>=1)apply();else a.addEventListener('loadedmetadata',apply,{once:true});return()=>a.removeEventListener('loadedmetadata',apply);},[seek,src]);
+  async function play(section:boolean){const a=media.current;if(!a)return;setError('');if(section){if(!Number.isFinite(start)||!Number.isFinite(end)||start<0||end<=start||start>=a.duration){setError('MI_RANGE_REJECTED');return;}a.currentTime=start;boundary.current=Math.min(end,a.duration);}else boundary.current=null;try{await a.play();}catch{setError('MI_PLAYBACK_FAILED');}}
+  return <section aria-label={t('audioPreview')}><div className="buttons"><button onClick={()=>void play(false)}>{t('playAudio')}</button><button onClick={()=>media.current?.pause()}>{t('pauseAudio')}</button><button onClick={()=>void play(true)}>{t('playRange')}</button></div><audio ref={media} controls controlsList={'nodownload noremoteplayback'} crossOrigin={'anonymous'} preload="metadata" src={src} onError={()=>setError('MI_AUDIO_DECODE_FAILED')} onTimeUpdate={()=>{const a=media.current;if(a&&boundary.current!==null&&a.currentTime>=boundary.current){a.pause();a.currentTime=boundary.current;boundary.current=null;}}}/>{peaks.length>0&&<svg role="img" aria-label={t('waveform')} viewBox="0 0 1024 100" className="mi-curve"><polyline fill="none" stroke="#9fb77c" points={peaks.map((v,i)=>`${i},${95-Math.min(1,v)*90}`).join(' ')}/></svg>}{error&&<p role="alert">{t(error==='MI_RANGE_REJECTED'?'audioRangeError':'audioPlaybackError')} {developer&&<code>{error}</code>}</p>}<p>{t('previewIndependent')}</p></section>;
+}

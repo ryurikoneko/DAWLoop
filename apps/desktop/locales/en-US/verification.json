@@ -1,0 +1,13 @@
+{
+  "title": "Verification preferences",
+  "description": "Reserved preferences: these options are not connected to the current Verifier.",
+  "preset": "Verification preset",
+  "presets": {
+    "Strict": "Strict",
+    "Balanced": "Balanced",
+    "Fast": "Fast",
+    "Custom": "Custom"
+  },
+  "note": "Core capability contracts govern write verification, unaffected-track checks, and plugin parameter verification.",
+  "badge": "PREFERENCES ONLY"
+}

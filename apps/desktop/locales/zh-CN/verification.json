@@ -1,0 +1,13 @@
+{
+  "title": "验证偏好",
+  "description": "配置预留：这些选项尚未连接当前 Verifier。",
+  "preset": "验证预设",
+  "presets": {
+    "Strict": "严格",
+    "Balanced": "均衡",
+    "Fast": "快速",
+    "Custom": "自定义"
+  },
+  "note": "写后验证、未受影响轨道检查、插件参数验证由 Core 能力合同控制。",
+  "badge": "仅保存偏好"
+}

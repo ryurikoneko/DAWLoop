@@ -1,0 +1,4 @@
+import type {SymbolicScore} from '../../../packages/shared-types/music-contracts';
+function map(score:SymbolicScore){return [{start:0,bpm:score.tempo},...score.tempoMap].filter(p=>Number.isFinite(p.start)&&p.start>=0&&Number.isFinite(p.bpm)&&p.bpm>=20&&p.bpm<=300).sort((a,b)=>a.start-b.start);}
+export function secondsAtBeat(score:SymbolicScore,beat:number):number {const points=map(score);let at=0,bpm=score.tempo,seconds=0;for(const p of points){if(p.start>beat)break;seconds+=(p.start-at)*60/bpm;at=p.start;bpm=p.bpm;}return seconds+Math.max(0,beat-at)*60/bpm;}
+export function beatAtSeconds(score:SymbolicScore,seconds:number):number {const points=map(score);let at=0,bpm=score.tempo,elapsed=0;for(const p of points){const next=(p.start-at)*60/bpm;if(elapsed+next>seconds)return at+(seconds-elapsed)*bpm/60;elapsed+=next;at=p.start;bpm=p.bpm;}return at+Math.max(0,seconds-elapsed)*bpm/60;}

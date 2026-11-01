@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import {createHash} from 'node:crypto';
+import {verifyConfinedFiles} from '../../packages/music-intelligence/sheet-provider.mjs';
+import {MusicIntelligenceService} from '../../packages/music-intelligence/service.mjs';
+test('SheetSage2 固定来源拒绝篡改、越界路径及未知摘要',async()=>{const root=await fs.mkdtemp(path.join(os.tmpdir(),'mi-sheet-'));try{await fs.writeFile(path.join(root,'model.py'),'frozen');const row={name:'model.py',sha256:createHash('sha256').update('frozen').digest('hex')};await verifyConfinedFiles(root,[row]);await assert.rejects(verifyConfinedFiles(root,[{...row,name:'../outside'}]),/HASH_REJECTED/);await assert.rejects(verifyConfinedFiles(root,[{...row,sha256:'unknown'}]),/HASH_REJECTED/);await fs.writeFile(path.join(root,'model.py'),'changed');await assert.rejects(verifyConfinedFiles(root,[row]),/HASH_REJECTED/);}finally{await fs.rm(root,{recursive:true,force:true});}});
+test('SheetSage2 缺失受审环境不得启动模型或冒充真实转录',async()=>{const root=await fs.mkdtemp(path.join(os.tmpdir(),'mi-sheet-'));const service=new MusicIntelligenceService({home:root});try{await service.initialize();await assert.rejects(service.transcribe({engine:'sheetsage2',assetId:'x'}),/NOT_LOADED/);await assert.rejects(service.modelOperation('sheetsage2','scan'),/IPC_REJECTED/);await assert.rejects(service.install('sheetsage2','unknown'),/LICENSE_CONFIRMATION/);const id=await service.modelOperation('sheetsage2','load');for(let i=0;i<100&&service.list().find(j=>j.id===id).state==='RUNNING';i++)await new Promise(r=>setTimeout(r,10));assert.equal(service.list().find(j=>j.id===id).state,'FAILED');assert.equal(service.sheetProcess,undefined);}finally{await service.close();await fs.rm(root,{recursive:true,force:true});}});

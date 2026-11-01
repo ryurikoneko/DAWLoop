@@ -1,0 +1,93 @@
+[
+  {
+    "package": "bzip2",
+    "version": "1.0.8",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/bzip2-1.0.8/LICENSE",
+    "path": "bzip2-1.0.8-LICENSE",
+    "sha256": "c6dbbf828498be844a89eaa3b84adbab3199e342eb5cb2ed2f0d4ba7ec0f38a3"
+  },
+  {
+    "package": "libffi",
+    "version": "3.4.4",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/libffi-3.4.4/LICENSE",
+    "path": "libffi-3.4.4-LICENSE",
+    "sha256": "2c9c2acb9743e6b007b91350475308aee44691d96aa20eacef8e199988c8c388"
+  },
+  {
+    "package": "libffi",
+    "version": "3.4.4",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/libffi-3.4.4/LICENSE-BUILDTOOLS",
+    "path": "libffi-3.4.4-LICENSE-BUILDTOOLS",
+    "sha256": "e67978cd18816c0cb7d29aaaacde7b7447402c2fb321a051698890a8eaedda94"
+  },
+  {
+    "package": "openssl",
+    "version": "3.5.9",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/openssl-3.5.9/LICENSE.txt",
+    "path": "openssl-3.5.9-LICENSE.txt",
+    "sha256": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a"
+  },
+  {
+    "package": "tcl",
+    "version": "9.0.4.0",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/tcl-9.0.4.0/license.terms",
+    "path": "tcl-9.0.4.0-license.terms",
+    "sha256": "c0a69a2bfd757361ec7e6143973b103c90409316b49e9c88db26ad6388e79f16"
+  },
+  {
+    "package": "tk",
+    "version": "9.0.4.1",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/tk-9.0.4.1/license.terms",
+    "path": "tk-9.0.4.1-license.terms",
+    "sha256": "2cde822b93ca16ae535c954b7dfe658b4ad10df2a193628d1b358f1765e8b198"
+  },
+  {
+    "package": "xz",
+    "version": "5.2.5",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/xz-5.2.5/COPYING",
+    "path": "xz-5.2.5-COPYING",
+    "sha256": "bcb02973ef6e87ea73d331b3a80df7748407f17efdb784b61b47e0e610d3bb5c"
+  },
+  {
+    "package": "xz",
+    "version": "5.2.5",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/xz-5.2.5/COPYING.GPLv2",
+    "path": "xz-5.2.5-COPYING.GPLv2",
+    "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+  },
+  {
+    "package": "xz",
+    "version": "5.2.5",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/xz-5.2.5/COPYING.GPLv3",
+    "path": "xz-5.2.5-COPYING.GPLv3",
+    "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+  },
+  {
+    "package": "xz",
+    "version": "5.2.5",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/xz-5.2.5/COPYING.LGPLv2.1",
+    "path": "xz-5.2.5-COPYING.LGPLv2.1",
+    "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+  },
+  {
+    "package": "zlib-ng",
+    "version": "2.2.4",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/zlib-ng-2.2.4/LICENSE.md",
+    "path": "zlib-ng-2.2.4-LICENSE.md",
+    "sha256": "6c9f0d975b41afaa34d22f55bb8986ce69e5cb7ad327cb2b28820cd425edf5ee"
+  },
+  {
+    "package": "zstd",
+    "version": "1.5.7",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/zstd-1.5.7/COPYING",
+    "path": "zstd-1.5.7-COPYING",
+    "sha256": "f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505"
+  },
+  {
+    "package": "zstd",
+    "version": "1.5.7",
+    "source": "https://raw.githubusercontent.com/python/cpython-source-deps/zstd-1.5.7/LICENSE",
+    "path": "zstd-1.5.7-LICENSE",
+    "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8"
+  }
+]
