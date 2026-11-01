@@ -116,6 +116,7 @@ export interface DesktopBridge {
     configure(params?:object):Promise<Result<DesktopUpdateView>>;
     snooze(params?:object):Promise<Result<DesktopUpdateView>>;
     open(params?:object):Promise<Result<boolean>>};
+  studio: import('./transcription-contracts').StudioBridge;
   music: import('./music-contracts').MusicBridge;
   call<K extends keyof DesktopMethodMap>(method: K, ...args: DesktopArgs<K>): Promise<Result<DesktopMethodMap[K]['result']>>;
   copy(text: string): Promise<Result<null>>;

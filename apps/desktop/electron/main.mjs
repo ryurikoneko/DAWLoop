@@ -12,6 +12,7 @@ import { desktopDevelopment, rendererMethodAllowed } from './renderer-policy.mjs
 import { exportDiagnosticReport } from './diagnostic-export.mjs';
 import { observerPython, productEnvironment, safeStartupRecord } from './product-environment.mjs';
 import { DesktopUpdates } from '../../../packages/desktop-updates/service.mjs';
+import {TranscriptionStudio} from '../../../packages/music-intelligence/transcription-studio.mjs';
 import { StyleLabBridge } from './style-lab.mjs';
 import { windowsNotifier } from './update-toast.mjs';
 protocol.registerSchemesAsPrivileged([{scheme:"dawloop-audio",privileges:{standard:true,secure:true,stream:true,corsEnabled:true}}]);
@@ -23,13 +24,14 @@ const root = path.resolve(directory, '../../..');
 let packagedChannel;
 try {packagedChannel=JSON.parse(fs.readFileSync(path.join(app.getAppPath(),'package.json'),'utf8')).dawloopReleaseChannel;}catch{}
 const product = productEnvironment({ isPackaged:app.isPackaged, root, version:app.getVersion(), releaseChannel:packagedChannel, electronVersion:process.versions.electron, nodeVersion:process.versions.node, documents:app.getPath('documents'), appData:app.getPath('appData') });
-const override = process.env.DAWLOOP_DESKTOP_DATA_ROOT;
+const testingOverride = process.env.DAWLOOP_DESKTOP_DATA_ROOT;
+const override = testingOverride || (app.getVersion().includes('transcription') ? path.join(app.getPath('appData'),'DAWLoop','TranscriptionStudio') : undefined);
 if (override) {
   const browserData = path.join(override, 'electron');
   fs.mkdirSync(browserData, { recursive:true });
   app.setPath('userData', browserData);
 }
-let music;let styleLab;let desktopInitialization;let updates;let updateTimer;
+let studio;let music;let styleLab;let desktopInitialization;let updates;let updateTimer;
 const brandIcon=path.resolve(directory,'../dist/brand/DAWLoop.ico');
 let window, core, tray, translations, sessionWorker, sessionStartup, sessionInvalidation, sessionUnsubscribe; let quitting = false;
 let lastDiagnosticText, exporting = false;
@@ -65,9 +67,12 @@ else {
     const coreInitialization=core.initialize();void coreInitialization.catch(()=>{});
     let configuredMusicHome;
     try { const storage=JSON.parse(fs.readFileSync(path.join(localRoot,'music-storage.json'),'utf8'));if(storage.schemaVersion===1&&typeof storage.home==='string'&&path.isAbsolute(storage.home))configuredMusicHome=storage.home; } catch {}
-    const miHome = process.env.DAWLOOP_MI_HOME || configuredMusicHome || path.join(localRoot,'MusicIntelligence');
+    const requestedMiHome = process.env.DAWLOOP_MI_HOME || configuredMusicHome || path.join(localRoot,'MusicIntelligence');
+    // 打包宿主可能重定向用户目录；保留后续严格来源检查的同一真实路径。
+    await fs.promises.mkdir(requestedMiHome,{recursive:true});
+    const miHome = await fs.promises.realpath(requestedMiHome);
     const miRuntime=await managedRuntime(miHome);
-    music=new MusicIntelligenceService({home:miHome,python:miRuntime.python,allowLegacyPitchInstall:false,componentRoot:app.isPackaged?path.join(process.resourcesPath,'components'):'D:/1DAWLoop/RuntimeComponents',localRuntimeRoot:override?path.join(override,'offline-resources'):app.isPackaged?path.resolve(process.resourcesPath,'../../..','MusicIntelligence'):'D:/1DAWLoop/MusicIntelligence',fetcher:(url,options)=>net.fetch(url,options)});music.runtimeInfo=miRuntime;desktopInitialization=coreInitialization.then(async()=>{await core.logs.emit('Desktop','INFO',safeStartupRecord('DESKTOP_DEPENDENCY_CHECK',product));await music.initialize();});void desktopInitialization.catch(()=>{});
+    music=new MusicIntelligenceService({home:miHome,python:miRuntime.python,allowLegacyPitchInstall:false,componentRoot:app.isPackaged?path.join(process.resourcesPath,'components'):'D:/1DAWLoop/RuntimeComponents',localRuntimeRoot:testingOverride?path.join(testingOverride,'offline-resources'):app.isPackaged?path.resolve(process.resourcesPath,'../../..','MusicIntelligence'):'D:/1DAWLoop/MusicIntelligence',fetcher:(url,options)=>net.fetch(url,options)});music.runtimeInfo=miRuntime;desktopInitialization=coreInitialization.then(async()=>{await core.logs.emit('Desktop','INFO',safeStartupRecord('DESKTOP_DEPENDENCY_CHECK',product));await music.initialize();});void desktopInitialization.catch(()=>{});
     protocol.handle("dawloop-audio",request=>music.audioPreview.response(request));
     window = new BrowserWindow({ width: 1180, height: 800, minWidth: 900, minHeight: 620, title: 'DAWLoop Desktop', backgroundColor: '#000000', icon:brandIcon, show: false,
       webPreferences: { preload: path.join(directory, 'preload.cjs'), nodeIntegration: false, contextIsolation: true, sandbox: true } });
@@ -96,6 +101,32 @@ else {
         if (process.env.DAWLOOP_DEV_LAUNCH_CHECK === '1') console.log('DESKTOP_LANGUAGE', JSON.stringify({ language:translations.language, tray:[translations.t('native.show'),translations.t('native.quit')] }));
       }
       return result;
+    });
+    const getStudio=async()=>{await desktopInitialization;if(!studio){studio=new TranscriptionStudio(music);await studio.initialize();}return studio;};
+    ipcMain.handle('dawloop:studio',async(event,method,p)=>{
+      if(!trusted(event)||quitting)return failure();
+      try{
+        if(JSON.stringify(p??null).length>4*1024*1024)throw Error('IPC_REJECTED');
+        const st=await getStudio();let data;
+        if(method==='list')data=await st.list();
+        else if(method==='open')data=await st.open(p.id);
+        else if(method==='import'){const picked=await dialog.showOpenDialog(window,{properties:['openFile'],filters:[{name:'Audio',extensions:['wav','mp3','flac']}]});data=picked.canceled?null:await st.importAudio(picked.filePaths[0]);}
+        else if(method==='drop'){if(!Array.isArray(p?.paths)||p.paths.length!==1||typeof p.paths[0]!=='string')throw Error('IPC_REJECTED');data=await st.importAudio(p.paths[0]);}
+        else if(method==='restore'){const picked=await dialog.showOpenDialog(window,{properties:['openDirectory']});data=picked.canceled?null:await st.restore(picked.filePaths[0]);}
+        else if(method==='save')data=await st.save(p);
+        else if(method==='reset')data=await st.reset(p);
+        else if(method==='start')data=st.start(p.id);
+        else if(method==='cancel')data=await st.cancel(p.id);
+        else if(method==='preview')data=await music.preview(st.get(p.id).assetId);
+        else if(method==='reference'){const s=st.get(p.id);if(s.revision!==p.revision||s.state!=='READY')throw Error('STUDIO_REVISION_CHANGED');const picked=await dialog.showSaveDialog(window,{defaultPath:'DAWLoop-reference-r'+s.revision+'.json',filters:[{name:'JSON',extensions:['json']}]});if(!picked.canceled){if(s.rawDirectory&&path.resolve(picked.filePath).startsWith(path.resolve(s.rawDirectory)+path.sep))throw Error('STUDIO_ORIGINAL_PROTECTED');const data={schemaVersion:1,source:'SheetSage2',status:'UNREVIEWED_REFERENCE',timeUnit:'seconds',chords:s.chords,keys:s.keys,structure:s.structure,beats:s.beats,voicing:'RECONSTRUCTED_FROM_LABEL',currentChordNotes:s.tracks.find(t=>t.id==='chords')?.notes??[],notesProvenance:s.edited?'USER_EDITED':'MODEL_LABEL_RECONSTRUCTION',sessionId:s.id,revision:s.revision,modelVersions:s.modelVersions};await fs.promises.writeFile(picked.filePath,JSON.stringify(data,null,2),'utf8');}data=!picked.canceled;}
+        else if(method==='saveAs'){const source=st.dragFile(p);const picked=await dialog.showSaveDialog(window,{defaultPath:'Suno_'+p.track+'.mid',filters:[{name:'MIDI',extensions:['mid']}]});if(!picked.canceled){await fs.promises.copyFile(source,picked.filePath);await st.exported(p,'SAVE_AS');}data=!picked.canceled;}
+        else throw Error('IPC_REJECTED');
+        return {apiVersion:1,ok:true,data};
+      }catch(e){return {apiVersion:1,ok:false,error:{code:e.message,category:'music',message:e.message,recoverable:true}};}
+    });
+    ipcMain.handle('dawloop:studio-drag',(event,p)=>{
+      if(!trusted(event)||quitting||!studio)return failure();
+      try{const file=studio.dragFile(p);if(!fs.statSync(file).isFile()||fs.readFileSync(file).subarray(0,4).toString()!=='MThd')throw Error('STUDIO_MIDI_REJECTED');event.sender.startDrag({file,icon:nativeImage.createFromPath(brandIcon).resize({width:32,height:32})});void studio.exported(p,'NATIVE_START_REQUESTED');return {apiVersion:1,ok:true,data:{nativeStarted:true}};}catch(e){return {apiVersion:1,ok:false,error:{code:e.message,category:'music',message:e.message,recoverable:true}};}
     });
     const musicMethods=new Set(['styleGenerationAnalysis','styleGenerationWorkspace','styleGenerationCreate','styleGenerationImport','styleGenerationFailure','styleGenerationReject','styleGenerationRate','styleGenerationReveal','styleGenerationPreview','styleGenerationRevise','styleGenerationAnalyze','styleGenerationCancel','styleSemanticStart','styleSemanticStatus','styleSemanticCancel','styleAuditionDisposition','styleAuditionLeaveBlind','styleAuditionSummary','styleAuditionList','styleAuditionReveal','styleAuditionRate','styleAuditionPreview','styleFullPromptSave','styleSong','styleSectionEdit','styleFullPrompt','styleRangePreview','styleRangeSearch','styleOpen','styleSearch','styleFeedback','styleProfile','stylePreview','archivedAssets','savedScores','saveScore','audioSetupStatus','connectLocalAudioRuntime','basicStatus','configureAudioRuntime','saveAsset','dismiss','reviewOffsets','setupStatus','setupFinish','setupInstall','openYueExperience','status','models','jobs','analyze','cancel','install','check','verify','load','unload','modelDiagnostics','abc','profile','removeAsset','collection','preview','releasePreview','waveform','extractEmbedding','transcribe','generate','importAudio','importAbc','importMidi','exportMidi']);
     ipcMain.handle('dawloop:music',async(event,method,params)=>{
@@ -157,6 +188,6 @@ else {
     clearInterval(updateTimer);styleLab?.close();
     if (quitting || !core) return;
     event.preventDefault(); quitting = true;
-    Promise.resolve(desktopInitialization).catch(()=>{}).then(()=>music?.close()).then(()=>core.close()).then(()=>sessionStartup?.catch(()=>undefined)).then(()=>sessionWorker?.close()).finally(() => { tray?.destroy(); app.quit(); });
+    Promise.resolve(desktopInitialization).catch(()=>{}).then(()=>studio?.close()).then(()=>music?.close()).then(()=>core.close()).then(()=>sessionStartup?.catch(()=>undefined)).then(()=>sessionWorker?.close()).finally(() => { tray?.destroy(); app.quit(); });
   });
 }

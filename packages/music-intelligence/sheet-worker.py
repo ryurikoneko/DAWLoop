@@ -29,6 +29,18 @@ def main():
                 cls=importlib.import_module(name+'.modeling_sheetsage2').SheetSage2Model
                 model=cls.from_pretrained(str(folder),base_model_path=models[1]['folder'],local_files_only=True,torch_dtype=torch.float32,attn_implementation='sdpa').eval()
             emit(dict(source='SHEETSAGE2',revision=models[0]['revision'],parentRevision=models[1]['revision'],device='cpu',elapsedMs=round((time.monotonic()-started)*1000)))
+        elif r['method']=='studioTranscribe':
+            assert model is not None,'MI_MODEL_NOT_LOADED'
+            import numpy as np
+            with wave.open(p['path'],'rb') as f:
+                assert f.getsampwidth()==2,'MI_AUDIO_REJECTED'
+                rate=f.getframerate();samples=np.frombuffer(f.readframes(f.getnframes()),dtype='<i2').reshape(-1,f.getnchannels()).mean(axis=1).astype(np.float32)/32768
+            def progress(data):print(json.dumps(dict(schemaVersion=1,kind='progress',data=data)),flush=True)
+            with contextlib.redirect_stdout(io.StringIO()) as captured:
+                def report(data):
+                    with contextlib.redirect_stdout(sys.__stdout__):progress(data)
+                result=model.transcribe(samples,sampling_rate=rate,output_dir=p['output'],render_audio=False,render_score=False,dtype='fp32',melody_only=False,progress=report)
+            emit(dict(output=p['output'],metadata=result.get('_metadata'),durationSeconds=len(samples)/rate))
         elif r['method']=='transcribe':
             assert model is not None,'MI_MODEL_NOT_LOADED'
             import numpy as np

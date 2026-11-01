@@ -30,6 +30,18 @@ def main():
                 assert hashlib.sha256(candidates[0].read_bytes()).hexdigest()=='2c3c1d144bfa61ad236e92e169c13535c880469a12a047d4e73451f2c059a0ec','MI_MODEL_HASH_REJECTED'
                 model=Model(candidates[0]);assert model.model_type.name=='ONNX','MI_MODEL_RUNTIME_REJECTED'
             emit(dict(source='BASIC_PITCH',version='0.4.0',runtime='ONNX',modelSha256=hashlib.sha256(candidates[0].read_bytes()).hexdigest(),elapsedMs=round((time.monotonic()-started)*1000)))
+        elif r['method']=='studioTranscribe':
+            assert model is not None,'MI_MODEL_NOT_LOADED'
+            import soundfile as sf
+            import numpy as np
+            samples,rate=sf.read(p['path'],dtype='float32');events=[];output=Path(p['output']);output.mkdir(parents=True,exist_ok=True)
+            for start in range(0,len(samples),rate*90):
+                clip=output/f'input-{start//rate}.wav';sf.write(clip,samples[start:start+rate*90],rate,subtype='PCM_16')
+                with contextlib.redirect_stdout(io.StringIO()):raw,midi,rows=predict(str(clip),model_or_model_path=model,multiple_pitch_bends=False)
+                np.savez_compressed(output/f'raw-{start//rate}.npz',**raw)
+                events.extend(dict(start=float(a+start/rate),end=float(b+start/rate),pitch=int(pitch),amplitude=float(amp)) for a,b,pitch,amp,_ in rows)
+                print(json.dumps(dict(schemaVersion=1,kind='progress',data=dict(stage='basic-pitch',chunk=start//(rate*90)+1))),flush=True)
+            (output/'events.json').write_text(json.dumps(events),encoding='utf-8');emit(dict(output=str(output),notes=len(events)))
         elif r['method']=='transcribe':
             assert model is not None,'MI_MODEL_NOT_LOADED'
             import soundfile as sf
