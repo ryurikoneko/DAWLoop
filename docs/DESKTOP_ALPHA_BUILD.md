@@ -1,72 +1,44 @@
-# DAWLoop Desktop 0.5.6-alpha.2 — Pre-release draft candidate
+# DAWLoop Desktop 0.5.8-alpha.1 — Audio Transcription Studio
 
-当前为等待维护者最终确认的预发行草稿；v0.5.6-alpha.1 的文件、标签及摘要保持不变。
+音频导入、后台转写、多轨时间轴、Piano Roll 编辑、试听和原生 MIDI 文件拖出现在整合在「音乐智能 → Audio Transcription Studio」。当前保存的编辑用于另存和拖出；原始推理结果独立保留，可恢复，不需要重新分析整曲。
 
-音乐智能 → 组件管理：先阅读许可并安装基础组件，再展开 Basic Pitch 的安装选项确认安装。Basic Pitch 可选组件约136.5 MiB，安装至少需要1 GiB可用空间。独立Python3.14.8、ONNX1.31.0与本地Visual C++运行库随组件配置，无需系统Python或管理员安装。导入WAV，载入转录模型，生成音符后试听、编辑、保存并导出MIDI。
+Audio import, background transcription, a multitrack timeline, Piano Roll editing, preview and native MIDI file drag-out now live in Music Intelligence → Audio Transcription Studio. Exports use saved edits while original predictions remain recoverable.
 
-This is a pre-release draft awaiting final maintainer publication confirmation. Alpha.1 files, tag and checksums are unchanged. Install basic components in Component Manager, then review the Basic Pitch and third-party terms and install its included ~136.5 MiB pack (at least 1 GiB free). Isolated Python 3.14.8, ONNX 1.31.0 and app-local Microsoft runtimes are configured without system Python or administrator installation.
+## 首次使用 / First use
 
-原生文件逐项审核、SBOM、官方版权通知、Microsoft条款与Eigen对应源码见licenses/basic-pitch。其他基础音频组件通知及对应源码获取方式见licenses/desktop-runtime。微软条款仅适用于微软组件，DAWLoop源码MIT不变。没有修改ONNX二进制或模型权重；模型Worker与安装健康检查导入前关闭ORT遥测。
+解压 Windows x64 Portable ZIP 后运行 DAWLoop.exe。在组件管理中分别确认许可并安装随包提供的 Basic Audio 和 Basic Pitch 组件，再进入工作台导入 WAV。组件安装与推理在本地执行，不需要付费API或系统Python。
 
-See licenses/basic-pitch for per-file native review, SBOM, original notices, Microsoft terms and Eigen covered source. Basic runtime notices and corresponding source instructions are in licenses/desktop-runtime. Microsoft terms apply separately to Microsoft components; DAWLoop code remains MIT. ORT telemetry is disabled before import and before model initialization. Native binaries and model weights are unchanged.
+Extract the Windows x64 Portable ZIP and run DAWLoop.exe. In Component Manager, review the terms and install the included Basic Audio and Basic Pitch packs, then import a WAV into the Studio. Installation and inference are local; no paid API or system Python is required.
 
-Experimental Alpha — Tested on maintainer's Windows environment. Clean Windows compatibility has not been independently verified. Basic Pitch is intended for instrument transcription; complex mixes are not complete multitrack separation. Windows system APIs remain OS prerequisites. Public notifications are DISABLED; system notification permissions and Do Not Disturb native acceptance remain NOT_TESTED. No automatic downloading, installing or background service for updates.
+Basic Pitch 单独可用时，显示混音中高音候选与低音区候选；它们按音区拆分，不能冒充人声/器乐分离或精确主旋律。缺少的声部显示未提供，不生成伪造和弦。支持读取已有整曲转写目录。已有受审本地 SheetSage2 环境时可进一步分析人声、器乐与参考和弦；本发行不包含 SheetSage2 权重或其首次安装器。
 
-## 本候选的 Basic Pitch 首次安装 / First Basic Pitch installation
+With Basic Pitch alone, mid/high and low-register mixed-audio candidates are shown. Register splitting is not source separation or exact lead extraction. Missing parts remain unavailable; chords are not fabricated. Existing transcription folders can be restored. A separately reviewed local SheetSage2 environment enables additional vocal, instrumental and reference-chord analysis; its weights and first-install setup are not included.
 
-1. 打开音乐智能 → 组件管理，先确认许可并安装基础组件。
-2. 找到 Basic Pitch，展开安装选项，查看 132.6 MiB 组件及至少 1 GiB 可用空间要求，确认许可后点击安装／重试。
-3. 安装器离线核验固定包、解压独立 Python 3.14.8／ONNX 环境、执行真实模型健康检查。取消只清理本次暂存目录；已有环境不被覆盖。
-4. 导入 WAV，进入音频转 MIDI 与音符编辑，加载转录模型，点击开始音频转 MIDI。审阅和修改音符，再导出 MIDI。
+## 交互与兼容性 / Interaction and compatibility
 
-1. In Music Intelligence → Component Manager, review licenses and install basic components first.
-2. Expand Basic Pitch installation options, review the 132.6 MiB pack and minimum 1 GiB free-space requirement, confirm the license and choose Install / retry.
-3. The offline installer verifies the fixed archive, installs isolated Python 3.14.8 / ONNX and runs real model inference as its health check. Cancellation removes only owned staging files; existing environments are preserved.
-4. Import a WAV, open Audio to MIDI & note editor, load the transcription model and start audio-to-MIDI. Review/edit notes, then export MIDI.
+- 五类同步视图、缩放/滚动、原曲与MIDI试听、静音/独奏、音符移动/尾音编辑/删除、撤销重做及恢复原始结果。综合项不额外叠加播放。
+- 导出前保存编辑。`↗ MIDI` 发起操作系统文件拖放；点击或键盘访问另存按钮可保存真实 MIDI 文件。导出文件不会因失焦或拖放结束立即删除。
+- 原生拖放已在维护者环境由资源管理器和宿主 Piano Roll 接收。Playlist 直接接收未确认；Piano Roll 接收不代表全局tempo map自动同步。
+- 与原Composer兼容，新增参考和弦JSON导出；本轮没有一键写入Composer画布。
 
-仅承诺本轮自有 WAV 的本机隔离用户目录验收；复杂混音不等于完整多轨分离。新增原生依赖公开分发审核仍待完成。许可原文、来源、SBOM 和兼容补丁说明见 licenses/basic-pitch 与组件的 component.json。不得把本候选当作获准公开发行的新版本。
+Five synchronized views support zoom/scroll, original/MIDI preview, mute/solo and note editing with undo/redo. Combined is a view/export, not another playback layer. Save edits before dragging `↗ MIDI`; keyboard-accessible save-as is also available. Export files persist after focus changes and drag completion. Explorer and host Piano Roll receipt were observed; direct Playlist receipt and automatic conductor-tempo import remain unconfirmed. Reference-chord JSON export is available without changing Composer.
 
-Validation covers an owned WAV in isolated application/component directories on the maintainer's machine, not independent clean Windows. Complex mixes are not complete multitrack separation. Public redistribution review of new native dependencies is pending. Licenses, sources, SBOM and compatibility-patch details are in licenses/basic-pitch and component.json. This candidate is not approved for public release.
+## 范围 / Scope
 
-本候选通知渠道为 internal，公共通知关闭，不继承维护者对 Alpha.1 Preview 的单版本批准。新的发行与通知需要分别批准。
+公开组件的验收格式为WAV；MP3/FLAC处理取决于另行可用的解码能力。预测、参考Voicing及低音候选均需听审，技术回读不证明音乐准确。独立干净Windows机器兼容性仍待确认，程序二进制未签名。本机隔离组件安装测试不等于独立机器验收。
 
-This candidate uses the internal channel with public notifications disabled. It does not inherit the one-version Alpha.1 Preview approval. A new release and its notifications require separate approval.
+WAV is the validated public-component format; MP3/FLAC analysis depends on separately available decoding support. Predictions and candidate parts need musical review. Independent clean-Windows compatibility remains unverified; the application binary is unsigned. Isolated installation on the maintainer's machine is not an independent-machine test.
 
-以下保留 Alpha.1 使用与构建来源说明作为历史参照，转录首装限制不适用于本次已包含可选转录组件的内部候选。
+所有既有通知批准仅限对应旧版本；本发行不启用新版本通知，不自动下载安装。MIT原文与其他既有许可不改。Basic Audio、Basic Pitch 原生通知、SBOM、Microsoft条款及对应源码随发行提供；SheetSage2的非商业限制不因本次界面发布而改变。
 
-The Alpha.1 usage/build notes below are retained as historical reference. Their first-transcription-install limitation does not apply to this internal candidate with the optional transcription component.
-
-Experimental Alpha — Tested on maintainer's Windows environment. Clean Windows compatibility has not been independently verified.
-
-## 使用 / Use
-
-解压 Windows x64 Portable ZIP，双击 `DAWLoop.exe`。无需 Node、Codex 或系统 Python。进入音乐智能后，在组件管理中查看随包许可，确认“安装基础组件”。组件仅安装到用户数据目录，不修改 PATH、系统 Python、FL Studio 或原始音乐。
-
-Extract the Windows x64 Portable ZIP and run `DAWLoop.exe`. Node, Codex and system Python are not required. In Music Intelligence, open Component Manager, review the bundled licenses and confirm installation of basic components. Components are installed in the user's data directory without modifying PATH, system Python, FL Studio or source music.
-
-本包基础分析支持 WAV。导入后可播放、分析、查看报告并主动保存；规则式旋律创作、Piano Roll 编辑和 MIDI 导出不需要新增模型。临时导入不会自动成为永久音乐库记录。保存的分析及编辑保留在独立用户数据目录，移除软件目录不会删除源音频。
-
-Basic analysis in this package supports WAV. Import, play, analyze, inspect the report and explicitly save the result. Rule-based composition, Piano Roll editing and MIDI export require no additional models. Temporary imports do not automatically become persistent library entries. Saved analyses and edits are separate from the application folder; removing that folder does not delete source music.
-
-Basic Pitch 音频转 MIDI 已在维护者现有的受管理模型环境验收，本 Alpha 不包含模型权重或旧 Python。已验证的现有环境可继续使用；旧 Python 3.11.9 安装链的首次安装暂时禁用。全新用户不能把“转录能力已实现”理解为本包已经提供可用模型。OMAR、SheetSage2、YuE2 为可选／实验性功能，受实际组件、许可证与硬件状态限制。FL 自动控制及 AutoMix 不属于此次认证范围。
-
-Basic Pitch audio-to-MIDI was tested with the maintainer's existing managed model environment. Model weights and legacy Python are not included. Existing verified environments remain usable; first installation through the legacy Python 3.11.9 installer is disabled in this Alpha. Implementation of transcription does not mean a new user already has an installed model. OMAR, SheetSage2 and YuE2 remain optional/experimental, subject to actual component, license and hardware availability. FL automation and AutoMix are outside this release's certification.
-
-更新中心可以检查发行信息、由用户打开下载页面。公开 Windows 通知始终关闭；本次发行不批准任何用户推送、不自动下载安装、不增加后台服务。
-
-The update center can check releases and let users open the download page. Public Windows notifications remain disabled. Publication does not approve user notifications, automatic downloads/installations or background services.
+Old notification approvals remain scoped to their original releases; this release enables no new public notification or automatic installation. Existing licenses, including MIT, are unchanged. Native notices, SBOMs, Microsoft terms and corresponding source are provided. The Studio release does not change SheetSage2's noncommercial restrictions.
 
 ## 来源与构建 / Source and build
 
-发行标签 `v0.5.6-alpha.1` 指向包含 `apps/desktop` 的公开 Desktop 源码，不是历史 Runtime 标签。`resources/app/build-record.json` 记录实际提交、版本、工具、依赖与逐文件配方；`portable-manifest.json` 和 `SHA256SUMS.txt` 提供校验。软件二进制未签名。
+发行源码位于 `v0.5.8-alpha.1`；`resources/app/build-record.json` 记录实际提交及工具，`portable-manifest.json` 与发行 `SHA256SUMS.txt` 提供完整性校验。
 
-The `v0.5.6-alpha.1` tag contains the Desktop sources in `apps/desktop`, separately from historical Runtime tags. `resources/app/build-record.json` records the source commit, version, tools, dependencies and file recipe. `portable-manifest.json` and `SHA256SUMS.txt` provide integrity checks. The application binary is unsigned.
-
-1. Checkout the release tag; use the locked dependencies in `apps/desktop/package-lock.json` (`npm ci` in that directory).
-2. Fetch the official artifacts listed in `packages/music-intelligence/basic-component-sources.lock`, verify their SHA-256 and prepare an isolated embedded Python environment. Preserve every license file. No system Python fallback is used by the application.
-3. Build libsndfile using the source archive and commands in the Corresponding Source release asset. Replace only the explicitly authorized DLL; retain all other official wheel bytes. The supplied recipe has its SHA-256. Modified LGPL libraries may be rebuilt with a newly reviewed recipe/hash, rather than disabling guards.
-4. Run `tools/build-wheel-audio-pack.py --help`, passing the recipe SHA, artifact cache, isolated environment, native DLL directory and a new output ZIP. Update the component lock only for a newly built and reviewed version.
-5. Set `DAWLOOP_BUILD_PYTHON` to a trusted build interpreter (icon resource editing only); run `node tools/build-portable.mjs <new-absolute-output> <verified-component-zip>`. The public build requires a clean source tree and disabled notification gate.
-6. Run `node tools/verify-portable.mjs <output>` and the Desktop regression suite. Never package user data, model caches or acceptance directories.
-
-Third-party terms, notices, SBOM and LGPL source routes: [REDISTRIBUTION.md](../LICENSES/desktop-runtime/REDISTRIBUTION.md). DAWLoop software remains MIT; brand assets retain their separate policy and unresolved provenance status. Independent clean Windows testing remains NOT_TESTED, with the release uncertainty accepted by the maintainer.
+1. Checkout the release tag and run `npm ci` under `apps/desktop`.
+2. Rebuild audited components using the fixed sources in `basic-component-sources.lock` and `pitch-component-sources.lock`, preserving all original notices and corresponding-source materials under `LICENSES/desktop-runtime` and `LICENSES/basic-pitch`.
+3. Set `DAWLOOP_BUILD_PYTHON` to the trusted icon-resource build interpreter. Run `node tools/build-portable.mjs <new-output> <basic-audio-zip> <basic-pitch-zip>` with the exact component locks.
+4. Run `node tools/verify-portable.mjs <output>`. Public builds require clean source, approved component redistribution records and a disabled current notification gate. Historical, version-scoped approvals remain in the audit history.
+5. Package the portable directory together with its licenses. Publish the unchanged third-party corresponding sources and this release's application source snapshot. Never include user audio, inference caches or model weights outside the reviewed Basic Pitch component.

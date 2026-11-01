@@ -1,7 +1,8 @@
 """独立测试素材检验中文路径和同音重叠，不作为音乐分析结果。"""
-import json,subprocess,sys,tempfile,unittest
+import json,subprocess,sys,tempfile,unittest,importlib.util
 from pathlib import Path
 
+@unittest.skipUnless(all(importlib.util.find_spec(p) for p in ['numpy','soundfile','mido','pretty_midi']), '需要已安装音频组件的测试环境')
 class StudioWorkerTest(unittest.TestCase):
  def test_overlapping_repeated_notes_keep_end_times_and_utf8_path(self):
   with tempfile.TemporaryDirectory(prefix='dawloop-studio-') as folder:

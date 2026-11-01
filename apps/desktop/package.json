@@ -1,8 +1,8 @@
 {
   "name": "dawloop-desktop",
-  "version": "0.5.8-internal.transcription.1",
-  "dawloopReleaseChannel": "internal",
-  "dawloopInternalCandidate": true,
+  "version": "0.5.8-alpha.1",
+  "dawloopReleaseChannel": "preview",
+  "dawloopInternalCandidate": false,
   "dawloopDraftCandidate": false,
   "private": true,
   "type": "module",

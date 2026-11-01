@@ -30,8 +30,9 @@ export async function verifyPortable(directory) {
     if(sha(await fs.readFile(path.join(root,'resources/components',lock.fileName)))!==lock.sha256)throw Error('PORTABLE_COMPONENT_SCOPE_REJECTED');
   }else if(build.dependencies.python!=='not-bundled')throw Error('PORTABLE_SCOPE_REJECTED');
   if(build.optionalComponentPacks?.length){
-    if(alpha||build.optionalComponentPacks.length!==1)throw Error('PORTABLE_COMPONENT_SCOPE_REJECTED');
+    if(build.optionalComponentPacks.length!==1)throw Error('PORTABLE_COMPONENT_SCOPE_REJECTED');
     const lock=JSON.parse(await fs.readFile(new URL('../packages/music-intelligence/pitch-component.lock',import.meta.url),'utf8'));
+    if(alpha&&lock.publicRedistributionReview!=='NATIVE_NOTICE_SOURCE_AND_REDIST_REVIEWED')throw Error('PORTABLE_COMPONENT_SCOPE_REJECTED');
     const pack=build.optionalComponentPacks[0];
     if(pack.id!==lock.componentId||pack.version!==lock.version||pack.sha256!==lock.sha256||!expected.has('resources/components/'+lock.fileName)||sha(await fs.readFile(path.join(root,'resources/components',lock.fileName)))!==lock.sha256)throw Error('PORTABLE_COMPONENT_SCOPE_REJECTED');
   }

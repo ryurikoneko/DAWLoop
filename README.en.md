@@ -14,7 +14,9 @@ Analyze and edit in Desktop, develop and audition reference-based ideas in Plugi
 [![Desktop & Runtime: MIT](https://img.shields.io/badge/Desktop_%26_Runtime-MIT-blue)](LICENSE)
 [![Alpha](https://img.shields.io/badge/status-Alpha-orange)](docs/DESKTOP.md)
 
-[Download Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2) · [Download Composer VST3](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1) · [Try the Runtime](docs/QUICKSTART.md) · [Demos](docs/DEMOS.md) · [Capabilities](docs/CAPABILITIES.md) · [Contribute](CONTRIBUTING.md)
+[Download Desktop Alpha](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.8-alpha.1) · [Download Composer VST3](https://github.com/ryurikoneko/DAWLoop/releases/tag/plugin-v0.2.0-rc.1) · [Try the Runtime](docs/QUICKSTART.md) · [Demos](docs/DEMOS.md) · [Capabilities](docs/CAPABILITIES.md) · [Contribute](CONTRIBUTING.md)
+
+**The new client includes Audio Transcription Studio** for multitrack inspection, preview, editing and native MIDI drag-out. Install the bundled Basic Audio and Basic Pitch packs first. Full SheetSage2 analysis requires a separate existing local environment.
 
 <img src="docs/media/dawloop-character.png" alt="DAWLoop character illustration by Ryurikoneko" width="640">
 
@@ -278,7 +280,7 @@ Brain means Runtime planning and rules, Hands means DAW execution backends, and 
 
 ### Music creators: download Desktop
 
-[Windows x64 Portable ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.6-alpha.2/DAWLoop%2B0.5.6-alpha.2-Windows-x64-Portable.zip) · [Release notes and checksums](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.6-alpha.2)
+[Windows x64 Portable ZIP](https://github.com/ryurikoneko/DAWLoop/releases/download/v0.5.8-alpha.1/DAWLoop%2B0.5.8-alpha.1-Windows-x64-Portable.zip) · [Release notes and checksums](https://github.com/ryurikoneko/DAWLoop/releases/tag/v0.5.8-alpha.1)
 
 The application is unsigned. Verify the official source and `SHA256SUMS.txt` before running it, keep system security protections enabled, and back up user data before upgrading.
 
@@ -315,8 +317,8 @@ Thanks to [karl-andres/fl-studio-mcp](https://github.com/karl-andres/fl-studio-m
 ## Current Version Notes
 
 - Plugin **Composer 0.2.0-rc.1** is a public prerelease containing Composer only, under separate proprietary binary terms, without automatic installation of updates.
-- Desktop **0.5.6-alpha.2** is a public Windows x64 Pre-release. It has maintainer-environment records; independent clean-Windows compatibility awaits confirmation, and the binary is unsigned.
+- Desktop **0.5.8-alpha.1** is a public Windows x64 Pre-release. It has maintainer-environment records; independent clean-Windows compatibility awaits confirmation, and the binary is unsigned.
 - Basic analysis supports WAV. Basic Pitch can be installed after license confirmation and is intended for instrument material, with musical review of the transcription.
 - Desktop and Python Runtime are separate deliveries. Host diagrams describe the working model; fixed live-test scope is recorded in [Verification](docs/VERIFICATION.md).
 - General autonomous production, continuous arbitrary-project control and full automatic mixing remain [future directions](docs/ROADMAP.md).
-- Screenshots show an earlier development build. Desktop source is at the [Alpha.2 tag](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.6-alpha.2), Runtime on main. Update reminders match version, channel and owner approval; they do not install updates automatically.
+- Screenshots show an earlier development build. Desktop source is at the [Alpha.2 tag](https://github.com/ryurikoneko/DAWLoop/tree/v0.5.8-alpha.1), Runtime on main. Update reminders match version, channel and owner approval; they do not install updates automatically.

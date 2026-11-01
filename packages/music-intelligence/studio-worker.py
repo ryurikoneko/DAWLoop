@@ -1,9 +1,12 @@
 """工作台的秒轴数据适配；模型原始文件不参与编辑写入。"""
-import sys,json,wave,traceback,collections
+import sys,json,wave,traceback,collections,os
 from pathlib import Path
+os.environ['NUMBA_CACHE_DIR']=str(Path(os.environ.get('TEMP',str(Path.cwd())))/'numba-studio')
 import numpy as np
 import soundfile as sf
-import mido,pretty_midi
+import mido
+try:import pretty_midi
+except ModuleNotFoundError:pretty_midi=None
 sys.stdin.reconfigure(encoding='utf-8')
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -12,7 +15,9 @@ def inspect(p):
  y,sr=sf.read(p['path'],dtype='float32',always_2d=True);x=y.mean(axis=1)
  sf.write(p['wav'],x,sr,subtype='PCM_16')
  peaks=[float(np.max(np.abs(a))) for a in np.array_split(x,min(1600,len(x))) if len(a)]
- return dict(duration=len(x)/sr,sampleRate=sr,peaks=peaks)
+ import librosa
+ tempo,beats=librosa.beat.beat_track(y=librosa.resample(x,orig_sr=sr,target_sr=22050),sr=22050,units='time')
+ bpm=float(np.asarray(tempo).ravel()[0]);return dict(duration=len(x)/sr,sampleRate=sr,peaks=peaks,tempo=[dict(time=0,bpm=bpm)] if 20<=bpm<=300 else [],estimatedBeatSeconds=beats.tolist())
 def midi_data(path):
  m=pretty_midi.PrettyMIDI(str(path));mid=mido.MidiFile(str(path));elapsed=0;tempo=[]
  for msg in mid:
