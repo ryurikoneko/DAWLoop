@@ -178,10 +178,12 @@ class GenerationLab:
         return identity_
 
     def workspace(self,experiment=None):
+        from style_arrangement import workspace as arrangement_workspace
+        arrangement=arrangement_workspace(self.root)
         experiments=[dict(id=r['id'],created=r['created'],modelVersion=json.loads(r['settings'])['modelVersion']) for r in self.db.execute('SELECT * FROM experiments ORDER BY created DESC')]
         e=self.db.execute('SELECT * FROM experiments WHERE id=?',(experiment,)).fetchone() if experiment else self.db.execute('SELECT * FROM experiments ORDER BY created DESC LIMIT 1').fetchone()
         if experiment and not e:raise ValueError('UNKNOWN_EXPERIMENT')
-        if not e:return dict(experiment=None,prompts=[],trials=[],blind=[],summary=[],audit=None,defaults=DEFAULTS,suggestions=[],experiments=experiments)
+        if not e:return dict(experiment=None,prompts=[],trials=[],blind=[],summary=[],audit=None,defaults=DEFAULTS,suggestions=[],experiments=experiments,arrangement=arrangement)
         prompts=[dict(p,evidence=json.loads(p['evidence'])) for p in self.db.execute('SELECT * FROM prompts WHERE experiment=? ORDER BY group_name,version',(e['id'],))];ids={p['id']:p for p in prompts}
         rows=[t for t in self.db.execute('SELECT * FROM trials ORDER BY created') if t['prompt'] in ids];visible=[];blind=[];buckets={g:[] for g in 'ABC'}
         audio=StyleLab(self.folder/'audio-research')
@@ -210,7 +212,7 @@ class GenerationLab:
             for field,old,new,description in rules:
                 low=[t for t in rated if t['ratings'][field] is not None and t['ratings'][field]<=2]
                 if low and p['body'].count(old)==1:suggestions.append(dict(prompt=p['id'],old=old,new=new,reason=description,trials=[t['id'] for t in low],causalEffectProven=False))
-        return dict(experiment=dict(id=e['id'],settings=json.loads(e['settings']),created=e['created']),prompts=prompts,trials=visible,blind=blind,summary=summary,audit=json.loads(e['evidence']),defaults=DEFAULTS,suggestions=suggestions,experiments=experiments)
+        return dict(experiment=dict(id=e['id'],settings=json.loads(e['settings']),created=e['created']),prompts=prompts,trials=visible,blind=blind,summary=summary,audit=json.loads(e['evidence']),defaults=DEFAULTS,suggestions=suggestions,experiments=experiments,arrangement=arrangement)
 
     def analysis(self,trial):
         t=self.trial(trial);result=json.loads((self.folder/'comparisons'/(t['id']+'.json')).read_text(encoding='utf-8'))
